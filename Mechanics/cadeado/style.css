@@ -1,0 +1,89 @@
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+
+#cadeado {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  
+}
+
+.cadeado-digit {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.cadeado-digit span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  transition: transform 0.3s ease;
+  transform: translateY(100%); /* fora da tela em baixo */
+}
+
+.cadeado-digit span.active {
+  transform: translateY(0);
+  z-index: 2;
+}
+
+.cadeado-digit span.next {
+  transform: translateY(100%);
+  z-index: 1;
+  
+}
+
+.cadeado-digit.animate .active {
+  transform: translateY(-100%); /* sobe pra fora */
+  
+}
+
+.cadeado-digit.animate .next {
+  transform: translateY(0); /* entra de baixo */
+  
+}
+
+.opaco {
+    opacity: 0;
+}
+
+.modal {
+  display: none; /* escondido por padrão */
+  position: fixed; 
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /* fundo escuro */
+}
+
+.modal-conteudo {
+  background-color: #fff;
+  margin: 10% auto; /* centralizado */
+  padding: 20px;
+  border-radius: 10px;
+  height: 10%;
+  width: 20%; /* pode mudar pra quadrado ou zoom */
+  max-width: 600px;
+  text-align: center;
+  position: relative;
+}
+
+.fechar {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}

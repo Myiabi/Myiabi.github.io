@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Diálogo</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/Mechanics/global.css">
+  <link rel="stylesheet" href="/Core/popup/style.css">
+</head>
+<body>
+
+  <!-- Exemplo de botão que inicia o diálogo -->
+  <button id="btnPersonagem1">Falar com Aiko</button>
+
+  <!-- Portrait fora da overlay -->
+<div class="portrait" id="portrait"></div>
+
+<!-- Overlay e caixa de diálogo -->
+<div class="dialog-overlay" id="dialogOverlay">
+  <div class="dialog-box" id="dialogBox">
+    <div class="text-area">
+      <div class="name" id="name"></div>
+      <div class="text" id="text"></div>
+    </div>
+    <div class="next-indicator" id="indicator">▼</div>
+  </div>
+</div>
+
+
+  <script src="script.js"></script>
+  <script src="/Mechanics/global.js"></script>
+  <script src="/Core/popup/script.js"></script>
+</body>
+</html>

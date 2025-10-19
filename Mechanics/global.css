@@ -1,0 +1,12 @@
+* {
+ touch-action: manipulation;
+  user-select: none;         /* bloqueia seleção de texto */
+  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
+}
+
+.virado {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}

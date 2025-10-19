@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Exemplo Absolute/Relative</title>
+</head>
+<body style="margin:0; padding:0;">
+
+  <!-- Main container: ocupa 100% da tela -->
+  <div style="position: relative; width: 100%; height: 100vh; background-color: lightblue;">
+    Main (relative)
+
+    <!-- Meio: absolute em relação ao Main -->
+    <div style="position: absolute; top: 100px; left: 100px; width: 300px; height: 200px; background-color: lightgreen;">
+      Meio (absolute em relação ao Main)
+
+      <!-- Menor: absolute em relação ao Meio -->
+      <div style="position: absolute; top: 30px; left: 30px; width: 150px; height: 100px; background-color: lightcoral;">
+        Menor (absolute em relação ao Meio)
+
+        <!-- Elemento dentro do Menor -->
+        <div style="width: 50px; height: 50px; background-color: gold; top: 10px; left: 300px;">
+          Dentro
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

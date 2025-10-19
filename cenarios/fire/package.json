@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "tsparticles": "^3.9.1",
+    "tsparticles-preset-fire": "^2.12.0"
+  }
+}
