@@ -50,4 +50,5 @@ $(window).smartresize(function(){
 });
 
 // desabilitar context
-document.addEventListener('contextmenu', e => e.preventDefault(), { capture: true });
+          
+janela . addEventListener ( "contextmenu" , e => e . preventDefault ( ) ) ;  
