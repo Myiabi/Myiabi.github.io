@@ -1,9 +1,11 @@
 // --------------------
 // GERENCIADOR DE SONS
 // --------------------
+
+
 const Sons = {
   trilhas: {
-    cidade: new Audio("sounds/cidade.mp3"),
+    cidade: new Audio("/assets/sounds/trilhas/city.mp3"),
     predio: new Audio("sounds/predio.mp3")
   },
   efeitos: {
@@ -69,3 +71,8 @@ document.getElementById("predioBtn").addEventListener("click", () => {
 document.getElementById("vitoriaBtn").addEventListener("click", () => {
   tocarEfeito("vitoria", 0.7);
 });
+
+tocarTrilha("cidade");
+
+
+
