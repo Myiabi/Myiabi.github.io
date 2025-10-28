@@ -7,8 +7,8 @@ const Sons = {
     predio: new Audio("/assets/sounds/trilhas/predio.mp3")
   },
   efeitos: {
-    vitoria: "/assets/sounds/efeitos/vitoria.mp3",
-    click: "/assets/sounds/efeitos/click.mp3"
+    vitoria: "/assets/sounds/efeitos/tuturu_1.mp3",
+    click: "/assets/sounds/efeitos/tuturu_1.mp3"
   },
   trilhaAtual: null
 };
@@ -121,7 +121,7 @@ function criarBotaoMusica() {
       pausarTrilha();
       pausado = true;
       btn.innerText = '🔇';
-      btn.style.background = 'rgba(255,0,0,0.6)';
+      btn.style.background = 'rgba(43, 193, 238, 1)';
     }
   });
 
@@ -133,5 +133,13 @@ function criarBotaoMusica() {
 // --------------------
 window.addEventListener('load', () => {
   tocarTrilha('cidade');
+  
   criarBotaoMusica();
+  
 });
+
+document.getElementById("vitoriaBtn").addEventListener("click", () => {
+  tocarEfeito("vitoria", 0.5);
+  
+});
+

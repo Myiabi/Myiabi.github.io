@@ -67,6 +67,7 @@ function init() {
   // ---------------- Botão para abrir diálogo ----------------
   btn.addEventListener("pointerdown", () => {
     abrirDialogo(personagens.personagem1);
+    tocarEfeito("vitoria")
   });
 
   // ---------------- Abrir diálogo ----------------
@@ -122,6 +123,7 @@ function init() {
       digitarTexto(novaFala.texto, novaFala.emote);
     } else {
       fecharDialogo();
+      
     }
   });
 
