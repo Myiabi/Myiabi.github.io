@@ -9,4 +9,5 @@ e anotar no README MAIN também.
 # Pesquisar
 
 # Corrigir
-- Portrait do dialogo ainda não sumindo se clicar MUITO rápido
+- ~~Portrait do dialogo ainda não sumindo se clicar MUITO rápido~~
+- ~~Achievement não abria em outros códigos~~ 
