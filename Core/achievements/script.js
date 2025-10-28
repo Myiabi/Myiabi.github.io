@@ -1,5 +1,12 @@
 // ------------------ script.js ------------------
-const achievementsContainer = document.getElementById('achievements-container');
+
+// Tenta pegar a div, se não existir cria uma
+let achievementsContainer = document.getElementById('achievements-container');
+if (!achievementsContainer) {
+    achievementsContainer = document.createElement('div');
+    achievementsContainer.id = 'achievements-container';
+    document.body.appendChild(achievementsContainer);
+}
 
 // Áudio único pra vitória
 const audioVitoria = new Audio("/assets/sounds/efeitos/tuturu_1.mp3");
@@ -93,4 +100,3 @@ function unlockAchievement(flagName) {
 
 // ------------------ tornar global ------------------
 window.unlockAchievement = unlockAchievement;
-
