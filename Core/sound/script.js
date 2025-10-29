@@ -132,7 +132,7 @@ function criarBotaoMusica() {
 // INICIALIZAÇÃO
 // --------------------
 window.addEventListener('load', () => {
-  tocarTrilha('cidade');
+  //tocarTrilha('cidade');
   
   criarBotaoMusica();
   

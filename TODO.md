@@ -1,6 +1,6 @@
 # TODO
 
-- [] Função Achievment
+- [x] Função Achievment
 - [] Sistema de Save
 - [] Escolher Músicas/Efeitos Sonoros
 - [] Drag Menu funcionando Globalmente
