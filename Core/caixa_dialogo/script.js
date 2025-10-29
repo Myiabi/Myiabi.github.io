@@ -31,7 +31,7 @@ let atual = null;
 let indiceFala = 0;
 let digitando = false;
 let intervaloTexto = null;
-let fechandoDialogo = false; // bloqueio apenas para fechar diálogo
+let fechandoDialogo = false;
 
 // ---------------- Função init ----------------
 function init() {
@@ -53,21 +53,34 @@ function init() {
   portrait.classList.remove("show");
   indicator.style.display = "none";
 
-  // ---------------- Tooltip de emote ----------------
-  const offsetX = -portrait.offsetWidth * 0.12; // mais pra esquerda
-  const offsetY = 30; // sobe proporcional à altura do portrait
-  const emoteTooltip = createFloatingTooltip(
-    'portrait', // alvo
-    '',         // conteúdo inicial vazio
-    offsetX, offsetY,    // offset para cima da cabeça
-    "font-size: 54px; color: yellow; font-weight: bold;", 
-    false       // não é hover
-  );
+  // ---------------- Emote interno ----------------
+  const emoteDiv = document.createElement("div");
+  emoteDiv.style.position = "absolute";
+  emoteDiv.style.pointerEvents = "none";
+  emoteDiv.style.fontSize = "54px";
+  emoteDiv.style.color = "yellow";
+  emoteDiv.style.fontWeight = "bold";
+  emoteDiv.style.transition = "opacity 0.3s";
+  emoteDiv.style.opacity = 0;
+  document.body.appendChild(emoteDiv);
+
+  function showEmote(emote, duration = 1500) {
+    const rect = portrait.getBoundingClientRect();
+    const offsetX = -110;   // padrão: centralizado horizontalmente
+    const offsetY = -20; // padrão: 10px acima do portrait
+
+    emoteDiv.innerHTML = emote;
+    emoteDiv.style.left = rect.left + rect.width / 2 - emoteDiv.offsetWidth / 2 + offsetX + "px";
+    emoteDiv.style.top = rect.top - emoteDiv.offsetHeight + offsetY + "px";
+    emoteDiv.style.opacity = 1;
+
+    setTimeout(() => emoteDiv.style.opacity = 0, duration);
+}
 
   // ---------------- Botão para abrir diálogo ----------------
   btn.addEventListener("pointerdown", () => {
     abrirDialogo(personagens.personagem1);
-    tocarEfeito("vitoria")
+    if (typeof tocarEfeito === "function") tocarEfeito("vitoria");
   });
 
   // ---------------- Abrir diálogo ----------------
@@ -123,7 +136,6 @@ function init() {
       digitarTexto(novaFala.texto, novaFala.emote);
     } else {
       fecharDialogo();
-      
     }
   });
 
@@ -135,11 +147,7 @@ function init() {
     indicator.style.display = "none";
     text.textContent = "";
 
-    // Dispara o emote (se existir) **uma vez**
-    if (emote) {
-      emoteTooltip.tooltip.innerHTML = emote;
-      emoteTooltip.show(1500); // aparece 1,5s
-    }
+    if (emote) showEmote(emote, 1500);
 
     let i = 0;
     intervaloTexto = setInterval(() => {
@@ -157,7 +165,7 @@ function init() {
 
   // ---------------- Fechar diálogo ----------------
   function fecharDialogo() {
-    if (fechandoDialogo) return; // bloqueio apenas aqui
+    if (fechandoDialogo) return;
     fechandoDialogo = true;
 
     if (intervaloTexto) clearInterval(intervaloTexto);
@@ -168,7 +176,7 @@ function init() {
 
     setTimeout(() => {
       overlay.style.display = "none";
-      fechandoDialogo = false; // libera clique depois do fade
+      fechandoDialogo = false;
     }, 400);
 
     atual = null;
