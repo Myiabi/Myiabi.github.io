@@ -59,7 +59,7 @@ function createFloatingTooltip(elementId, content, offsetX = 0, offsetY = -10, s
 
 // Tooltip manual (tipo emote ou fala)
 const questTooltip = createFloatingTooltip('personagem', '🧙‍♂️ Mago Falante', 0, -10, myStyle);
-questTooltip.show(1000);
+questTooltip.show(500);
 
 // Tooltip automática (hover)
 createFloatingTooltip('botao', '💡 Clique para abrir o menu!', 0, -10, myStyle, true);

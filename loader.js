@@ -1,5 +1,6 @@
 // loader.js - versão enxuta
 const scripts = [
+  "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
   "/core/achievements/script.js",
