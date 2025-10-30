@@ -1,106 +1,37 @@
-<!-- AZUL CODING --------------------------------------- -->
-<!-- JavaScript - Drag & Drop Files & Elements -->
-<!-- https://youtu.be/lSCLnWoa6Tw -->
-
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Drag &amp; Drop - Azul Coding</title>
-        <style>
-            body {
-                margin: 30px;
-            }
-            * {
-                font-family: 'Roboto', sans-serif;
-            }
-            p, li {
-                font-size: 18px;
-            }
-            .container {
-                display: flex;
-                gap: 15px;
-            }
-            .dropzone {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 34px;
-                border: 2px solid #1576C1;
-                background-color: #94DBFD;
-                border-radius: 10px;
-                transition: transform 0.5s;
-            }
-            .dropzone.dragover {
-                transform: scale(0.9);
-            }
+  <head>
+    <title>Drag &amp; Drop - Azul Coding</title>
+  </head>
+  <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
 
-            /* Part 1 */
-            #file-dropzone {
-                width: 400px;
-                height: 200px;
-            }
 
-            /* Part 2 */
-            .box {
-                width: 100px;
-                height: 100px;
-                cursor: move;
-                user-select: none;
-            }
-            .box[data-item="A"] {
-                background-color: #FFDCA9;
-                border-color: #F97D02;
-            }
-            .box[data-item="B"] {
-                background-color: #BCF8B9;
-                border-color: #3CB43C;
-            }
-            
-            /* Part 3 */
-            .interact.dropzone {
-                width: 350px;
-                height: 350px;
-                transition: background-color 0.5s;
-            }
-            .drop-target {
-                background-color: #BCF8B9;
-            }
-            .draggable {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 34px;
-                border: 2px solid #1576C1;
-                background-color: #94DBFD;
-                border-radius: 10px;
-                height: 80px;
-                width: 80px;
-                margin-bottom: 50px;
-                touch-action: none;
-            }
-            .draggable.can-drop {
-                background-color: #67D967;
-            }
-        </style>
-        <script src="script.js"></script>
+  <link rel="stylesheet" href="style.css">
 
-        <!-- Part 3 -->
-        <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
-    </head>
-    <body>
-        <h1>Drag &amp; Drop</h1>
+  <body>
 
-        <!-- Part 3 -->
-        <div class="draggable itemA">A</div>
-        <div class="draggable itemB">B</div>
-        <div class="draggable itemA">A</div>
-        <div class="draggable itemB">B</div>
+    <div id="organize" style="display: none">
+    <h1>Drag &amp; Drop</h1>
 
-        <div class="container">
-            <div id="dropzoneA" class="interact dropzone">Dropzone A</div>
-            <div id="dropzoneB" class="interact dropzone">Dropzone B</div>
-        </div>
+    <div class="draggable itemA">A</div>
+    <div class="draggable itemB">B</div>
+    <div class="draggable itemA">A</div>
+    <div class="draggable itemB">B</div>
 
-    </body>
-</html>
+    <div class="container">
+      <div id="dropzoneA" class="interact dropzone">Dropzone A</div>
+      <div id="dropzoneB" class="interact dropzone">Dropzone B</div>
+    </div>
+
+    </div>
+
+    <script src="/loader.js"></script>
+    <script src="script.js"></script>
+
+    <button onclick="abrirModal('organize')">Mesa</button>
+  </body>
+
+    
+
+    
+    </html>

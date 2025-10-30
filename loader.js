@@ -4,11 +4,13 @@ const scripts = [
   "/core/sound/script.js",
   "/core/achievements/script.js",
   "/core/caixa_dialogo/script.js",
-  "/core/global.js"
+  "/core/global.js",
+  "/core/modal/script.js",
+  "script.js"
 ];
 
 (async function loadAllScripts() {
-  const allScripts = [...scripts, "/script.js"]; // adiciona script.js no final
+  const allScripts = [...scripts, "script.js"]; // adiciona script.js no final
 
   for (const src of allScripts) {
     await new Promise((resolve, reject) => {

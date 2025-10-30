@@ -46,3 +46,4 @@ function checkOrder() {
     alert('✅ Sequência correta!');
   }
 }
+

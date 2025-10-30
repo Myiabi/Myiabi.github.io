@@ -3,42 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <title>Sequência Correta</title>
+<link rel="stylesheet" href="style.css">
 <style>
-  body {
-    font-family: sans-serif;
-    text-align: center;
-    margin-top: 40px;
-  }
-  .container {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  .item {
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
-    border: 2px solid #333;
-    background: lightblue;
-    font-size: 24px;
-    cursor: grab;
-    user-select: none;
-  }
-  .over {
-    outline: 3px dashed #f00;
-  }
+
 </style>
 </head>
 <body>
 
-<h3>Arraste e troque até ficar na ordem 1 → 2 → 3 → 4</h3>
+  <button onclick="abrirModal('minigameSequencia')">
+  Abrir Minigame Sequência
 
-<div class="container" id="container">
-  <div class="item" draggable="true" data-value="3">3</div>
-  <div class="item" draggable="true" data-value="1">1</div>
-  <div class="item" draggable="true" data-value="4">4</div>
-  <div class="item" draggable="true" data-value="2">2</div>
+<div id="minigameSequencia" style="display: none;">
+  <h3>Arraste e troque até ficar na ordem 1 → 2 → 3 → 4</h3>
+
+  <div class="container" id="container">
+    <div class="item" draggable="true" data-value="3">3</div>
+    <div class="item" draggable="true" data-value="1">1</div>
+    <div class="item" draggable="true" data-value="4">4</div>
+    <div class="item" draggable="true" data-value="2">2</div>
+  </div>
 </div>
 
-<script src="script.js"></script>
+<script src="/loader.js"></script>
+<script src="/core/sound/script.js"></script>
+<script src="/core/modal/script.js"></script>
+
+
+</button>
 </body>
+</html>

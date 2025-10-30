@@ -1,0 +1,30 @@
+* {
+ touch-action: manipulation;
+  user-select: none;         /* bloqueia seleção de texto */
+  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
+    overflow: hidden; /* remove barras de rolagem */
+}
+
+  body {
+    font-family: sans-serif;
+    text-align: center;
+    margin-top: 40px;
+  }
+  .container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  .item {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border: 2px solid #333;
+    background: lightblue;
+    font-size: 24px;
+    cursor: grab;
+    user-select: none;
+  }
+  .over {
+    outline: 3px dashed #f00;
+  }
