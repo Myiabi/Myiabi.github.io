@@ -2,7 +2,7 @@
 # Lembrar
 - Ao implementar/testar os minigames em definitivo, criar um README lembrando como funciona a chamada de cada função,
 e anotar no README MAIN também. 
-- Lembrar de fazer um import unificado.
+- ~~Lembrar de fazer um import unificado.~~
 
 # Entender
 
