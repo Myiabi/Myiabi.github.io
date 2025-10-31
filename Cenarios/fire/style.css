@@ -1,3 +1,10 @@
+* {
+ touch-action: manipulation;
+  user-select: none;         /* bloqueia seleção de texto */
+  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
+    overflow: hidden; /* remove barras de rolagem */
+}
+
 #fire-background {
   position: fixed;   /* Fica fixo na tela */
   top: 0;
