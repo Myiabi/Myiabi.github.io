@@ -4,6 +4,7 @@
 e anotar no README MAIN também. 
 - ~~Criar função que encapsula códigos em modais automaticamente.~~
 - ~~Lembrar de fazer um import unificado.~~
+- Pesquisar particulas de efeitos para Paralax
 
 # Entender
 

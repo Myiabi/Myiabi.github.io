@@ -6,5 +6,5 @@
 - [x] Encapsulamento Global com modais
 - [] Drag Menu funcionando Globalmente
 - [] Escolher Músicas/Efeitos Sonoros
-- [] Sistema de Save
+- [x] Sistema de Save
 

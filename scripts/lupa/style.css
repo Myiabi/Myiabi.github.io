@@ -1,0 +1,80 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  height:100%;
+  background:#0e0e0e;
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:30px;
+  font-family:'Segoe UI',sans-serif;
+  user-select:none; /* evita seleção de texto */
+}
+
+/* menu */
+.menu{
+  display:flex;
+  gap:20px;
+}
+#item-lupa{
+  background:#222;
+  border:2px solid #555;
+  padding:10px 20px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all .2s;
+}
+
+/* mapa */
+.container{
+  position:relative;
+  width:800px;
+  height:250px;
+  overflow:hidden;
+  border-radius:12px;
+  box-shadow:0 0 25px rgba(0,0,0,.6);
+  background:#111;
+}
+
+/* camadas */
+.layer{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+}
+.text{
+  font-size:24px;
+  line-height:1.4;
+  color:#fff;
+  max-width:700px;
+}
+
+/* camada de cima */
+.layer.top{
+  z-index:2;
+  pointer-events:none;
+  background:#111;
+  color:#b3b3b3;
+  text-shadow:0 0 2px #000;
+  filter:blur(0.6px) brightness(0.9);
+  clip-path:circle(0px at 0 0);
+  -webkit-clip-path:circle(0px at 0 0);
+}
+
+/* lupa translúcida */
+.loupe{
+  position:absolute;
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.1);
+  box-shadow:0 0 15px rgba(255,255,255,0.1);
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  display:none;
+}

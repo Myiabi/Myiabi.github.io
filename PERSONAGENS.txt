@@ -1,0 +1,16 @@
+Personagens:
+
+- WeiWei
+- Felicia
+- Flora?
+- Pai das cobrinhas {
+    cobrinhas x6
+}
+- Gato Amarelo
+- Barman
+- Pesquisador Miope
+- Guerreiro Wendigo
+- Líder do Templo
+- 5 Irmãs Estátuas
+
+

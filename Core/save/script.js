@@ -5,10 +5,7 @@
 // Objeto principal com os dados do jogo
 // Aqui você vai adicionando as variáveis novas
 const gameData = {
-  nomeJogador: "Desconhecido",
-  nivel: 1,
-  moedas: 0,
-  progresso: 0,
+  
 };
 
 // Chave usada no localStorage
