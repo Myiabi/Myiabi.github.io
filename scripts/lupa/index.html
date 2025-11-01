@@ -1,30 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Lupa Drag Manual</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa com Itens</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="menu">
-    <div id="item-lupa">🔍 Lupa</div>
-  </div>
+<body oncontextmenu="return false;">
 
+  <!-- Área do mapa -->
   <div class="container" id="mapa">
     <div class="layer bottom">
       <div class="text">
-        "A verdade está escrita aqui, mas nem todos conseguem enxergar o que realmente está diante dos olhos."
+        "A verdade está escrita aqui, mas nem todos conseguem enxergar."
       </div>
     </div>
     <div class="layer top">
       <div class="text">
-        "ᗩ ᐯᖇᗴᗪᗩᗪᗴ ᗴ́ ᑕᗴᔕTᗩ ᕼᗴᖇᖇᑌ, ᗰᗩᔕ ᑎᗴᗿ ᗦᗩᒪᗩᔕ ᗴᑎᙓᑎᗴᑎ ᑎᗩᐯᗴᑎᔕ."
+        "ᗩ ᐯᖇᗴᗪᗩᗪᗴ ᗴ́ ᑕᗴᔕTᗩ ᕼᗴᖇᖇᑌ."
       </div>
     </div>
-    <div class="loupe"></div>
   </div>
 
+  <script src="/loader.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

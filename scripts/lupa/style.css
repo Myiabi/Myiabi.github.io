@@ -1,39 +1,48 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{
   height:100%;
+  width:100%;
   background:#0e0e0e;
   color:#fff;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:30px;
   font-family:'Segoe UI',sans-serif;
-  user-select:none; /* evita seleção de texto */
+  touch-action: none;
+  user-select: none;         /* bloqueia seleção de texto */
+  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
+  overflow: hidden; /* remove barras de rolagem */
 }
 
-/* menu */
-.menu{
+/* Menu secundário */
+#menu-secundario{
+  position:fixed;
+  left:2vw;
+  top:5vh;
   display:flex;
-  gap:20px;
-}
-#item-lupa{
+  flex-direction:column;
+  gap:1vh;
   background:#222;
-  border:2px solid #555;
-  padding:10px 20px;
-  border-radius:10px;
+  padding:1vw;
+  border-radius:1vw;
+  z-index:2000;
+}
+.menu-item{
+  padding:1vh 1vw;
+  border-radius:0.8vw;
   cursor:pointer;
+  text-align:center;
+  font-size:2vw;
   transition:all .2s;
 }
 
 /* mapa */
 .container{
   position:relative;
-  width:800px;
-  height:250px;
+  width:90vw;
+  max-width:1000px;
+  height:40vh;
+  margin:10vh auto;
   overflow:hidden;
-  border-radius:12px;
-  box-shadow:0 0 25px rgba(0,0,0,.6);
+  border-radius:1vw;
+  box-shadow:0 0 2vw rgba(0,0,0,.6);
   background:#111;
 }
 
@@ -45,13 +54,13 @@ html,body{
   align-items:center;
   justify-content:center;
   text-align:center;
-  padding:30px;
+  padding:2vw;
 }
 .text{
-  font-size:24px;
+  font-size:2vw;
   line-height:1.4;
   color:#fff;
-  max-width:700px;
+  max-width:80%;
 }
 
 /* camada de cima */
@@ -60,21 +69,22 @@ html,body{
   pointer-events:none;
   background:#111;
   color:#b3b3b3;
-  text-shadow:0 0 2px #000;
-  filter:blur(0.6px) brightness(0.9);
-  clip-path:circle(0px at 0 0);
-  -webkit-clip-path:circle(0px at 0 0);
+  text-shadow:0 0 0.2vw #000;
+  filter:blur(0.1vw) brightness(0.9);
+  clip-path:circle(0vw at 0 0);
+  -webkit-clip-path:circle(0vw at 0 0);
 }
 
-/* lupa translúcida */
+/* lupa */
 .loupe{
-  position:absolute;
-  width:160px;
-  height:160px;
+  position:fixed;
+  width:16vw;
+  height:16vw;
   border-radius:50%;
   background:rgba(255,255,255,0.1);
-  box-shadow:0 0 15px rgba(255,255,255,0.1);
+  box-shadow:0 0 1vw rgba(255,255,255,0.1);
   transform:translate(-50%,-50%);
   pointer-events:none;
   display:none;
+  z-index:1000;
 }

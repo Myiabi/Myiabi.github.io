@@ -6,10 +6,13 @@ e anotar no README MAIN também.
 - ~~Lembrar de fazer um import unificado.~~
 - Pesquisar particulas de efeitos para Paralax
 
-# Entender
-
-# Pesquisar
 
 # Corrigir
 - ~~Portrait do dialogo ainda não sumindo se clicar MUITO rápido~~
 - ~~Achievement não abria em outros códigos~~ 
+
+# Ideias
+
+- O menu drag ser global e reaproveitar o codigo de divs invisiveis reveladas pra espalhar pelo jogo. Tbm Lembrar da ideia de ativar uma função diferente pra elementos diferentes.
+- O artefato da clarividencia vai fazer o seguinte: Revelar invisivel, ler mentes (que é aparecer o popup)
+- Batalha com Wendingo estilo fruit ninja.e
