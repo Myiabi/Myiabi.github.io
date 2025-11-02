@@ -80,7 +80,6 @@ function init() {
   // ---------------- Botão para abrir diálogo ----------------
   btn.addEventListener("pointerdown", () => {
     abrirDialogo(personagens.personagem1);
-    if (typeof tocarEfeito === "function") tocarEfeito("vitoria");
   });
 
   // ---------------- Abrir diálogo ----------------

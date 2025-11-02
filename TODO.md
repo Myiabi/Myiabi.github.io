@@ -8,3 +8,8 @@
 - [] Escolher Músicas/Efeitos Sonoros
 - [x] Sistema de Save
 
+
+Minigames
+
+- [] Pescaria
+- [] Make you own 

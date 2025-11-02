@@ -1,3 +1,52 @@
+/* FONTS */
+
+/*
+  Fontes "Wild Words" (coloque aqui os arquivos em assets/fonts/)
+  Recomendado: gerar WOFF2 e WOFF a partir do TTF para melhor performance.
+  Exemplos para converter (no Windows com Node/npm ou em WSL):
+
+  # usando npx (requer Node):
+  npx ttf2woff2 assets/fonts/Wild-Words-Roman.ttf > assets/fonts/Wild-Words-Roman.woff2
+  npx ttf2woff assets/fonts/Wild-Words-Roman.ttf > assets/fonts/Wild-Words-Roman.woff
+
+  # ou usando a ferramenta woff2 (Google):
+  # woff2_compress assets/fonts/Wild-Words-Roman.ttf   -> gera .woff2 ao lado
+
+  Depois de gerar .woff2/.woff, o navegador irá preferir woff2, depois woff, caindo para ttf.
+*/
+
+@font-face {
+  font-family: "Wild Words";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/Wild-Words-Roman.woff2") format("woff2"),
+    url("../assets/fonts/Wild-Words-Roman.woff") format("woff"),
+    url("../assets/fonts/Wild-Words-Roman.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Wild Words";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/Wild Words Italic.woff2") format("woff2"),
+    url("../assets/fonts/Wild Words Italic.woff") format("woff"),
+    url("../assets/fonts/Wild-Words-Font/Wild Words Italic.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Wild Words";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/Wild Words Bold Italic.woff2") format("woff2"),
+    url("../assets/fonts/Wild Words Bold Italic.woff") format("woff"),
+    url("../assets/fonts/Wild-Words-Font/Wild Words Bold Italic.ttf")
+      format("truetype");
+}
+
 /* Reset e helpers base */
 * {
   box-sizing: border-box;
@@ -56,13 +105,7 @@ html {
   font-size: var(--fs-base);
   scroll-behavior: smooth;
 }
-
 body {
-  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
-    sans-serif;
-  line-height: 1.5;
-  background-color: #fff;
-  color: #111;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
