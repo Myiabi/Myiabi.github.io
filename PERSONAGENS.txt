@@ -2,15 +2,26 @@ Personagens:
 
 - WeiWei
 - Felicia
-- Flora?
+- Lily?
 - Pai das cobrinhas {
     cobrinhas x6
 }
 - Gato Amarelo
 - Barman
 - Pesquisador Miope
+- Historiador do templo
 - Guerreiro Wendigo
 - Líder do Templo
+
+
+
+
+Assets:
+
+- Dois espiritos da Lua e Sol
 - 5 Irmãs Estátuas
+- 3~5x Peixes
+- MIO Wendigo
+
 
 

@@ -1,12 +1,232 @@
+/* Reset e helpers base */
 * {
- touch-action: manipulation;
-  user-select: none;         /* bloqueia seleção de texto */
-  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* desative seleção e arraste apenas em elementos específicos quando necessário */
+html,
+body {
+  /* Desativa gestos padrão (pan/zoom) — note que isto afeta acessibilidade: teste em vários dispositivos */
+  touch-action: none;
+  -ms-touch-action: none;
 }
 
 .virado {
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  transform: rotate(90deg);
+  /* Quando a classe for aplicada, o JS irá ajustar a transform/posicionamento
+     para manter a UI em landscape mesmo quando o dispositivo estiver em portrait.
+     Aqui apenas preparamos a geometria (tamanho e origem). */
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  /* largura = altura da viewport para preencher corretamente ao rotacionar */
+  width: 100vh;
+  height: 100vw;
+  overflow: hidden;
+  /* não definimos 'transform' aqui; o JS aplicará translate(...) + rotate(...) com o sinal correto */
+}
+
+/* ===================== */
+/* VARIÁVEIS E TIPOGRAFIA */
+/* ===================== */
+:root {
+  /* breakpoints (úteis para JS também) */
+  --bp-xl: 1600px;
+  --bp-lg: 1440px;
+  --bp-md: 1024px;
+  --bp-sm: 768px;
+  --bp-xs: 480px;
+
+  /* tamanho base fluido */
+  /* menor valor, valor fluido e maior valor */
+  --fs-base: clamp(12px, 1.2vw + 0.6rem, 18px);
+
+  --container-max: 1200px;
+  --container-padding: clamp(0.5rem, 1.2vw, 2rem);
+
+  --btn-radius: 0.5rem;
+  --btn-padding-y: 0.6rem;
+  --btn-padding-x: 1.1rem;
+}
+
+html {
+  font-size: var(--fs-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
+    sans-serif;
+  line-height: 1.5;
+  background-color: #fff;
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===================== */
+/* CONTAINERS E LAYOUT   */
+/* ===================== */
+.container {
+  width: min(95%, var(--container-max));
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--container-padding);
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button,
+a {
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  font-size: 1rem; /* 1rem segue --fs-base */
+  border: none;
+  border-radius: var(--btn-radius);
+  transition: opacity 0.18s ease, transform 0.12s ease;
+}
+
+button:hover,
+a:hover {
+  opacity: 0.95;
+}
+
+/* ===================== */
+/* MENU E NAV            */
+/* ===================== */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(var(--container-padding) / 1.2);
+}
+
+nav a {
+  margin: 0.35rem 0.6rem;
+  font-size: 0.98rem;
+}
+
+/* ===================== */
+/* MEDIA QUERIES GLOBAIS */
+/* ===================== */
+
+/* Extra-large desktops (widescreen) */
+@media (min-width: var(--bp-xl)) {
+  :root {
+    --container-max: 1400px;
+  }
+}
+
+/* Large desktops / laptops */
+@media (min-width: var(--bp-lg)) and (max-width: calc(var(--bp-xl) - 1px)) {
+  :root {
+    --container-max: 1300px;
+  }
+}
+
+/* Medium devices (tablets, small laptops) */
+@media (max-width: 1024px) {
+  :root {
+    --fs-base: clamp(13px, 1.6vw + 0.4rem, 16px);
+  }
+  nav a {
+    font-size: 0.95rem;
+  }
+  button,
+  a {
+    padding: 0.55rem 1rem;
+  }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 768px) {
+  :root {
+    --fs-base: clamp(12px, 2.1vw + 0.25rem, 15px);
+  }
+  .container {
+    padding: clamp(0.4rem, 2.2vw, 1rem);
+  }
+  nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+  nav a {
+    font-size: 0.95rem;
+    margin: 0.25rem 0.4rem;
+  }
+  button,
+  a {
+    padding: 0.5rem 0.9rem;
+  }
+}
+
+/* Large phones */
+@media (max-width: 480px) {
+  :root {
+    --fs-base: clamp(11px, 3.2vw, 14px);
+  }
+  .container {
+    width: 96%;
+    padding: 0.6rem;
+  }
+  nav a {
+    font-size: 0.9rem;
+  }
+  button,
+  a {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Very small devices (old phones, very small Kindle) */
+@media (max-width: 360px) {
+  :root {
+    --fs-base: clamp(10px, 4.2vw, 13px);
+  }
+  .container {
+    width: 98%;
+    padding: 0.4rem;
+  }
+  nav a {
+    font-size: 0.85rem;
+  }
+  button,
+  a {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Orientation-specific tweaks */
+@media (orientation: landscape) and (max-width: 768px) {
+  /* em landscape no mobile talvez caiba um pouco mais */
+  :root {
+    --fs-base: clamp(11px, 2.2vw, 15px);
+  }
+}
+
+/* small visual helpers */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

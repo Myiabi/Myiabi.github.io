@@ -4,7 +4,8 @@
 e anotar no README MAIN também. 
 - ~~Criar função que encapsula códigos em modais automaticamente.~~
 - ~~Lembrar de fazer um import unificado.~~
-- Pesquisar particulas de efeitos para Paralax
+- Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.
+- Como fazer os outros eventos drags importados se comportarem bem junto com outros códigos?
 
 
 # Corrigir
@@ -13,6 +14,6 @@ e anotar no README MAIN também.
 
 # Ideias
 
-- O menu drag ser global e reaproveitar o codigo de divs invisiveis reveladas pra espalhar pelo jogo. Tbm Lembrar da ideia de ativar uma função diferente pra elementos diferentes.
-- O artefato da clarividencia vai fazer o seguinte: Revelar invisivel, ler mentes (que é aparecer o popup)
-- Batalha com Wendingo estilo fruit ninja.e
+- ~~O menu drag ser global e reaproveitar o codigo de divs invisiveis reveladas pra espalhar pelo jogo. Tbm Lembrar da ideia de ativar uma função diferente pra elementos diferentes.~~
+- ~~O artefato da clarividencia vai fazer o seguinte: Revelar invisivel, ler mentes (que é aparecer o popup)~~
+- Batalha com Wendingo estilo fruit ninja.

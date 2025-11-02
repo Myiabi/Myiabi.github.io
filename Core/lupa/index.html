@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa com Itens</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body oncontextmenu="return false;">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Prevent pinch-zoom / user scaling on mobile as requested -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Mapa com Itens</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body oncontextmenu="return false;">
+    <!-- Área do mapa -->
+    <div class="container mapa">
+      <div class="layer bottom">
+        <div class="text">
+          "A verdade está escrita aqui, mas nem todos conseguem enxergar."
+        </div>
+      </div>
+      <div class="layer top">
+        <div class="text">
+          "A mentira está apagada aqui, mas sim, todos conseguem entender"
+        </div>
+      </div>
+    </div>
 
-  <!-- Área do mapa -->
-  <div class="container mapa">
-    <div class="layer bottom">
-      <div class="text">
-        "A verdade está escrita aqui, mas nem todos conseguem enxergar."
+    <div class="container mapa capeta">
+      <div class="layer bottom">
+        <div class="text"></div>
+      </div>
+      <div class="layer top">
+        <div class="text capetinha">👹</div>
       </div>
     </div>
-    <div class="layer top">
-      <div class="text">
-        "A mentira está apagada aqui, mas sim, todos conseguem entender"
-      </div>
-    </div>
-  </div>
 
-  <div class="container mapa capeta">
-    <div class="layer bottom">
-      <div class="text">
-        
-      </div>
-    </div>
-    <div class="layer top">
-      <div class="text capetinha">
-        👹
-      </div>
-    </div>
-  </div>
-
-  <script src="/loader.js"></script>
-  <script src="script.js"></script>
-</body>
+    <script src="/loader.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
