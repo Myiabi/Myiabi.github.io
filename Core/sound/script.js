@@ -8,7 +8,8 @@ const Sons = {
   },
   efeitos: {
     vitoria: "/assets/sounds/efeitos/tuturu_1.mp3",
-    click: "/assets/sounds/efeitos/tuturu_1.mp3"
+    click: "/assets/sounds/efeitos/tuturu_1.mp3",
+    whoosh: "/assets/sounds/efeitos/whooshfogo.mp3"
   },
   trilhaAtual: null
 };
