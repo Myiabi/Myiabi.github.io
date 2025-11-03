@@ -7,7 +7,7 @@ e anotar no README MAIN também.
 - Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.
 - Como fazer os outros eventos drags importados se comportarem bem junto com outros códigos?
 - Seria interessante pesquisar diversas fontes
-- Mudar o hud da caixa de dialogo?
+- Mudar o hud da caixa de dialogo? Poha é mais dificil que pensei
 
 
 

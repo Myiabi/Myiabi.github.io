@@ -13,3 +13,4 @@ Minigames
 
 - [] Pescaria
 - [] Make you own 
+- [] Ghost Fight

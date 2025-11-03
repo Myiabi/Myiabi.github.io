@@ -1,7 +1,7 @@
 # Analisar, corrigir e aprimorar códigos com Copilot
 
 - Achievements
-- Dialog Box
+- ~~Dialog Box~~
 - Loading
 - Modal
 - Menu Interact
@@ -12,5 +12,5 @@
 ## Minigames
 
 - Cadeado
-- Organizar mesa
+- ~~Organizar mesa~~
 - Puzzle Estátuas
