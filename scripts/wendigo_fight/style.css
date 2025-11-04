@@ -1,0 +1,73 @@
+/* File: style.css */
+:root{
+  --bg:#0f1724;
+  --panel:#0b1220;
+  --accent:#ff6b35;
+  --danger:#e53935;
+  --hp-green:#2ecc71;
+}
+*{box-sizing:border-box; margin:0; padding:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+html,body,#game{height:100%;}
+body{background:linear-gradient(180deg,#071028 0%, #07121a 100%); color:#e6eef8; display:flex; align-items:center; justify-content:center; padding:20px;}
+
+#game{width:100%; max-width:1200px; height:760px; display:flex; flex-direction:column; gap:10px;}
+#hud{display:flex; gap:16px; align-items:center;}
+#player-hp-wrap, #boss-hp-wrap{display:flex; gap:8px; align-items:center;}
+#player-hp, #boss-hp{width:300px; height:18px; background:#123; border-radius:12px; overflow:hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);}
+#player-hp-bar{height:100%; width:100%; background:linear-gradient(90deg,var(--hp-green), #16a085);}
+#boss-hp-bar{height:100%; width:100%; background:linear-gradient(90deg,#f39c12, #ff6b35);}
+
+#restart{margin-left:auto; padding:8px 12px; border-radius:8px; background:#132; color:#dff; border:0; cursor:pointer;}
+
+#arena{flex:1; position:relative; background:linear-gradient(180deg,#081025 0%, #091426 100%); border-radius:12px; overflow:hidden; box-shadow: 0 6px 24px rgba(2,6,23,0.8);}
+
+#enemies{position:absolute; inset:0; pointer-events:none;}
+
+/* Inimigo base */
+.enemy {
+  position:absolute;
+  width:120px;
+  height:120px;
+  transform-origin:center;
+  will-change:transform,left,top;
+  pointer-events:auto; /* we'll detect via pointer traces */
+}
+.enemy img { width:100%; height:100%; display:block; user-select:none; pointer-events:none; border-radius:12px; }
+
+.cast-bar {
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:-18px;
+  width:80%;
+  height:8px;
+  background:rgba(0,0,0,0.4);
+  border-radius:6px;
+  overflow:hidden;
+}
+.cast-bar .fill { height:100%; width:0%; background:linear-gradient(90deg,#ffd54f,#ff6b35); transition:width 0.08s linear; }
+
+.hp-small {
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:-30px;
+  width:60%;
+  height:6px;
+  background:rgba(0,0,0,0.35);
+  border-radius:6px;
+  overflow:hidden;
+}
+.hp-small .fill { height:100%; width:100%; background:linear-gradient(90deg,#a8e063,#56ab2f); transition:width 0.1s linear; }
+
+/* hit flash */
+.enemy.hit { filter: drop-shadow(0 0 8px rgba(255,80,80,0.9)); transform:scale(0.96) rotate(-6deg); transition:transform 140ms ease; }
+
+/* minion smaller */
+.enemy.minion { width:80px; height:80px; }
+
+/* trail style */
+#trails path { stroke-width:6; stroke-linecap:round; stroke-linejoin:round; opacity:0.95; fill:none; mix-blend-mode:screen; }
+
+/* small text overlays */
+#hud span{font-size:13px; opacity:0.9;}

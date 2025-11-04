@@ -61,6 +61,7 @@ body {
   /* Desativa gestos padrão (pan/zoom) — note que isto afeta acessibilidade: teste em vários dispositivos */
   touch-action: none;
   -ms-touch-action: none;
+  overflow: hidden;
 }
 
 .virado {

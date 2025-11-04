@@ -1,0 +1,41 @@
+<!-- File: index.html -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Minigame — Boss Teleport</title>
+  <link rel="stylesheet" href="/core/global.css">
+  <link rel="stylesheet" href="style.css" />
+  
+</head>
+<body>
+  <div id="game">
+    <div id="hud">
+      <div id="player-hp-wrap">
+        <span>Você</span>
+        <div id="player-hp">
+          <div id="player-hp-bar"></div>
+        </div>
+      </div>
+      <div id="boss-hp-wrap">
+        <span>Chefe</span>
+        <div id="boss-hp">
+          <div id="boss-hp-bar"></div>
+        </div>
+      </div>
+      <button id="restart">Reiniciar</button>
+    </div>
+
+    <div id="arena">
+      <!-- SVG para traços (slice) -->
+      <svg id="trails" width="100%" height="100%"></svg>
+
+      <!-- Inimigos serão inseridos aqui -->
+      <div id="enemies"></div>
+    </div>
+  </div>
+
+  <script src="/loader.js"></script>
+</body>
+</html>
