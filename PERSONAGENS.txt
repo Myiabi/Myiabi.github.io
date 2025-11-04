@@ -4,11 +4,11 @@ Personagens:
 - Felicia
 - Lily?
 - Pai das cobrinhas {
-    cobrinhas x6
+    cobrinhas x6 (cada cobrinha com um detalhe diferente)
 }
 - Gato Amarelo
 - Barman
-- Pesquisador Miope
+- Pesquisador Miope (Versão sem e com óculos, óculos dele é feita com a Lua, então tem que ter uma pedrinha no design)
 - Historiador do templo
 - Guerreiro Wendigo
 - Líder do Templo
@@ -17,13 +17,13 @@ Personagens:
 
 
 
-
 Assets:
 
 - Dois espiritos da Lua e Sol
 - 5 Irmãs Estátuas
+- Fantasma Droplet
 - 3~5x Peixes
-- MIO Wendigo
-
+- MIO Wendigo (todas as peças em formato 1920×1080 (16:9))
+- Alguns figurantes simples (sem caixa de fala, mas vão ter popup)
 
 
