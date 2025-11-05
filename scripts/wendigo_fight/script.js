@@ -8,7 +8,7 @@ const CONFIG = {
   boss: {
     img: '/assets/img/One-Piece-Anime-PNG-Download-Image.png',    // troque
     size: 140,
-    hp: 420,
+    hp: 2020,
     speed: 0.45,        // px/ms (mais rápido)
     teleportInterval: [1500, 3000],
     castTime: 2800,
@@ -17,11 +17,11 @@ const CONFIG = {
     hitDamage: 24
   },
   minion: {
-    img: 'minion.png',
+    img: '/assets/img/npc-cientist2.png',
     size: 84,
-    hp: 80,
+    hp: 200,
     speed: 0.34,
-    teleportInterval: [2200, 3800],
+    teleportInterval: [2500, 3800],
     castTime: 2600,
     hitsToCancel: 1,    // minion cancela com 1 golpe
     damageHearts: 1,
@@ -636,5 +636,64 @@ function init(){
   buildHeartsUI();
   resetGame();
 }
+
+
+// ======== Boss Defeat / Victory Logic ========
+
+// Função chamada automaticamente quando o boss morre
+function onBossDefeated() {
+  console.log("✅ Boss derrotado — adicione aqui sua lógica pós-vitória.");
+  // Exemplo: tocar som, mostrar botão, mudar tela, etc.
+  // Ex: window.location.href = '/next-level.html';
+}
+
+// Hooka a morte do boss
+const originalDie = Enemy.prototype.die;
+Enemy.prototype.die = function() {
+  const wasBoss = !this.isMinion;
+  originalDie.apply(this, arguments);
+  if (wasBoss) {
+    handleBossDefeat();
+  }
+};
+
+function handleBossDefeat() {
+  state.running = false;
+
+  // Mata todos os minions instantaneamente
+  state.enemies.forEach(e => {
+    if (e.isMinion) {
+      e.active = false;
+      e.canDamage = false;
+      e.casting = false;
+      e.hp = 0;
+
+      // Remove do DOM imediatamente
+      if (e.el && e.el.parentNode) {
+        e.el.style.transition = "opacity 0.3s ease";
+        e.el.style.opacity = "0";
+        setTimeout(() => {
+          try { enemiesWrap.removeChild(e.el); } catch (_) {}
+        }, 300);
+      }
+    }
+  });
+
+  // Remove da lista global
+  state.enemies = state.enemies.filter(e => !e.isMinion);
+
+  // Mostra mensagem de vitória
+  overlayContainer.innerHTML = '';
+  const msg = document.createElement('div');
+  msg.className = 'overlay-msg';
+  msg.textContent = 'Você venceu!';
+  overlayContainer.appendChild(msg);
+
+  // Chama hook customizável
+  onBossDefeated();
+}
+
+
+
 
 init();

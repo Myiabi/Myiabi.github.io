@@ -1,5 +1,4 @@
-// fight.js — v13.1: hint aparece apenas quando escondido por 20% de crescimento,
-// não aparece quando focado; fade suave de 2s; reset on reveal/teleport
+// fight.js — v14: adiciona botão de restart ao perder e hooks ao vencer
 
 const enemy = document.getElementById("enemy");
 const emoji = document.getElementById("enemy-emoji");
@@ -21,34 +20,47 @@ const MAX_SPEED = 30;
 const ESCAPE_STRENGTH = 4.0;
 const DRIBBLE_INTENSITY = 4.5;
 const MAX_SCALE = 2.5;
-
-/* HINT CONFIG (baseado em crescimento enquanto escondido) */
-const HINT_THRESHOLD = 20;      // 20% de crescimento acumulado enquanto escondido
+const HINT_THRESHOLD = 20;
 const HINT_OPACITY = 0.3;
-const HINT_DURATION = 2.0;      // tempo total do fade-in/out em segundos
+const HINT_DURATION = 2.0;
 
 /* STATE */
-let growth = 0;
-let timer = START_TIMER;
-let pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-let dir = { x: Math.random() * 2 - 1, y: Math.random() * 2 - 1 };
-let speed = BASE_SPEED;
-let lastTime = null;
-let focusAccum = 0;
-let gameOver = false;
-let revealed = false;
-let nextRandomTeleport = 0;
+let growth, timer, pos, dir, speed, lastTime, focusAccum, gameOver, revealed, nextRandomTeleport;
+let hiddenGrowthSinceSeen, hintedFlag, lastGrowth;
+let luaX, luaY, luaRadius;
+let restartButton, endMsg;
 
-/* TRACKING DO HINT */
-let hiddenGrowthSinceSeen = 0;  // quanto cresceu enquanto estava escondido desde a última vez que foi visto
-let hintedFlag = false;         // se já mostrou o hint desde a última vez que foi visto/teleportado
-let lastGrowth = growth;        // para calcular delta growth por frame
+/* INIT */
+function resetGame() {
+  growth = 0;
+  timer = START_TIMER;
+  pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  dir = { x: Math.random() * 2 - 1, y: Math.random() * 2 - 1 };
+  speed = BASE_SPEED;
+  lastTime = null;
+  focusAccum = 0;
+  gameOver = false;
+  revealed = false;
+  nextRandomTeleport = 0;
+  hiddenGrowthSinceSeen = 0;
+  hintedFlag = false;
+  lastGrowth = growth;
 
-/* LUA (segue mouse/touch) */
-let luaX = window.innerWidth / 2;
-let luaY = window.innerHeight / 2;
-let luaRadius = lua.offsetWidth / 2;
+  luaX = window.innerWidth / 2;
+  luaY = window.innerHeight / 2;
+  luaRadius = lua.offsetWidth / 2;
 
+  enemy.style.opacity = "0";
+  if (endMsg) endMsg.remove();
+  if (restartButton) restartButton.remove();
+
+  normalizeDir();
+  teleportEnemy();
+  requestAnimationFrame(gameLoop);
+  startTimer();
+}
+
+/* LUA FOLLOW */
 function setLuaPos(x, y) {
   luaX = x;
   luaY = y;
@@ -73,7 +85,6 @@ function normalizeDir() {
 }
 function randomInterval(min, max) { return Math.random() * (max - min) + min; }
 
-/* FLASH (saída branca, chegada vermelha) */
 function spawnFlash(x, y, color = "red", size = 100) {
   const flash = document.createElement("div");
   flash.className = "flash";
@@ -90,10 +101,10 @@ function spawnFlash(x, y, color = "red", size = 100) {
 
 /* TELEPORT */
 function teleportEnemy() {
-  spawnFlash(pos.x, pos.y, "white", 60); // flash branco na saída
+  spawnFlash(pos.x, pos.y, "white", 60);
 
-  // PONTO PARA SOM: coloque aqui (arquivo na mesma pasta)
-  // const teleportSound = new Audio('teleport.mp3'); teleportSound.volume = 0.5; teleportSound.play();
+  // PONTO PARA SOM: coloque aqui (teleportSound)
+  // const teleportSound = new Audio('teleport.mp3'); teleportSound.play();
 
   const w = window.innerWidth, h = window.innerHeight;
   pos.x = EDGE_BUFFER + Math.random() * (w - 2 * EDGE_BUFFER);
@@ -103,42 +114,78 @@ function teleportEnemy() {
   focusAccum = 0;
   speed = BASE_SPEED;
   enemy.style.opacity = "0";
-
-  spawnFlash(pos.x, pos.y, "red", 120); // flash vermelho na chegada
-
-  // reset do hint tracking ao teleportar
   hiddenGrowthSinceSeen = 0;
   hintedFlag = false;
   lastGrowth = growth;
 
+  spawnFlash(pos.x, pos.y, "red", 120);
   nextRandomTeleport = performance.now() / 1000 + randomInterval(RANDOM_TELEPORT_INTERVAL_MIN, RANDOM_TELEPORT_INTERVAL_MAX);
 }
 
-/* END GAME */
+/* END GAME (WIN / LOSE) */
 function endGame(win) {
   if (gameOver) return;
   gameOver = true;
-  const msg = document.createElement("div");
-  msg.textContent = win ? "🌕 Você venceu!" : "👹 O inimigo venceu!";
-  Object.assign(msg.style, {
-    position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-    fontSize: "3vw", color: "#fff", textShadow: "0 0 1vw #000", zIndex: 9999
+
+  // remove elementos anteriores se houver
+  if (endMsg) endMsg.remove();
+  if (restartButton) restartButton.remove();
+
+  endMsg = document.createElement("div");
+  Object.assign(endMsg.style, {
+    position: "fixed",
+    top: "45%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    fontSize: "3vw",
+    color: "#fff",
+    textShadow: "0 0 1vw #000",
+    zIndex: 9999,
+    textAlign: "center",
   });
-  document.body.appendChild(msg);
+
+  if (win) {
+    endMsg.textContent = "🌕 Você venceu!";
+    document.body.appendChild(endMsg);
+
+    /* 🔧 ESPAÇO PARA LÓGICA DE FINALIZAÇÃO 🔧
+       - Variáveis de progresso
+       - Efeitos sonoros
+       - Redirecionamentos
+    */
+
+  } else {
+    endMsg.textContent = "👹 O inimigo venceu!";
+    document.body.appendChild(endMsg);
+
+    // botão de restart tipo jogo mobile
+    restartButton = document.createElement("button");
+      Object.assign(restartButton.style, {
+      position: "fixed",
+      top: "60%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "70px",
+      height: "70px",
+      cursor: "pointer",
+      zIndex: 10000,
+      transition: "transform 0.2s ease",
+    });
+    restartButton.onmouseenter = () => (restartButton.style.transform = "translate(-50%, -50%) scale(1.1)");
+    restartButton.onmouseleave = () => (restartButton.style.transform = "translate(-50%, -50%) scale(1)");
+    restartButton.onclick = resetGame;
+    document.body.appendChild(restartButton);
+  }
 }
 
-/* mostra hint suave (fade-in -> hold -> fade-out) */
+/* HINT */
 function showHintFade() {
   if (hintedFlag || revealed || gameOver) return;
   hintedFlag = true;
-  // define transição suave
   enemy.style.transition = `opacity ${HINT_DURATION}s ease-in-out`;
-  // fade to hint opacity
   enemy.style.opacity = `${HINT_OPACITY}`;
-  // depois de HINT_DURATION segundos, volta a 0 (só se ainda não estiver revelado)
   setTimeout(() => {
     if (!revealed && !gameOver) enemy.style.opacity = "0";
-    // remove transition para evitar afetar o reveal imediato
     setTimeout(() => { enemy.style.transition = ""; }, 300);
   }, HINT_DURATION * 1000);
 }
@@ -146,11 +193,8 @@ function showHintFade() {
 /* UPDATE FRAME */
 function update(dt, nowSec) {
   if (gameOver) return;
-
-  // teleporte aleatório
   if (nowSec >= nextRandomTeleport) teleportEnemy();
 
-  // ruído
   if (Math.random() < 0.03) {
     dir.x += (Math.random() - 0.5) * 0.8;
     dir.y += (Math.random() - 0.5) * 0.8;
@@ -160,7 +204,6 @@ function update(dt, nowSec) {
   pos.x += dir.x * speed;
   pos.y += dir.y * speed;
 
-  // bordas: vira e acelera levemente
   if (pos.x < EDGE_BUFFER || pos.x > window.innerWidth - EDGE_BUFFER ||
       pos.y < EDGE_BUFFER || pos.y > window.innerHeight - EDGE_BUFFER) {
     dir.x = Math.random() * 2 - 1; dir.y = Math.random() * 2 - 1;
@@ -170,25 +213,20 @@ function update(dt, nowSec) {
     pos.y = Math.min(Math.max(pos.y, EDGE_BUFFER + 10), window.innerHeight - EDGE_BUFFER - 10);
   }
 
-  // foco?
   const dx = pos.x - luaX, dy = pos.y - luaY;
   const dist = Math.hypot(dx, dy);
   const inside = dist < luaRadius * FOCUS_RATIO;
 
-  // calcular quanto cresceu este frame (delta)
-  const growthDelta = growth - lastGrowth;
+  const growthDelta = growth - (lastGrowth || growth);
   lastGrowth = growth;
 
   if (inside) {
-    // REVEAL — override imediato: cancela qualquer hint em andamento
     revealed = true;
     hintedFlag = false;
     hiddenGrowthSinceSeen = 0;
-    // garantir opacidade total sem ser afetada por transition do hint
     enemy.style.transition = "";
     enemy.style.opacity = "1";
 
-    // regressão e fuga
     focusAccum += dt;
     growth -= REGRESS_RATE_WHEN_REVEALED * dt;
     growth = Math.max(growth, 0);
@@ -201,42 +239,28 @@ function update(dt, nowSec) {
     normalizeDir();
 
     if (focusAccum >= TELEPORT_AFTER_FOCUS) teleportEnemy();
-
   } else {
-    // HIDDEN
     revealed = false;
     focusAccum = 0;
     growth += GROWTH_RATE_WHEN_HIDDEN * dt;
     growth = Math.min(growth, 100);
     speed = BASE_SPEED;
-
-    // acumula quanto cresceu enquanto escondido
-    // usamos growthDelta positivo (se negativo, ignora)
     if (growthDelta > 0) hiddenGrowthSinceSeen += growthDelta;
-
-    // se acumulou >= HINT_THRESHOLD (20%) e ainda não mostrou hint -> mostrar
-    if (hiddenGrowthSinceSeen >= HINT_THRESHOLD && !hintedFlag) {
-      showHintFade();
-      // não zera hiddenGrowthSinceSeen; hint só mostra uma vez por ciclo até ser visto/teleportado
-    }
+    if (hiddenGrowthSinceSeen >= HINT_THRESHOLD && !hintedFlag) showHintFade();
   }
 
-  // visibilidade: se não for hinted (ou hint expirou) e não estiver revelado, garantir 0
   if (!revealed && !hintedFlag) enemy.style.opacity = "0";
 
-  // aparência
   let scale = 1 + growth / 100;
   if (scale > MAX_SCALE) scale = MAX_SCALE;
   const redness = Math.min(Math.max((growth - 50) / 50, 0), 1);
   emoji.style.filter = `drop-shadow(0 0 ${0.5 + redness}vw rgba(255,40,40,${0.3 + redness * 0.6}))`;
-
   enemy.style.transform = `translate(-50%, -50%) translate(${pos.x - window.innerWidth/2}px, ${pos.y - window.innerHeight/2}px) scale(${scale})`;
   growthText.textContent = `${Math.round(growth)}%`;
-
   if (growth >= 100) endGame(false);
 }
 
-/* GAME LOOP & TIMER */
+/* GAME LOOP */
 function gameLoop(ts) {
   if (!lastTime) lastTime = ts;
   const dt = (ts - lastTime) / 1000;
@@ -246,6 +270,7 @@ function gameLoop(ts) {
   if (!gameOver) requestAnimationFrame(gameLoop);
 }
 
+/* TIMER */
 function startTimer() {
   timerText.textContent = `${timer}s`;
   const interval = setInterval(() => {
@@ -257,7 +282,4 @@ function startTimer() {
 }
 
 /* START */
-normalizeDir();
-teleportEnemy(); // agenda teleporte inicial e random next
-requestAnimationFrame(gameLoop);
-startTimer();
+resetGame();
