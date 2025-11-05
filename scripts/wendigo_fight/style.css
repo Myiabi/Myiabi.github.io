@@ -1,85 +1,313 @@
-/* File: style.css */
-:root{
-  --bg:#071028;
-  --panel:#071426;
-  --boss-red: linear-gradient(90deg,#d93f3f,#b02020);
-  --accent:#ff6b35;
-  --heart-color:#ff4b6e;
-}
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
-html,body,#game{height:100%;}
-body{background:linear-gradient(180deg,#061024 0%, #05121a 100%); display:flex; align-items:center; justify-content:center; padding:20px; color:#e6eef8;}
+/* File: style.css — versão responsiva, transparente e com fix de visibilidade */
 
-#game{width:100%;max-width:1200px;height:760px;display:flex;flex-direction:column;gap:10px;}
-
-/* Boss bar top */
-#boss-bar-wrap{
-  position:relative;
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  pointer-events:none;
-}
-#boss-name{font-size:18px;font-weight:700;letter-spacing:2px;color:#ffd6d6;text-shadow:0 2px 6px rgba(0,0,0,0.6);}
-#boss-bar{
-  width:68%;
-  height:28px;
-  background:rgba(0,0,0,0.35);
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
-}
-#boss-bar-fill{
-  height:100%;
-  width:100%;
-  background: linear-gradient(90deg,#ff7b6b,#c92b2b);
-  transition:width 180ms linear;
+/* ====================== ROOT VARS ====================== */
+:root {
+  --accent: #ff6b35;
+  --heart-color: #ff4b6e;
+  --boss-red: linear-gradient(90deg, #d93f3f, #b02020);
 }
 
-/* Arena */
-#arena{flex:1;position:relative;background:linear-gradient(180deg,#081025 0%, #091426 100%);border-radius:12px;overflow:hidden;box-shadow:0 6px 30px rgba(2,6,23,0.9);}
-
-/* enemies container */
-#enemies{position:absolute;inset:0;pointer-events:none;}
-.enemy{position:absolute;transform-origin:center;pointer-events:auto;will-change:left,top,transform;user-select:none;}
-.enemy img{width:100%;height:100%;display:block;border-radius:10px;pointer-events:none;}
-.cast-bar{position:absolute;left:50%;transform:translateX(-50%);top:-18px;width:70%;height:8px;background:rgba(0,0,0,0.45);border-radius:6px;overflow:hidden;display:none;}
-.cast-bar .fill{height:100%;width:0;background:linear-gradient(90deg,#ffd54f,#ff6b35);transition:width 0.06s linear;}
-.hp-small{position:absolute;left:50%;transform:translateX(-50%);top:-30px;width:50%;height:6px;background:rgba(0,0,0,0.35);border-radius:6px;overflow:hidden;display:none;}
-.hp-small .fill{height:100%;width:100%;background:linear-gradient(90deg,#a8e063,#56ab2f);transition:width 0.1s linear;}
-.enemy.hit{filter:drop-shadow(0 0 10px rgba(255,80,80,0.95));transform:scale(0.96) rotate(-6deg);transition:transform 120ms ease;}
-.enemy.minion img{border-radius:8px;}
-
-/* Trails */
-#trails path{stroke-width:6;stroke-linecap:round;stroke-linejoin:round;opacity:0.95;fill:none;mix-blend-mode:screen;}
-
-/* Overlay */
-#overlay-container{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;}
-.overlay-msg{background:rgba(0,0,0,0.7);padding:18px 24px;border-radius:10px;color:#ffd;font-weight:700;pointer-events:auto;}
-
-/* Particles */
-#particles{position:absolute;inset:0;pointer-events:none;}
-.particle{
-  position:absolute;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#fff,#ffbaba);
-  pointer-events:none;will-change:transform,opacity;
+/* ====================== RESET ====================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
 }
 
-/* Player HUD bottom */
-#player-hud{display:flex;align-items:center;justify-content:center;gap:14px;padding-top:6px;}
-#hearts{display:flex;gap:8px;align-items:center;justify-content:center;transform-origin:center;}
-.heart{
-  width:36px;height:36px;border-radius:8px;background:linear-gradient(180deg,#ff768e,#ff3b60);display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 12px rgba(255,70,120,0.12), inset 0 -4px 10px rgba(0,0,0,0.12);
-  font-weight:700;color:#fff;cursor:default;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  color: #e6eef8;
 }
-.heart.lost{opacity:0.18;transform:scale(0.9);transition:opacity 240ms, transform 240ms;}
 
-/* Heart shake */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ====================== CONTAINER ====================== */
+#game {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: visible;
+  background: transparent;
+  z-index: 50;
+}
+
+/* ====================== BACKGROUND (FOGO) ====================== */
+#fire-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#fire-background > canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ====================== BOSS BAR ====================== */
+#boss-bar-wrap {
+  position: absolute;
+  top: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(50%, 70vw, 80%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8vh;
+  z-index: 100;
+  pointer-events: none;
+}
+
+#boss-name {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ffd6d6;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+#boss-bar {
+  width: 100%;
+  height: clamp(1rem, 2.5vh, 2rem);
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+#boss-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #ff7b6b, #c92b2b);
+  transition: width 180ms linear;
+}
+
+/* ====================== ARENA ====================== */
+#arena {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  border-radius: 1vw;
+  overflow: visible;
+  z-index: 55;
+}
+
+/* ====================== ENEMIES ====================== */
+#enemies {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible !important;
+  z-index: 60;
+}
+
+.enemy {
+  position: absolute;
+  transform-origin: center;
+  pointer-events: auto;
+  will-change: left, top, transform;
+  user-select: none;
+  overflow: visible !important;
+  z-index: 65;
+}
+
+.enemy img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* ====================== CAST BAR & HP SMALL ====================== */
+.cast-bar {
+  position: absolute;
+  left: 50%;
+  top: -2vh;
+  width: 70%;
+  height: 0.8vh;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 0.6vh;
+  overflow: visible !important;
+  display: none;
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+
+.cast-bar .fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #ffd54f, #ff6b35);
+  transition: width 0.06s linear;
+}
+
+.hp-small {
+  position: absolute;
+  left: 50%;
+  top: -3vh;
+  width: 50%;
+  height: 0.6vh;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 0.6vh;
+  overflow: visible !important;
+  display: none;
+  z-index: 9999 !important;
+}
+
+.hp-small .fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #a8e063, #56ab2f);
+  transition: width 0.1s linear;
+}
+
+.enemy.hit {
+  filter: drop-shadow(0 0 1vh rgba(255, 80, 80, 0.9));
+  transform: scale(0.96) rotate(-6deg);
+  transition: transform 120ms ease;
+}
+
+.enemy.minion img {
+  border-radius: 8px;
+}
+
+/* ====================== TRAILS ====================== */
+#trails path {
+  stroke-width: 0.6vw;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.95;
+  fill: none;
+  mix-blend-mode: screen;
+}
+
+/* ====================== OVERLAY ====================== */
+#overlay-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 80;
+}
+
+.overlay-msg {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 2vh 3vw;
+  border-radius: 1vw;
+  color: #ffd;
+  font-weight: 700;
+  pointer-events: auto;
+}
+
+/* ====================== PARTICLES ====================== */
+#particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 70;
+}
+
+.particle {
+  position: absolute;
+  width: 0.5vw;
+  height: 0.5vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #ffbaba);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ====================== PLAYER HUD ====================== */
+#player-hud {
+  position: absolute;
+  bottom: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1vw;
+  z-index: 100;
+  pointer-events: none;
+}
+
+#hearts {
+  display: flex;
+  gap: 0.8vw;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  flex-wrap: wrap;
+}
+
+.heart {
+  width: clamp(2rem, 3vw, 3.5rem);
+  height: clamp(2rem, 3vw, 3.5rem);
+  border-radius: 1vw;
+  background: linear-gradient(180deg, #ff768e, #ff3b60);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 6px 12px rgba(255, 70, 120, 0.12),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.12);
+  font-weight: 700;
+  color: #fff;
+  cursor: default;
+}
+
+.heart.lost {
+  opacity: 0.18;
+  transform: scale(0.9);
+  transition: opacity 240ms, transform 240ms;
+}
+
+/* ====================== ANIMAÇÃO HEART SHAKE ====================== */
 @keyframes heart-shake {
-  0%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(5px);}60%{transform:translateX(-3px);}80%{transform:translateX(2px);}100%{transform:translateX(0);}
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
 }
 
-/* Restart button */
-#restart{padding:8px 12px;border-radius:8px;background:#132;color:#dff;border:0;cursor:pointer;}
+/* ====================== RESTART BUTTON ====================== */
+#restart {
+  position: absolute;
+  bottom: 1vh;
+  left: 90%;
+  transform: translateX(-50%);
+  padding: 0.8vh 1vw;
+  border-radius: 0.8vw;
+  background: rgba(161, 7, 226, 0.6);
+  color: #ffffff;
+  border: 0;
+  cursor: pointer;
+  z-index: 9900;
+  display: none;
+}
+
+/* ====================== DEBUGGING (Opcional) ====================== */
+/* Adicione a classe .debug a elementos para visualizar os limites */
+#arena.debug, #enemies.debug, .enemy.debug {
+  outline: 1px dashed rgba(255, 255, 255, 0.1);
+}

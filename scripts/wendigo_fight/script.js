@@ -573,9 +573,11 @@ function gameOver(){
   // overlay message
   overlayContainer.innerHTML = '';
   const msg = document.createElement('div');
+  restartBtn.style.display = 'block';
   msg.className = 'overlay-msg';
   msg.textContent = 'Você morreu — Reinicie para jogar novamente';
   overlayContainer.appendChild(msg);
+
 }
 
 function clearOverlay(){

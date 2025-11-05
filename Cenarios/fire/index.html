@@ -1,14 +1,28 @@
-<!-- File: index.html -->
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Minigame — Boss Teleport (Dark HUD)</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/Mechanics/global.css">
+    <link rel="stylesheet" href="/scripts/wendigo_fight/style.css">
 </head>
-<body>
-  <div id="game">
+
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"></script>
+<script>
+  tsParticles.load("fire-background", {
+    preset: "fire"
+    
+  });
+</script>
+
+<body oncontextmenu="return false">
+
+<div id="fire-background"></div>
+
+<div id="game">
     <!-- Boss bar (top, estilo Dark Souls) -->
     <div id="boss-bar-wrap">
       <div id="boss-name">CHEFE</div>
@@ -31,10 +45,15 @@
     <!-- Player HUD bottom -->
     <div id="player-hud">
       <div id="hearts"></div>
-      <button id="restart">Reiniciar</button>
     </div>
-  </div>
 
-  <script src="/loader.js"></script>
+          <button id="restart">Reiniciar</button>
+
+  </div>
+<script src="/scripts/wendigo_fight/script.js"></script>
+<script src="script.js"></script>
+<script src="/loader.js"></script>
+
 </body>
+
 </html>
