@@ -1,29 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- File: index.html -->
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/Mechanics/global.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Minigame — Boss Teleport (Dark HUD)</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <div id="game">
+    <!-- Boss bar (top, estilo Dark Souls) -->
+    <div id="boss-bar-wrap">
+      <div id="boss-name">CHEFE</div>
+      <div id="boss-bar">
+        <div id="boss-bar-fill"></div>
+      </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"></script>
-<script>
-  tsParticles.load("fire-background", {
-    preset: "fire"
-    
-  });
-</script>
+    <div id="arena">
+      <svg id="trails" width="100%" height="100%"></svg>
+      <div id="enemies"></div>
 
-<body oncontextmenu="return false">
+      <!-- overlay container (messages) -->
+      <div id="overlay-container"></div>
 
-<div id="fire-background"></div>
-<img src="/assets/img/npc-cientist.png">
+      <!-- particle container for circle hits -->
+      <div id="particles"></div>
+    </div>
 
-<script src="script.js"></script>
-<script src="/loader.js"></script>
+    <!-- Player HUD bottom -->
+    <div id="player-hud">
+      <div id="hearts"></div>
+      <button id="restart">Reiniciar</button>
+    </div>
+  </div>
+
+  <script src="/loader.js"></script>
 </body>
-
 </html>

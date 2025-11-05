@@ -1,74 +1,85 @@
 /* File: style.css */
 :root{
-  --bg:#0f1724;
-  --panel:#0b1220;
+  --bg:#071028;
+  --panel:#071426;
+  --boss-red: linear-gradient(90deg,#d93f3f,#b02020);
   --accent:#ff6b35;
-  --danger:#e53935;
-  --hp-green:#2ecc71;
+  --heart-color:#ff4b6e;
 }
-*{box-sizing:border-box; margin:0; padding:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
 html,body,#game{height:100%;}
-body{background:linear-gradient(180deg,#071028 0%, #07121a 100%); color:#e6eef8; display:flex; align-items:center; justify-content:center; padding:20px;}
+body{background:linear-gradient(180deg,#061024 0%, #05121a 100%); display:flex; align-items:center; justify-content:center; padding:20px; color:#e6eef8;}
 
-#game{width:100%; max-width:1200px; height:760px; display:flex; flex-direction:column; gap:10px;}
-#hud{display:flex; gap:16px; align-items:center;}
-#player-hp-wrap, #boss-hp-wrap{display:flex; gap:8px; align-items:center;}
-#player-hp, #boss-hp{width:300px; height:18px; background:#123; border-radius:12px; overflow:hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);}
-#player-hp-bar{height:100%; width:100%; background:linear-gradient(90deg,var(--hp-green), #16a085);}
-#boss-hp-bar{height:100%; width:100%; background:linear-gradient(90deg,#f39c12, #ff6b35);}
+#game{width:100%;max-width:1200px;height:760px;display:flex;flex-direction:column;gap:10px;}
 
-#restart{margin-left:auto; padding:8px 12px; border-radius:8px; background:#132; color:#dff; border:0; cursor:pointer;}
-
-#arena{flex:1; position:relative; background:linear-gradient(180deg,#081025 0%, #091426 100%); border-radius:12px; overflow:hidden; box-shadow: 0 6px 24px rgba(2,6,23,0.8);}
-
-#enemies{position:absolute; inset:0; pointer-events:none;}
-
-/* Inimigo base */
-.enemy {
-  position:absolute;
-  width:120px;
-  height:120px;
-  transform-origin:center;
-  will-change:transform,left,top;
-  pointer-events:auto; /* we'll detect via pointer traces */
+/* Boss bar top */
+#boss-bar-wrap{
+  position:relative;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  pointer-events:none;
 }
-.enemy img { width:100%; height:100%; display:block; user-select:none; pointer-events:none; border-radius:12px; }
-
-.cast-bar {
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  top:-18px;
-  width:80%;
-  height:8px;
-  background:rgba(0,0,0,0.4);
-  border-radius:6px;
-  overflow:hidden;
-}
-.cast-bar .fill { height:100%; width:0%; background:linear-gradient(90deg,#ffd54f,#ff6b35); transition:width 0.08s linear; }
-
-.hp-small {
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  top:-30px;
-  width:60%;
-  height:6px;
+#boss-name{font-size:18px;font-weight:700;letter-spacing:2px;color:#ffd6d6;text-shadow:0 2px 6px rgba(0,0,0,0.6);}
+#boss-bar{
+  width:68%;
+  height:28px;
   background:rgba(0,0,0,0.35);
-  border-radius:6px;
+  border-radius:18px;
   overflow:hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
 }
-.hp-small .fill { height:100%; width:100%; background:linear-gradient(90deg,#a8e063,#56ab2f); transition:width 0.1s linear; }
+#boss-bar-fill{
+  height:100%;
+  width:100%;
+  background: linear-gradient(90deg,#ff7b6b,#c92b2b);
+  transition:width 180ms linear;
+}
 
-/* hit flash */
-.enemy.hit { filter: drop-shadow(0 0 8px rgba(255,80,80,0.9)); transform:scale(0.96) rotate(-6deg); transition:transform 140ms ease; }
+/* Arena */
+#arena{flex:1;position:relative;background:linear-gradient(180deg,#081025 0%, #091426 100%);border-radius:12px;overflow:hidden;box-shadow:0 6px 30px rgba(2,6,23,0.9);}
 
-/* minion smaller */
-.enemy.minion { width:80px; height:80px; }
+/* enemies container */
+#enemies{position:absolute;inset:0;pointer-events:none;}
+.enemy{position:absolute;transform-origin:center;pointer-events:auto;will-change:left,top,transform;user-select:none;}
+.enemy img{width:100%;height:100%;display:block;border-radius:10px;pointer-events:none;}
+.cast-bar{position:absolute;left:50%;transform:translateX(-50%);top:-18px;width:70%;height:8px;background:rgba(0,0,0,0.45);border-radius:6px;overflow:hidden;display:none;}
+.cast-bar .fill{height:100%;width:0;background:linear-gradient(90deg,#ffd54f,#ff6b35);transition:width 0.06s linear;}
+.hp-small{position:absolute;left:50%;transform:translateX(-50%);top:-30px;width:50%;height:6px;background:rgba(0,0,0,0.35);border-radius:6px;overflow:hidden;display:none;}
+.hp-small .fill{height:100%;width:100%;background:linear-gradient(90deg,#a8e063,#56ab2f);transition:width 0.1s linear;}
+.enemy.hit{filter:drop-shadow(0 0 10px rgba(255,80,80,0.95));transform:scale(0.96) rotate(-6deg);transition:transform 120ms ease;}
+.enemy.minion img{border-radius:8px;}
 
-/* trail style */
-#trails path { stroke-width:6; stroke-linecap:round; stroke-linejoin:round; opacity:0.95; fill:none; mix-blend-mode:screen; }
+/* Trails */
+#trails path{stroke-width:6;stroke-linecap:round;stroke-linejoin:round;opacity:0.95;fill:none;mix-blend-mode:screen;}
 
-/* small text overlays */
-#hud span{font-size:13px; opacity:0.9;}
+/* Overlay */
+#overlay-container{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;}
+.overlay-msg{background:rgba(0,0,0,0.7);padding:18px 24px;border-radius:10px;color:#ffd;font-weight:700;pointer-events:auto;}
 
+/* Particles */
+#particles{position:absolute;inset:0;pointer-events:none;}
+.particle{
+  position:absolute;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#fff,#ffbaba);
+  pointer-events:none;will-change:transform,opacity;
+}
+
+/* Player HUD bottom */
+#player-hud{display:flex;align-items:center;justify-content:center;gap:14px;padding-top:6px;}
+#hearts{display:flex;gap:8px;align-items:center;justify-content:center;transform-origin:center;}
+.heart{
+  width:36px;height:36px;border-radius:8px;background:linear-gradient(180deg,#ff768e,#ff3b60);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 12px rgba(255,70,120,0.12), inset 0 -4px 10px rgba(0,0,0,0.12);
+  font-weight:700;color:#fff;cursor:default;
+}
+.heart.lost{opacity:0.18;transform:scale(0.9);transition:opacity 240ms, transform 240ms;}
+
+/* Heart shake */
+@keyframes heart-shake {
+  0%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(5px);}60%{transform:translateX(-3px);}80%{transform:translateX(2px);}100%{transform:translateX(0);}
+}
+
+/* Restart button */
+#restart{padding:8px 12px;border-radius:8px;background:#132;color:#dff;border:0;cursor:pointer;}
