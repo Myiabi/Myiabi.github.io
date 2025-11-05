@@ -1,4 +1,4 @@
-const myStyle = "color: gold; font-size: 16px; font-weight: bold; animation: bounce 0.5s infinite;";
+const myStyle = "color: gold;font-size: 16px; font-weight: bold; animation: bounce 0.5s infinite;";
 
 /**
  * Cria um tooltip flutuante acima de um elemento.

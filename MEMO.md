@@ -8,6 +8,8 @@ e anotar no README MAIN também.
 - Como fazer os outros eventos drags importados se comportarem bem junto com outros códigos?
 - Seria interessante pesquisar diversas fontes
 - Mudar o hud da caixa de dialogo? Poha é mais dificil que pensei
+- No jogo do Wendigo falta função de vencer a batalha
+- No jogo do Ghost falta um botão reset se vencer.
 
 
 
