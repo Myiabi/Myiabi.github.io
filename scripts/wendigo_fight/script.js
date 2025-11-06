@@ -29,7 +29,7 @@ const CONFIG = {
   },
   playerHearts: 6,
   sliceMinSpeed: 0.25,
-  trailLifetime: 1100,   // rastro maior para detecção de círculo
+  trailLifetime: 450,   // rastro maior para detecção de círculo
   hitCooldown: 280,
   circleDamageMultiplier: 2.6
 };
