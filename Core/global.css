@@ -128,13 +128,13 @@ video {
   display: block;
 }
 
-button,
+/* button,
 a {
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
   padding: var(--btn-padding-y) var(--btn-padding-x);
-  font-size: 1rem; /* 1rem segue --fs-base */
+  font-size: 1rem; /* 1rem segue --fs-base *
   border: none;
   border-radius: var(--btn-radius);
   transition: opacity 0.18s ease, transform 0.12s ease;
@@ -143,7 +143,7 @@ a {
 button:hover,
 a:hover {
   opacity: 0.95;
-}
+} */
 
 /* ===================== */
 /* MENU E NAV            */

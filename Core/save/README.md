@@ -1,42 +1,35 @@
-# Sistema Global de Save
+# Sistema de Achievements JS
 
-- Sistema de save simples usando `localStorage`.
-- Suporta variáveis globais do jogo e minigames.
-- Bloqueia automaticamente botões de minigames já vencidos.
+Sistema de achievements para minigames com notificações visuais e efeitos sonoros, usando Proxy para detectar alterações no estado do jogo.
 
-## Estrutura do gameData
+---
 
-- `nomeJogador`: string, nome do jogador.  
-- `nivel`: number, nível atual do jogador.  
-- `moedas`: number, quantidade de moedas.  
-- `progresso`: number, progresso geral do jogo.  
-- `minigameX`: boolean, indica se cada minigame foi vencido.
+## Funcionalidades
 
-_Obs: Novos minigames podem ser adicionados diretamente no objeto `gameData`._
+- Achievements secretos que são desbloqueados automaticamente.
+- Popups animados no canto inferior direito (estilo Steam).
+- Sons reproduzidos **uma vez** ao desbloquear cada achievement.
+- Proxy no `gameState` para detectar alterações automaticamente.
+- Responsivo e fácil de integrar em qualquer minigame baseado em clicks.
 
-## Funções principais
+---
 
-- `salvarJogo()`
-  - Salva o `gameData` no `localStorage`.
-  - Exibe mensagem no console de sucesso ou erro.
+## Modo de Usar
 
-- `carregarJogo()`
-  - Lê os dados salvos do `localStorage`.
-  - Atualiza `gameData`.
-  - Desabilita automaticamente botões de minigames já vencidos.
-  
-- `apagarSave()`
-  - Remove o save do `localStorage`.
-  
-- `venceuMinigame(id)`
-  - Recebe o id do minigame vencido.
-  - Marca como `true` no `gameData`.
-  - Salva automaticamente.
-  - Desabilita o botão correspondente no HTML.
+- proxiedGameState.itemMoeda = true;
 
-## Uso
+ou
 
-- HTML: atribuir **id do botão igual ao nome da variável** do minigame:
+- unlockAchievement('salaSecreta');
 
-  ```html
-  <button id="minigame1" onclick="abrirMinigame(1)">MiniGame 1</button>
+### gameState
+Para Add achievements adicionar no objeto gameState = false e adicionar suas caracacteristicas no secretAchivements.
+
+Objeto que armazena o estado do jogo:
+
+```js
+const gameState = {
+  itemMoeda: false,
+  salaSecreta: false,
+  minigameWon: false
+};

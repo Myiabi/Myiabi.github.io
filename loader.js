@@ -1,10 +1,9 @@
 // loader.js - versão melhorada
 const scripts = [
-  "/core/save/script.js",
+  "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
-  "/core/achievements/script.js",
   "/core/caixa_dialogo/script.js",
   "/core/global.js",
   "/core/modal/script.js",

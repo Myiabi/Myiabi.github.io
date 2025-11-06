@@ -8,7 +8,7 @@ const CONFIG = {
   boss: {
     img: '/assets/img/One-Piece-Anime-PNG-Download-Image.png',    // troque
     size: 140,
-    hp: 2020,
+    hp: 20,
     speed: 0.45,        // px/ms (mais rápido)
     teleportInterval: [1500, 3000],
     castTime: 2800,
@@ -642,7 +642,8 @@ function init(){
 
 // Função chamada automaticamente quando o boss morre
 function onBossDefeated() {
-  console.log("✅ Boss derrotado — adicione aqui sua lógica pós-vitória.");
+console.log("✅ Boss derrotado — adicione aqui sua lógica pós-vitória.");
+unlockAchievement('itemMoeda');
   // Exemplo: tocar som, mostrar botão, mudar tela, etc.
   // Ex: window.location.href = '/next-level.html';
 }
