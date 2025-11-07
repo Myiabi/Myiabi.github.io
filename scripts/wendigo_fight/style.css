@@ -311,3 +311,13 @@ body {
 #arena.debug, #enemies.debug, .enemy.debug {
   outline: 1px dashed rgba(255, 255, 255, 0.1);
 }
+
+@media (orientation: portrait) {
+  body {
+    transform: rotate(-90deg) translateX(-100vh);
+    transform-origin: top left;
+    width: 100vh;
+    height: 100vw;
+    overflow: hidden;
+  }
+}
