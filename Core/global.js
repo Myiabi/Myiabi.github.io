@@ -54,3 +54,52 @@ $(window).smartresize(function(){
 janela . addEventListener ( "contextmenu" , e => e . preventDefault ( ) ) ;  
 
 
+// global.js
+
+(function () {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: #000;
+    color: #fff;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 9999;
+    padding: 2rem;
+    transition: opacity 0.3s ease;
+  `;
+  overlay.textContent = "Por favor, gire o celular para a posição horizontal (paisagem).";
+
+  function checkOrientation() {
+    const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+    if (isPortrait) {
+      if (!document.body.contains(overlay)) document.body.appendChild(overlay);
+    } else {
+      if (document.body.contains(overlay)) overlay.remove();
+    }
+  }
+
+  // Tentativa de travar orientação (quando suportado)
+  async function lockLandscape() {
+    try {
+      if (screen.orientation && screen.orientation.lock) {
+        await screen.orientation.lock("landscape");
+        console.log("🔒 Orientação travada em paisagem");
+      }
+    } catch (err) {
+      console.warn("⚠️ Falha ao travar orientação:", err);
+    }
+  }
+
+  window.addEventListener("orientationchange", checkOrientation);
+  window.addEventListener("resize", checkOrientation);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    checkOrientation();
+    lockLandscape();
+  });
+})();

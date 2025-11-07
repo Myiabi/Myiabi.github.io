@@ -1,4 +1,4 @@
-// fight.js — v14: adiciona botão de restart ao perder e hooks ao vencer
+// fight.js — v15: suporte híbrido (mouse + touch), restart, win/loss hooks
 
 const enemy = document.getElementById("enemy");
 const emoji = document.getElementById("enemy-emoji");
@@ -30,6 +30,11 @@ let hiddenGrowthSinceSeen, hintedFlag, lastGrowth;
 let luaX, luaY, luaRadius;
 let restartButton, endMsg;
 
+/* HYBRID CONTROL (mouse + touch) */
+let isTouchMode = false;
+let targetLuaX = window.innerWidth / 2;
+let targetLuaY = window.innerHeight / 2;
+
 /* INIT */
 function resetGame() {
   growth = 0;
@@ -49,6 +54,8 @@ function resetGame() {
   luaX = window.innerWidth / 2;
   luaY = window.innerHeight / 2;
   luaRadius = lua.offsetWidth / 2;
+  targetLuaX = luaX;
+  targetLuaY = luaY;
 
   enemy.style.opacity = "0";
   if (endMsg) endMsg.remove();
@@ -60,24 +67,49 @@ function resetGame() {
   startTimer();
 }
 
-/* LUA FOLLOW */
+/* LUA FOLLOW (hybrid mouse + touch) */
 function setLuaPos(x, y) {
   luaX = x;
   luaY = y;
   lua.style.left = `${x}px`;
   lua.style.top = `${y}px`;
 }
-window.addEventListener("mousemove", (e) => setLuaPos(e.clientX, e.clientY));
-window.addEventListener("touchmove", (e) => {
-  const t = e.touches[0];
-  if (t) setLuaPos(t.clientX, t.clientY);
-}, { passive: false });
+
+window.addEventListener("mousemove", (e) => {
+  if (isTouchMode) return;
+  targetLuaX = e.clientX;
+  targetLuaY = e.clientY;
+});
+
 window.addEventListener("touchstart", (e) => {
+  isTouchMode = true;
   const t = e.touches[0];
-  if (t) setLuaPos(t.clientX, t.clientY);
+  if (t) {
+    targetLuaX = t.clientX;
+    targetLuaY = t.clientY;
+  }
 }, { passive: false });
+
+window.addEventListener("touchmove", (e) => {
+  isTouchMode = true;
+  const t = e.touches[0];
+  if (t) {
+    targetLuaX = t.clientX;
+    targetLuaY = t.clientY;
+  }
+}, { passive: false });
+
 window.addEventListener("resize", () => { luaRadius = lua.offsetWidth / 2; });
 
+function updateLua(dt) {
+  const lerpFactor = 10 * dt;
+  luaX += (targetLuaX - luaX) * lerpFactor;
+  luaY += (targetLuaY - luaY) * lerpFactor;
+  lua.style.left = `${luaX}px`;
+  lua.style.top = `${luaY}px`;
+}
+
+/* UTILS */
 function normalizeDir() {
   const len = Math.hypot(dir.x, dir.y) || 1;
   dir.x /= len;
@@ -103,7 +135,7 @@ function spawnFlash(x, y, color = "red", size = 100) {
 function teleportEnemy() {
   spawnFlash(pos.x, pos.y, "white", 60);
 
-  // PONTO PARA SOM: coloque aqui (teleportSound)
+  // 🔊 PONTO PARA SOM DO TELEPORTE
   // const teleportSound = new Audio('teleport.mp3'); teleportSound.play();
 
   const w = window.innerWidth, h = window.innerHeight;
@@ -122,12 +154,11 @@ function teleportEnemy() {
   nextRandomTeleport = performance.now() / 1000 + randomInterval(RANDOM_TELEPORT_INTERVAL_MIN, RANDOM_TELEPORT_INTERVAL_MAX);
 }
 
-/* END GAME (WIN / LOSE) */
+/* END GAME */
 function endGame(win) {
   if (gameOver) return;
   gameOver = true;
 
-  // remove elementos anteriores se houver
   if (endMsg) endMsg.remove();
   if (restartButton) restartButton.remove();
 
@@ -148,23 +179,29 @@ function endGame(win) {
     endMsg.textContent = "🌕 Você venceu!";
     document.body.appendChild(endMsg);
 
-    /* 🔧 ESPAÇO PARA LÓGICA DE FINALIZAÇÃO 🔧
-       - Variáveis de progresso
-       - Efeitos sonoros
-       - Redirecionamentos
+    /* 🔧 ESPAÇO PARA FINALIZAÇÃO WIN 🔧
+       - efeitos sonoros
+       - registrar variável
+       - redirecionar ou mostrar tela de créditos
     */
 
   } else {
     endMsg.textContent = "👹 O inimigo venceu!";
     document.body.appendChild(endMsg);
 
-    // botão de restart tipo jogo mobile
+    // botão 🔁 restart
     restartButton = document.createElement("button");
-      Object.assign(restartButton.style, {
+    restartButton.innerHTML = "🔁";
+    Object.assign(restartButton.style, {
       position: "fixed",
       top: "60%",
       left: "50%",
       transform: "translate(-50%, -50%)",
+      fontSize: "2.5rem",
+      background: "rgba(0,0,0,0.6)",
+      color: "#fff",
+      border: "2px solid #fff",
+      borderRadius: "50%",
       width: "70px",
       height: "70px",
       cursor: "pointer",
@@ -190,9 +227,10 @@ function showHintFade() {
   }, HINT_DURATION * 1000);
 }
 
-/* UPDATE FRAME */
+/* UPDATE */
 function update(dt, nowSec) {
   if (gameOver) return;
+
   if (nowSec >= nextRandomTeleport) teleportEnemy();
 
   if (Math.random() < 0.03) {
@@ -255,12 +293,16 @@ function update(dt, nowSec) {
   if (scale > MAX_SCALE) scale = MAX_SCALE;
   const redness = Math.min(Math.max((growth - 50) / 50, 0), 1);
   emoji.style.filter = `drop-shadow(0 0 ${0.5 + redness}vw rgba(255,40,40,${0.3 + redness * 0.6}))`;
+
   enemy.style.transform = `translate(-50%, -50%) translate(${pos.x - window.innerWidth/2}px, ${pos.y - window.innerHeight/2}px) scale(${scale})`;
   growthText.textContent = `${Math.round(growth)}%`;
+
+  updateLua(dt); // 🔹 atualiza posição da “lua”
+
   if (growth >= 100) endGame(false);
 }
 
-/* GAME LOOP */
+/* LOOP */
 function gameLoop(ts) {
   if (!lastTime) lastTime = ts;
   const dt = (ts - lastTime) / 1000;

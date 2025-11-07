@@ -9,14 +9,18 @@ e anotar no README MAIN também.
 - Seria interessante pesquisar diversas fontes
 - ~~No jogo do Wendigo falta função de vencer a batalha~~
 - ~~No jogo do Ghost falta um botão reset se vencer.~~
-- implementar no código de save qualquer mudança nos , modificar o codigo de dialogo pra saber em qual posição de fala o personagem está e dar load no sistema. 
-- Bloquear Rotação de Tela em mobile não funcionando... Tentar outro metodo
+- PESCARIA
+
 
 
 
 # Corrigir
 - ~~Portrait do dialogo ainda não sumindo se clicar MUITO rápido~~
 - ~~Achievement não abria em outros códigos~~ 
+- ~~Bloquear Rotação de Tela em mobile não funcionando... Tentar outro metodo~~
+- ~~A batalha contra o Ghost não funciona muito bem com touch, já que é uma area ativa só com mouse, seria interessante fazer uma versão só pra mobile onde a area só apareça com o dedo seguando a tela.~~
+- implementar no código de save qualquer mudança nos , modificar o codigo de dialogo pra saber em qual posição de fala o personagem está e dar load no sistema. 
+
 
 # Ideias
 
