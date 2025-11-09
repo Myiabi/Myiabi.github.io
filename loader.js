@@ -1,5 +1,7 @@
 // loader.js - versão melhorada
 const scripts = [
+  "/core/save/script.js",
+  "/devmod.js",
   "/core/global.js",
   "/core/achievements/script.js",
   "/core/loading/script.js",

@@ -1,30 +1,46 @@
 // ---------------- Personagens ----------------
 const personagens = {
-  personagem1: {
+  aiko: {
     nome: "Aiko",
     expressoes: {
       neutra: "url('/assets/img/npc-cientist.png')",
       sorrindo: "url('/assets/img/npc-cientist2.png')",
       triste: "url('/assets/img/npc-cientist.png')"
     },
-    falas: [
-      { texto: "Ah, veja ali na minha mesa...", expressao: "neutra" },
-      { texto: "Tem algo que pode te interessar.", expressao: "sorrindo", emote: "❗" },
-      { texto: "Mas cuidado com o que você tocar!", expressao: "triste", emote: "🤔" }
-    ]
+    falas: {
+      introducao: [
+        { texto: "Ah, veja ali na minha mesa...", expressao: "neutra" },
+        { texto: "Tem algo que pode te interessar.", expressao: "sorrindo", emote: "❗" },
+        { texto: "Mas cuidado com o que você tocar!", expressao: "triste", emote: "🤔" }
+      ],
+      depoisDoMinigame: [
+        { texto: "Então você conseguiu vencer, hein?", expressao: "sorrindo" },
+        { texto: "Parece que você está melhorando!", expressao: "neutra", emote: "✨" }
+      ]
+    }
   },
-  personagem2: {
-    nome: "Aiko2",
+
+  czar: {
+    nome: "Czar",
     expressoes: {
-      neutra: "url('https://i.imgur.com/Bb5rMtC.png')",
-      serio: "url('https://i.imgur.com/8z1nSTZ.png')"
+      normal: "url('/assets/img/npc-czar.png')",
+      pensativo: "url('/assets/img/npc-czar2.png')"
     },
-    falas: [
-      { texto: "Ela sempre fala essas coisas...", expressao: "neutra" },
-      { texto: "Mas talvez dessa vez seja sério.", expressao: "serio", emote: "❓" }
-    ]
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      depoisDoTreinamento: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
   }
 };
+
+window.personagens = personagens;
+
 
 // ---------------- Variáveis globais ----------------
 let atual = null;
@@ -66,21 +82,16 @@ function init() {
 
   function showEmote(emote, duration = 1500) {
     const rect = portrait.getBoundingClientRect();
-    const offsetX = -110;   // padrão: centralizado horizontalmente
-    const offsetY = -20; // padrão: 10px acima do portrait
+    const offsetX = -110;
+    const offsetY = -20;
 
     emoteDiv.innerHTML = emote;
     emoteDiv.style.left = rect.left + rect.width / 2 - emoteDiv.offsetWidth / 2 + offsetX + "px";
     emoteDiv.style.top = rect.top - emoteDiv.offsetHeight + offsetY + "px";
     emoteDiv.style.opacity = 1;
 
-    setTimeout(() => emoteDiv.style.opacity = 0, duration);
-}
-
-  // ---------------- Botão para abrir diálogo ----------------
-  btn.addEventListener("pointerdown", () => {
-    abrirDialogo(personagens.personagem1);
-  });
+    setTimeout(() => (emoteDiv.style.opacity = 0), duration);
+  }
 
   // ---------------- Abrir diálogo ----------------
   function abrirDialogo(personagem) {
@@ -90,7 +101,16 @@ function init() {
     indiceFala = 0;
     nameTag.textContent = atual.nome;
 
-    const falaInicial = atual.falas[0];
+    // pega o cenário salvo no gameData (ou "introducao" se não existir)
+    const cenarioAtual = (window.gameData?.dialogos?.[atual.nome.toLowerCase()] || "introducao");
+    const falasAtuais = atual.falas[cenarioAtual];
+
+    if (!falasAtuais) {
+      console.error(`❌ Cenário "${cenarioAtual}" não encontrado para ${atual.nome}.`);
+      return;
+    }
+
+    const falaInicial = falasAtuais[0];
     const expressaoInicial = atual.expressoes[falaInicial.expressao];
     portrait.style.backgroundImage = expressaoInicial || "";
 
@@ -109,19 +129,22 @@ function init() {
   dialogBox.addEventListener("pointerdown", () => {
     if (!atual) return;
 
+    const cenarioAtual = (window.gameData?.dialogos?.[atual.nome.toLowerCase()] || "introducao");
+    const falasAtuais = atual.falas[cenarioAtual];
+
     if (digitando) {
       clearInterval(intervaloTexto);
-      text.textContent = atual.falas[indiceFala].texto;
+      text.textContent = falasAtuais[indiceFala].texto;
       digitando = false;
-      if (indiceFala < atual.falas.length - 1) indicator.style.display = "block";
+      if (indiceFala < falasAtuais.length - 1) indicator.style.display = "block";
       return;
     }
 
-    if (indiceFala < atual.falas.length - 1) {
+    if (indiceFala < falasAtuais.length - 1) {
       indiceFala++;
       indicator.style.display = "none";
 
-      const novaFala = atual.falas[indiceFala];
+      const novaFala = falasAtuais[indiceFala];
       const novaExpressao = atual.expressoes[novaFala.expressao];
 
       if (novaExpressao) {
@@ -184,6 +207,19 @@ function init() {
     text.textContent = "";
     indicator.style.display = "none";
   }
+
+  // ---------------- Função global pra trocar cenário ----------------
+  window.mudarCenario = function(personagem, novoCenario) {
+    if (!window.gameData.dialogos) window.gameData.dialogos = {};
+    window.gameData.dialogos[personagem.nome.toLowerCase()] = novoCenario;
+    if (window.salvarJogo) window.salvarJogo();
+    console.log(`📖 ${personagem.nome} agora está no cenário: ${novoCenario}`);
+  };
+
+  // botão pra teste
+  btn.addEventListener("pointerdown", () => {
+    abrirDialogo(personagens.aiko);
+  });
 }
 
 // ---------------- Inicialização ----------------

@@ -20,6 +20,7 @@ e anotar no README MAIN também.
 - ~~Bloquear Rotação de Tela em mobile não funcionando... Tentar outro metodo~~
 - ~~A batalha contra o Ghost não funciona muito bem com touch, já que é uma area ativa só com mouse, seria interessante fazer uma versão só pra mobile onde a area só apareça com o dedo seguando a tela.~~
 - implementar no código de save qualquer mudança nos , modificar o codigo de dialogo pra saber em qual posição de fala o personagem está e dar load no sistema. 
+- Colocar impedir rolagem e seleção no CSS global
 
 
 # Ideias

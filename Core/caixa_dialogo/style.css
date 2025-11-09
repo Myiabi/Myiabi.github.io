@@ -2,7 +2,6 @@
  touch-action: manipulation;
   user-select: none;         /* bloqueia seleção de texto */
   -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
-    overflow: hidden; /* remove barras de rolagem */
 }
 
 body {
@@ -127,55 +126,5 @@ button:hover {
   opacity: 1;
 }
 
-/* Media queries para telas menores */
-@media (max-width: 768px) {
-  #portrait {
-    width: 60vw;
-    height: 50vh;
-  }
-  .dialog-box {
-    width: 90%;
-    padding: 2vh 3vw;
-  }
-  .name {
-    font-size: 4vw;
-  }
-  .text {
-    font-size: 3.5vw;
-  }
-  .next-indicator {
-    font-size: 4vw;
-  }
-}
 
-@media (max-width: 480px) {
-  #portrait {
-    width: 70vw;
-    height: 40vh;
-  }
-  .dialog-box {
-    width: 95%;
-    padding: 2vh 3vw;
-  }
-  .name {
-    font-size: 5vw;
-  }
-  .text {
-    font-size: 4vw;
-  }
-  .next-indicator {
-    font-size: 5vw;
-  }
-}
-
-
-@media (orientation: portrait) {
-  body {
-    transform: rotate(-90deg) translateX(-100vh);
-    transform-origin: top left;
-    width: 100vh;
-    height: 100vw;
-    overflow: hidden;
-  }
-}
 

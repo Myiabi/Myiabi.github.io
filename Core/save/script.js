@@ -1,5 +1,5 @@
 // ======================================================
-// SISTEMA GLOBAL DE SAVE + ACHIEVEMENTS (FUSIONADO)
+// SISTEMA GLOBAL DE SAVE + ACHIEVEMENTS + VISUAL STATE
 // ======================================================
 
 // ---------------------------
@@ -10,6 +10,19 @@ const defaultData = {
   salaSecreta: false,
   minigameWon: false,
 
+  // 🆕 Variáveis gerais do jogo
+  dialogos: {
+    aiko: "introducao",
+    czar: "inicio"
+  },
+
+  // 🆕 Controle visual de elementos (exemplo)
+  visualState: {
+    npc1Visivel: true,
+    portaAberta: false,
+    bossDerrotado: false,
+  },
+
   // achievements já desbloqueados (persistente)
   unlockedAchievements: {}
 };
@@ -19,7 +32,6 @@ const SAVE_KEY = "meuSaveDoJogo";
 // ---------------------------
 // 💾 FUNÇÕES DE SAVE
 // ---------------------------
-
 function salvarJogo() {
   try {
     localStorage.setItem(SAVE_KEY, JSON.stringify(gameData));
@@ -60,8 +72,6 @@ let gameData;
 // ---------------------------
 // 🏆 SISTEMA DE ACHIEVEMENTS
 // ---------------------------
-
-// ✅ cria container global
 let achievementsContainer = document.getElementById('achievements-container');
 if (!achievementsContainer) {
   achievementsContainer = document.createElement('div');
@@ -80,10 +90,8 @@ if (!achievementsContainer) {
   });
 }
 
-// 🔊 som de conquista
 const audioVitoria = new Audio("/assets/sounds/efeitos/whooshfogo.mp3");
 
-// ✅ Função popup visual
 function showAchievement({ title, desc, iconUrl }) {
   const ach = document.createElement('div');
   ach.className = 'achievement';
@@ -94,7 +102,6 @@ function showAchievement({ title, desc, iconUrl }) {
       <div class="desc">${desc}</div>
     </div>
   `;
-
   Object.assign(ach.style, {
     display: 'flex',
     alignItems: 'center',
@@ -114,7 +121,6 @@ function showAchievement({ title, desc, iconUrl }) {
     transition: 'transform 0.4s ease, opacity 0.4s ease',
     pointerEvents: 'auto',
   });
-
   const img = ach.querySelector('img');
   Object.assign(img.style, {
     width: '48px',
@@ -123,14 +129,12 @@ function showAchievement({ title, desc, iconUrl }) {
     borderRadius: '8px',
     flexShrink: '0',
   });
-
   const text = ach.querySelector('.text');
   Object.assign(text.style, {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
   });
-
   const titleEl = ach.querySelector('.title');
   Object.assign(titleEl.style, {
     fontWeight: '700',
@@ -139,7 +143,6 @@ function showAchievement({ title, desc, iconUrl }) {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   });
-
   const descEl = ach.querySelector('.desc');
   Object.assign(descEl.style, {
     fontSize: '0.85rem',
@@ -148,19 +151,13 @@ function showAchievement({ title, desc, iconUrl }) {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   });
-
   achievementsContainer.appendChild(ach);
-
-  // toca o som
   audioVitoria.currentTime = 0;
   audioVitoria.play().catch(() => {});
-
-  // animação
   setTimeout(() => {
     ach.style.transform = 'translateY(0)';
     ach.style.opacity = '1';
   }, 50);
-
   setTimeout(() => {
     ach.style.transform = 'translateY(120%)';
     ach.style.opacity = '0';
@@ -168,48 +165,73 @@ function showAchievement({ title, desc, iconUrl }) {
   }, 3000);
 }
 
-// ---------------------------
-// 🎯 LISTA DE ACHIEVEMENTS
-// ---------------------------
 const secretAchievements = [
-  {
-    id: 'itemMoeda',
-    title: 'Tesouro!',
-    desc: 'Você pegou a moeda!',
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png',
-    unlocked: false,
-    condition: gs => gs.itemMoeda
-  },
-  {
-    id: 'salaSecreta',
-    title: 'Segredo Revelado!',
-    desc: 'Você descobriu a sala secreta!',
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png',
-    unlocked: false,
-    condition: gs => gs.salaSecreta
-  },
-  {
-    id: 'minigameWon',
-    title: 'Campeão!',
-    desc: 'Você venceu o minigame!',
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png',
-    unlocked: false,
-    condition: gs => gs.minigameWon
-  }
+  { id: 'itemMoeda', title: 'Tesouro!', desc: 'Você pegou a moeda!', iconUrl: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png', unlocked: false, condition: gs => gs.itemMoeda },
+  { id: 'salaSecreta', title: 'Segredo Revelado!', desc: 'Você descobriu a sala secreta!', iconUrl: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png', unlocked: false, condition: gs => gs.salaSecreta },
+  { id: 'minigameWon', title: 'Campeão!', desc: 'Você venceu o minigame!', iconUrl: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png', unlocked: false, condition: gs => gs.minigameWon }
 ];
+
+// ---------------------------
+// 🧱 FUNÇÃO DE APLICAÇÃO VISUAL (NOVO)
+// ---------------------------
+function aplicarMudancaVisual(prop, value) {
+  const npc1 = document.getElementById("npc1");
+  const porta = document.getElementById("porta");
+  const boss = document.getElementById("boss");
+
+  switch (prop) {
+    case "npc1Visivel":
+      if (npc1) npc1.style.display = value ? "block" : "none";
+      break;
+
+    case "portaAberta":
+      if (porta) porta.style.transform = value ? "rotateY(90deg)" : "rotateY(0deg)";
+      break;
+
+    case "bossDerrotado":
+      if (boss) boss.style.filter = value ? "grayscale(1)" : "none";
+      break;
+  }
+}
+
+// ---------------------------
+// 🧠 FUNÇÃO RECURSIVA DE PROXY (atualizada)
+// ---------------------------
+function criarProxy(obj, caminho = []) {
+  return new Proxy(obj, {
+    set(target, prop, value) {
+      if (target[prop] === value) return true;
+
+      const fullPath = [...caminho, prop];
+      target[prop] = (value && typeof value === "object" && !Array.isArray(value))
+        ? criarProxy(value, fullPath)
+        : value;
+
+      // auto-save e checagem de achievements
+      salvarJogo();
+      checkAchievements(gameData);
+
+      // 🆕 aplica mudança visual automaticamente se estiver em visualState
+      if (fullPath[0] === "visualState") {
+        aplicarMudancaVisual(prop, value);
+      }
+
+      return true;
+    },
+    get(target, prop) {
+      const value = target[prop];
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        return criarProxy(value, [...caminho, prop]);
+      }
+      return value;
+    }
+  });
+}
 
 // ---------------------------
 // 🔍 PROXY COM AUTO-SAVE
 // ---------------------------
-gameData = new Proxy(loadedData, {
-  set(target, prop, value) {
-    if (target[prop] === value) return true;
-    target[prop] = value;
-    salvarJogo(); // auto-save em qualquer mudança
-    checkAchievements(gameData);
-    return true;
-  }
-});
+gameData = criarProxy(loadedData);
 
 // ---------------------------
 // 🧩 VERIFICAÇÃO DE ACHIEVEMENTS
@@ -221,26 +243,26 @@ function checkAchievements(gs) {
       ach.unlocked = true;
       gs.unlockedAchievements[ach.id] = true;
       salvarJogo();
-      showAchievement({
-        title: ach.title,
-        desc: ach.desc,
-        iconUrl: ach.iconUrl
-      });
+      showAchievement({ title: ach.title, desc: ach.desc, iconUrl: ach.iconUrl });
     }
   });
 }
 
 // ---------------------------
-// 🔁 SINCRONIZAÇÃO INICIAL
+// 🔁 SINCRONIZAÇÃO INICIAL (reaplica visuais)
 // ---------------------------
-(function syncAchievementsFromSave() {
+(function syncFromSave() {
   gameData.unlockedAchievements = gameData.unlockedAchievements || {};
-
   secretAchievements.forEach(ach => {
-    if (gameData.unlockedAchievements[ach.id]) {
-      ach.unlocked = true;
-    }
+    if (gameData.unlockedAchievements[ach.id]) ach.unlocked = true;
   });
+
+  // 🆕 aplica o estado visual salvo
+  if (gameData.visualState) {
+    Object.entries(gameData.visualState).forEach(([prop, value]) => {
+      aplicarMudancaVisual(prop, value);
+    });
+  }
 })();
 
 // ---------------------------
@@ -265,3 +287,4 @@ window.unlockAchievement = unlockAchievement;
 // ======================================================
 // FIM DO SISTEMA
 // ======================================================
+
