@@ -88,3 +88,13 @@ html,body{
   display: none;
   z-index: 1000;
 }
+
+@media (orientation: portrait) {
+  body {
+    transform: rotate(-90deg) translateX(-100vh);
+    transform-origin: top left;
+    width: 100vh;
+    height: 100vw;
+    overflow: hidden;
+  }
+}

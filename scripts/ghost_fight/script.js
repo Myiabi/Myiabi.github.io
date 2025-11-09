@@ -1,4 +1,4 @@
-// fight.js — v15: suporte híbrido (mouse + touch), restart, win/loss hooks
+// fight.js — v18: delay de reação + anti-parado (teleporta se travar)
 
 const enemy = document.getElementById("enemy");
 const emoji = document.getElementById("enemy-emoji");
@@ -15,20 +15,24 @@ const RANDOM_TELEPORT_INTERVAL_MIN = 9;
 const RANDOM_TELEPORT_INTERVAL_MAX = 18;
 const FOCUS_RATIO = 1.0;
 const EDGE_BUFFER = 60;
-const BASE_SPEED = 6;
-const MAX_SPEED = 30;
-const ESCAPE_STRENGTH = 4.0;
-const DRIBBLE_INTENSITY = 4.5;
+const BASE_SPEED = 5;
+const MAX_SPEED = 18;
+const ESCAPE_STRENGTH = 2.0;
+const DRIBBLE_INTENSITY = 3.2;
 const MAX_SCALE = 2.5;
 const HINT_THRESHOLD = 20;
 const HINT_OPACITY = 0.3;
 const HINT_DURATION = 2.0;
+const REACTION_DELAY = 0.8;
+const IDLE_TELEPORT_TIME = 1.5; // segundos parado antes de teleportar
 
 /* STATE */
 let growth, timer, pos, dir, speed, lastTime, focusAccum, gameOver, revealed, nextRandomTeleport;
 let hiddenGrowthSinceSeen, hintedFlag, lastGrowth;
 let luaX, luaY, luaRadius;
 let restartButton, endMsg;
+let idleTime = 0;
+let lastPos = { x: 0, y: 0 };
 
 /* HYBRID CONTROL (mouse + touch) */
 let isTouchMode = false;
@@ -50,6 +54,8 @@ function resetGame() {
   hiddenGrowthSinceSeen = 0;
   hintedFlag = false;
   lastGrowth = growth;
+  idleTime = 0;
+  lastPos = { ...pos };
 
   luaX = window.innerWidth / 2;
   luaY = window.innerHeight / 2;
@@ -67,14 +73,7 @@ function resetGame() {
   startTimer();
 }
 
-/* LUA FOLLOW (hybrid mouse + touch) */
-function setLuaPos(x, y) {
-  luaX = x;
-  luaY = y;
-  lua.style.left = `${x}px`;
-  lua.style.top = `${y}px`;
-}
-
+/* LUA FOLLOW (mouse + touch) */
 window.addEventListener("mousemove", (e) => {
   if (isTouchMode) return;
   targetLuaX = e.clientX;
@@ -134,14 +133,14 @@ function spawnFlash(x, y, color = "red", size = 100) {
 /* TELEPORT */
 function teleportEnemy() {
   spawnFlash(pos.x, pos.y, "white", 60);
-
-  // 🔊 PONTO PARA SOM DO TELEPORTE
+  // 🔊 SOM DO TELEPORTE (adiciona aqui)
   // const teleportSound = new Audio('teleport.mp3'); teleportSound.play();
 
   const w = window.innerWidth, h = window.innerHeight;
   pos.x = EDGE_BUFFER + Math.random() * (w - 2 * EDGE_BUFFER);
   pos.y = EDGE_BUFFER + Math.random() * (h - 2 * EDGE_BUFFER);
-  dir.x = Math.random() * 2 - 1; dir.y = Math.random() * 2 - 1;
+  dir.x = Math.random() * 2 - 1;
+  dir.y = Math.random() * 2 - 1;
   normalizeDir();
   focusAccum = 0;
   speed = BASE_SPEED;
@@ -149,6 +148,8 @@ function teleportEnemy() {
   hiddenGrowthSinceSeen = 0;
   hintedFlag = false;
   lastGrowth = growth;
+  idleTime = 0;
+  lastPos = { ...pos };
 
   spawnFlash(pos.x, pos.y, "red", 120);
   nextRandomTeleport = performance.now() / 1000 + randomInterval(RANDOM_TELEPORT_INTERVAL_MIN, RANDOM_TELEPORT_INTERVAL_MAX);
@@ -178,18 +179,10 @@ function endGame(win) {
   if (win) {
     endMsg.textContent = "🌕 Você venceu!";
     document.body.appendChild(endMsg);
-
-    /* 🔧 ESPAÇO PARA FINALIZAÇÃO WIN 🔧
-       - efeitos sonoros
-       - registrar variável
-       - redirecionar ou mostrar tela de créditos
-    */
-
   } else {
     endMsg.textContent = "👹 O inimigo venceu!";
     document.body.appendChild(endMsg);
 
-    // botão 🔁 restart
     restartButton = document.createElement("button");
     restartButton.innerHTML = "🔁";
     Object.assign(restartButton.style, {
@@ -244,9 +237,10 @@ function update(dt, nowSec) {
 
   if (pos.x < EDGE_BUFFER || pos.x > window.innerWidth - EDGE_BUFFER ||
       pos.y < EDGE_BUFFER || pos.y > window.innerHeight - EDGE_BUFFER) {
-    dir.x = Math.random() * 2 - 1; dir.y = Math.random() * 2 - 1;
+    dir.x = Math.random() * 2 - 1;
+    dir.y = Math.random() * 2 - 1;
     normalizeDir();
-    speed = Math.min(speed * 1.4, MAX_SPEED);
+    speed = Math.min(speed * 1.2, MAX_SPEED);
     pos.x = Math.min(Math.max(pos.x, EDGE_BUFFER + 10), window.innerWidth - EDGE_BUFFER - 10);
     pos.y = Math.min(Math.max(pos.y, EDGE_BUFFER + 10), window.innerHeight - EDGE_BUFFER - 10);
   }
@@ -254,7 +248,6 @@ function update(dt, nowSec) {
   const dx = pos.x - luaX, dy = pos.y - luaY;
   const dist = Math.hypot(dx, dy);
   const inside = dist < luaRadius * FOCUS_RATIO;
-
   const growthDelta = growth - (lastGrowth || growth);
   lastGrowth = growth;
 
@@ -268,13 +261,23 @@ function update(dt, nowSec) {
     focusAccum += dt;
     growth -= REGRESS_RATE_WHEN_REVEALED * dt;
     growth = Math.max(growth, 0);
-    speed = Math.min(BASE_SPEED * Math.pow(1.8, focusAccum), MAX_SPEED);
-    const angle = Math.atan2(dy, dx);
-    const evadeAngle = angle + (Math.random() - 0.5) * DRIBBLE_INTENSITY;
-    dir.x = Math.cos(evadeAngle); dir.y = Math.sin(evadeAngle);
-    dir.x += (dx / (dist || 1)) * ESCAPE_STRENGTH * dt * 3;
-    dir.y += (dy / (dist || 1)) * ESCAPE_STRENGTH * dt * 3;
-    normalizeDir();
+
+    if (focusAccum < REACTION_DELAY) {
+      dir.x += (Math.random() - 0.5) * 0.3;
+      dir.y += (Math.random() - 0.5) * 0.3;
+      normalizeDir();
+      speed = BASE_SPEED * 0.6;
+    } else {
+      const intensityFactor = Math.min((focusAccum - REACTION_DELAY) / 2, 1);
+      speed = Math.min(BASE_SPEED + intensityFactor * 8, MAX_SPEED);
+      const angle = Math.atan2(dy, dx);
+      const evadeAngle = angle + (Math.random() - 0.5) * (DRIBBLE_INTENSITY * intensityFactor);
+      dir.x = Math.cos(evadeAngle);
+      dir.y = Math.sin(evadeAngle);
+      dir.x += (dx / (dist || 1)) * ESCAPE_STRENGTH * 0.15 * dt;
+      dir.y += (dy / (dist || 1)) * ESCAPE_STRENGTH * 0.15 * dt;
+      normalizeDir();
+    }
 
     if (focusAccum >= TELEPORT_AFTER_FOCUS) teleportEnemy();
   } else {
@@ -287,18 +290,34 @@ function update(dt, nowSec) {
     if (hiddenGrowthSinceSeen >= HINT_THRESHOLD && !hintedFlag) showHintFade();
   }
 
-  if (!revealed && !hintedFlag) enemy.style.opacity = "0";
+  // visibilidade final
+  if (revealed) enemy.style.opacity = "1";
+  else if (!hintedFlag) enemy.style.opacity = "0";
 
+  // aparência
   let scale = 1 + growth / 100;
   if (scale > MAX_SCALE) scale = MAX_SCALE;
   const redness = Math.min(Math.max((growth - 50) / 50, 0), 1);
   emoji.style.filter = `drop-shadow(0 0 ${0.5 + redness}vw rgba(255,40,40,${0.3 + redness * 0.6}))`;
 
-  enemy.style.transform = `translate(-50%, -50%) translate(${pos.x - window.innerWidth/2}px, ${pos.y - window.innerHeight/2}px) scale(${scale})`;
+  enemy.style.transform = `translate(-50%, -50%) translate(${pos.x - window.innerWidth / 2}px, ${pos.y - window.innerHeight / 2}px) scale(${scale})`;
   growthText.textContent = `${Math.round(growth)}%`;
 
-  updateLua(dt); // 🔹 atualiza posição da “lua”
+  // 🧠 Anti-parado: teleporta se ficar travado
+  const movedDist = Math.hypot(pos.x - lastPos.x, pos.y - lastPos.y);
+  if (movedDist < 1) {
+    idleTime += dt;
+    if (idleTime >= IDLE_TELEPORT_TIME) {
+      teleportEnemy();
+      idleTime = 0;
+    }
+  } else {
+    idleTime = 0;
+    lastPos.x = pos.x;
+    lastPos.y = pos.y;
+  }
 
+  updateLua(dt);
   if (growth >= 100) endGame(false);
 }
 

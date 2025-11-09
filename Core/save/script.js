@@ -87,7 +87,32 @@ if (!achievementsContainer) {
     gap: '0.5rem',
     zIndex: '9999999',
     pointerEvents: 'none',
+    transformOrigin: 'top left',
+    transition: 'transform 0.3s ease',
   });
+
+  // 🌀 Faz o achievements girar junto com o resto do jogo
+  function aplicarRotacaoAchievements() {
+    const portrait = window.matchMedia("(orientation: portrait)").matches;
+    if (portrait) {
+      achievementsContainer.style.transform =
+        "rotate(-90deg) translate(-30vh, 75vw)";
+      achievementsContainer.style.bottom = "auto";
+      achievementsContainer.style.right = "auto";
+      achievementsContainer.style.left = "1rem";
+      achievementsContainer.style.top = "1rem";
+    } else {
+      achievementsContainer.style.transform = "none";
+      achievementsContainer.style.left = "auto";
+      achievementsContainer.style.top = "auto";
+      achievementsContainer.style.bottom = "1rem";
+      achievementsContainer.style.right = "1rem";
+    }
+  }
+
+  window.addEventListener("orientationchange", aplicarRotacaoAchievements);
+  window.addEventListener("resize", aplicarRotacaoAchievements);
+  aplicarRotacaoAchievements();
 }
 
 const audioVitoria = new Audio("/assets/sounds/efeitos/whooshfogo.mp3");
@@ -287,4 +312,3 @@ window.unlockAchievement = unlockAchievement;
 // ======================================================
 // FIM DO SISTEMA
 // ======================================================
-

@@ -53,6 +53,10 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+   user-select: none;
+  -webkit-user-drag: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* desative seleção e arraste apenas em elementos específicos quando necessário */
@@ -62,22 +66,9 @@ body {
   touch-action: none;
   -ms-touch-action: none;
   overflow: hidden;
+  font-size: var(--fs-base);
 }
 
-.virado {
-  /* Quando a classe for aplicada, o JS irá ajustar a transform/posicionamento
-     para manter a UI em landscape mesmo quando o dispositivo estiver em portrait.
-     Aqui apenas preparamos a geometria (tamanho e origem). */
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform-origin: center center;
-  /* largura = altura da viewport para preencher corretamente ao rotacionar */
-  width: 100vh;
-  height: 100vw;
-  overflow: hidden;
-  /* não definimos 'transform' aqui; o JS aplicará translate(...) + rotate(...) com o sinal correto */
-}
 
 /* ===================== */
 /* VARIÁVEIS E TIPOGRAFIA */
@@ -102,14 +93,6 @@ body {
   --btn-padding-x: 1.1rem;
 }
 
-html {
-  font-size: var(--fs-base);
-  scroll-behavior: smooth;
-}
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 /* ===================== */
 /* CONTAINERS E LAYOUT   */

@@ -1,14 +1,14 @@
 // loader.js - versão melhorada
 const scripts = [
+  "/core/global.js",
   "/core/save/script.js",
   "/devmod.js",
-  "/core/global.js",
   "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
-  "/core/caixa_dialogo/script.js",
   "/core/modal/script.js",
+  "/core/caixa_dialogo/script.js"
 ];
 
 // Garante de forma idempotente que o <body> terá oncontextmenu="return false;"

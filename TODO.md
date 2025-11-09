@@ -11,6 +11,10 @@
 
 Minigames
 
-- [] Pescaria
-- [] Make you own 
+- [] Cadeado
+- [] Wendigo Fight
+- [] Servir mesas
+- [] Ordem das Estátuas
 - [] Ghost Fight
+- [] Pescaria
+- [] Make you own
