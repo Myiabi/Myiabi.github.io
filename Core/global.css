@@ -57,6 +57,8 @@
   -webkit-user-drag: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+
 }
 
 /* desative seleção e arraste apenas em elementos específicos quando necessário */
@@ -65,8 +67,9 @@ body {
   /* Desativa gestos padrão (pan/zoom) — note que isto afeta acessibilidade: teste em vários dispositivos */
   touch-action: none;
   -ms-touch-action: none;
-  overflow: hidden;
   font-size: var(--fs-base);
+  width: 100vw;
+  height: 100vh;
 }
 
 

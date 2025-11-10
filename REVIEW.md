@@ -12,5 +12,5 @@
 ## Minigames
 
 - Cadeado
-- ~~Organizar mesa~~
+- Organizar mesa
 - Puzzle Estátuas

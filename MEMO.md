@@ -19,8 +19,11 @@ e anotar no README MAIN também.
 - ~~Achievement não abria em outros códigos~~ 
 - ~~Bloquear Rotação de Tela em mobile não funcionando... Tentar outro metodo~~
 - ~~A batalha contra o Ghost não funciona muito bem com touch, já que é uma area ativa só com mouse, seria interessante fazer uma versão só pra mobile onde a area só apareça com o dedo seguando a tela.~~
-- implementar no código de save qualquer mudança nos , modificar o codigo de dialogo pra saber em qual posição de fala o personagem está e dar load no sistema. 
-- Colocar impedir rolagem e seleção no CSS global
+- ~~implementar no código de save qualquer mudança nos , modificar o codigo de dialogo pra saber em qual posição de fala o personagem está e dar load no sistema.~~ 
+- ~~Colocar impedir rolagem e seleção no CSS global~~
+- Ainda não consegui solução pra rotação de tela
+- Letras pequenas no Mobile
+
 
 
 # Ideias
@@ -29,3 +32,4 @@ e anotar no README MAIN também.
 - ~~O artefato da clarividencia vai fazer o seguinte: Revelar invisivel, ler mentes (que é aparecer o popup)~~
 - ~~Batalha com Wendingo estilo fruit ninja.~~
 - ~~Batalha com fantasma usando luz que impede dele ficar mais forte.~~
+- Pedras no Menu drag viram droplets

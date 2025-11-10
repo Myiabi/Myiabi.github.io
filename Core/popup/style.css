@@ -22,3 +22,13 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(1px); }
 }
+
+@media (orientation: portrait) {
+  body {
+    transform: rotate(-90deg) translateX(-100vh);
+    transform-origin: top left;
+    width: 100vh;
+    height: 100vw;
+    overflow: hidden;
+  }
+}
