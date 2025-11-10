@@ -9,7 +9,7 @@ const personagens = {
     },
     falas: {
       introducao: [
-        { texto: "Ah, veja ali na minha mesa...", expressao: "neutra" },
+        { texto: "Ah, veja ali na minha mesa...Ah, veja ali na minha mesa...", expressao: "neutra" },
         { texto: "Tem algo que pode te interessar.", expressao: "sorrindo", emote: "❗" },
         { texto: "Mas cuidado com o que você tocar!", expressao: "triste", emote: "🤔" }
       ],
