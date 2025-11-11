@@ -18,3 +18,5 @@ Minigames
 - [] Ghost Fight
 - [] Pescaria
 - [] Make you own
+- [] Lily Flower
+- [] Limpar Templo
