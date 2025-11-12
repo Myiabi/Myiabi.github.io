@@ -23,6 +23,7 @@ e anotar no README MAIN também.
 - ~~Colocar impedir rolagem e seleção no CSS global~~
 - Ainda não consegui solução pra rotação de tela
 - Letras pequenas no Mobile
+- Criar função global pro dialogo box
 
 
 
