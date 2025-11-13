@@ -2,6 +2,8 @@
 const personagens = {
   aiko: {
     nome: "Aiko",
+    lado: "direita",
+    fonte: "'Wild Words', sans-serif",
     expressoes: {
       neutra: "url('/assets/img/npc-cientist.png')",
       sorrindo: "url('/assets/img/npc-cientist2.png')",
@@ -9,7 +11,7 @@ const personagens = {
     },
     falas: {
       introducao: [
-        { texto: "Ah, veja ali na minha mesa...Ah, veja ali na minha mesa...", expressao: "neutra" },
+        { texto: "Ah, veja ali na minha mesa...", expressao: "neutra" },
         { texto: "Tem algo que pode te interessar.", expressao: "sorrindo", emote: "❗" },
         { texto: "Mas cuidado com o que você tocar!", expressao: "triste", emote: "🤔" }
       ],
@@ -21,6 +23,8 @@ const personagens = {
   },
   czar: {
     nome: "Czar",
+    lado: "direita",
+    fonte: "'Courier New', monospace",
     expressoes: {
       normal: "url('/assets/img/npc-czar.png')",
       pensativo: "url('/assets/img/npc-czar2.png')"
@@ -63,7 +67,7 @@ body {
   display: none;
   justify-content: center;
   align-items: flex-end;
-  z-index: 9998;
+  z-index: 2;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -78,7 +82,7 @@ body {
   background-repeat: no-repeat;
   background-position: bottom left;
   transform: translateX(-5%); 
-  z-index: 9997; 
+  z-index: -1; 
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -99,7 +103,6 @@ body {
   flex-wrap: wrap;
   overflow: hidden;
   height: calc(3 * 1.5rem + 2vh);
-  z-index: 9999; /* 🔥 z-index supremo */
 }
 
 .text-area {
@@ -206,6 +209,7 @@ let indiceFala = 0;
 let digitando = false;
 let intervaloTexto = null;
 let fechandoDialogo = false;
+let fimDialogoCallback = null;
 
 // ---------------- Função init ----------------
 function init() {
@@ -218,11 +222,6 @@ function init() {
   const text = document.getElementById("text");
   const indicator = document.getElementById("indicator");
   const btn = document.getElementById("btnPersonagem1");
-
-  if (!overlay || !dialogBox || !portrait || !nameTag || !text || !indicator) {
-    console.error("❌ Elementos do diálogo não encontrados.");
-    return;
-  }
 
   overlay.classList.remove("show");
   dialogBox.classList.remove("show");
@@ -250,23 +249,46 @@ function init() {
     setTimeout(() => (emoteDiv.style.opacity = 0), duration);
   }
 
-  function abrirDialogo(personagem, aoTerminar = null) {
+  function abrirDialogo(personagem, aoTerminar = null, cenario = null) {
+    fimDialogoCallback = aoTerminar;
+
     if (intervaloTexto) clearInterval(intervaloTexto);
     atual = personagem;
     indiceFala = 0;
-    nameTag.textContent = atual.nome;
+    nameTag.textContent = atual.nome || "";
+    text.style.fontFamily = atual.fonte || "'Wild Words', sans-serif"; // 🔹 aplica fonte padrão
 
-    const cenarioAtual = (window.gameData?.dialogos?.[atual.nome.toLowerCase()] || "introducao");
-    const falasAtuais = atual.falas[cenarioAtual];
+    const falasDisponiveis = personagem.falas ? Object.keys(personagem.falas) : [];
+    const cenarioAtual =
+      cenario ||
+      (window.gameData?.dialogos?.[atual.nome?.toLowerCase()] ?? falasDisponiveis[0]);
 
-    if (!falasAtuais) {
-      console.error(`❌ Cenário "${cenarioAtual}" não encontrado para ${atual.nome}.`);
+    if (!personagem.falas || !personagem.falas[cenarioAtual]) {
+      overlay.style.display = "flex";
+      setTimeout(() => {
+        overlay.classList.add("show");
+        dialogBox.classList.add("show");
+      }, 10);
+      text.textContent = personagem.texto || "(nada para dizer)";
       return;
     }
 
+    const falasAtuais = personagem.falas[cenarioAtual];
     const falaInicial = falasAtuais[0];
-    const expressaoInicial = atual.expressoes[falaInicial.expressao];
+    const expressaoInicial = atual.expressoes?.[falaInicial.expressao];
     portrait.style.backgroundImage = expressaoInicial || "";
+
+    if (personagem.lado === "direita") {
+      portrait.style.left = "auto";
+      portrait.style.right = "0";
+      portrait.style.backgroundPosition = "bottom right";
+      portrait.style.transform = "translateX(35%) scaleX(-1)";
+    } else {
+      portrait.style.left = "0";
+      portrait.style.right = "auto";
+      portrait.style.backgroundPosition = "bottom left";
+      portrait.style.transform = "translateX(-5%) scaleX(1)";
+    }
 
     overlay.style.display = "flex";
     setTimeout(() => {
@@ -277,41 +299,47 @@ function init() {
 
     indicator.style.display = "none";
     digitarTexto(falaInicial.texto, falaInicial.emote);
-
-    dialogBox.onclick = avancarFala;
-
-    function avancarFala() {
-      if (!atual) return;
-      const falasAtuais = atual.falas[cenarioAtual];
-
-      if (digitando) {
-        clearInterval(intervaloTexto);
-        intervaloTexto = null;
-        digitando = false;
-        text.textContent = falasAtuais[indiceFala].texto;
-        indicator.style.display = "block";
-        return;
-      }
-
-      if (indiceFala < falasAtuais.length - 1) {
-        indiceFala++;
-        indicator.style.display = "none";
-        const novaFala = falasAtuais[indiceFala];
-        const novaExpressao = atual.expressoes[novaFala.expressao];
-        if (novaExpressao) {
-          portrait.classList.remove("show");
-          setTimeout(() => {
-            portrait.style.backgroundImage = novaExpressao;
-            portrait.classList.add("show");
-          }, 150);
-        }
-        digitarTexto(novaFala.texto, novaFala.emote);
-      } else {
-        fecharDialogo();
-        if (aoTerminar) aoTerminar();
-      }
-    }
   }
+
+  dialogBox.addEventListener("pointerdown", () => {
+    if (!atual) return;
+
+    const falasDisponiveis = atual.falas ? Object.keys(atual.falas) : [];
+    const cenarioAtual =
+      window.gameData?.dialogos?.[atual.nome?.toLowerCase()] ?? falasDisponiveis[0];
+    const falasAtuais = atual.falas?.[cenarioAtual];
+
+    if (!falasAtuais) {
+      fecharDialogo();
+      return;
+    }
+
+    if (digitando) {
+      clearInterval(intervaloTexto);
+      text.textContent = falasAtuais[indiceFala].texto;
+      digitando = false;
+      if (indiceFala < falasAtuais.length - 1) indicator.style.display = "block";
+      return;
+    }
+
+    if (indiceFala < falasAtuais.length - 1) {
+      indiceFala++;
+      indicator.style.display = "none";
+      const novaFala = falasAtuais[indiceFala];
+      const novaExpressao = atual.expressoes?.[novaFala.expressao];
+      text.style.fontFamily = novaFala.fonte || atual.fonte || "'Wild Words', sans-serif"; // 🔹 aplica fonte por fala
+      if (novaExpressao) {
+        portrait.classList.remove("show");
+        setTimeout(() => {
+          portrait.style.backgroundImage = novaExpressao;
+          portrait.classList.add("show");
+        }, 150);
+      }
+      digitarTexto(novaFala.texto, novaFala.emote);
+    } else {
+      fecharDialogo();
+    }
+  });
 
   function digitarTexto(str, emote = null) {
     if (intervaloTexto) clearInterval(intervaloTexto);
@@ -342,6 +370,8 @@ function init() {
     setTimeout(() => {
       overlay.style.display = "none";
       fechandoDialogo = false;
+      if (fimDialogoCallback) fimDialogoCallback();
+      fimDialogoCallback = null;
     }, 400);
     atual = null;
     indiceFala = 0;
@@ -358,19 +388,19 @@ function init() {
     console.log(`📖 ${personagem.nome} agora está no cenário: ${novoCenario}`);
   };
 
-  // 🔥 Interface global
   window.dialogo = {
-    abrir(personagemOrName, aoTerminar = null) {
-      let personagem = personagemOrName;
-      if (typeof personagemOrName === "string")
-        personagem = window.personagens[personagemOrName];
-      abrirDialogo(personagem, aoTerminar);
-    },
-    fechar: fecharDialogo
+    abrir: abrirDialogo,
+    fechar: fecharDialogo,
+    abrirAsync(personagem, cenario = null) {
+      return new Promise((resolve) => abrirDialogo(personagem, resolve, cenario));
+    }
   };
 
-  if (btn) btn.addEventListener("pointerdown", () => dialogo.abrir("aiko"));
+  if (btn) btn.addEventListener("pointerdown", () => abrirDialogo(personagens.aiko));
 }
+
+// ---------------- Função utilitária ----------------
+window.esperar = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // ---------------- Inicialização ----------------
 if (document.readyState === "loading") {
