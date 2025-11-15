@@ -51,12 +51,9 @@ function ensureDialogElements() {
     style.id = "dialogStyle";
     style.textContent = `
 body {
-  background: #222;
   color: #fff;
   font-family: 'Wild Words', sans-serif;
-  margin: 0;
-  width: 100vw;
-  height: 100vh;
+  
   overflow: hidden;
 }
 

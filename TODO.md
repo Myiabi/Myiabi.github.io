@@ -1,12 +1,11 @@
 # TODO
-- [] Função Caixa de Dialogo
+- [x] Função Caixa de Dialogo
 - [x] Sistema de popups
 - [x] Função Achievement
 - [x] Sistema de Loading
-- [x] Encapsulamento Global com modais
 - [x] Drag Menu funcionando Globalmente
+- [x] Sistema de Save
 - [] Escolher Músicas/Efeitos Sonoros
-- [] Sistema de Save
 
 
 Minigames
@@ -19,4 +18,5 @@ Minigames
 - [] Pescaria
 - [] Make you own
 - [] Lily Flower
-- [] Limpar Templo
+- [] Achar cobrinhas
+- [] Ascender fogo

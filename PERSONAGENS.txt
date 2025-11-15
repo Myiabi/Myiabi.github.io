@@ -2,7 +2,7 @@ Personagens:
 
 - WeiWei
 - Felicia
-- Lily?
+- Lily
 - Pai das cobrinhas {
     cobrinhas x6 (cada cobrinha com um detalhe diferente)
 }
@@ -13,6 +13,7 @@ Personagens:
 - Guerreiro Wendigo
 - Líder do Templo
 - Droplet Sun and moon
+- Alguns figurantes simples (sem caixa de fala, mas vão ter popup)
 
 
 Assets:
@@ -25,6 +26,7 @@ Assets:
     lata
 }
 - MIO Wendigo (todas as peças no mesmo tamanho e já encaixada na base)
-- Alguns figurantes simples (sem caixa de fala, mas vão ter popup)
-
+- Baú do assistente do Wayway
+- Tela de Loading (ou uma arte pra colocar no fundo preto)
+- Post preto de fogo
 

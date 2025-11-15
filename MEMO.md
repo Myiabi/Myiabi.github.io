@@ -7,9 +7,15 @@ e anotar no README MAIN também.
 - ~~Como fazer os outros eventos drags importados se comportarem bem junto com outros códigos?~~
 - ~~No jogo do Wendigo falta função de vencer a batalha~~
 - ~~No jogo do Ghost falta um botão reset se vencer.~~
+- ~~PESCARIA~~
 - Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.
 - Seria interessante pesquisar diversas fontes
-- PESCARIA
+- Função do Fogo
+- Posts de calor (sobe achivement)
+- Achar bebês cobras
+- Criar missão da Lily
+- Se livrar do código de modal e criar modal pra cada minigame.
+
 
 
 # Corrigir
@@ -21,11 +27,12 @@ e anotar no README MAIN também.
 - ~~Colocar impedir rolagem e seleção no CSS global~~
 - ~~Criar função global pro dialogo box~~
 - ~~Dialog Box acima de tudo~~ 
-- Letras pequenas no Mobile
-- Ainda não consegui solução pra rotação de tela
 - ~~Tentar criar cenários nas falas, do tipo que eu monto uma array e ela "toca uma sequencia de falas"~~
 - ~~Garantir que todo o codigo de falas esteja funcionando com save~~
 - ~~Pesquisar o erro de "Introdução não encontrado".~~
+- Letras pequenas no Mobile
+- Ainda não consegui solução pra rotação de tela
+- Cadeado parou de funcionar, só aparece com script.js, loader não funcionando?
 
 
 
@@ -35,7 +42,12 @@ e anotar no README MAIN também.
 - ~~O artefato da clarividencia vai fazer o seguinte: Revelar invisivel, ler mentes (que é aparecer o popup)~~
 - ~~Batalha com Wendingo estilo fruit ninja.~~
 - ~~Batalha com fantasma usando luz que impede dele ficar mais forte.~~
-- Pedras no Menu drag viram droplets
+- ~~Reaproveitar drops velhos não vendidos como NPC's (consegui 3)~~
 - Servir 4 mesas e tentar deduzir qual prato cada cliente pediu
-- Reaproveitar drops velhos não vendidos como NPC's
+- Pedras no Menu drag viram droplets
+- Organizar mesas, vão ser 4 modais, cada mesa abre um, cada mesa um cénario diferente.
+- Quero um botão de accept do tipo hold (carrega).
+
+
+
 

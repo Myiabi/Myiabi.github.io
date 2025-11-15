@@ -2,7 +2,6 @@
  touch-action: manipulation;
   user-select: none;         /* bloqueia seleção de texto */
   -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
-    overflow: hidden; /* remove barras de rolagem */
     font-family: "Roboto", sans-serif;
 }
 
