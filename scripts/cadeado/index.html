@@ -1,54 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-
-  <link rel="stylesheet" href="style.css" />
-
-  <body>
-    <button onclick="abrirModal('modal_padlock')">Abrir jogo 1</button>
-
-    <div id="achievements-container"></div>
-
-    <div id="modal_padlock" class="modal">
-      <div class="modal-conteudo">
-        <span class="fechar" onclick="fecharModal('modal_padlock')"
-          >&times;</span
-        >
-
-        <div id="cadeado">
-          <div class="cadeado-digit" onclick="nextDigit(this)">
-            <span>🎃</span>
-            <span>👻</span>
-            <span>🕷️</span>
-            <span>🦇</span>
-          </div>
-          <div class="cadeado-digit" onclick="nextDigit(this)">
-            <span>🍬</span>
-            <span>🕸️</span>
-            <span>💀</span>
-            <span>🧙‍♀️</span>
-          </div>
-          <div class="cadeado-digit" onclick="nextDigit(this)">
-            <span>🦉</span>
-            <span>🧛‍♂️</span>
-            <span>🪦</span>
-            <span>🩸</span>
-          </div>
-          <div class="cadeado-digit" onclick="nextDigit(this)">
-            <span>🕯️</span>
-            <span>🔥</span>
-            <span>❗</span>
-            <span>❓</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
   
-  <script src="script.js"></script>
+  <button id="padlock" onclick="abrirLockGame()">Abrir Cofre</button>
+
+
   <script src="/loader.js"></script>
+</body>
 </html>

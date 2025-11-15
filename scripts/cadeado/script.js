@@ -1,75 +1,127 @@
-const senha = ["🎃","🕸️","🧛‍♂️","🔥"];
+function abrirLockGame() {
 
-// Espera o DOM carregar
-document.addEventListener('DOMContentLoaded', () => {
+    // ====== ÍCONES COMO PNG ======
+    const icons = [
+        "/assets/img/Locker-symbol-1.png",
+        "/assets/img/Locker-symbol-2.png",
+        "/assets/img/Locker-symbol-3.png",
+        "/assets/img/Locker-symbol-4.png",
+        "/assets/img/Locker-symbol-5.png",
+        "/assets/img/Locker-symbol-6.png",
+        "/assets/img/Locker-symbol-7.png"
+    ];
 
-  // Inicializa primeiro emote
-  document.querySelectorAll(".cadeado-digit").forEach(d => {
-    d.querySelector("span").classList.add("active");
-  });
+    // ====== SENHA DEFINIDA POR VOCÊ ======
+    const secretCode = [6, 5, 2, 0];
 
-  // Função pra passar pro próximo dígito
-  function nextDigit(container) {
-    if (container.classList.contains("animate")) return;
+    // Estado inicial aleatório
+    const current = Array.from({ length: 4 }, () =>
+        Math.floor(Math.random() * icons.length)
+    );
 
-    const spans = container.querySelectorAll("span");
-    let activeIndex = Array.from(spans).findIndex(s => s.classList.contains("active"));
-    let nextIndex = (activeIndex + 1) % spans.length;
+    // Modal
+    const modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.inset = "0";
+    modal.style.display = "flex";
+    modal.style.alignItems = "center";
+    modal.style.justifyContent = "center";
+    modal.style.background = "rgba(0,0,0,0.4)";
+    document.body.appendChild(modal);
 
-    const active = spans[activeIndex];
-    const next = spans[nextIndex];
-
-    next.classList.add("next");
-    container.classList.add("animate");
-
-    setTimeout(() => {
-      active.classList.remove("active");
-      next.classList.remove("next");
-      next.classList.add("active");
-      container.classList.remove("animate");
-      active.classList.add("opaco");
-
-      setTimeout(() => {
-        active.classList.remove("opaco");
-      }, 300);
-
-      checkSenha();
-    }, 300);
-  }
-
-  // Checa se a senha está correta
-  function checkSenha() {
-    const digits = document.querySelectorAll(".cadeado-digit");
-    const current = Array.from(digits).map(d => d.querySelector("span.active").textContent);
-
-    if (current.join("") === senha.join("")) {
-    unlockAchievement('itemMoeda');     
-    }
-  }
-
-  // Evento para cada dígito
-  document.querySelectorAll(".cadeado-digit").forEach(container => {
-    container.addEventListener('click', () => nextDigit(container));
-  });
-
-  // ABRIR MODAL
-  window.abrirModal = function(id) {
-    document.getElementById(id).style.display = "block";
-  };
-
-  window.fecharModal = function(id) {
-    document.getElementById(id).style.display = "none";
-  };
-
-  // Fecha modal clicando fora
-  window.onclick = function(event) {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
+    // Fecha ao clicar fora
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
     });
-  };
 
-});
+    // Wrapper → transparente + PNG do cadeado
+    const lockWrapper = document.createElement("div");
+    lockWrapper.style.width = "40vw";
+    lockWrapper.style.maxWidth = "240px";
+    lockWrapper.style.aspectRatio = "1/1.4";
+    lockWrapper.style.position = "relative";
+    lockWrapper.style.backgroundColor = "transparent";
 
+    lockWrapper.style.backgroundImage = "url('/assets/img/Locker.png')";
+    lockWrapper.style.backgroundSize = "contain";
+    lockWrapper.style.backgroundRepeat = "no-repeat";
+    lockWrapper.style.backgroundPosition = "center";
+
+    modal.appendChild(lockWrapper);
+
+    // ======= ÁREA DOS DÍGITOS =======
+    const digitsArea = document.createElement("div");
+    digitsArea.style.position = "absolute";
+    digitsArea.style.width = "90%";
+    digitsArea.style.height = "30%";
+    digitsArea.style.top = "42%";
+    digitsArea.style.left = "3%";
+    digitsArea.style.display = "flex";
+    digitsArea.style.border = "2px solid transparent";
+    digitsArea.style.justifyContent = "center";
+    digitsArea.style.alignItems = "center";
+    digitsArea.style.gap = "7%";
+
+    lockWrapper.appendChild(digitsArea);
+
+    const slots = [];
+
+    // ======= SLOTS =======
+    for (let i = 0; i < 4; i++) {
+
+        const slot = document.createElement("div");
+
+        slot.style.width = "12%";
+        slot.style.aspectRatio = "1 / 1";
+        slot.style.height = "26%";
+        slot.style.backgroundColor = "transparent";
+        slot.style.border = "2px solid transparent";
+        slot.style.cursor = "pointer";
+
+        // Imagem inicial
+        slot.style.backgroundImage = `url("${icons[current[i]]}")`;
+        slot.style.backgroundSize = "contain";
+        slot.style.backgroundRepeat = "no-repeat";
+        slot.style.backgroundPosition = "center";
+
+        // ===== DELAY DE 0.5s =====
+        slot.blocked = false;
+
+        slot.onclick = () => {
+            if (slot.blocked) return;
+
+            slot.blocked = true;
+            setTimeout(() => (slot.blocked = false), 200);
+
+            // >>> AVANÇA EM SEQUÊNCIA <<<
+            current[i] = (current[i] + 1) % icons.length;
+
+            slot.style.backgroundImage = `url("${icons[current[i]]}")`;
+
+            checkWin();
+        };
+
+        digitsArea.appendChild(slot);
+        slots.push(slot);
+    }
+
+    function checkWin() {
+        if (current.every((v, i) => v === secretCode[i])) {
+            win();
+        }
+    }
+
+    function win() {
+        const audio = new Audio("/assets/sounds/win.mp3");
+        audio.play();
+
+        const btn = document.getElementById("padlock");
+        if (btn) btn.style.display = "none";
+
+        setTimeout(() => {
+            modal.remove();
+        }, 3000);
+    }
+}
