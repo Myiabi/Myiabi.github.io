@@ -1,119 +1,107 @@
-// Encapsula o módulo para evitar poluir o escopo global
-(function (global) {
-  // ------------------ Função Drag & Drop ------------------
-  function dragMoveListener(event) {
-    const target = event.target;
-    const x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
-    const y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
-    target.style.transform = `translate(${x}px, ${y}px)`;
-    target.setAttribute("data-x", x);
-    target.setAttribute("data-y", y);
+// --------------------- DRAG ---------------------
+function dragMoveListener(event) {
+  const t = event.target;
+  const x = (parseFloat(t.dataset.x) || 0) + event.dx;
+  const y = (parseFloat(t.dataset.y) || 0) + event.dy;
+
+  t.style.transform = `translate(${x}px, ${y}px)`;
+  t.dataset.x = x;
+  t.dataset.y = y;
+}
+
+function onDragEnter(e) {
+  e.target.classList.add("drop-target");
+  e.relatedTarget.classList.add("can-drop");
+}
+
+function onDragLeave(e) {
+  e.target.classList.remove("drop-target");
+  e.relatedTarget.classList.remove("can-drop");
+  e.relatedTarget.dataset.placed = "false";
+}
+
+function onDrop(e) {
+  const zone = e.target;
+  const item = e.relatedTarget;
+  const gameId = zone.dataset.game;
+
+  if (zone.dataset.type && item.classList.contains(`item${zone.dataset.type}`)) {
+    item.dataset.placed = "true";
   }
 
-  function onDragEnter(event) {
-    const draggableElement = event.relatedTarget;
-    const dropzoneElement = event.target;
-    dropzoneElement.classList.add("drop-target");
-    draggableElement.classList.add("can-drop");
+  zone.classList.remove("drop-target");
+
+  checkAllPlaced(gameId);
+}
+
+
+// --------------------- WIN CHECK POR JOGO ---------------------
+function checkAllPlaced(gameId) {
+  const items = document.querySelectorAll(`.draggable[data-game="${gameId}"]`);
+  const done = [...items].every(i => i.dataset.placed === "true");
+
+  if (done) {
+
+    // ⭐ AQUI É SEU ESPAÇO RESERVADO (efeitos, som, pontuação...)
+    // ex:
+    // playSound("win1.mp3");
+    // adicionarPontos(100);
+    // console.log("Ganhou o jogo", gameId);
+
+    const modal = document.getElementById(`game${gameId}`);
+    modal.classList.remove("active");
+
+    setTimeout(() => modal.classList.add("hidden"), 200);
+
+    const btn = document.querySelector(`button[data-modal="game${gameId}"]`);
+    if (btn) btn.style.display = "none";
+
+    alert(`🔥 Mesa ${gameId} concluída!`);
   }
+}
 
-  function onDragLeave(event) {
-    if (event.target) event.target.classList.remove("drop-target");
-    if (event.relatedTarget) {
-      event.relatedTarget.classList.remove("can-drop");
-      event.relatedTarget.dataset.placed = "false";
-    }
-  }
 
-  function onDrop(event) {
-    if (event.target) event.target.classList.remove("drop-target");
+// --------------------- INIT DROPZONES ---------------------
+function initDropzones() {
+  const zones = document.querySelectorAll(".dropzone");
 
-    const dropzone = event.target;
-    const item = event.relatedTarget;
-    if (!dropzone || !item) return;
-
-    if (
-      (dropzone.id === "dropzoneA" && item.classList.contains("itemA")) ||
-      (dropzone.id === "dropzoneB" && item.classList.contains("itemB"))
-    ) {
-      item.dataset.placed = "true";
-    }
-
-    checkAllPlaced();
-  }
-
-  function checkAllPlaced() {
-    const allA = document.querySelectorAll(".itemA");
-    const allB = document.querySelectorAll(".itemB");
-
-    const allPlaced = [...allA, ...allB].every(
-      (item) => item.dataset.placed === "true"
-    );
-
-    if (allPlaced) {
-      alert("🎉 Todos os itens estão no lugar certo!");
-      document
-        .querySelectorAll(".draggable")
-        .forEach((d) => (d.style.pointerEvents = "none"));
-    }
-  }
-
-  // Inicializa Interact.js e configura drag/drop
-  function init() {
-    if (typeof interact === "undefined") {
-      console.error(
-        "interact.js não está disponível. Certifique-se de incluir a biblioteca antes."
-      );
-      return;
-    }
-
-    // Expor a função de movimento no namespace e, para compatibilidade, definir global somente se não existir
-    const namespace = (global.DragOrganize = global.DragOrganize || {});
-    namespace.dragMoveListener = dragMoveListener;
-
-    interact("#dropzoneA").dropzone({
-      accept: ".itemA",
+  zones.forEach(z => {
+    interact(z).dropzone({
+      accept: `.item${z.dataset.type}`,
       overlap: 0.75,
       ondragenter: onDragEnter,
       ondragleave: onDragLeave,
-      ondrop: onDrop,
+      ondrop: onDrop
     });
+  });
 
-    interact("#dropzoneB").dropzone({
-      accept: ".itemB",
-      overlap: 0.75,
-      ondragenter: onDragEnter,
-      ondragleave: onDragLeave,
-      ondrop: onDrop,
-    });
+  interact(".draggable").draggable({
+    inertia: true,
+    autoScroll: true,
+    listeners: { move: dragMoveListener }
+  });
+}
 
-    interact(".draggable").draggable({
-      inertia: true,
-      autoScroll: true,
-      modifiers: [
-        interact.modifiers.restrictRect({
-          restriction: "parent",
-          endOnly: true,
-        }),
-      ],
-      listeners: { move: dragMoveListener },
-    });
-  }
 
-  // Expor API pública mínima
-  const api = {
-    dragMoveListener,
+// --------------------- MODAL SYS ---------------------
+document.querySelectorAll(".open-btn").forEach(btn => {
+  btn.onclick = () => {
+    const id = btn.dataset.modal;
+    const modal = document.getElementById(id);
+
+    modal.classList.add("active");
+    modal.classList.remove("hidden");
   };
-  global.DragOrganize = Object.assign(global.DragOrganize || {}, api);
+});
 
-  // Compatibilidade: só define globals se não houver conflito (não sobrescreve)
-  if (!global.dragMoveListener) global.dragMoveListener = dragMoveListener;
+document.querySelectorAll(".close-btn").forEach(btn => {
+  btn.onclick = () => {
+    const id = btn.dataset.close;
+    const modal = document.getElementById(id);
 
-  // Garante que init rode mesmo se o script for injetado após o DOMContentLoaded
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    // DOM já pronto -- inicializa imediatamente
-    init();
-  }
-})(window);
+    modal.classList.remove("active");
+    setTimeout(() => modal.classList.add("hidden"), 200);
+  };
+});
+
+document.addEventListener("DOMContentLoaded", initDropzones);

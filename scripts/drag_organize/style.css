@@ -1,80 +1,116 @@
 * {
- touch-action: manipulation;
-  user-select: none;         /* bloqueia seleção de texto */
-  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
-    font-family: "Roboto", sans-serif;
+  touch-action: manipulation;
+  user-select: none;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
-  margin: 30px;
+  margin: 20px;
 }
 
-p,
-li {
+/* Botões */
+.open-btn,
+.close-btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
   font-size: 18px;
+  background: #1576c1;
+  color: white;
 }
+
+.close-btn {
+  margin-top: 20px;
+  background: #444;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: white;
+  width: 90%;
+  border-radius: 12px;
+  padding: 20px;
+  transform: scale(.8);
+  opacity: 0;
+  transition: .3s;
+}
+
+.modal-overlay.active .modal-box {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ITENS */
+.items-area {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.draggable {
+  width: 18vw;
+  height: 18vw;
+  max-width: 80px;
+  max-height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  background: #94dbfd;
+  border: 2px solid #1576c1;
+  border-radius: 10px;
+  touch-action: none; /* required for interact.js */
+}
+
+.draggable.can-drop {
+  background: #67d967;
+}
+
+/* DROPZONES */
 .container {
   display: flex;
-  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3vw;
 }
+
 .dropzone {
+  width: 20vw;
+  height: 20vw;
+  max-width: 340px;
+  max-height: 400px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 34px;
+  align-items: center;
+  background: #dff1ff;
   border: 2px solid #1576c1;
-  background-color: #94dbfd;
   border-radius: 10px;
-  transition: transform 0.5s;
+  font-size: 20px;
+  transition: .2s;
 }
+
 .dropzone.dragover {
-  transform: scale(0.9);
+  transform: scale(.9);
 }
 
-/* Part 1 */
-#file-dropzone {
-  width: 400px;
-  height: 200px;
-}
-
-/* Part 2 */
-.box {
-  width: 100px;
-  height: 100px;
-  cursor: move;
-  user-select: none;
-}
-.box[data-item="A"] {
-  background-color: #ffdca9;
-  border-color: #f97d02;
-}
-.box[data-item="B"] {
-  background-color: #bcf8b9;
-  border-color: #3cb43c;
-}
-
-/* Part 3 */
-.interact.dropzone {
-  width: 350px;
-  height: 350px;
-  transition: background-color 0.5s;
-}
 .drop-target {
-  background-color: #bcf8b9;
+  background: #bcf8b9;
 }
-.draggable {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 34px;
-  border: 2px solid #1576c1;
-  background-color: #94dbfd;
-  border-radius: 10px;
-  height: 80px;
-  width: 80px;
-  margin-bottom: 50px;
-  touch-action: none;
-}
-.draggable.can-drop {
-  background-color: #67d967;
-}
+

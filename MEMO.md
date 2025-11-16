@@ -32,7 +32,7 @@ e anotar no README MAIN também.
 - ~~Pesquisar o erro de "Introdução não encontrado".~~
 - Letras pequenas no Mobile
 - Ainda não consegui solução pra rotação de tela
-- Cadeado parou de funcionar, só aparece com script.js, loader não funcionando?
+- ~~Cadeado parou de funcionar, só aparece com script.js, loader não funcionando?~~
 
 
 
@@ -49,5 +49,8 @@ e anotar no README MAIN também.
 - Quero um botão de accept do tipo hold (carrega).
 
 
+# Aprender
 
+- Aprender o conceito por trás da disposição das medidas para garantir objeto fixo no mapa. Algumas medidas não escalam com outras.
+- 
 

@@ -10,7 +10,7 @@
 
 Minigames
 
-- [] Cadeado
+- [x] Cadeado
 - [] Wendigo Fight
 - [] Servir mesas
 - [] Ordem das Estátuas
