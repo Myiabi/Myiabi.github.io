@@ -1,73 +1,125 @@
-.modal {
-    background: #1a1a1a;
-    width: 90vw;
-    max-width: 900px;
-    padding: 15px;
-    border-radius: 12px;
-    display: flex;
-    gap: 20px;
-    max-height: 90vh;
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial, sans-serif;background:#282a36;color:#f8f8f2}
+
+img { display:block; background:transparent; }
+
+/* ROOT */
+#creatorRoot{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
 }
 
-.left-menu {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+/* BOX */
+.creatorBox{
+  width:70vw;
+  max-width:1200px;
+  height:85vh;
+  background:#44475a;
+  border-radius:10px;
+  display:flex;
+  padding:10px;
+  gap:10px;
+  position:relative;
 }
 
-.right-area {
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* MENU */
+.menu{
+  width:35%;
+  background:#3b3d52;
+  padding:10px;
+  border-radius:10px;
+  overflow:auto;
 }
 
-.creator-area {
-    width: 100%;
-    aspect-ratio: 1 / 1.25;
-    background: #111;
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
+.traitItem{
+  background:#282a36;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:8px;
 }
 
+.traitControls{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.traitControls button{
+  width:40px;
+  height:40px;
+  background:#6272a4;
+  color:#f8f8f2;
+  border:none;
+  border-radius:6px;
+  font-size:18px;
+}
+
+.previewArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview {
+  width: min(100%, 500px);
+  height: auto;
+  aspect-ratio: 500 / 800;
+  max-height: 70vh;
+  max-width: calc(90vh * (500/800));
+  background: transparent;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* BASE */
+#layer-base {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* OVERLAYS */
 .layer {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .25s ease;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
 }
 
-.layer.show { opacity: 1; }
-
-.row {
-    display: flex;
-    gap: 6px;
-    align-items: center;
+/* Botão fechar */
+.closeBtn{
+  position:absolute;
+  top:15px;
+  right:15px;
+  padding:6px 10px;
+  background:#ff5555;
+  color:#fff;
+  border:none;
+  border-radius:6px;
 }
 
-.row span {
-    font-size: 14px;
-}
-
-button {
-    background: #333;
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-#doneBtn {
-    background: #2ecc71;
-    margin-top: 10px;
-    font-size: 16px;
-    font-weight: bold;
+/* Botão PRONTO */
+.doneBtn{
+  margin-top:20px;
+  background:#50fa7b;
+  color:#000;
+  padding:10px 20px;
+  border:none;
+  border-radius:6px;
+  font-weight:bold;
+  cursor:pointer;
 }

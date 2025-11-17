@@ -51,5 +51,5 @@ e anotar no README MAIN também.
 
 # Aprender
 
-- Aprender o conceito por trás da disposição das medidas para garantir objeto fixo no mapa. Algumas medidas não escalam com outras.
+- ~~Aprender o conceito por trás da disposição das medidas para garantir objeto fixo no mapa. Algumas medidas não escalam com outras.~~ 
 

@@ -1,203 +1,294 @@
-// script.js
-const openBtn = document.querySelector("#openCreator");
-const menu = document.querySelector("#menu");
+/* =====================
+   CONFIGURAÇÃO
+===================== */
 
-let finalCharacter = null;
-let modalOpen = false;
-
-// ----------------------------------------------
-// ASSETS (substitua pelos seus caminhos reais)
-// ----------------------------------------------
-const assets = {
-    hair: ["./img/hair1.png","./img/hair2.png","./img/hair3.png"],
-    eyes: ["./img/eyes1.png","./img/eyes2.png","./img/eyes3.png"],
-    clothes: ["./img/cloth1.png","./img/cloth2.png","./img/cloth3.png"],
-    crystal: ["./img/crystal1.png","./img/crystal2.png","./img/crystal3.png"],
+const TRAITS = {
+  base: ["/assets/img/chibi.png"],
+  eyes: ["https://i.imgur.com/YOUR_EYES_1.png","https://i.imgur.com/YOUR_EYES_2.png"],
+  hair: ["https://i.imgur.com/YOUR_HAIR_1.png","https://i.imgur.com/YOUR_HAIR_2.png"],
+  clothes: ["https://i.imgur.com/YOUR_CLOTHES_1.png","https://i.imgur.com/YOUR_CLOTHES_2.png"],
+  horn: ["https://i.imgur.com/YOUR_HORN_1.png","https://i.imgur.com/YOUR_HORN_2.png"]
 };
 
-const baseImg = {
-    masc: "./img/base_masc.png",
-    fem:  "./img/base_fem.png"
-};
+const CURRENT = {};
+Object.keys(TRAITS).forEach(t => CURRENT[t] = 0);
 
-const index = { hair:0, eyes:0, clothes:0, crystal:0 };
+let PLAYER_NPC = null;
 
-// ----------------------------------------------
-// ABRIR MODAL (APENAS UM)
-// ----------------------------------------------
-openBtn.addEventListener("click", () => {
-    if (modalOpen) return; // evita abrir mais de um modal
-    openCreator();
-});
+const ROOT = document.getElementById("creatorRoot");
 
-function openCreator() {
-    modalOpen = true;
 
-    const modalBg = document.createElement("div");
-    modalBg.className = "modal-bg";
+/* =============================
+      CRIAR INTERFACE
+============================= */
 
-    modalBg.innerHTML = `
-        <div class="modal">
+function createInterface(){
 
-            <!-- MENU À ESQUERDA -->
-            <div class="left-menu" id="leftMenu">
-                <h2>Montar Personagem</h2>
+  ROOT.innerHTML = "";
 
-                <div class="row">
-                    <button id="masc">Masc</button>
-                    <button id="fem">Fem</button>
-                </div>
+  const box = document.createElement("div");
+  box.className = "creatorBox";
 
-                ${buildRow("hair", "Cabelo")}
-                ${buildRow("eyes", "Olhos")}
-                ${buildRow("clothes", "Roupa")}
-                ${buildRow("crystal", "Cristal")}
+  const close = document.createElement("button");
+  close.textContent = "X";
+  close.className = "closeBtn";
+  close.onclick = () => ROOT.style.display = "none";
+  box.appendChild(close);
 
-                <button id="doneBtn">PRONTO</button>
-            </div>
 
-            <!-- ÁREA DO PERSONAGEM À DIREITA -->
-            <div class="right-area" id="rightArea">
-                <div class="creator-area" id="creator">
-                    <img id="base" class="layer show" src="${baseImg.masc}">
-                    <img id="hair" class="layer">
-                    <img id="eyes" class="layer">
-                    <img id="clothes" class="layer">
-                    <img id="crystal" class="layer">
-                </div>
-            </div>
+  /* MENU */
+  const menu = document.createElement("div");
+  menu.className = "menu";
 
-        </div>
-    `;
+  const order = ["eyes","hair","clothes","horn"];
 
-    document.body.appendChild(modalBg);
+  order.forEach(trait => {
+    const item = document.createElement("div");
+    item.className = "traitItem";
 
-    // Força posicionamento do container à direita (60% width)
-    const modalEl = modalBg.querySelector(".modal");
-    const leftMenu = modalBg.querySelector("#leftMenu");
-    const rightArea = modalBg.querySelector("#rightArea");
-    const creator = modalBg.querySelector("#creator");
+    const prev = document.createElement("button");
+    prev.textContent = "<";
+    prev.onclick = () => changeTrait(trait, -1);
 
-    // Ajustes via JS pra garantir comportamento independente do CSS externo
-    leftMenu.style.width = "40%";
-    leftMenu.style.display = "flex";
-    leftMenu.style.flexDirection = "column";
-    leftMenu.style.gap = "12px";
+    const label = document.createElement("span");
+    label.textContent = trait[0].toUpperCase() + trait.slice(1);
 
-    rightArea.style.width = "60%";
-    rightArea.style.display = "flex";
-    rightArea.style.justifyContent = "flex-end"; // mantém o container à direita
-    rightArea.style.alignItems = "center";
+    const next = document.createElement("button");
+    next.textContent = ">";
+    next.onclick = () => changeTrait(trait, 1);
 
-    creator.style.width = "60%"; // o body do personagem dentro da right area
-    creator.style.maxWidth = "100%";
+    const container = document.createElement("div");
+    container.className = "traitControls";
+    container.appendChild(prev);
+    container.appendChild(label);
+    container.appendChild(next);
 
-    // Inicializa camadas
-    loadAllLayers(modalBg);
+    item.appendChild(container);
+    menu.appendChild(item);
+  });
 
-    // Eventos base masc/fem
-    modalBg.querySelector("#masc").onclick = () =>
-        modalBg.querySelector("#base").src = baseImg.masc;
 
-    modalBg.querySelector("#fem").onclick = () =>
-        modalBg.querySelector("#base").src = baseImg.fem;
+  /* =============================
+       BOTÃO QTE (SVG)
+============================== */
 
-    // Botões next/prev já delegados globalmente (window.next/window.prev)
-    // Botão PRONTO
-    modalBg.querySelector("#doneBtn").onclick = () => finalizeCharacter(modalBg);
-}
+  const qteWrapper = document.createElement("div");
+  qteWrapper.style.width = "100%";
+  qteWrapper.style.display = "flex";
+  qteWrapper.style.justifyContent = "center";
+  qteWrapper.style.marginTop = "20px";
 
-// ----------------------------------------------
-// HELPERS: monta uma linha de controle
-// ----------------------------------------------
-function buildRow(type, label){
-    return `
-    <div class="row">
-        <button onclick="prev('${type}')">◀</button>
-        <button onclick="next('${type}')">▶</button>
-        <span>${label}</span>
-    </div>`;
-}
+  const SIZE = 90;
+  const STROKE = 6;
+  const RADIUS = (SIZE/2) - (STROKE/2);
+  const CIRC = 2 * Math.PI * RADIUS;
+  const HOLD_TIME = 3000; // 3s
 
-// ----------------------------------------------
-// ATUALIZA CAMADAS (usa IDs no modal criado)
-// ----------------------------------------------
-function loadAllLayers(modalRoot){
-    // se modalRoot não passado, busca globalmente (segurança)
-    const root = modalRoot || document;
-    const types = ["hair","eyes","clothes","crystal"];
-    types.forEach(t => {
-        const el = root.getElementById ? root.getElementById(t) : root.querySelector(`#${t}`);
-        if (el) {
-            el.src = assets[t][index[t]];
-            el.classList.add("show");
-        }
+  const qteBtn = document.createElement("div");
+  qteBtn.style.width = SIZE + "px";
+  qteBtn.style.height = SIZE + "px";
+  qteBtn.style.position = "relative";
+  qteBtn.style.borderRadius = "50%";
+  qteBtn.style.cursor = "pointer";
+  qteBtn.style.background = "transparent";   // <<< IMPORTANTE!
+  qteBtn.style.display = "flex";
+  qteBtn.style.alignItems = "center";
+  qteBtn.style.justifyContent = "center";
+
+  // MIOLINHO interno para manter o fundo verde
+  const center = document.createElement("div");
+  center.style.width = "70%";
+  center.style.height = "70%";
+  center.style.borderRadius = "50%";
+  center.style.background = "#50fa7b";
+  center.style.display = "flex";
+  center.style.justifyContent = "center";
+  center.style.alignItems = "center";
+  center.style.fontWeight = "700";
+  center.style.color = "#000";
+  center.textContent = "Hold";
+
+  // SVG do efeito circular
+  const svgns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgns,"svg");
+  svg.setAttribute("width", SIZE);
+  svg.setAttribute("height", SIZE);
+  svg.style.position = "absolute";
+  svg.style.left = "0";
+  svg.style.top = "0";
+  svg.style.transform = "rotate(-90deg)";
+
+  const bg = document.createElementNS(svgns,"circle");
+  bg.setAttribute("cx", SIZE/2);
+  bg.setAttribute("cy", SIZE/2);
+  bg.setAttribute("r", RADIUS);
+  bg.setAttribute("stroke", "rgba(255,255,255,0.25)");
+  bg.setAttribute("stroke-width", STROKE);
+  bg.setAttribute("fill", "transparent");
+
+  const prog = document.createElementNS(svgns,"circle");
+  prog.setAttribute("cx", SIZE/2);
+  prog.setAttribute("cy", SIZE/2);
+  prog.setAttribute("r", RADIUS);
+  prog.setAttribute("stroke", "#00ff95");
+  prog.setAttribute("stroke-width", STROKE);
+  prog.setAttribute("fill", "transparent");
+  prog.setAttribute("stroke-linecap", "round");
+  prog.setAttribute("stroke-dasharray", CIRC);
+  prog.setAttribute("stroke-dashoffset", CIRC);
+
+  svg.appendChild(bg);
+  svg.appendChild(prog);
+  qteBtn.appendChild(svg);
+  qteBtn.appendChild(center);
+  qteWrapper.appendChild(qteBtn);
+  menu.appendChild(qteWrapper);
+
+
+  /* HOLD SYSTEM */
+  let raf = null;
+  let startTime = 0;
+  let holding = false;
+
+  function updateProgress(p){
+    const offset = CIRC * (1 - p);
+    prog.setAttribute("stroke-dashoffset", offset);
+  }
+
+  function startHold(){
+    if(holding) return;
+    holding = true;
+    center.textContent = "";
+    updateProgress(0);
+    startTime = performance.now();
+    tick();
+  }
+
+  function stopHold(cancel = true){
+    if(!holding) return;
+    holding = false;
+    if(raf) cancelAnimationFrame(raf);
+
+    if(cancel){
+      updateProgress(0);
+      center.textContent = "Hold";
+    }
+  }
+
+  function tick(){
+    raf = requestAnimationFrame(now => {
+      if(!holding) return;
+      let p = (now - startTime) / HOLD_TIME;
+      updateProgress(Math.min(p,1));
+
+      if(p >= 1){
+        holding = false;
+        center.textContent = "OK";
+        finalizeCharacter();
+        return;
+      }
+      tick();
     });
+  }
+
+  qteBtn.addEventListener("mousedown", startHold);
+  document.addEventListener("mouseup", ()=> stopHold(true));
+  qteBtn.addEventListener("mouseleave", ()=> stopHold(true));
+
+  qteBtn.addEventListener("touchstart", e=>{
+    e.preventDefault();
+    startHold();
+  },{passive:false});
+
+  qteBtn.addEventListener("touchend", ()=> stopHold(true));
+
+
+  /* PREVIEW */
+  const previewArea = document.createElement("div");
+  previewArea.className = "previewArea";
+
+  const preview = document.createElement("div");
+  preview.className = "preview";
+  preview.id = "preview";
+
+  Object.keys(TRAITS).forEach(trait=>{
+    const img = document.createElement("img");
+    img.className = "layer";
+    img.id = "layer-"+trait;
+    preview.appendChild(img);
+  });
+
+  previewArea.appendChild(preview);
+
+  box.appendChild(menu);
+  box.appendChild(previewArea);
+  ROOT.appendChild(box);
+
+  renderAll();
 }
 
-function update(type) {
-    // Busca o elemento no documento (está no modal)
-    const el = document.getElementById(type);
-    if (!el) return;
 
-    el.classList.remove("show");
-    setTimeout(() => {
-        el.src = assets[type][index[type]];
-        el.classList.add("show");
-    }, 80);
+/* =====================================
+   TRAITS
+===================================== */
+
+function changeTrait(trait, dir){
+  const arr = TRAITS[trait];
+  CURRENT[trait] = (CURRENT[trait] + dir + arr.length) % arr.length;
+  renderAll();
 }
 
-// expõe next/prev pro onclick inline
-window.next = function(type){
-    index[type] = (index[type] + 1) % assets[type].length;
-    update(type);
+function renderAll(){
+  Object.keys(TRAITS).forEach(trait=>{
+    const img = document.getElementById("layer-"+trait);
+    if(img) img.src = TRAITS[trait][CURRENT[trait]];
+  });
+}
+
+
+/* =====================================
+   FINALIZAR — NPC SIMPLES (SEM CANVAS)
+===================================== */
+
+function finalizeCharacter(){
+  const preview = document.getElementById("preview");
+  const clone = preview.cloneNode(true);
+
+  clone.style.position = "absolute";
+  clone.style.left = "0px";
+  clone.style.top = "0px";
+
+  PLAYER_NPC = {
+    id: "npc_"+Date.now(),
+    element: clone
+  };
+
+  ROOT.style.display = "none";
+
+  const open = document.getElementById("openCreator");
+  if(open) open.style.display = "none";
+
+  console.log("NPC criado:", PLAYER_NPC);
+}
+
+
+/* =====================================
+   SPAWN EM QUALQUER MAPA
+===================================== */
+
+function spawnPlayerNPC(x,y){
+  if(!PLAYER_NPC) return;
+  const npc = PLAYER_NPC.element.cloneNode(true);
+  npc.style.position = "absolute";
+  npc.style.left = x+"px";
+  npc.style.top = y+"px";
+
+  document.getElementById("gameArea").appendChild(npc);
+}
+
+
+/* abrir */
+document.getElementById("openCreator").onclick = ()=>{
+  createInterface();
+  ROOT.style.display = "flex";
 };
-
-window.prev = function(type){
-    index[type] = (index[type] - 1 + assets[type].length) % assets[type].length;
-    update(type);
-};
-
-// ----------------------------------------------
-// FINALIZAÇÃO: esconde TUDO AO REDOR, mantém o personagem no MESMO LUGAR (lado direito)
-// ----------------------------------------------
-function finalizeCharacter(modalBg){
-    const area = modalBg.querySelector("#creator");
-
-    // captura o que tá sendo mostrado nas camadas
-    html2canvas(area, { backgroundColor: null }).then(canvas => {
-
-        finalCharacter = canvas.toDataURL("image/png");
-
-        // Oculta o menu (left) e mantém apenas a imagem do personagem no layout original
-        const leftMenu = modalBg.querySelector("#leftMenu");
-        const rightArea = modalBg.querySelector("#rightArea");
-        const modalEl = modalBg.querySelector(".modal");
-
-        // Esconde somente os controles
-        if (leftMenu) leftMenu.style.display = "none";
-
-        // Mantém a rightArea visível, mas força o modal a empurrar a rightArea para a borda direita
-        modalEl.style.justifyContent = "flex-end";
-
-        // Substitui o conteúdo interno do creator pela imagem final (mantendo o mesmo tamanho/posição)
-        const imgTag = document.createElement("img");
-        imgTag.src = finalCharacter;
-        imgTag.style.width = "100%";
-        imgTag.style.height = "100%";
-        imgTag.style.objectFit = "contain";
-        imgTag.className = "layer show";
-        // limpa e injeta
-        const creator = modalBg.querySelector("#creator");
-        creator.innerHTML = "";
-        creator.appendChild(imgTag);
-
-        // Atualiza a miniatura no menu (substitui se já existir)
-        menu.innerHTML = `<h3>Personagem Criado:</h3><img src="${finalCharacter}" alt="avatar">`;
-
-        // Mantém flag modal aberto (mas sem controles)
-        // Se quiser fechar o modal automaticamente, chama modalBg.remove(); modalOpen = false;
-    }).catch(err => {
-        console.error("Erro ao gerar imagem:", err);
-    });
-}
