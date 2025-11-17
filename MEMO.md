@@ -30,9 +30,9 @@ e anotar no README MAIN também.
 - ~~Tentar criar cenários nas falas, do tipo que eu monto uma array e ela "toca uma sequencia de falas"~~
 - ~~Garantir que todo o codigo de falas esteja funcionando com save~~
 - ~~Pesquisar o erro de "Introdução não encontrado".~~
-- Letras pequenas no Mobile
-- Ainda não consegui solução pra rotação de tela
 - ~~Cadeado parou de funcionar, só aparece com script.js, loader não funcionando?~~
+- ~~Letras pequenas no Mobile~~
+- Ainda não consegui solução pra rotação de tela
 
 
 
@@ -52,5 +52,4 @@ e anotar no README MAIN também.
 # Aprender
 
 - Aprender o conceito por trás da disposição das medidas para garantir objeto fixo no mapa. Algumas medidas não escalam com outras.
-- 
 
