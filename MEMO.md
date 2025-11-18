@@ -33,6 +33,8 @@ e anotar no README MAIN também.
 - ~~Cadeado parou de funcionar, só aparece com script.js, loader não funcionando?~~
 - ~~Letras pequenas no Mobile~~
 - Ainda não consegui solução pra rotação de tela
+- Corrigir devmode, pra ficar maior.
+- A parte do código do Fogo tem que funcionar junto com o da Lua.
 
 
 
@@ -47,6 +49,7 @@ e anotar no README MAIN também.
 - Pedras no Menu drag viram droplets
 - Organizar mesas, vão ser 4 modais, cada mesa abre um, cada mesa um cénario diferente.
 - Quero um botão de accept do tipo hold (carrega).
+- Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
 
 
 # Aprender
