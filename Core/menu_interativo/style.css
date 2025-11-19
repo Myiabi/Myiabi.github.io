@@ -1,4 +1,9 @@
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
 html,body{
   height:100%;
   width:100%;
@@ -6,12 +11,12 @@ html,body{
   color:#fff;
   font-family:'Segoe UI',sans-serif;
   touch-action: none;
-  user-select: none;         /* bloqueia seleção de texto */
-  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
-  overflow: hidden; /* remove barras de rolagem */
+  user-select: none;
+  -webkit-user-drag: none;
+  overflow: hidden;
 }
 
-/* Menu secundário */
+/* Menu */
 #menu-secundario{
   position:fixed;
   left:2vw;
@@ -19,75 +24,88 @@ html,body{
   display:flex;
   flex-direction:column;
   gap:1vh;
-  background:#222;
   padding:1vw;
   border-radius:1vw;
   z-index:2000;
 }
+
 .menu-item{
   padding:1vh 1vw;
   border-radius:0.8vw;
-  cursor:pointer;
   text-align:center;
   font-size:2vw;
-  transition:all .2s;
+  cursor:pointer;
 }
 
-/* mapa */
-.container{
-  position:relative;
-  width:90vw;
-  max-width:1000px;
-  height:40vh;
-  margin:10vh auto;
+/* MAPAS — AGORA PODEM FICAR ABSOLUTOS */
+.container.mapa{
+  position:absolute;
+  width:30vw;
+  height:30vh;
   overflow:hidden;
-  border-radius:1vw;
-  box-shadow:0 0 2vw rgba(0,0,0,.6);
-  background:#111;
+  border:0.1vw solid #fff2;
+  background: transparent;
 }
 
-/* camadas */
+/* exemplo posições */
+#mapa1{
+  width: 10%;
+  height: 10%;
+  top:50%;
+  left:50%;
+}
+
+#mapa2{
+  top:55%;
+  left:30%;
+}
+
+/* layers */
 .layer{
   position:absolute;
   inset:0;
   display:flex;
   align-items:center;
   justify-content:center;
-  text-align:center;
-  padding:2vw;
 }
+
 .text{
   font-size:2vw;
-  line-height:1.4;
-  color:#fff;
-  max-width:80%;
+  position: relative;
 }
 
-/* camada de cima */
 .layer.top{
   z-index:2;
-  pointer-events:none;
   background:#111;
-  color:#b3b3b3;
-  text-shadow:0 0 0.2vw #000;
-  clip-path:circle(0vw at 0 0);
-  -webkit-clip-path:circle(0vw at 0 0);
+  color:#bbb;
+  clip-path:circle(0 at 0 0);
+  pointer-events:none;
 }
 
-/* lupa com efeito de luz da lua */
+/* lupa */
 .loupe {
   position: fixed;
   width: 16vw;
   height: 16vw;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(173, 216, 230, 0.5) 0%, rgba(0,0,0,0) 70%);
-  box-shadow: 0 0 2vw 0.5vw rgba(173, 216, 230, 0.6), 
-              0 0 1vw 0.3vw rgba(173, 216, 230, 0.4) inset;
+  background: radial-gradient(circle, rgba(173, 216, 230, 0.5) 0%, rgba(0,0,0,0) 70%);
   transform: translate(-50%, -50%);
-  pointer-events: none;
-  display: none;
-  z-index: 1000;
+  display:none;
+  pointer-events:none;
+  z-index:1000;
 }
+
+/* Sol alvos */
+.gelo-alvo,
+.bola-alvo {
+  position: absolute;
+  font-size: 300%;
+  transform: translate(-50%, -50%);
+  z-index: 12000;
+}
+
+.gelo-alvo { top: 50%; left: 50%; }
+.bola-alvo { top: 65%; left: 55%; }
 
 @media (orientation: portrait) {
   body {

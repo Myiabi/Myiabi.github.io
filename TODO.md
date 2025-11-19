@@ -5,7 +5,7 @@
 - [x] Sistema de Loading
 - [x] Drag Menu funcionando Globalmente
 - [x] Sistema de Save
-- [] Escolher Músicas/Efeitos Sonoros
+- [X] Sistema de trilha sonora
 
 
 Minigames
@@ -19,4 +19,7 @@ Minigames
 - [] Make you own
 - [] Lily Flower
 - [] Achar cobrinhas
+- [] Cobrinha Especial
 - [] Ascender fogo
+- [] Last Boss Fight
+

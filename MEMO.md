@@ -8,13 +8,13 @@ e anotar no README MAIN também.
 - ~~No jogo do Wendigo falta função de vencer a batalha~~
 - ~~No jogo do Ghost falta um botão reset se vencer.~~
 - ~~PESCARIA~~
+- ~~Se livrar do código de modal e criar modal pra cada minigame.~~
 - Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.
 - Seria interessante pesquisar diversas fontes
 - Função do Fogo
 - Posts de calor (sobe achivement)
 - Achar bebês cobras
 - Criar missão da Lily
-- Se livrar do código de modal e criar modal pra cada minigame.
 
 
 
@@ -35,6 +35,13 @@ e anotar no README MAIN também.
 - Ainda não consegui solução pra rotação de tela
 - Corrigir devmode, pra ficar maior.
 - A parte do código do Fogo tem que funcionar junto com o da Lua.
+- Código da Lua só funciona uma div mapa por vez...
+
+- Sol e Lua {
+    - Div tem que sumir junto agora... (voltar com era antes)
+    - Lua agora tem divs individuais, mas tbm quero efeitos e ações individuais, tal qual a duração do foco.
+    - Sol funcionando bem, mas o som não funciona. (espaço para tocarAudio)
+}
 
 
 

@@ -2,7 +2,6 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <!-- Prevent pinch-zoom / user scaling on mobile as requested -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -10,7 +9,9 @@
     <title>Mapa com Itens</title>
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body oncontextmenu="return false;">
+
     <!-- Área do mapa -->
     <div class="container mapa">
       <div class="layer bottom">
@@ -25,14 +26,29 @@
       </div>
     </div>
 
-    <div class="container mapa capeta">
+    <!-- MAPA 1 -->
+    <div class="container mapa" id="mapa1">
       <div class="layer bottom">
-        <div class="text"></div>
+        <div class="text nerd"></div>
       </div>
       <div class="layer top">
         <div class="text capetinha">👹</div>
       </div>
     </div>
+
+    <!-- MAPA 2 -->
+    <div class="container mapa" id="mapa2">
+      <div class="layer bottom">
+        <div class="text cry"></div>
+      </div>
+      <div class="layer top">
+        <div class="text rage">😡</div>
+      </div>
+    </div>
+
+    <!-- ALVOS DO SOL -->
+    <div class="gelo-alvo">❄️</div>
+    <div class="bola-alvo">⚽</div>
 
     <script src="/loader.js"></script>
   </body>
