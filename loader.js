@@ -1,89 +1,82 @@
-// loader.js - versão melhorada
+// loader.js — versão final corrigida e compatível com o script.js do minigame
+
 const scripts = [
   "/core/global.js",
   "/core/save/script.js",
-/*   "/devmod.js",
- */  "/core/achievements/script.js",
+  "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
-  "/core/modal/script.js",
   "/core/caixa_dialogo/script.js"
 ];
 
-// Garante de forma idempotente que o <body> terá oncontextmenu="return false;"
-// Aplica imediatamente se o body já existir, caso contrário aguarda DOMContentLoaded.
+// =========================
+// BLOQUEIA CONTEXTO — seguro
+// =========================
 function disableContextMenuOnBody() {
   const apply = () => {
-    try {
-      const b = document.body;
-      if (!b) return;
-      // evita sobrescrever se já houver um handler personalizado
-      if (
-        !b.hasAttribute("oncontextmenu") ||
-        b.getAttribute("oncontextmenu") !== "return false;"
-      ) {
-        b.setAttribute("oncontextmenu", "return false;");
-      }
-    } catch (e) {
-      // não falha se por algum motivo o acesso ao DOM der problema
-      console.warn(
-        "disableContextMenuOnBody: não foi possível ajustar body",
-        e
-      );
+    const b = document.body;
+    if (!b) return;
+    if (
+      !b.hasAttribute("oncontextmenu") ||
+      b.getAttribute("oncontextmenu") !== "return false;"
+    ) {
+      b.setAttribute("oncontextmenu", "return false;");
     }
   };
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", apply, { once: true });
   } else {
-    // já carregado
     apply();
   }
 }
 
-// Executa imediatamente ao carregar este loader
 disableContextMenuOnBody();
 
+// =========================
+// CARREGADOR PRINCIPAL
+// =========================
 (async function loadAllScripts() {
-  // Determina a URL absoluta do script do projeto (script.js) com base no documento
+  console.log("Loader iniciado.");
+
+  // Garante que o script principal do projeto (script.js) também será carregado
   const projectScriptUrl = new URL("script.js", document.location.href).href;
 
-  // Monta lista: scripts core + script do projeto (se ainda não existir no DOM)
   const allScripts = [...scripts];
-  const found = Array.from(document.getElementsByTagName("script")).some(
-    (s) => {
-      try {
-        return (
-          s.src &&
-          new URL(s.src, document.location.href).href === projectScriptUrl
-        );
-      } catch (e) {
-        return false;
-      }
+
+  // verifica se script.js já existe no DOM
+  const found = Array.from(document.getElementsByTagName("script")).some(s => {
+    try {
+      return (
+        s.src &&
+        new URL(s.src, document.location.href).href === projectScriptUrl
+      );
+    } catch (e) {
+      return false;
     }
-  );
+  });
 
   if (!found) {
+    console.log("script.js não estava no DOM — adicionando via loader.");
     allScripts.push(projectScriptUrl);
   } else {
-    console.log(
-      "script.js já presente no documento; pulando carregamento automático."
-    );
+    console.log("script.js já estava no DOM — loader não vai duplicar.");
   }
 
+  // =========================
+  // CARREGAMENTO SEQUENCIAL
+  // =========================
   for (const src of allScripts) {
-    // Carrega sequencialmente; em caso de erro registra e continua (não aborta a fila inteira)
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       const s = document.createElement("script");
-      s.async = false; // tentar preservar ordem de execução
+      s.async = false;
       s.onload = () => {
         console.log(`${src} carregado`);
         resolve();
       };
       s.onerror = () => {
         console.error(`Erro ao carregar ${src}`);
-        // não rejeitamos para garantir que os próximos scripts ainda sejam carregados
         resolve();
       };
       s.src = src;
@@ -91,5 +84,17 @@ disableContextMenuOnBody();
     });
   }
 
-  console.log("Todos os scripts foram processados");
+  console.log("Todos os scripts foram processados.");
+
+  // ==========================================
+  // TENTA INICIAR O MINIGAME (drag & drop)
+  // ==========================================
+  if (typeof window.startMinigameLogic === "function") {
+    console.log("Chamando startMinigameLogic via loader...");
+    window.startMinigameLogic();
+  } else {
+    console.warn(
+      "startMinigameLogic não encontrado no script.js! Minigame não pôde iniciar."
+    );
+  }
 })();

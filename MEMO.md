@@ -11,7 +11,7 @@ e anotar no README MAIN também.
 - ~~Se livrar do código de modal e criar modal pra cada minigame.~~
 - Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.
 - Seria interessante pesquisar diversas fontes
-- Função do Fogo
+- ~~Função do Fogo~~
 - Posts de calor (sobe achivement)
 - Achar bebês cobras
 - Criar missão da Lily
@@ -34,14 +34,14 @@ e anotar no README MAIN também.
 - ~~Letras pequenas no Mobile~~
 - Ainda não consegui solução pra rotação de tela
 - Corrigir devmode, pra ficar maior.
-- A parte do código do Fogo tem que funcionar junto com o da Lua.
-- Código da Lua só funciona uma div mapa por vez...
+- ~~A parte do código do Fogo tem que funcionar junto com o da Lua.~~
+- ~~Código da Lua só funciona uma div mapa por vez...~~
 
-- Sol e Lua {
-    - Div tem que sumir junto agora... (voltar com era antes)
-    - Lua agora tem divs individuais, mas tbm quero efeitos e ações individuais, tal qual a duração do foco.
-    - Sol funcionando bem, mas o som não funciona. (espaço para tocarAudio)
-}
+- ~~Sol e Lua ~~{
+    - ~~Div tem que sumir junto agora... (voltar com era antes)~~
+    - ~~Lua agora tem divs individuais, mas tbm quero efeitos e ações individuais, tal qual a duração do foco.~~
+    - ~~Sol funcionando bem, mas o som não funciona. (espaço para tocarAudio)~~
+~~}~~
 
 
 
@@ -54,8 +54,8 @@ e anotar no README MAIN também.
 - ~~Reaproveitar drops velhos não vendidos como NPC's (consegui 3)~~
 - Servir 4 mesas e tentar deduzir qual prato cada cliente pediu
 - Pedras no Menu drag viram droplets
-- Organizar mesas, vão ser 4 modais, cada mesa abre um, cada mesa um cénario diferente.
-- Quero um botão de accept do tipo hold (carrega).
+- ~~Organizar mesas, vão ser 4 modais, cada mesa abre um, cada mesa um cénario diferente.~~
+- ~~Quero um botão de accept do tipo hold (carrega).~~
 - Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
 
 
