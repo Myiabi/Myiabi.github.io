@@ -1,4 +1,6 @@
-// loader.js - Sistema Lua + Sol
+// ==========================================================
+// loader.js - Sistema Lua + Sol + Aura de Fogo
+// ==========================================================
 
 // ---------------------------
 // Cria menu
@@ -22,10 +24,14 @@ itens.forEach((it) => {
 });
 
 // ---------------------------
-// Lupa
+// Lupa + aura da lua
 // ---------------------------
 const loupe = document.createElement("div");
 loupe.className = "loupe";
+loupe.style.pointerEvents = "none";
+loupe.style.display = "none";
+loupe.style.position = "fixed";
+loupe.style.zIndex = "1600";
 document.body.appendChild(loupe);
 
 // ---------------------------
@@ -39,6 +45,9 @@ let pendingDrag = false;
 let pendingItem = null;
 let currentItem = null;
 let dragClone = null;
+
+// 🔥 Aura do fogo
+let auraFogo = null;
 
 const RADIUS = 8;
 const START_THRESHOLD_VW = 0.5;
@@ -65,26 +74,25 @@ function setClip(x,y,topLayer,r=RADIUS){
   topLayer.style.webkitClipPath = clip;
 }
 
-function showLoupe(){ loupe.style.display = "block"; }
-function hideLoupe(){
-  loupe.style.display = "none";
+function clearClipAll() {
   topLayers.forEach(t=>{
-    if(t){
-      t.style.clipPath = "circle(0% at 0 0)";
-      t.style.webkitClipPath = "circle(0% at 0 0)";
-    }
+    t.style.clipPath = "circle(0% at 0 0)";
+    t.style.webkitClipPath = "circle(0% at 0 0)";
   });
 }
 
-// ---------------------------
-// L U A   (revelar itens)
-// ---------------------------
+function showLoupe(){ loupe.style.display = "block"; }
+function hideLoupe(){ loupe.style.display = "none"; clearClipAll(); }
+
+// ======================================================
+// 🌙 L U A   (revelar targets individuais)
+// ======================================================
 const targets = [];
 const revealTimers = new WeakMap();
 
-function addTarget(el){
-  if(!el) return;
-  targets.push({el});
+function addTarget(el, options = {}) {
+  if (!el) return;
+  targets.push({ el, options });
 }
 
 function checkReveal(x,y){
@@ -103,14 +111,19 @@ function checkReveal(x,y){
 
       if(!revealTimers.has(target.el)){
         const timer = setTimeout(()=>{
+
           const mapa = target.el.closest(".mapa");
           if(mapa){
             const layerTop = mapa.querySelector(".layer.top");
             if(layerTop) layerTop.style.display = "none";
-            tocarEfeito('whoosh');
+
+            if (target.options?.sound)
+              tocarEfeito(target.options.sound);
+
+            mapa.style.display = "none";
           }
 
-        },2000);
+        }, target.options?.delay ?? 2000);
 
         revealTimers.set(target.el,timer);
       }
@@ -126,9 +139,9 @@ function checkReveal(x,y){
   });
 }
 
-// ---------------------------
-// SOL (independente)
-// ---------------------------
+// ======================================================
+// 🔥 S O L   (independente - NÃO ALTERADO!!!)
+// ======================================================
 const sunTargets = [];
 const sunTimers = new WeakMap();
 const sunOptions = new WeakMap();
@@ -151,7 +164,7 @@ function checkSun(x,y){
       if(!sunTimers.has(el)){
         const timer = setTimeout(()=>{
 
-          if(opt.sound) console.log("Som:",opt.sound);
+          if(opt.sound) tocarEfeito(opt.sound);
 
           if(opt.action==="hide") el.style.display="none";
           else if(opt.action==="swap") el.innerHTML = opt.newImage;
@@ -170,9 +183,25 @@ function checkSun(x,y){
   });
 }
 
-// ---------------------------
-// DRAG
-// ---------------------------
+// ======================================================
+// D R A G
+// ======================================================
+
+function criarAuraFogo() {
+  auraFogo = document.createElement("div");
+  auraFogo.className = "fogo-aura";
+  auraFogo.style.position = "fixed";
+  auraFogo.style.width = "10vw";
+  auraFogo.style.height = "10vw";
+  auraFogo.style.pointerEvents = "none";
+  auraFogo.style.transform = "translate(-50%, -50%)";
+  auraFogo.style.zIndex = "1499";
+  auraFogo.style.display = "none";
+  document.body.appendChild(auraFogo);
+}
+
+criarAuraFogo();
+
 function returnToMenu(clone,menuItem){
   if(!menuItem){ clone.remove(); return; }
 
@@ -210,6 +239,18 @@ function startRealDrag(item,x,y){
   dragClone.style.top=(y/window.innerHeight)*100+"vh";
 
   document.body.appendChild(dragClone);
+
+  // 🔥 ativar aura do fogo
+  if (item.func === "sol") {
+    auraFogo.style.display = "block";
+    auraFogo.style.left = dragClone.style.left;
+    auraFogo.style.top = dragClone.style.top;
+  }
+
+  // 🌙 ativar aura da lua (loupe)
+  if (item.func === "revelar") {
+    showLoupe();
+  }
 }
 
 function onPointerDown(e){
@@ -246,31 +287,39 @@ function onPointerMove(e){
     dragClone.style.left=(x/window.innerWidth)*100+"vw";
     dragClone.style.top=(y/window.innerHeight)*100+"vh";
 
-    // LUA
-    if(currentItem && currentItem.func==="revelar"){
-      loupe.style.left=(x/window.innerWidth)*100+"vw";
-      loupe.style.top=(y/window.innerHeight)*100+"vh";
-      showLoupe();
+    // 🔥 move aura do fogo
+    if (currentItem?.func === "sol") {
+      auraFogo.style.left = dragClone.style.left;
+      auraFogo.style.top = dragClone.style.top;
+    }
 
-      // ❗ AGORA AQUI A LUPA ATUA APENAS NO MAPA ATIVO
-      let mapaAtivo = null;
+    // 🌙 LUA — AQUI ESTÁ A CORREÇÃO!!!
+    if(currentItem && currentItem.func==="revelar"){
+      loupe.style.left = dragClone.style.left;
+      loupe.style.top  = dragClone.style.top;
+
+      let insideMap = false;
+      let activeIndex = null;
 
       for (let i = 0; i < containers.length; i++) {
         const rect = containers[i].getBoundingClientRect();
-        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-          mapaAtivo = i;
+        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom){
+          insideMap = true;
+          activeIndex = i;
           break;
         }
       }
 
-      if (mapaAtivo !== null) {
-        setClip(x, y, topLayers[mapaAtivo]);
+      if (insideMap) {
+        setClip(x,y,topLayers[activeIndex]);
+      } else {
+        clearClipAll(); // SAIR DO MAPA → limpar efeito
       }
 
       checkReveal(x,y);
     }
 
-    // SOL
+    // SOL (não mexer)
     if(currentItem && currentItem.func==="sol"){
       checkSun(x,y);
     }
@@ -291,7 +340,9 @@ function onPointerUp(e){
 
   if(isDragging){
     isDragging=false;
-    hideLoupe();
+    hideLoupe(); // desliga aura da lua
+
+    auraFogo.style.display = "none"; // desliga aura do fogo
 
     let outside=true;
     containers.forEach(cont=>{
@@ -331,25 +382,32 @@ document.addEventListener("pointerdown",onPointerDown,{passive:false});
 document.addEventListener("pointermove",onPointerMove,{passive:false});
 document.addEventListener("pointerup",onPointerUp,{passive:false});
 
-// ---------------------------
-// Registra alvos LUA
-// ---------------------------
-addTarget(document.querySelector(".capetinha"));
-addTarget(document.querySelector(".rage"));
+// ==========================================================
+// Registra ALVOS LUA
+// ==========================================================
+addTarget(document.querySelector(".capetinha"),{
+  delay: 2000,
+  sound: "woosh"
+});
 
-// ---------------------------
+addTarget(document.querySelector(".rage"),{
+  delay: 2000,
+  sound: "woosh2"
+});
+
+// ==========================================================
 // Sol
-// ---------------------------
+// ==========================================================
 addSunTarget(document.querySelector(".gelo-alvo"),{
   action:"swap",
   newImage:"",
-  sound:"/assets/sounds/efeitos/whooshfogo.mp3",
+  sound:"whoosh",
   delayMs:350
 });
 
 addSunTarget(document.querySelector(".bola-alvo"),{
   action:"swap",
   newImage:"",
-  sound:"/assets/sounds/efeitos/whooshfogo.mp3",
+  sound:"whoosh",
   delayMs:350
 });
