@@ -20,12 +20,12 @@ Assets:
 
 - Dois espiritos da Lua e Sol
 - 5 Sacerdotizas Estátuas {
-        #A               #B                 #C                             #D
-   Cabelo longo,  Segura um Espelho,   Está em pé (cima),               Tiara    
-   Cabelo Curto,  Segura um Cajado,    Está em pé,                      Laços
-   Cabelo longo,  Segura um esfera,    Está olhando pra um lado (esq),  Faixas
-   Trança,        Segura um leque,     Está olhando pra um lado (dir),  Flor
-   Coque,         Segura um esfera,    Está sentada,                    flor   
+        #A               #B                 #C                      #D
+   Cabelo longo,  Segura um Espelho,   Olhando pra cima,           Tiara    
+   Cabelo Curto,  Segura um Cetro,     Olhando pra frente,         Laços
+   Cabelo longo,  Segura um esfera,    Olhando pra direita,        Faixas
+   Trança,        Segura um leque,     Olhando pra Esquerda,       Flor
+   Coque,         Segura um esfera,    Olhando pra frente,         flor   
 
 }
 

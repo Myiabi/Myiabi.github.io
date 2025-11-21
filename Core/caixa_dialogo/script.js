@@ -1,5 +1,6 @@
 // ---------------- Personagens ----------------
 const personagens = {
+
   aiko: {
     nome: "Aiko",
     lado: "direita",
@@ -21,6 +22,7 @@ const personagens = {
       ]
     }
   },
+
   czar: {
     nome: "Czar",
     lado: "direita",
@@ -41,6 +43,7 @@ const personagens = {
     }
   }
 };
+
 
 window.personagens = personagens;
 
@@ -91,8 +94,8 @@ body {
   background: rgba(0,0,0,0.85);
   border-radius: 10px;
   padding: 2vh 2vw;
-  width: 70%;
-  min-height: 35vh;
+  width: 75%;
+  min-height: 30vh;
   margin-bottom: 4vh;
   position: relative;
   box-shadow: 0 0 1.5vh rgba(0,0,0,0.6);

@@ -6,23 +6,23 @@
 const CONFIG = {
   arenaPadding: 36,
   boss: {
-    img: '/assets/img/One-Piece-Anime-PNG-Download-Image.png',    // troque
-    size: 140,
-    hp: 20,
-    speed: 0.45,        // px/ms (mais rápido)
+    img: '/assets/img/NPC_Warrior-attack.png',    // troque
+    size: 200,
+    hp: 1000,
+    speed: 0.55,        // px/ms (mais rápido)
     teleportInterval: [1500, 3000],
-    castTime: 2800,
+    castTime: 2500,
     hitsToCancel: 3,    // boss precisa de 3 cortes para cancelar
     damageHearts: 1,    // quantos corações perde por cast bem-sucedido
     hitDamage: 24
   },
   minion: {
-    img: '/assets/img/npc-cientist2.png',
-    size: 84,
-    hp: 200,
-    speed: 0.34,
+    img: '/assets/img/NPC_Minion.png',
+    size: 150,
+    hp: 250,
+    speed: 0.44,
     teleportInterval: [2500, 3800],
-    castTime: 2600,
+    castTime: 2400,
     hitsToCancel: 1,    // minion cancela com 1 golpe
     damageHearts: 1,
     hitDamage: 12
@@ -525,7 +525,7 @@ function runTriggersAfterDamage(){
   // 30%: spawn 4 minions but boss stays
   if(!state.triggers.spawnedAt30 && boss.hp <= boss.maxHp * 0.30){
     state.triggers.spawnedAt30 = true;
-    for(let i=0;i<4;i++) spawnEnemy(true);
+    for(let i=0;i<5;i++) spawnEnemy(true);
   }
 }
 
