@@ -4,31 +4,33 @@
 <meta charset="UTF-8">
 <title>Sequência Correta</title>
 <link rel="stylesheet" href="style.css">
-<style>
 
-</style>
 </head>
 <body>
 
-  <button onclick="abrirModal('minigameSequencia')">
-  Abrir Minigame Sequência
+<button onclick="openModal()">Abrir Minigame Sequência</button>
 
-<div id="minigameSequencia" style="display: none;">
-  <h3>Arraste e troque até ficar na ordem 1 → 2 → 3 → 4</h3>
+<!-- MODAL -->
+<div id="modalSequencia" class="modal-overlay">
 
-  <div class="container" id="container">
-    <div class="item" draggable="true" data-value="3">3</div>
-    <div class="item" draggable="true" data-value="1">1</div>
-    <div class="item" draggable="true" data-value="4">4</div>
-    <div class="item" draggable="true" data-value="2">2</div>
-    <div class="item" draggable="true" data-value="2">5</div>
+  <div class="modal-box">
+
+    <span class="close-btn" onclick="closeModal()">×</span>
+
+    <h3>Arraste e troque até ficar na ordem 1 → 2 → 3 → 4</h3>
+
+    <div class="container" id="container">
+      <div class="item" draggable="true" data-value="3">3</div>
+      <div class="item" draggable="true" data-value="1">1</div>
+      <div class="item" draggable="true" data-value="4">4</div>
+      <div class="item" draggable="true" data-value="2">2</div>
+      <div class="item" draggable="true" data-value="5">5</div>
+    </div>
 
   </div>
 </div>
 
 <script src="/loader.js"></script>
 
-
-</button>
 </body>
 </html>

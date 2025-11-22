@@ -1,30 +1,45 @@
-* {
- touch-action: manipulation;
-  user-select: none;         /* bloqueia seleção de texto */
-  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
-    overflow: hidden; /* remove barras de rolagem */
+/* Fundo escuro do modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-  body {
-    font-family: sans-serif;
-    text-align: center;
-    margin-top: 40px;
-  }
-  .container {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  .item {
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
-    border: 2px solid #333;
-    background: lightblue;
-    font-size: 24px;
-    cursor: grab;
-    user-select: none;
-  }
-  .over {
-    outline: 3px dashed #f00;
-  }
+/* Caixa branca do modal */
+.modal-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+/* Botão fechar */
+.close-btn {
+  float: right;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+/* Itens arrastáveis */
+.container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.item {
+  width: 50px;
+  height: 50px;
+  background: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  font-size: 20px;
+  user-select: none;
+}

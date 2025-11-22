@@ -17,12 +17,10 @@ e anotar no README MAIN também.
     1 - Invisivel (Usar Lua)
     2 - Congelado (usar Sol)
     3 - Dentro de um Baú no shop (Clicar 7x)
-    4 - 
+    4 - Aparece no Bar aleatóriamente
     5 - 
     6 - Quest no fundo do lago
 }
-
-- Onde cada comida nas mesas vai? Desenvolver a historinha e falas.
 
 
 # Corrigir
@@ -47,9 +45,10 @@ e anotar no README MAIN também.
     - ~~Lua agora tem divs individuais, mas tbm quero efeitos e ações individuais, tal qual a duração do foco.~~
     - ~~Sol funcionando bem, mas o som não funciona. (espaço para tocarAudio)~~
 ~~}~~
+
 - Ainda não consegui solução pra rotação de tela
 - Corrigir devmode, pra ficar maior.
-- Adicionar cenário a batalha do Dropmoon.
+- ~~Adicionar cenário a batalha do Dropmoon.~~
 - Procurar paralax de neve.
 
 

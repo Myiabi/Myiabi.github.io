@@ -47,3 +47,12 @@ function checkOrder() {
   }
 }
 
+/* Abrir modal */
+function openModal() {
+  document.getElementById("modalSequencia").style.display = "flex";
+}
+
+/* Fechar modal */
+function closeModal() {
+  document.getElementById("modalSequencia").style.display = "none";
+}
