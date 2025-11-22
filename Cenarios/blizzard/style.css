@@ -110,3 +110,13 @@ canvas {
 	0% { background-position: 0 0; }
 	100% { background-position: -3000px 0; }
 }
+
+ #star-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* fica atrás da neve */
+    pointer-events: none;
+}

@@ -211,3 +211,76 @@ function animate() {
 	requestAnimationFrame(animate);
 }
 animate();
+
+const STAR_SYMBOLS = ["✦"]; // estrela preenchida — mantém o visual atual
+
+function createStarSky() {
+    const canvas = document.getElementById("star-canvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+        canvas.width = window.innerWidth * devicePixelRatio;
+        canvas.height = window.innerHeight * devicePixelRatio;
+        ctx.scale(devicePixelRatio, devicePixelRatio);
+        drawStars();
+        drawMoon();
+    }
+
+    function drawStars() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        ctx.clearRect(0, 0, width, height);
+
+        const starCount = 350;
+
+        const maxHeight = height * 0.70; // ⭐ limite vertical — só até 70%
+
+        for (let i = 0; i < starCount; i++) {
+
+            const x = Math.random() * width;
+            const y = Math.random() * maxHeight; // ⭐ agora sempre dentro dos 70% superiores
+
+            const size = Math.random() * 5 + 5;
+            const opacity = Math.random() * 0.7 + 0.3;
+
+            const symbol = STAR_SYMBOLS[Math.floor(Math.random() * STAR_SYMBOLS.length)];
+
+            ctx.save();
+            ctx.font = `${size}px serif`;
+            ctx.globalAlpha = opacity;
+            ctx.fillStyle = "rgba(255,255,255,1)";
+
+            ctx.shadowBlur = size * 1.5;
+            ctx.shadowColor = "rgba(255,255,255,0.9)";
+
+            ctx.fillText(symbol, x, y);
+            ctx.restore();
+        }
+    }
+
+    function drawMoon() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const moonSize = 80;
+        const x = width * 0.78;
+        const y = height * 0.18;
+
+        ctx.save();
+        ctx.shadowBlur = 40;
+        ctx.shadowColor = "rgba(255,255,220,0.6)";
+
+        ctx.beginPath();
+        ctx.arc(x, y, moonSize, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,240,0.9)";
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+}
+
+createStarSky();

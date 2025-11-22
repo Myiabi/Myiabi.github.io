@@ -12,6 +12,7 @@ html, body {
   user-select: none;
   cursor: none;
   font-family: 'Segoe UI', sans-serif;
+  position: relative;
 }
 
 #arena {
@@ -19,94 +20,130 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
+/* --- LUA SUPER EXPRESSIVA --- */
 #lua {
   position: fixed;
-  width: 20vw;
-  height: 20vw;
+  width: 38vmin;
+  height: 38vmin;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(173,216,230,0.5) 0%, rgba(0,0,0,0) 70%);
-  box-shadow: 0 0 3vw 0.5vw rgba(173,216,230,0.6), 0 0 1vw 0.3vw rgba(173,216,230,0.4) inset;
+  border: none;
+
+  /* Interior: Centro brilhante que desvanece, parecendo um orbe */
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(200, 230, 255, 0.1) 60%, transparent 100%);
+  
+  /* Múltiplas camadas de brilho para criar uma borda grossa e atmosférica */
+  box-shadow: 
+    /* 1. A "Crosta": Uma borda branca intensa e definida */
+    0 0 1.5vmin 0.3vmin rgba(255, 255, 255, 0.9),
+    
+    /* 2. A "Corona": Brilho grosso e azulado logo em volta */
+    0 0 6vmin 1vmin rgba(160, 210, 255, 0.6),
+    
+    /* 3. A "Atmosfera": Luz ambiente difusa e distante */
+    0 0 15vmin 5vmin rgba(100, 180, 255, 0.3),
+    
+    /* 4. Volume Interno: Brilho para dentro para parecer 3D */
+    inset 0 0 8vmin 2vmin rgba(255, 255, 255, 0.4);
+    
   pointer-events: none;
   transform: translate(-50%, -50%);
   top: 0;
   left: 0;
+  z-index: 100;
+  will-change: left, top;
+  /* Um leve mix-blend-mode pode ajudar a luz a interagir melhor com fundos coloridos */
+  mix-blend-mode: screen; 
 }
 
-
-/* inimigo */
+/* --- INIMIGO --- */
 #enemy {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  transition: transform 0.1s linear;
-  text-align: center;
+  width: 18vmin; 
+  height: 18vmin;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 50;
+  will-change: left, top, transform;
 }
 
 #enemy-emoji {
-  font-size: 5vw;
-  transition: filter 0.3s linear;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#enemy-emoji img {
+  width: 90%;
+  height: auto;
+  display: block;
+  filter: none;
 }
 
 #growth {
+  position: absolute;
+  bottom: -2rem;
   color: #fff;
-  font-size: 1.2vw;
-  margin-top: 0.5vw;
+  font-weight: bold;
+  font-size: 3vmin;
+  white-space: nowrap;
 }
 
+/* HUD */
 #hud {
   position: fixed;
-  top: 2vh;
+  top: 3vh;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 2vw;
+  font-size: 4vmin;
+  font-weight: bold;
   color: #fff;
+  z-index: 200;
+  text-shadow: 0 0 1vmin #000;
+  background: rgba(0,0,0,0.3);
+  padding: 0.5vmin 2vmin;
+  border-radius: 20px;
 }
 
-/* flash vermelho no teleporte */
-.flash {
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,0,0,0.9) 0%, rgba(255,0,0,0) 70%);
-  pointer-events: none;
-  transform: translate(-50%, -50%) scale(0);
-  animation: flashPulse 0.3s ease-out forwards;
-  z-index: 2000;
-}
-
-@keyframes flashPulse {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-  50% { transform: translate(-50%, -50%) scale(2); opacity: 0.8; }
-  100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
-}
-
-/* efeitos de flash no teleporte */
+/* FX */
 .flash {
   position: fixed;
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%) scale(0);
-  animation: flashPulse 0.3s ease-out forwards;
+  animation: flashPulse 0.4s ease-out forwards;
   z-index: 2000;
 }
 
 @keyframes flashPulse {
   0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-  50% { transform: translate(-50%, -50%) scale(2); opacity: 0.8; }
+  50% { transform: translate(-50%, -50%) scale(2); opacity: 0.5; }
   100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
 }
 
-
- @media (orientation: portrait) {
-  body {
-    transform: rotate(-90deg) translateX(-100vh);
-    transform-origin: top left;
-    width: 100vh;
-    height: 100vw;
-    overflow: hidden;
+@media (orientation: portrait) {
+  body::after {
+    content: "📱 Gire a tela para jogar!";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    font-size: 1.5rem;
+    text-align: center;
   }
 }
