@@ -12,7 +12,6 @@ e anotar no README MAIN também.
 - Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.
 - Seria interessante pesquisar diversas fontes
 - Posts de calor (sobe achivement)
-- Criar missão da 
 
 - Achar bebês cobras {
     1 - Invisivel (Usar Lua)
@@ -50,6 +49,8 @@ e anotar no README MAIN também.
 ~~}~~
 - Ainda não consegui solução pra rotação de tela
 - Corrigir devmode, pra ficar maior.
+- Adicionar cenário a batalha do Dropmoon.
+- Procurar paralax de neve.
 
 
 
@@ -65,7 +66,7 @@ e anotar no README MAIN também.
 - ~~Pedras no Menu drag viram droplets~~ 
 - Servir 4 mesas e tentar deduzir qual prato cada cliente pediu
 - Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
-
+- Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.
 
 # Aprender
 
