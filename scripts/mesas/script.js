@@ -95,11 +95,12 @@ function checkAllPlaced(gameId) {
       setTimeout(() => modal.classList.add("hidden"), 200);
     }
 
-    // esconde botão de abrir mesa
+    // Altera: Desabilita a mesa em vez de esconder (usando a classe 'completed')
     const btn = document.querySelector(
       `button[data-modal="game${gameId}"], [data-modal="game${gameId}"]`
     );
-    if (btn) btn.style.display = "none";
+    // [MODIFICAÇÃO AQUI]
+    if (btn) btn.classList.add("completed");
 
     alert(`🔥 Mesa ${gameId} concluída!`);
   }
@@ -133,6 +134,12 @@ function initDropzones() {
 ============================================================ */
 document.querySelectorAll(".open-btn").forEach((btn) => {
   btn.onclick = () => {
+    // Verificação adicional (além do pointer-events: none) para robustez:
+    if (btn.classList.contains('completed')) {
+        console.log(`Mesa ${btn.dataset.modal} já concluída e desabilitada.`);
+        return; // Impede a abertura do modal
+    }
+    
     const id = btn.dataset.modal;
     const modal = document.getElementById(id);
 
@@ -160,7 +167,8 @@ function applyMesaStateFromSave() {
   for (let id in gameData.mesas) {
     if (gameData.mesas[id]) {
       const btn = document.querySelector(`[data-modal="game${id}"]`);
-      if (btn) btn.style.display = "none"; // já estava concluída
+      // [MODIFICAÇÃO AQUI]
+      if (btn) btn.classList.add("completed"); // já estava concluída
     }
   }
 }
@@ -180,7 +188,8 @@ window.startMinigameLogic = function () {
     for (let id = 1; id <= 4; id++) {
       if (gameData.mesas[id]) {
         const trigger = document.querySelector(`[data-modal="game${id}"]`);
-        if (trigger) trigger.style.display = "none";
+        // [MODIFICAÇÃO AQUI]
+        if (trigger) trigger.classList.add("completed");
       }
     }
   }

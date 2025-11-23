@@ -6,7 +6,7 @@ const personagens = {
     lado: "direita",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      neutra: "url('/assets/img/npc-cientist.png')",
+      neutra: "url('/assets/img/NPC_Warrior-guard.png')",
       sorrindo: "url('/assets/img/npc-cientist2.png')",
       triste: "url('/assets/img/npc-cientist.png')"
     },
