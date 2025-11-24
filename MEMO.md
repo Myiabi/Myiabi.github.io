@@ -49,7 +49,9 @@ e anotar no README MAIN também.
 - Ainda não consegui solução pra rotação de tela
 - Corrigir devmode, pra ficar maior.
 - ~~Adicionar cenário a batalha do Dropmoon.~~
-- Procurar paralax de neve.
+- ~~Procurar paralax de neve.~~
+- Add botão no minigame das mesas
+- Lógica do cara de oculos sozinho no bar, itens que não contam, mas tbm não podem estar dentro da div.
 
 
 
@@ -63,9 +65,11 @@ e anotar no README MAIN também.
 - ~~Organizar mesas, vão ser 4 modais, cada mesa abre um, cada mesa um cénario diferente.~~
 - ~~Quero um botão de accept do tipo hold (carrega).~~
 - ~~Pedras no Menu drag viram droplets~~ 
-- Servir 4 mesas e tentar deduzir qual prato cada cliente pediu
+- ~~Servir 4 mesas e tentar deduzir qual prato cada cliente pediu~~
 - Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
 - Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.
+- Tela final com pedidos de Patreon e Buy me a Coffee
+- Timer de jogo
 
 # Aprender
 

@@ -9,37 +9,107 @@
   z-index: 1000;
 }
 
-/* Caixa branca do modal */
+/* Caixa do minigame */
 .modal-box {
   background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
+  padding: clamp(1rem, 2vw, 2rem);
+  border-radius: 1rem;
+
+  width: min(90vw, 1250px);
+  height: min(60vh, 550px);
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* Botão fechar */
 .close-btn {
-  float: right;
+  align-self: flex-end;
   cursor: pointer;
-  font-size: 22px;
+  font-size: clamp(2rem, 5vw, 2rem);
+  color: aqua;
 }
 
-/* Itens arrastáveis */
+/* Container dos itens */
 .container {
+  margin-top: 1rem;
+  width: 100%;
+
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 1rem;
+  flex-grow: 1;
 }
 
+/* Itens responsivos */
 .item {
-  width: 50px;
-  height: 50px;
-  background: #ccc;
+  flex: 1;
+  max-width: 18%;
+  aspect-ratio: 1/1;
+
+  background: #d0d2d4;
+  border: 0.3rem solid #bbb;
+  border-radius: 0.8rem;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   cursor: grab;
-  font-size: 20px;
   user-select: none;
+
+  transition: transform .12s ease-out, filter .12s ease-out;
+}
+
+/* Imagens dentro do item */
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ALVO ESCURECIDO — botão pressionado */
+.item.highlight {
+  filter: brightness(0.85);
+  transform: scale(0.97);
+}
+
+/* Fantasma IDENTICO ao item original */
+.drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0.9;
+  transform: none !important;
+}
+
+/* Entrada animada do item que vai ao lugar */
+.item.animate-swap {
+  animation: swapFly .18s ease-out;
+}
+
+@keyframes swapFly {
+  from {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Touch-friendly */
+@media (max-width: 600px) {
+  .modal-box {
+    width: 95vw;
+    height: 55vh;
+  }
+
+  .item {
+    max-width: 19%;
+  }
 }

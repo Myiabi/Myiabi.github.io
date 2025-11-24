@@ -77,8 +77,8 @@ content: '';
 
 #table1 
 {
-  height: 64%;
-  top: 25%;
+  height: 66%;
+  top: 23%;
   left: 50%;
 
 
@@ -100,7 +100,7 @@ content: '';
 }
 #table4 
 { 
-  height: 59%;
+  height: 61%;
   top: 77%;
   left: 47%;
 
@@ -131,32 +131,10 @@ content: '';
   }
   
   .table {
-    width: 30%;
+    width: 32%;
   }
 }
 
-* {
-  touch-action: manipulation;
-  user-select: none;
-  font-family: "Roboto", sans-serif;
-}
-
-body {
-  margin: 20px;
-}
-
-/* Botões */
-/* .open-btn,
-.close-btn {
-  padding: 12px 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  background: #1576c1;
-  color: white;
-  z-index: 500;
-} */
 
 .close-btn {
   margin-top: 20px;
