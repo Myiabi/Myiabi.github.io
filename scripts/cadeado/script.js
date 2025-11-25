@@ -57,12 +57,12 @@ function abrirLockGame() {
     digitsArea.style.width = "90%";
     digitsArea.style.height = "30%";
     digitsArea.style.top = "42%";
-    digitsArea.style.left = "3%";
+    digitsArea.style.left = "3.2%";
     digitsArea.style.display = "flex";
     digitsArea.style.border = "2px solid transparent";
     digitsArea.style.justifyContent = "center";
     digitsArea.style.alignItems = "center";
-    digitsArea.style.gap = "7%";
+    digitsArea.style.gap = "8.6%";
 
     lockWrapper.appendChild(digitsArea);
 

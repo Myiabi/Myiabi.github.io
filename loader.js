@@ -7,7 +7,9 @@ const scripts = [
   "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
-  "/core/caixa_dialogo/script.js"
+  "/core/caixa_dialogo/script.js",
+  "/devmod.js"
+  
 ];
 
 // =========================

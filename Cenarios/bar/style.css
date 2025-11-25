@@ -1,3 +1,16 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+   user-select: none;
+  -webkit-user-drag: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: visible;
+  
+
+}
 body {
   margin: 0;
   padding: 0;
@@ -77,7 +90,7 @@ content: '';
 
 #table1 
 {
-  height: 66%;
+  height: 63%;
   top: 23%;
   left: 50%;
 
@@ -162,6 +175,7 @@ content: '';
   transform: scale(.8);
   opacity: 0;
   transition: .3s;
+  overflow: hidden; /* impede o item de sair do modal */
 }
 
 .modal-overlay.active .modal-box {
@@ -251,5 +265,22 @@ content: '';
 }
 
 
+.close-x {
+  position: absolute;
+  top: 1.5vw;
+  right: 1.5vw;
+  font-size: min(6vw, 34px);
+  font-weight: bold;
+  cursor: pointer;
+  color: #222;
+  z-index: 10000;
+  user-select: none;
+  transition: 0.2s;
+  line-height: 1;
+}
+
+.close-x:hover {
+  transform: scale(1.2);
+}
 
 

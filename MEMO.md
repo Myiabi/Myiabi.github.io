@@ -9,9 +9,9 @@ e anotar no README MAIN também.
 - ~~PESCARIA~~
 - ~~Se livrar do código de modal e criar modal pra cada minigame.~~
 - ~~Função do Fogo~~
-- Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.
+- ~~Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.~~
 - Seria interessante pesquisar diversas fontes
-- Posts de calor (sobe achivement)
+- Posts de calor
 
 - Achar bebês cobras {
     1 - Invisivel (Usar Lua)
@@ -46,11 +46,11 @@ e anotar no README MAIN também.
     - ~~Sol funcionando bem, mas o som não funciona. (espaço para tocarAudio)~~
 ~~}~~
 
-- Ainda não consegui solução pra rotação de tela
-- Corrigir devmode, pra ficar maior.
+- ~~Ainda não consegui solução pra rotação de tela~~
 - ~~Adicionar cenário a batalha do Dropmoon.~~
 - ~~Procurar paralax de neve.~~
 - Add botão no minigame das mesas
+- Corrigir devmode, pra ficar maior.
 - Lógica do cara de oculos sozinho no bar, itens que não contam, mas tbm não podem estar dentro da div.
 
 
