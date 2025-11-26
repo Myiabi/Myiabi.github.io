@@ -3,11 +3,11 @@
 ============================================================ */
 
 function randomNPC() {
-    return Math.floor(Math.random() * 20) + 1 === 1;
+    return Math.floor(Math.random() * 25) + 1 === 1;
 }
 
 function entrarNoLocal() {
-    const npc = document.getElementById("npc");
+    const npc = document.getElementById("cobra5");
 
     if (window.gameData && typeof gameData.npcApareceu !== 'undefined') {
 
@@ -19,6 +19,7 @@ function entrarNoLocal() {
         if (npc) npc.style.display = gameData.npcApareceu ? "block" : "none";
     }
 }
+
 
 /* ============================================================
    DRAG

@@ -8,6 +8,7 @@ const scripts = [
   "/core/popup/script.js",
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
+  "/core/menu_interativo/script.js",
   "/devmod.js"
   
 ];

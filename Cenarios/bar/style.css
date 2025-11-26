@@ -7,7 +7,6 @@
   -webkit-user-drag: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: visible;
   
 
 }
@@ -48,6 +47,7 @@ body {
 
 /* Counter */
 #counter {
+  width: 40%;
   height: 75%; /* escala proporcional à altura do container */
   top: 55%;
   left: 78%;
@@ -60,6 +60,7 @@ body {
 }
 
 #barman {
+  width: 11%;
   top: 42%;
   left: 77%;
   z-index: 1;
@@ -67,6 +68,7 @@ body {
 
 
 #assistant {
+  width: 11%;
   top: 80%;
   left: 75%;
   z-index: 5;
@@ -87,17 +89,29 @@ content: '';
 }
 
 
+#cobra5 {
+
+  position: absolute;
+  width: 8%;
+  height: 20%;
+  top:15%;
+  left: 60%;
+  display: none;
+  z-index: 1;
+}
 
 #table1 
 {
+  width: 25%;
   height: 63%;
   top: 23%;
-  left: 50%;
+  left: 47%;
 
 
 }
 #table2 
 { 
+  width:25%;
   height: 59%;
   top: 24%;
   left: 20%;
@@ -106,16 +120,19 @@ content: '';
 
 #table3 
 { 
+  width: 25%;
   height: 59%;
   top: 77%;
-  left: 15%;
+  left: 17%;
 
 }
 #table4 
 { 
+  width: 25%;
   height: 61%;
   top: 77%;
-  left: 47%;
+  left: 48%;
+  z-index: 10;
 
 }
 
@@ -151,7 +168,7 @@ content: '';
 
 .close-btn {
   margin-top: 20px;
-  background: #444;
+  background: #ffffff;
 }
 
 /* MODAL */
@@ -166,11 +183,11 @@ content: '';
 }
 
 .modal-box {
-  background: white;
-  opacity: 0.9;
+
+  background: rgba(15, 15, 15, 0.7); /* preto com leve transparência */
   width: 90%;
   height: 90%;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 20px;
   transform: scale(.8);
   opacity: 0;
@@ -234,10 +251,8 @@ content: '';
 }
 
 .dropzone {
-  width: 15vw;
-  height: 20vw;
-  max-width: 340px;
-  max-height: 400px;
+  width: 20%;
+  height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -247,6 +262,7 @@ content: '';
   font-size: 20px;
   transition: .2s;
   gap: 50%;
+
 }
 
 .dropzone img {
@@ -272,7 +288,7 @@ content: '';
   font-size: min(6vw, 34px);
   font-weight: bold;
   cursor: pointer;
-  color: #222;
+  color: #ffffff;
   z-index: 10000;
   user-select: none;
   transition: 0.2s;

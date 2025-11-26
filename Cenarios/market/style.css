@@ -7,7 +7,6 @@
   -webkit-user-drag: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
   
 
 }
@@ -45,21 +44,46 @@ body {
 }
 
 #wayway {
+  width: 20%;
   top: 26%;
   left: 17%;
 }
 
 
 #myopic {
+  width: 20%;
   top: 35%;
   left: 60%;
+}
+#cobra4 {
+  position: absolute;
+  width: 12%;
+  height: 30%;
+  top: 70%;
+  left: 30%;
 }
 
 #locker {
   position: absolute;
-  width: 18%;
+  width: 15%;
   height: 38%;
   top: 50%;
   left: 45%;
   z-index: 0;
+}
+
+#senha {
+  position: absolute;
+  width: 7%;
+  height: 9%;
+  top: 30.5%;
+  left: 77.5%;
+  z-index: 5;
+  align-items: center;
+}
+
+#senhapc {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* mostra inteira sem distorcer */
 }

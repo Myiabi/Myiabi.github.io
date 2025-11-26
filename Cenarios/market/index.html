@@ -1,26 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
-<div id="scene">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="/core/menu_interativo/style.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        
+    <div id="scene">
 
-    <img id="bg" src="/assets/img/BG_Market.png" alt="BG" draggable="false">
-    <img class="npc" id="wayway" src="/assets/img/NPC_wayway.png" draggable="false">
-    <img class="npc" id="myopic" src="/assets/img/NPC_Myopic1.png" draggable="false"> 
-    <button onclick="abrirLockGame()">  <img id="locker" src="/assets/img/Locker-Chest.png" draggable="false"> 
-</button>
+        <!-- Área do mapa -->
+        <div class="container mapa" id="senha">
+        <div class="layer bottom">
+            <div class="text">
+
+            </div>
+        </div>
+        <div class="layer top">
+            <div class="text">
+        <img class="npc"  id="senhapc"  src="/assets/img/Locker-password.png" draggable="false"> 
+            </div>
+        </div>
+        </div>
+
+        <img id="bg" src="/assets/img/BG_Market.png" alt="BG" draggable="false">
+        <img class="npc" id="wayway" src="/assets/img/NPC_wayway.png" draggable="false">
+        <img class="npc" id="myopic" src="/assets/img/NPC_Myopic1.png" draggable="false"> 
+        <img  id="cobra4" src="/assets/img/NPC_Snake-Kofongo.png" draggable="false"> 
+
+        <button onclick="abrirLockGame()">  <img id="locker" src="/assets/img/Locker-Chest.png" draggable="false"> 
+    </button>
 
 
 
 
-</div>
-<script src="/loader.js"></script>
-<script src="/scripts/cadeado/script.js"></script>
-</body>
-</html>
+    </div>
+    <script src="/loader.js"></script>
+    <script src="/scripts/cadeado/script.js"></script>
+    </body>
+    </html>
