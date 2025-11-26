@@ -18,7 +18,7 @@ e anotar no README MAIN também.
     2 - Congelado (usar Sol)
     3 - Dentro de um Baú no shop (Clicar 7x)
     4 - Aparece no Bar aleatóriamente
-    5 - 
+    5 - Presa com Wendigo
     6 - Quest no fundo do lago
 }
 
@@ -49,10 +49,9 @@ e anotar no README MAIN também.
 - ~~Ainda não consegui solução pra rotação de tela~~
 - ~~Adicionar cenário a batalha do Dropmoon.~~
 - ~~Procurar paralax de neve.~~
-- Add botão no minigame das mesas
-- Corrigir devmode, pra ficar maior.
+- ~~Add botão no minigame das mesas~~
 - Lógica do cara de oculos sozinho no bar, itens que não contam, mas tbm não podem estar dentro da div.
-
+- Lua e Sol devem ficar abaixo dos overlay
 
 
 # Ideias

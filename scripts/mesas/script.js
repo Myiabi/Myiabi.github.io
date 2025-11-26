@@ -1,198 +1,283 @@
 /* ============================================================
+   LÓGICA DO NPC (Executada Apenas no Carregamento)
+============================================================ */
+
+function randomNPC() {
+    return Math.floor(Math.random() * 20) + 1 === 1;
+}
+
+function entrarNoLocal() {
+    const npc = document.getElementById("cobra5");
+
+    if (window.gameData && typeof gameData.npcApareceu !== 'undefined') {
+
+        if (!gameData.npcApareceu) {
+            const apareceu = randomNPC();
+            if (apareceu) gameData.npcApareceu = true;
+        }
+
+        if (npc) npc.style.display = gameData.npcApareceu ? "block" : "none";
+    }
+}
+
+/* ============================================================
    DRAG
 ============================================================ */
 function dragMoveListener(event) {
-  const t = event.target;
-  const x = (parseFloat(t.dataset.x) || 0) + event.dx;
-  const y = (parseFloat(t.dataset.y) || 0) + event.dy;
+    const t = event.target;
+    const x = (parseFloat(t.dataset.x) || 0) + event.dx;
+    const y = (parseFloat(t.dataset.y) || 0) + event.dy;
 
-  t.style.transform = `translate(${x}px, ${y}px)`;
-  t.dataset.x = x;
-  t.dataset.y = y;
+    t.style.transform = `translate(${x}px, ${y}px)`;
+    t.dataset.x = x;
+    t.dataset.y = y;
+}
+
+// 💡 CORREÇÃO: Nova função para acionar a verificação no final do drag.
+function onDragEnd(event) {
+    // Pega o ID do jogo a partir do item arrastado.
+    const gameId = event.target.dataset.game;
+    if (gameId) {
+        // Garante que a verificação de vitória seja feita após o item
+        // ter parado, seja ele solto DENTRO ou FORA de uma dropzone.
+        checkAllPlaced(gameId);
+    }
 }
 
 function onDragEnter(e) {
-  e.target.classList.add("drop-target");
-  e.relatedTarget.classList.add("can-drop");
+    e.target.classList.add("drop-target");
+    e.relatedTarget.classList.add("can-drop");
 }
 
 function onDragLeave(e) {
-  e.target.classList.remove("drop-target");
-  e.relatedTarget.classList.remove("can-drop");
-  e.relatedTarget.dataset.placed = "false";
+    e.target.classList.remove("drop-target");
+    const item = e.relatedTarget;
+    
+    item.classList.remove("can-drop");
+
+    // Limpeza dos flags (mantido por boa prática, mas a verificação real
+    // acontece no checkAllPlaced)
+    item.dataset.placed = "false";
+    item.dataset.bad = "false";
+    
+    // REMOVIDO: Não chama mais checkAllPlaced aqui, para evitar problemas
+    // de timing com a atualização da posição. Será chamado no onDragEnd.
 }
 
 /* ============================================================
-   DROP — AGORA ROBUSTO
+   DROP — com sistema de BAIT
 ============================================================ */
 function onDrop(e) {
-  const zone = e.currentTarget || e.target.closest(".dropzone");
-  const item = e.relatedTarget;
+    const zone = e.currentTarget || e.target.closest(".dropzone");
+    const item = e.relatedTarget;
+    // O gameId será obtido e verificado no onDragEnd.
+    
+    const isRequired = item.hasAttribute("data-required");
+    const correctType = item.classList.contains(`item${zone.dataset.type}`);
 
-  if (!zone) {
-    console.warn("onDrop: zone não encontrada", e);
-    return;
-  }
+    if (correctType) {
+        // Se a vitória não for acionada, os flags refletem o estado:
+        if (isRequired) {
+            item.dataset.placed = "true";
+            item.dataset.bad = "false";
+        } else {
+            // BAIT dentro da mesa
+            item.dataset.bad = "true";
+            item.dataset.placed = "false";
+        }
+    }
 
-  const gameId = zone.dataset.game;
+    zone.classList.remove("drop-target");
 
-  if (!gameId) {
-    console.warn("onDrop: dropzone sem data-game:", zone);
-    return;
-  }
-
-  if (zone.dataset.type && item.classList.contains(`item${zone.dataset.type}`)) {
-    item.dataset.placed = "true";
-    console.log(
-      `✔ onDrop: item ${item.className} colocado na zona ${zone.dataset.type} (game ${gameId})`
-    );
-  } else {
-    console.log(
-      `✖ onDrop: item NÃO combina com a zona (zone=${zone.dataset.type}, item=${item.className})`
-    );
-  }
-
-  zone.classList.remove("drop-target");
-
-  checkAllPlaced(gameId);
+    // REMOVIDO: Não chama mais checkAllPlaced aqui, para evitar chamada
+    // duplicada ou antes do drag realmente terminar. Será chamado no onDragEnd.
 }
 
 /* ============================================================
-   CHECAR VITÓRIA POR MESA
+   CHECKALLPLACED — COMPLETO, ROBUSTO E FINAL
 ============================================================ */
 function checkAllPlaced(gameId) {
-  const requiredItems = document.querySelectorAll(
-    `.draggable[data-game="${gameId}"][data-required]`
-  );
 
-  console.log(
-    `checkAllPlaced: mesa ${gameId} — itens obrigatórios encontrados:`,
-    requiredItems.length
-  );
-
-  if (requiredItems.length === 0) {
-    console.warn(
-      `⚠ Mesa ${gameId} não tem itens com data-required (nenhuma vitória será detectada)`
+    const requiredItems = document.querySelectorAll(
+        `.draggable[data-game="${gameId}"][data-required="true"]`
     );
-    return;
-  }
 
-  const done = [...requiredItems].every((i) => i.dataset.placed === "true");
+    const totalRequired = requiredItems.length;
+    const zones = document.querySelectorAll(`.dropzone[data-game="${gameId}"]`);
 
-  console.log(`checkAllPlaced: mesa ${gameId} → done = ${done}`);
+    let baitInside = false;
+    let correctInsideCount = 0;
 
-  if (done) {
-    // 🔥 SALVA NO SISTEMA DE SAVE
-    if (window.gameData && gameData.mesas) {
-      gameData.mesas[gameId] = true; // Proxy já salva automaticamente
-      console.log(`💾 Mesa ${gameId} salva como concluída`);
+    // varredura REAL: quais itens estão dentro das zonas?
+    zones.forEach(zone => {
+
+        const zoneRect = zone.getBoundingClientRect();
+
+        const items = document.querySelectorAll(`.draggable[data-game="${gameId}"]`);
+
+        items.forEach(item => {
+
+            const itemRect = item.getBoundingClientRect();
+
+            // Lógica de Intersecção (Overlap)
+            const overlap =
+                !(itemRect.right < zoneRect.left ||
+                  itemRect.left > zoneRect.right ||
+                  itemRect.bottom < zoneRect.top ||
+                  itemRect.top > zoneRect.bottom);
+
+            if (!overlap) return;
+
+            // Item está sobre uma dropzone.
+            const isRequired = item.hasAttribute("data-required");
+            const correctType = item.classList.contains(`item${zone.dataset.type}`);
+
+            // BAIT DETECTADO: item não-requerido está sobre sua zona correta.
+            if (!isRequired && correctType) {
+                baitInside = true;
+            }
+
+            // Required correto: item requerido está sobre sua zona correta.
+            if (isRequired && correctType) {
+                correctInsideCount++;
+            }
+        });
+    });
+
+    // BLOQUEIO DE BAIT
+    if (baitInside) {
+        console.log("❌ Vitória bloqueada: BAIT dentro da mesa");
+        return;
     }
 
-    // esconde modal
+    // Ainda não colocou tudo
+    if (correctInsideCount !== totalRequired) {
+        console.log(`Ainda faltam itens: ${correctInsideCount} de ${totalRequired}`);
+        return;
+    }
+
+    /* ============================================================
+       VITÓRIA — AQUI SIM!
+    =========================================================== */
+    console.log(`✅ VITÓRIA! Mesa ${gameId} concluída!`);
+
+    if (window.gameData && gameData.mesas) {
+        gameData.mesas[gameId] = true; 
+    }
+
     const modal = document.getElementById(`game${gameId}`);
     if (modal) {
-      modal.classList.remove("active");
-      setTimeout(() => modal.classList.add("hidden"), 200);
+        modal.classList.remove("active");
+        modal.classList.add("hidden");
     }
 
-    // Altera: Desabilita a mesa em vez de esconder (usando a classe 'completed')
-    const btn = document.querySelector(
-      `button[data-modal="game${gameId}"], [data-modal="game${gameId}"]`
-    );
-    // [MODIFICAÇÃO AQUI]
-    if (btn) btn.classList.add("completed");
+    const btn = document.querySelector(`[data-modal="game${gameId}"]`);
+    if (btn) {
+        btn.classList.add("completed");
+        btn.onclick = null;
+    }
 
     alert(`🔥 Mesa ${gameId} concluída!`);
-  }
 }
 
 /* ============================================================
    DROPZONES
 ============================================================ */
 function initDropzones() {
-  const zones = document.querySelectorAll(".dropzone");
+    const zones = document.querySelectorAll(".dropzone");
 
-  zones.forEach((z) => {
-    interact(z).dropzone({
-      accept: `.item${z.dataset.type}`,
-      overlap: 0.75,
-      ondragenter: onDragEnter,
-      ondragleave: onDragLeave,
-      ondrop: onDrop,
+    zones.forEach((z) => {
+        interact(z).dropzone({
+            accept: `.item${z.dataset.type}`,
+            overlap: 0.75,
+            ondragenter: onDragEnter,
+            ondragleave: onDragLeave,
+            ondrop: onDrop,
+        });
     });
-  });
 
-  interact(".draggable").draggable({
-    inertia: true,
-    autoScroll: true,
-    listeners: { move: dragMoveListener },
-  });
+    // Configura o item arrastável
+    interact(".draggable").draggable({
+        inertia: true,
+        autoScroll: true,
+        listeners: { 
+            move: dragMoveListener,
+            // 💡 CORREÇÃO: Chama a verificação no final do arrasto.
+            end: onDragEnd 
+        },
+        restrict: {
+            restriction: 'window',
+            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+        }
+    });
 }
 
 /* ============================================================
-   SISTEMA DE MODAIS
+   MODAIS
 ============================================================ */
 document.querySelectorAll(".open-btn").forEach((btn) => {
-  btn.onclick = () => {
-    // Verificação adicional (além do pointer-events: none) para robustez:
-    if (btn.classList.contains('completed')) {
-        console.log(`Mesa ${btn.dataset.modal} já concluída e desabilitada.`);
-        return; // Impede a abertura do modal
-    }
-    
-    const id = btn.dataset.modal;
-    const modal = document.getElementById(id);
+    btn.onclick = () => {
+        if (btn.classList.contains('completed')) return;
 
-    modal.classList.add("active");
-    modal.classList.remove("hidden");
-  };
+        const id = btn.dataset.modal;
+        const modal = document.getElementById(id);
+
+        modal.classList.add("active");
+        modal.classList.remove("hidden");
+    };
 });
 
 document.querySelectorAll(".close-btn").forEach((btn) => {
-  btn.onclick = () => {
-    const id = btn.dataset.close;
-    const modal = document.getElementById(id);
+    btn.onclick = () => {
+        const id = btn.dataset.close;
+        const modal = document.getElementById(id);
 
-    modal.classList.remove("active");
-    setTimeout(() => modal.classList.add("hidden"), 200);
-  };
+        modal.classList.remove("active");
+        setTimeout(() => modal.classList.add("hidden"), 200);
+    };
 });
 
 /* ============================================================
-   APLICAR ESTADO DO SAVE NAS MESAS
+   BOTÃO X PARA FECHAR
+============================================================ */
+document.querySelectorAll(".close-x").forEach(btn => {
+    btn.onclick = () => {
+        const id = btn.dataset.close;
+        const modal = document.getElementById(id);
+
+        modal.classList.remove("active");
+        setTimeout(() => modal.classList.add("hidden"), 200);
+    };
+});
+
+/* ============================================================
+   APLICA ESTADO DO SAVE
 ============================================================ */
 function applyMesaStateFromSave() {
-  if (!window.gameData || !gameData.mesas) return;
+    if (!window.gameData || !gameData.mesas) return;
 
-  for (let id in gameData.mesas) {
-    if (gameData.mesas[id]) {
-      const btn = document.querySelector(`[data-modal="game${id}"]`);
-      // [MODIFICAÇÃO AQUI]
-      if (btn) btn.classList.add("completed"); // já estava concluída
+    for (let id in gameData.mesas) {
+        if (gameData.mesas[id]) {
+            const btn = document.querySelector(`[data-modal="game${id}"]`);
+            if (btn) {
+                btn.classList.add("completed");
+                btn.onclick = null;
+            }
+        }
     }
-  }
 }
 
 /* ============================================================
    INIT
 ============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
-  initDropzones();
-  applyMesaStateFromSave();
+    initDropzones();
+    applyMesaStateFromSave();
+    entrarNoLocal();
 });
 
 window.startMinigameLogic = function () {
-  initDropzones();
-
-  if (window.gameData && gameData.mesas) {
-    for (let id = 1; id <= 4; id++) {
-      if (gameData.mesas[id]) {
-        const trigger = document.querySelector(`[data-modal="game${id}"]`);
-        // [MODIFICAÇÃO AQUI]
-        if (trigger) trigger.classList.add("completed");
-      }
-    }
-  }
-
-  console.log("startMinigameLogic: minigame inicializado");
+    initDropzones();
+    applyMesaStateFromSave();
+    entrarNoLocal();
 };

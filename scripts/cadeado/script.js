@@ -142,6 +142,12 @@ function abrirLockGame() {
         const audio = new Audio("/assets/sounds/win.mp3");
         audio.play();
 
+        // desativa todos os slots imediatamente ao vencer
+    slots.forEach(slot => {
+    slot.style.pointerEvents = "none";
+});
+
+
         // esconde botão do cadeado se existir
         const btn = document.getElementById("padlock");
         if (btn) btn.style.display = "none";
