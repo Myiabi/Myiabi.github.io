@@ -1,0 +1,53 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="/core/menu_interativo/style.css">
+        <link rel="stylesheet" href="/scripts/estatuas/script.js">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        
+    <div id="scene">
+
+
+        <img id="bg" src="/assets/img/BG_Temple.png" alt="BG" draggable="false">
+        <img class="npc" id="nana" src="/assets/img/NPC_nan.png" draggable="false">
+        <img class="npc" id="nodata" src="/assets/img/NPC_nodata.png" draggable="false"> 
+        <img class="npc" id="leader" src="/assets/img/NPC_Leader.png" draggable="false"> 
+
+
+
+    <button id="btn-open" onclick="openModal()"></button>
+
+<!-- MODAL -->
+<div id="modalSequencia" class="modal-overlay">
+
+  <div class="modal-box">
+
+    <span class="close-btn" onclick="closeModal()">×</span>
+
+    <div class="container" id="container">
+      <div class="item" draggable="true" data-value="3"><img src="/assets/img/statue1.png" alt=""></div>
+      <div class="item" draggable="true" data-value="1"><img src="/assets/img/statue2.png" alt=""></div>
+      <div class="item" draggable="true" data-value="4"><img src="/assets/img/statue3.png" alt=""></div>
+      <div class="item" draggable="true" data-value="2"><img src="/assets/img/statue4.png" alt=""></div>
+      <div class="item" draggable="true" data-value="5"><img src="/assets/img/statue5.png" alt=""></div>
+    </div>
+
+  </div>
+</div>
+
+    </button>
+
+
+
+
+    </div>
+    <script src="/loader.js"></script>
+    <script src="/scripts/estatuas/script.js"></script>
+    </body>
+    </html>

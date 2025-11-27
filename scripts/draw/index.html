@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minigame de Desenho</title>
+    <style>
+        body { display: flex; flex-direction: column; align-items: center; font-family: sans-serif; }
+        #drawingCanvas { border: 2px solid #333; cursor: crosshair; background-color: #f9f9f9; }
+        #status { margin-top: 20px; font-size: 1.5em; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Desenhe a Forma Alvo</h1>
+    <canvas id="drawingCanvas" width="300" height="300"></canvas>
+    <div id="status">Desenhe aqui!</div>
+    <button onclick="clearCanvas()">Limpar</button>
+
+    <script src="script.js"></script>
+</body>
+</html>

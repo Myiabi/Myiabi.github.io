@@ -17,7 +17,7 @@ e anotar no README MAIN também.
     1 - Invisivel (Usar Lua)
     2 - Congelado (usar Sol)
     3 - Dentro de um Baú no shop (Clicar 7x)
-    4 - Aparece no Bar aleatóriamente
+    ~~4 - Aparece no Bar aleatóriamente~~
     5 - Presa com Wendigo
     6 - Quest no fundo do lago
 }
@@ -50,8 +50,11 @@ e anotar no README MAIN também.
 - ~~Adicionar cenário a batalha do Dropmoon.~~
 - ~~Procurar paralax de neve.~~
 - ~~Add botão no minigame das mesas~~
-- Lógica do cara de oculos sozinho no bar, itens que não contam, mas tbm não podem estar dentro da div.
+- ~~Lógica do cara de oculos sozinho no bar, itens que não contam, mas tbm não podem estar dentro da div.~~
 - Lua e Sol devem ficar abaixo dos overlay
+- Fazer um container bonitinho pro sol e lua.
+- Queria isolar as falas em um arquivo só de fala
+
 
 
 # Ideias

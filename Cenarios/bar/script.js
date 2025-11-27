@@ -1,306 +1,245 @@
 /* ============================================================
-   LÓGICA DO NPC (Executada Apenas no Carregamento)
+   SCRIPT COMPLETO CORRIGIDO
+   - restrição por modal (por elemento)
+   - debounce no check
+   - vitória só quando 100% do item estiver dentro
+   - bait bloqueando vitória
+   - NPC random
 ============================================================ */
 
+/* ---------- NPC ---------- */
 function randomNPC() {
-    return Math.floor(Math.random() * 25) + 1 === 1;
+  return Math.floor(Math.random() * 20) + 1 === 1;
 }
-
 function entrarNoLocal() {
-    const npc = document.getElementById("cobra5");
-
-    if (window.gameData && typeof gameData.npcApareceu !== 'undefined') {
-
-        if (!gameData.npcApareceu) {
-            const apareceu = randomNPC();
-            if (apareceu) gameData.npcApareceu = true;
-        }
-
-        if (npc) npc.style.display = gameData.npcApareceu ? "block" : "none";
-    }
+  const npc = document.getElementById("cobra5");
+  if (!window.gameData || typeof gameData.npcApareceu === "undefined") return;
+  if (!gameData.npcApareceu && randomNPC()) gameData.npcApareceu = true;
+  if (npc) npc.style.display = gameData.npcApareceu ? "block" : "none";
 }
 
+/* ---------- CONFIG ---------- */
+const CHECK_DEBOUNCE_MS = 80;
+const INSIDE_THRESHOLD = 1.0; // 1.0 = 100%
+const _checkTimers = new Map();
 
-/* ============================================================
-   LÓGICA DO NPC (Executada Apenas no Carregamento)
-============================================================ */
+/* ---------- UTIL: área de overlap ---------- */
+function isInsideZoneByArea(item, zone, threshold = INSIDE_THRESHOLD) {
+  const ir = item.getBoundingClientRect();
+  const zr = zone.getBoundingClientRect();
 
-function randomNPC() {
-    return Math.floor(Math.random() * 20) + 1 === 1;
+  // se elemento invisível/0 size
+  if (ir.width <= 0 || ir.height <= 0) return false;
+
+  const overlapX = Math.max(0, Math.min(ir.right, zr.right) - Math.max(ir.left, zr.left));
+  const overlapY = Math.max(0, Math.min(ir.bottom, zr.bottom) - Math.max(ir.top, zr.top));
+  const overlapArea = overlapX * overlapY;
+  const itemArea = ir.width * ir.height;
+
+  return (overlapArea / itemArea) >= threshold;
 }
 
-function entrarNoLocal() {
-    const npc = document.getElementById("cobra5");
-
-    if (window.gameData && typeof gameData.npcApareceu !== 'undefined') {
-
-        if (!gameData.npcApareceu) {
-            const apareceu = randomNPC();
-            if (apareceu) gameData.npcApareceu = true;
-        }
-
-        if (npc) npc.style.display = gameData.npcApareceu ? "block" : "none";
-    }
-}
-
-/* ============================================================
-   DRAG
-============================================================ */
+/* ---------- DRAG HELPERS ---------- */
 function dragMoveListener(event) {
-    const t = event.target;
-    const x = (parseFloat(t.dataset.x) || 0) + event.dx;
-    const y = (parseFloat(t.dataset.y) || 0) + event.dy;
-
-    t.style.transform = `translate(${x}px, ${y}px)`;
-    t.dataset.x = x;
-    t.dataset.y = y;
+  const t = event.target;
+  const x = (parseFloat(t.dataset.x) || 0) + event.dx;
+  const y = (parseFloat(t.dataset.y) || 0) + event.dy;
+  t.style.transform = `translate(${x}px, ${y}px)`;
+  t.dataset.x = x;
+  t.dataset.y = y;
 }
 
-// 💡 CORREÇÃO: Nova função para acionar a verificação no final do drag.
 function onDragEnd(event) {
-    // Pega o ID do jogo a partir do item arrastado.
-    const gameId = event.target.dataset.game;
-    if (gameId) {
-        // Garante que a verificação de vitória seja feita após o item
-        // ter parado, seja ele solto DENTRO ou FORA de uma dropzone.
-        checkAllPlaced(gameId);
-    }
+  const gameId = event.target && event.target.dataset && event.target.dataset.game;
+  if (gameId) {
+    if (_checkTimers.has(gameId)) { clearTimeout(_checkTimers.get(gameId)); _checkTimers.delete(gameId); }
+    checkAllPlaced(gameId);
+  }
 }
 
 function onDragEnter(e) {
-    e.target.classList.add("drop-target");
-    e.relatedTarget.classList.add("can-drop");
+  e.target.classList.add("drop-target");
+  if (e.relatedTarget) e.relatedTarget.classList.add("can-drop");
 }
 
 function onDragLeave(e) {
-    e.target.classList.remove("drop-target");
-    const item = e.relatedTarget;
-    
-    item.classList.remove("can-drop");
+  e.target.classList.remove("drop-target");
+  const item = e.relatedTarget;
+  if (!item) return;
+  item.classList.remove("can-drop");
+  // flags visuais apenas
+  item.dataset.placed = "false";
+  item.dataset.bad = "false";
+}
 
-    // Limpeza dos flags (mantido por boa prática, mas a verificação real
-    // acontece no checkAllPlaced)
+/* ---------- DROP (bait handling) ---------- */
+function onDrop(e) {
+  const zone = e.currentTarget || e.target.closest(".dropzone");
+  const item = e.relatedTarget;
+  if (!zone || !item) return;
+
+  const isRequired = item.hasAttribute("data-required");
+  const correctType = zone.dataset.type && item.classList.contains(`item${zone.dataset.type}`);
+
+  if (correctType) {
+    if (isRequired) {
+      item.dataset.placed = "true";
+      item.dataset.bad = "false";
+    } else {
+      item.dataset.bad = "true";
+      item.dataset.placed = "false";
+    }
+  } else {
     item.dataset.placed = "false";
     item.dataset.bad = "false";
-    
-    // REMOVIDO: Não chama mais checkAllPlaced aqui, para evitar problemas
-    // de timing com a atualização da posição. Será chamado no onDragEnd.
+  }
+
+  zone.classList.remove("drop-target");
+  // não chamamos check aqui; move/end/debounce cuidam disso
 }
 
-/* ============================================================
-   DROP — com sistema de BAIT
-============================================================ */
-function onDrop(e) {
-    const zone = e.currentTarget || e.target.closest(".dropzone");
-    const item = e.relatedTarget;
-    // O gameId será obtido e verificado no onDragEnd.
-    
-    const isRequired = item.hasAttribute("data-required");
-    const correctType = item.classList.contains(`item${zone.dataset.type}`);
-
-    if (correctType) {
-        // Se a vitória não for acionada, os flags refletem o estado:
-        if (isRequired) {
-            item.dataset.placed = "true";
-            item.dataset.bad = "false";
-        } else {
-            // BAIT dentro da mesa
-            item.dataset.bad = "true";
-            item.dataset.placed = "false";
-        }
-    }
-
-    zone.classList.remove("drop-target");
-
-    // REMOVIDO: Não chama mais checkAllPlaced aqui, para evitar chamada
-    // duplicada ou antes do drag realmente terminar. Será chamado no onDragEnd.
+/* ---------- DEBOUNCE ---------- */
+function debouncedCheck(gameId) {
+  if (!gameId) return;
+  if (_checkTimers.has(gameId)) clearTimeout(_checkTimers.get(gameId));
+  _checkTimers.set(gameId, setTimeout(() => {
+    _checkTimers.delete(gameId);
+    checkAllPlaced(gameId);
+  }, CHECK_DEBOUNCE_MS));
 }
 
-/* ============================================================
-   CHECKALLPLACED — COMPLETO, ROBUSTO E FINAL
-============================================================ */
+/* ---------- VERIFICAÇÃO DE VITÓRIA (bounding-box + threshold) ---------- */
 function checkAllPlaced(gameId) {
+  if (!gameId) return;
 
-    const requiredItems = document.querySelectorAll(
-        `.draggable[data-game="${gameId}"][data-required="true"]`
-    );
+  const requiredItems = Array.from(document.querySelectorAll(`.draggable[data-game="${gameId}"][data-required]`));
+  const totalRequired = requiredItems.length;
+  if (totalRequired === 0) return; // nada a checar
 
-    const totalRequired = requiredItems.length;
-    const zones = document.querySelectorAll(`.dropzone[data-game="${gameId}"]`);
+  const zones = Array.from(document.querySelectorAll(`.dropzone[data-game="${gameId}"]`));
+  if (zones.length === 0) return;
 
-    let baitInside = false;
-    let correctInsideCount = 0;
+  const items = Array.from(document.querySelectorAll(`.draggable[data-game="${gameId}"]`));
 
-    // varredura REAL: quais itens estão dentro das zonas?
-    zones.forEach(zone => {
+  let baitInside = false;
+  const countedRequired = new Set();
 
-        const zoneRect = zone.getBoundingClientRect();
+  zones.forEach(zone => {
+    items.forEach(item => {
+      if (!isInsideZoneByArea(item, zone, INSIDE_THRESHOLD)) return;
 
-        const items = document.querySelectorAll(`.draggable[data-game="${gameId}"]`);
+      const isRequired = item.hasAttribute("data-required");
+      const correctType = zone.dataset.type && item.classList.contains(`item${zone.dataset.type}`);
 
-        items.forEach(item => {
-
-            const itemRect = item.getBoundingClientRect();
-
-            // Lógica de Intersecção (Overlap)
-            const overlap =
-                !(itemRect.right < zoneRect.left ||
-                  itemRect.left > zoneRect.right ||
-                  itemRect.bottom < zoneRect.top ||
-                  itemRect.top > zoneRect.bottom);
-
-            if (!overlap) return;
-
-            // Item está sobre uma dropzone.
-            const isRequired = item.hasAttribute("data-required");
-            const correctType = item.classList.contains(`item${zone.dataset.type}`);
-
-            // BAIT DETECTADO: item não-requerido está sobre sua zona correta.
-            if (!isRequired && correctType) {
-                baitInside = true;
-            }
-
-            // Required correto: item requerido está sobre sua zona correta.
-            if (isRequired && correctType) {
-                correctInsideCount++;
-            }
-        });
+      if (!isRequired && correctType) baitInside = true;
+      if (isRequired && correctType) countedRequired.add(item);
     });
+  });
 
-    // BLOQUEIO DE BAIT
-    if (baitInside) {
-        console.log("❌ Vitória bloqueada: BAIT dentro da mesa");
-        return;
-    }
+  if (baitInside) return;
+  if (countedRequired.size !== totalRequired) return;
 
-    // Ainda não colocou tudo
-    if (correctInsideCount !== totalRequired) {
-        console.log(`Ainda faltam itens: ${correctInsideCount} de ${totalRequired}`);
-        return;
-    }
+  // Vitória!
+  if (window.gameData && gameData.mesas) gameData.mesas[gameId] = true;
 
-    /* ============================================================
-       VITÓRIA — AQUI SIM!
-    =========================================================== */
-    console.log(`✅ VITÓRIA! Mesa ${gameId} concluída!`);
+  const modal = document.getElementById(`game${gameId}`);
+  if (modal) {
+    modal.classList.remove("active");
+    modal.classList.add("hidden");
+  }
+  const btn = document.querySelector(`[data-modal="game${gameId}"]`);
+  if (btn) { btn.classList.add("completed"); btn.onclick = null; }
 
-    if (window.gameData && gameData.mesas) {
-        gameData.mesas[gameId] = true; 
-    }
-
-    const modal = document.getElementById(`game${gameId}`);
-    if (modal) {
-        modal.classList.remove("active");
-        modal.classList.add("hidden");
-    }
-
-    const btn = document.querySelector(`[data-modal="game${gameId}"]`);
-    if (btn) {
-        btn.classList.add("completed");
-        btn.onclick = null;
-    }
-
-    alert(`🔥 Mesa ${gameId} concluída!`);
+  alert(`🔥 Mesa ${gameId} concluída!`);
 }
 
-/* ============================================================
-   DROPZONES
-============================================================ */
+/* ---------- INIT: aplica dropzones e registra draggable por elemento ---------- */
 function initDropzones() {
-    const zones = document.querySelectorAll(".dropzone");
-
-    zones.forEach((z) => {
-        interact(z).dropzone({
-            accept: `.item${z.dataset.type}`,
-            overlap: 0.75,
-            ondragenter: onDragEnter,
-            ondragleave: onDragLeave,
-            ondrop: onDrop,
-        });
+  // dropzones
+  const zones = document.querySelectorAll(".dropzone");
+  zones.forEach(z => {
+    interact(z).dropzone({
+      accept: `.item${z.dataset.type}`,
+      overlap: 0.75,
+      ondragenter: onDragEnter,
+      ondragleave: onDragLeave,
+      ondrop: onDrop
     });
+  });
 
-    // Configura o item arrastável
-    interact(".draggable").draggable({
-        inertia: true,
-        autoScroll: true,
-        listeners: { 
-            move: dragMoveListener,
-            // 💡 CORREÇÃO: Chama a verificação no final do arrasto.
-            end: onDragEnd 
+  // draggables: registrar por elemento (permite restrictRect com modal específico)
+  const draggables = document.querySelectorAll(".draggable");
+  draggables.forEach(el => {
+    // cleanup: evita múltiplas instâncias se init rodar várias vezes
+    try { interact(el).unset(); } catch (err) {}
+
+    // encontra modal-box mais próxima (fallback: o próprio elemento)
+    const modalBox = el.closest(".modal-box");
+    const restrictionTarget = modalBox || el;
+
+    interact(el).draggable({
+      inertia: true,
+      autoScroll: true,
+      modifiers: [
+        interact.modifiers.restrictRect({
+          restriction: restrictionTarget,
+          endOnly: true
+        })
+      ],
+      listeners: {
+        move(event) {
+          dragMoveListener(event);
+          const gameId = event.target && event.target.dataset && event.target.dataset.game;
+          if (gameId) debouncedCheck(gameId);
         },
-        restrict: {
-            restriction: 'window',
-            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+        end(event) {
+          onDragEnd(event);
         }
+      }
     });
+  });
 }
 
-/* ============================================================
-   MODAIS
-============================================================ */
-document.querySelectorAll(".open-btn").forEach((btn) => {
-    btn.onclick = () => {
-        if (btn.classList.contains('completed')) return;
-
-        const id = btn.dataset.modal;
-        const modal = document.getElementById(id);
-
-        modal.classList.add("active");
-        modal.classList.remove("hidden");
-    };
+/* ---------- MODAIS ---------- */
+document.querySelectorAll(".open-btn").forEach(btn => {
+  btn.onclick = () => {
+    if (btn.classList.contains("completed")) return;
+    const modal = document.getElementById(btn.dataset.modal);
+    if (!modal) return;
+    modal.classList.remove("hidden");
+    modal.classList.add("active");
+  };
 });
 
-document.querySelectorAll(".close-btn").forEach((btn) => {
-    btn.onclick = () => {
-        const id = btn.dataset.close;
-        const modal = document.getElementById(id);
-
-        modal.classList.remove("active");
-        setTimeout(() => modal.classList.add("hidden"), 200);
-    };
+document.querySelectorAll(".close-btn, .close-x").forEach(btn => {
+  btn.onclick = () => {
+    const modal = document.getElementById(btn.dataset.close);
+    if (!modal) return;
+    modal.classList.remove("active");
+    setTimeout(() => modal.classList.add("hidden"), 200);
+  };
 });
 
-/* ============================================================
-   BOTÃO X PARA FECHAR
-============================================================ */
-document.querySelectorAll(".close-x").forEach(btn => {
-    btn.onclick = () => {
-        const id = btn.dataset.close;
-        const modal = document.getElementById(id);
-
-        modal.classList.remove("active");
-        setTimeout(() => modal.classList.add("hidden"), 200);
-    };
-});
-
-/* ============================================================
-   APLICA ESTADO DO SAVE
-============================================================ */
+/* ---------- APLICAR SAVE ---------- */
 function applyMesaStateFromSave() {
-    if (!window.gameData || !gameData.mesas) return;
-
-    for (let id in gameData.mesas) {
-        if (gameData.mesas[id]) {
-            const btn = document.querySelector(`[data-modal="game${id}"]`);
-            if (btn) {
-                btn.classList.add("completed");
-                btn.onclick = null;
-            }
-        }
+  if (!window.gameData || !gameData.mesas) return;
+  for (let id in gameData.mesas) {
+    if (gameData.mesas[id]) {
+      const btn = document.querySelector(`[data-modal="game${id}"]`);
+      if (btn) { btn.classList.add("completed"); btn.onclick = null; }
     }
+  }
 }
 
-/* ============================================================
-   INIT
-============================================================ */
+/* ---------- START ---------- */
 document.addEventListener("DOMContentLoaded", () => {
-    initDropzones();
-    applyMesaStateFromSave();
-    entrarNoLocal();
+  initDropzones();
+  applyMesaStateFromSave();
+  entrarNoLocal();
 });
 
 window.startMinigameLogic = function () {
-    initDropzones();
-    applyMesaStateFromSave();
-    entrarNoLocal();
+  initDropzones();
+  applyMesaStateFromSave();
+  entrarNoLocal();
 };

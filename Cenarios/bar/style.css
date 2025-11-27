@@ -74,21 +74,6 @@ body {
   z-index: 5;
 }
 
-#assistant::after {
-content: '';
-  position: absolute;
-  width: 60%;       /* largura da sombra */
-  height: 20%;      /* altura da sombra (achatada) */
-  background: rgba(0,0,0,0.5);
-  bottom: 0;        /* posiciona embaixo do personagem */
-  left: 50%;
-  transform: translateX(-50%) scaleX(1.2);
-  border-radius: 50%; /* deixa redonda/achatada */
-  filter: blur(5px);  /* suaviza a sombra */
-  z-index: 3;        /* atrás do personagem */
-}
-
-
 #cobra5 {
 
   position: absolute;
@@ -111,7 +96,7 @@ content: '';
 }
 #table2 
 { 
-  width:25%;
+  width:23%;
   height: 59%;
   top: 24%;
   left: 20%;
@@ -120,7 +105,7 @@ content: '';
 
 #table3 
 { 
-  width: 25%;
+  width: 24%;
   height: 59%;
   top: 77%;
   left: 17%;
@@ -128,41 +113,12 @@ content: '';
 }
 #table4 
 { 
-  width: 25%;
+  width:23%;
   height: 61%;
   top: 77%;
   left: 48%;
   z-index: 10;
 
-}
-
-
-
-/* telas quadradas/estreitas (tablet) */
-@media (max-width: 1280px) and (max-height: 800px) {
-  #counter { width: 28%; top: 48%; left: 78%; }
-  .npc { width: 10%; }
-  .table { width: 28%; }
-}
-
-/* iPad portrait / landscape (iPadOS 14.7.1) */
-@media (min-device-width: 768px) and (max-device-width: 1366px) 
-       and (min-device-height: 768px) and (max-device-height: 1024px)
-       and (-webkit-min-device-pixel-ratio: 1) {
-  
-  #counter {
-    width: 28%; /* menor que desktop */
-    top: 48%;
-    left: 78%;
-  }
-  
-  .npc {
-    width: 10%;
-  }
-  
-  .table {
-    width: 32%;
-  }
 }
 
 

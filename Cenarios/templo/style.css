@@ -1,0 +1,180 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+   user-select: none;
+  -webkit-user-drag: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+
+}
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+}
+
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* BG real que estica para preencher tela inteira */
+#bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* estica para preencher */
+  z-index: 0;
+}
+
+/* NPCs */
+.npc {
+  height: 28%; 
+  position: absolute;
+}
+
+#nana {
+  width: 10%;
+  top: 50%;
+  left: 25%;
+}
+
+
+#nodata {
+  width: 9.5%;
+  top: 50%;
+  left: 62%;
+}
+#leader {
+  position: absolute;
+  width: 10%;
+  top: 65%;
+  left: 45%;
+}
+
+#btn-open {
+    position: absolute;
+    top: 22.7%;  
+    left: 43.3%;    
+    width: 13%;   
+    height: 25%;   
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Fundo escuro do modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Caixa do minigame */
+.modal-box {
+  background: rgba(15, 15, 15, 0.7); /* preto com leve transparência */
+  padding: clamp(1rem, 2vw, 2rem);
+  border-radius: 1rem;
+
+  width: min(90vw, 1250px);
+  height: min(60vh, 550px);
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Botão fechar */
+.close-btn {
+  align-self: flex-end;
+  cursor: pointer;
+  font-size: clamp(2rem, 5vw, 2rem);
+  color: aqua;
+}
+
+/* Container dos itens */
+.container {
+  margin-top: 1rem;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 1rem;
+  flex-grow: 1;
+}
+
+/* Itens responsivos */
+.item {
+  flex: 1;
+  max-width: 18%;
+  aspect-ratio: 1/1;
+  background: #d0d2d4;
+  opacity: 0.9;
+  border: 0.3rem solid #bbb;
+  border-radius: 0.8rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: grab;
+  user-select: none;
+
+  transition: transform .12s ease-out, filter .12s ease-out;
+}
+
+/* Imagens dentro do item */
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ALVO ESCURECIDO — botão pressionado */
+.item.highlight {
+  filter: brightness(0.85);
+  transform: scale(0.97);
+}
+
+/* Fantasma IDENTICO ao item original */
+.drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0.9;
+  transform: none !important;
+}
+
+/* Entrada animada do item que vai ao lugar */
+.item.animate-swap {
+  animation: swapFly .18s ease-out;
+}
+
+@keyframes swapFly {
+  from {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
