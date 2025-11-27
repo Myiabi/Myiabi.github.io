@@ -2,6 +2,7 @@
 
 const scripts = [
   "/core/global.js",
+  "/core/caixa_dialogo/falas.js",
 /*   "/core/save/script.js",
  */  "/core/achievements/script.js",
   "/core/loading/script.js",

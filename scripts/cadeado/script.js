@@ -43,6 +43,7 @@ function abrirLockGame() {
     modal.style.alignItems = "center";
     modal.style.justifyContent = "center";
     modal.style.background = "rgba(0,0,0,0.4)";
+    modal.style.zIndex = "3000";
     document.body.appendChild(modal);
 
     // Fecha ao clicar fora
@@ -65,6 +66,7 @@ function abrirLockGame() {
     lockWrapper.style.backgroundSize = "contain";
     lockWrapper.style.backgroundRepeat = "no-repeat";
     lockWrapper.style.backgroundPosition = "center";
+    lockWrapper.style.zIndex = "3000";
 
     modal.appendChild(lockWrapper);
 

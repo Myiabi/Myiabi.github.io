@@ -68,6 +68,33 @@ body {
   height: 40%;
   top: 56%;
   left: 79%;
+  transition: opacity 0.5s ease;
+}
+
+#box, #cobra4 {
+  transition: opacity 0.5s ease;
+}
+
+@keyframes tremida {
+  0%   { transform: translate(0, 0); }
+  35%  { transform: translate(-2px, 1px); }
+  70%  { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.shake {
+  animation: tremida 0.12s ease;
+}
+
+
+
+.hidden {
+  opacity: 0;
+}
+
+
+.hidden {
+  opacity: 0;
 }
 
 #locker {

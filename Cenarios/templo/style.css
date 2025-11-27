@@ -81,7 +81,7 @@ body {
   background: rgba(0,0,0,0.6);
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 3000;
 }
 
 /* Caixa do minigame */
@@ -89,20 +89,30 @@ body {
   background: rgba(15, 15, 15, 0.7); /* preto com leve transparência */
   padding: clamp(1rem, 2vw, 2rem);
   border-radius: 1rem;
-
   width: min(90vw, 1250px);
   height: min(60vh, 550px);
-
+  position: relative;
   display: flex;
   flex-direction: column;
 }
 
 /* Botão fechar */
 .close-btn {
-  align-self: flex-end;
+  position: absolute;
+  top: 1.5vw;
+  right: 1.5vw;
+  font-size: min(6vw, 34px);
+  font-weight: bold;
   cursor: pointer;
-  font-size: clamp(2rem, 5vw, 2rem);
-  color: aqua;
+  color: #ffffff;
+  z-index: 10000;
+  user-select: none;
+  transition: 0.2s;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  transform: scale(1.2);
 }
 
 /* Container dos itens */

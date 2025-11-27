@@ -135,7 +135,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 3000;
 }
 
 .modal-box {
@@ -149,6 +149,7 @@ body {
   opacity: 0;
   transition: .3s;
   overflow: hidden; /* impede o item de sair do modal */
+  z-index: 3000;
 }
 
 .modal-overlay.active .modal-box {
