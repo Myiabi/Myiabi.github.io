@@ -62,6 +62,21 @@ body {
   left: 45%;
 }
 
+#cobra2 {
+  position: absolute;
+  width: 10%;
+  height: 20%;
+  top: 40%;
+  left: 79%;
+}
+
+#hidel {
+  position: absolute;
+  width: 70%;
+  align-items: center;
+
+}
+
 #btn-open {
     position: absolute;
     top: 22.7%;  
@@ -147,6 +162,7 @@ body {
 
   transition: transform .12s ease-out, filter .12s ease-out;
 }
+
 
 /* Imagens dentro do item */
 .item img {

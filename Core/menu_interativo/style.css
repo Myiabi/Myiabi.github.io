@@ -251,3 +251,29 @@ html,body{
     transform: translate(-50%, -180%) scale(0.3);
   }
 }
+
+/* =========================================
+   ANIMAÇÃO DE VOO (Floating Effect)
+   ========================================= */
+
+/* 1. O ROTEIRO: O que acontece na animação */
+@keyframes fly-animation {
+  /* 0% e 100%: Levemente para cima e inclinado */
+  /* O translate(-50%, -50%) mantém o item centralizado no cursor */
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0.5deg);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)); 
+  }
+  /* 50% (Meio): Sobe um pouco mais e inclina para o lado oposto */
+  50% {
+    transform: translate(-50%, -60%) rotate(-0.5deg); 
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+}
+
+/* 2. A CLASSE QUE ATIVA A ANIMAÇÃO (NO CLONE ARRASTADO) */
+.drag-clone-float {
+  /* O nome da animação, duração, suavidade, repetição */
+  animation: 
+    fly-animation 2.5s ease-in-out infinite alternate; 
+}
