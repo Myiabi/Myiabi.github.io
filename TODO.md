@@ -10,11 +10,11 @@
 
 Minigames
 
-- [x] Cadeado
-- [x] Wendigo Fight
+- [] Cadeado
+- [] Wendigo Fight
 - [] Servir mesas
 - [] Ordem das Estátuas
-- [x] Dropmoon Fight
+- [] Dropmoon Fight
 - [] Pescaria
 - [] Make you own
 - [] Lily Flower

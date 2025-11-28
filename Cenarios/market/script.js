@@ -33,7 +33,7 @@ function tremerBox() {
   }
 
   // intervalo aleatório entre 3 e 10 segundos
-  const proximo = Math.floor(Math.random() * 7000) + 3000;
+  const proximo = Math.floor(Math.random() * 7000) + 5000;
 
   setTimeout(tremerBox, proximo);
 }

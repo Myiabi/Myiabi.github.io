@@ -16,8 +16,8 @@ e anotar no README MAIN também.
 - Achar bebês cobras {
     1 - Invisivel (Usar Lua)
     2 - Congelado (usar Sol)
-    3 - Dentro de um Baú no shop (Clicar 7x)
-    ~~4 - Aparece no Bar aleatóriamente~~
+    3 - ~~Dentro de um Baú no shop (Clicar 7x)~~
+    4 - ~~Aparece no Bar aleatóriamente~~
     5 - Presa com Wendigo
     6 - Quest no fundo do lago
 }
@@ -51,9 +51,9 @@ e anotar no README MAIN também.
 - ~~Procurar paralax de neve.~~
 - ~~Add botão no minigame das mesas~~
 - ~~Lógica do cara de oculos sozinho no bar, itens que não contam, mas tbm não podem estar dentro da div.~~
-- Lua e Sol devem ficar abaixo dos overlay
+- ~~Lua e Sol devem ficar abaixo dos overlay~~
+-~~Queria isolar as falas em um arquivo só de fala~~
 - Fazer um container bonitinho pro sol e lua.
-- Queria isolar as falas em um arquivo só de fala
 
 
 
