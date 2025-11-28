@@ -1,5 +1,5 @@
 // ==========================================================
-// loader.js - Sistema Lua + Sol + Aura de Fogo
+// loader.js - Sistema Lua + Sol + Aura de Fogo (Com Imagens)
 // ==========================================================
 
 // ---------------------------
@@ -9,16 +9,33 @@ const menu = document.createElement("div");
 menu.id = "menu-secundario";
 document.body.appendChild(menu);
 
+// !!! ATENÇÃO: COLOQUE AQUI AS SUAS URLS DE IMAGEM !!!
 const itens = [
-  { nome: "🌕", id: "item-lupa", func: "revelar" },
-  { nome: "🔥", id: "item-fogo", func: "sol" },
+  { 
+    id: "item-lupa", 
+    func: "revelar", 
+    nome: "Lua",
+    img: "/assets/img/Droplet-Moon.png" // <--- TROQUE PELA SUA IMAGEM
+  },
+  { 
+    id: "item-fogo", 
+    func: "sol", 
+    nome: "Sol",
+    img: "/assets/img/Droplet-Sun.png" // <--- TROQUE PELA SUA IMAGEM
+  },
 ];
 
 itens.forEach((it) => {
   const div = document.createElement("div");
   div.className = "menu-item";
   div.id = it.id;
-  div.textContent = it.nome;
+  
+  // CRIAÇÃO DA IMAGEM NO MENU
+  const imgElement = document.createElement("img");
+  imgElement.src = it.img;
+  imgElement.draggable = false; // evita drag nativo do browser
+  div.appendChild(imgElement);
+
   div.style.touchAction = "none";
   menu.appendChild(div);
 });
@@ -35,7 +52,7 @@ loupe.style.zIndex = "1600";
 document.body.appendChild(loupe);
 
 // ---------------------------
-// DOM
+// DOM e Variáveis de Controle
 // ---------------------------
 const containers = Array.from(document.querySelectorAll(".mapa"));
 const topLayers = containers.map(c => c.querySelector(".layer.top"));
@@ -118,8 +135,8 @@ function checkReveal(x,y){
             if(layerTop) layerTop.style.display = "none";
 
             if (target.options?.sound)
-              tocarEfeito(target.options.sound);
-
+              tocarEfeito(target.options.sound); // Certifique-se que essa função existe ou remova se não usar
+            
             mapa.style.display = "none";
           }
 
@@ -164,7 +181,7 @@ function checkSun(x,y){
       if(!sunTimers.has(el)){
         const timer = setTimeout(()=>{
 
-          if(opt.sound) tocarEfeito(opt.sound);
+          // if(opt.sound) tocarEfeito(opt.sound); 
 
           if(opt.action==="hide") el.style.display="none";
           else if(opt.action==="swap") el.innerHTML = opt.newImage;
@@ -228,12 +245,21 @@ function startRealDrag(item,x,y){
 
   dragClone=document.createElement("div");
   dragClone.className="menu-item";
-  dragClone.textContent=item.nome;
+  
+  // ATUALIZAÇÃO: Usa a imagem como background do clone arrastável
+  dragClone.style.backgroundImage = `url('${item.img}')`;
+  dragClone.style.backgroundSize = "80%";
+  dragClone.style.backgroundPosition = "center";
+  dragClone.style.backgroundRepeat = "no-repeat";
+  dragClone.style.backgroundColor = "rgba(255,255,255,0.2)"; // Bolinha sutil
+
   dragClone.style.position="fixed";
-  dragClone.style.opacity="0.7";
+  dragClone.style.opacity="0.9";
   dragClone.style.pointerEvents="none";
   dragClone.style.zIndex="1500";
-  dragClone.style.fontSize="2vw";
+  dragClone.style.width="5vw"; // tamanho fixo em vw igual ao CSS
+  dragClone.style.height="5vw";
+  dragClone.style.borderRadius="50%";
   dragClone.style.transform="translate(-50%,-50%)";
   dragClone.style.left=(x/window.innerWidth)*100+"vw";
   dragClone.style.top=(y/window.innerHeight)*100+"vh";
@@ -254,13 +280,15 @@ function startRealDrag(item,x,y){
 }
 
 function onPointerDown(e){
-  if(!e.target.classList.contains("menu-item")) return;
+  // Permite clicar na imagem ou na div
+  const target = e.target.closest(".menu-item");
+  if(!target) return;
 
   e.preventDefault();
   if(isDragging) return;
 
   pendingDrag=true;
-  pendingItem=itens.find(i=>i.id===e.target.id);
+  pendingItem=itens.find(i=>i.id===target.id);
 
   const c=getXY(e);
   startX=c.x; startY=c.y;
@@ -293,7 +321,7 @@ function onPointerMove(e){
       auraFogo.style.top = dragClone.style.top;
     }
 
-    // 🌙 LUA — AQUI ESTÁ A CORREÇÃO!!!
+    // 🌙 LUA 
     if(currentItem && currentItem.func==="revelar"){
       loupe.style.left = dragClone.style.left;
       loupe.style.top  = dragClone.style.top;

@@ -15,25 +15,55 @@ html,body{
   overflow: hidden;
 }
 
-/* Menu */
+/* =========================================
+   MENU - ATUALIZADO (Centralizado e Bonito)
+   ========================================= */
 #menu-secundario{
   position:fixed;
-  left:2vw;
-  top:5vh;
+  left: 2vw;
+  top: 50%; /* Meio da tela */
+  transform: translateY(-50%); /* Ajuste fino do centro */
+  
   display:flex;
   flex-direction:column;
-  gap:1vh;
-  padding:1vw;
-  border-radius:1vw;
+  gap: 2vh;
+  padding: 1vw;
+  
+  /* Visual estilo vidro */
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 2vw;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  
   z-index:2000;
 }
 
-.menu-item{
-  padding:1vh 1vw;
-  border-radius:0.8vw;
-  text-align:center;
-  font-size:2vw;
-  cursor:pointer;
+.menu-item {
+  width: 5vw;
+  height: 5vw;
+  padding: 0;           /* Sem espaço extra */
+  border-radius: 0;     /* Sem borda redonda */
+  background: transparent; /* Fundo transparente */
+  
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.menu-item:active {
+  transform: scale(0.9);
+}
+
+/* A imagem ocupa tudo agora */
+.menu-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); /* Uma sombrinha leve na própria imagem para destaque */
 }
 
 /* MAPAS — AGORA PODEM FICAR ABSOLUTOS */
@@ -90,13 +120,24 @@ html,body{
   pointer-events:none;
 }
 
-/* lupa */
+/* =========================================
+   LUPA (LUA) - ATUALIZADA (Mais visível)
+   ========================================= */
 .loupe {
   position: fixed;
   width: 16vw;
   height: 16vw;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(75, 210, 255) 0%, rgba(169, 163, 163, 0) 70%);
+  
+  /* Gradiente ajustado para contraste */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(135, 206, 250, 0.15) 50%, rgba(0, 0, 0, 0) 70%);
+  
+  /* Bordas e sombras para garantir que apareça no branco */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 
+    inset 0 0 15px rgba(255, 255, 255, 0.4), /* Brilho interno */
+    0 0 10px rgba(0, 0, 0, 0.2);             /* Sombra externa leve */
+
   transform: translate(-50%, -50%);
   display:none;
   pointer-events:none;
@@ -124,8 +165,11 @@ html,body{
   z-index: 5;
 }
 
+/* =========================================
+   AURA DO FOGO (Mantida igual ao original)
+   ========================================= */
 .fogo-aura {
-  width: 3vw;      /* menor (era ~22vw via JS, mas o CSS manda na aparência) */
+  width: 3vw;
   height: 3vw;
 
   background: radial-gradient(
@@ -136,8 +180,8 @@ html,body{
     rgba(0,0,0,0) 90%
   );
 
-  animation: pulsoFogo 1.4s infinite ease-in-out; /* pulso mais lento */
-  filter: blur(0.5vw); /* antes estava muito forte */
+  animation: pulsoFogo 1.4s infinite ease-in-out;
+  filter: blur(0.5vw);
   border-radius: 50%;
   pointer-events: none;
   position: fixed;
@@ -207,4 +251,3 @@ html,body{
     transform: translate(-50%, -180%) scale(0.3);
   }
 }
-
