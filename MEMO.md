@@ -14,7 +14,7 @@ e anotar no README MAIN também.
 - Posts de calor
 
 - Achar bebês cobras {
-    1 - Invisivel (Usar Lua)
+    1 - ~~Invisivel (Usar Lua)~~
     2 - Congelado (usar Sol)
     3 - ~~Dentro de um Baú no shop (Clicar 7x)~~
     4 - ~~Aparece no Bar aleatóriamente~~

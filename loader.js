@@ -3,15 +3,14 @@
 const scripts = [
   "/core/global.js",
   "/core/caixa_dialogo/falas.js",
-/*   "/core/save/script.js",
- */  "/core/achievements/script.js",
+  // "/core/save/script.js",
+  "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
   "/core/menu_interativo/script.js",
   "/devmod.js"
-  
 ];
 
 // =========================
@@ -39,14 +38,22 @@ function disableContextMenuOnBody() {
 disableContextMenuOnBody();
 
 // =========================
+// MAPA DE SCRIPTS BLOQUEÁVEIS
+// =========================
+const BLOCK_MAP = {
+  menu: "/core/menu_interativo/script.js",
+  popup: "/core/popup/script.js",
+  achievements: "/core/achievements/script.js",
+  save: "/core/save/script.js", // caso volte a usar
+};
+
+// =========================
 // CARREGADOR PRINCIPAL
 // =========================
 (async function loadAllScripts() {
   console.log("Loader iniciado.");
 
-  // Garante que o script principal do projeto (script.js) também será carregado
   const projectScriptUrl = new URL("script.js", document.location.href).href;
-
   const allScripts = [...scripts];
 
   // verifica se script.js já existe no DOM
@@ -68,10 +75,28 @@ disableContextMenuOnBody();
     console.log("script.js já estava no DOM — loader não vai duplicar.");
   }
 
+  // lê o atributo data-no="menu,popup"
+  const body = document.body;
+  let blocked = [];
+
+  if (body?.dataset?.no) {
+    blocked = body.dataset.no.split(",").map(s => s.trim());
+    console.log("Scripts bloqueados neste HTML:", blocked);
+  }
+
   // =========================
   // CARREGAMENTO SEQUENCIAL
   // =========================
   for (const src of allScripts) {
+
+    // verifica se este script está na lista do BODY
+    const shouldBlock = blocked.some(key => BLOCK_MAP[key] === src);
+
+    if (shouldBlock) {
+      console.log(`🔒 Script bloqueado: ${src}`);
+      continue; // pulado
+    }
+
     await new Promise(resolve => {
       const s = document.createElement("script");
       s.async = false;

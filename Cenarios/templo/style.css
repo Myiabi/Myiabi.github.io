@@ -64,15 +64,16 @@ body {
 
 #cobra2 {
   position: absolute;
-  width: 10%;
-  height: 20%;
-  top: 40%;
-  left: 79%;
+  width: 20%;
+  height: 30%;
+  top: 35%;
+  left:74%;
 }
 
 #hidel {
   position: absolute;
-  width: 70%;
+  width: 35%;
+  height:55%;
   align-items: center;
 
 }

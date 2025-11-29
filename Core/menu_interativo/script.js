@@ -15,13 +15,13 @@ const itens = [
     id: "item-lupa",
     func: "revelar",
     nome: "Lua",
-    img: "/assets/img/Droplet-Moon.png", // <--- SUAS IMAGENS MANTIDAS
+    img: "/assets/img/Droplet-Moon.png",
   },
   {
     id: "item-fogo",
     func: "sol",
     nome: "Sol",
-    img: "/assets/img/Droplet-Sun.png", // <--- SUAS IMAGENS MANTIDAS
+    img: "/assets/img/Droplet-Sun.png",
   },
 ];
 
@@ -66,7 +66,7 @@ let auraFogo = null;
 
 const RADIUS = 8;
 const START_THRESHOLD_VW = 0.5;
-const RADIUS_DETECT_VW = 8;
+const RADIUS_DETECT_VW = 10; // Valor razoável para a "borda" de detecção
 
 let startX = 0,
   startY = 0;
@@ -119,36 +119,45 @@ function addTarget(el, options = {}) {
 }
 
 function checkReveal(x, y) {
-  const detectPx = vwToPx(RADIUS_DETECT_VW);
+  // O raio do dragClone (5vw / 2 = 2.5vw)
+  const LUPA_RAIO_VW = 2.5; 
+  // O raio de detecção é o tamanho da borda (RADIUS_DETECT_VW) mais o raio da lupa
+  const mapaDetectionRaioPx = vwToPx(RADIUS_DETECT_VW) + vwToPx(LUPA_RAIO_VW); 
 
   targets.forEach((target) => {
-    const rect = target.el.getBoundingClientRect();
+    const el = target.el;
+    const mapa = el.closest(".mapa");
+    if (!mapa) return;
+    
+    const rect = mapa.getBoundingClientRect(); 
 
+    // O centro da lupa (x,y) está dentro do retângulo do mapa + margem aumentada?
+    // ESSA É A LÓGICA MODIFICADA
     const inside =
-      x >= rect.left - detectPx &&
-      x <= rect.right + detectPx &&
-      y >= rect.top - detectPx &&
-      y <= rect.bottom + detectPx;
+      x >= rect.left - mapaDetectionRaioPx && 
+      x <= rect.right + mapaDetectionRaioPx &&
+      y >= rect.top - mapaDetectionRaioPx &&
+      y <= rect.bottom + mapaDetectionRaioPx;
 
     if (inside) {
-      if (!revealTimers.has(target.el)) {
+      if (!revealTimers.has(el)) {
         const timer = setTimeout(() => {
-          const mapa = target.el.closest(".mapa");
           if (mapa) {
             const layerTop = mapa.querySelector(".layer.top");
             if (layerTop) layerTop.style.display = "none";
 
-            if (target.options?.sound) tocarEfeito(target.options.sound); // Certifique-se que essa função existe ou remova se não usar
+            if (typeof tocarEfeito === "function" && target.options?.sound)
+              tocarEfeito(target.options.sound);
             mapa.style.display = "none";
           }
         }, target.options?.delay ?? 2000);
 
-        revealTimers.set(target.el, timer);
+        revealTimers.set(el, timer);
       }
     } else {
-      if (revealTimers.has(target.el)) {
-        clearTimeout(revealTimers.get(target.el));
-        revealTimers.delete(target.el);
+      if (revealTimers.has(el)) {
+        clearTimeout(revealTimers.get(el));
+        revealTimers.delete(el);
       }
     }
   });
@@ -179,7 +188,7 @@ function checkSun(x, y) {
     if (inside) {
       if (!sunTimers.has(el)) {
         const timer = setTimeout(() => {
-          // if(opt.sound) tocarEfeito(opt.sound);
+          // if(opt.sound && typeof tocarEfeito === 'function') tocarEfeito(opt.sound);
 
           if (opt.action === "hide") el.style.display = "none";
           else if (opt.action === "swap") el.innerHTML = opt.newImage;
@@ -219,9 +228,8 @@ function returnToMenu(clone, menuItem) {
   if (!menuItem) {
     clone.remove();
     return;
-  }
+  } // CORREÇÃO ANIMAÇÃO: Remove a animação antes de retornar
 
-  // 🔴 MUDANÇA 2: Remove a animação antes de retornar
   clone.classList.remove("drag-clone-float");
 
   const r = menuItem.getBoundingClientRect();
@@ -249,8 +257,17 @@ function startRealDrag(item, x, y) {
   const el = document.getElementById(item.id);
   if (el) el.style.visibility = "hidden";
 
-  dragClone = document.createElement("div"); // 🔴 MUDANÇA 1: Adiciona a classe de animação aqui
-  dragClone.className = "menu-item drag-clone-float"; // ATUALIZAÇÃO: Usa a imagem como background do clone arrastável
+  dragClone = document.createElement("div"); // CORREÇÃO ANIMAÇÃO: Adiciona a classe de flutuação
+  dragClone.className = "menu-item drag-clone-float";
+
+  // Chamada de som, conforme pedido anterior
+  if (typeof tocarEfeito === "function") {
+    if (item.func === "revelar") {
+      // tocarEfeito("som_inicio_drag_lua");
+    } else if (item.func === "sol") {
+      // tocarEfeito("som_inicio_drag_sol");
+    }
+  } // ATUALIZAÇÃO: Usa a imagem como background do clone arrastável
   dragClone.style.backgroundImage = `url('${item.img}')`;
   dragClone.style.backgroundSize = "80%";
   dragClone.style.backgroundPosition = "center";
@@ -373,6 +390,16 @@ function onPointerUp(e) {
 
   if (isDragging) {
     isDragging = false;
+
+    // Chamada para parar som de loop (se houver)
+    // if (typeof pararEfeito === 'function') {
+    //     if (currentItem?.func === "revelar") {
+    //         pararEfeito("som_loop_lua");
+    //     } else if (currentItem?.func === "sol") {
+    //         pararEfeito("som_loop_sol");
+    //     }
+    // }
+
     hideLoupe(); // desliga aura da lua
 
     auraFogo.style.display = "none"; // desliga aura do fogo
@@ -399,7 +426,6 @@ function onPointerUp(e) {
     });
 
     if (dragClone) {
-      // 🔴 MUDANÇA 3: Remove a animação ao soltar
       dragClone.classList.remove("drag-clone-float");
 
       if (outside) returnToMenu(dragClone, menuItem);
@@ -432,7 +458,7 @@ addTarget(document.querySelector(".rage"), {
 });
 
 addTarget(document.querySelector("#hidel"), {
-  delay: 2000,
+  delay: 52000,
   sound: "whoosh",
 });
 
