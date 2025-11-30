@@ -1,3 +1,9 @@
+//button back//
+document.getElementById("btn-back").addEventListener("click", () => {
+  window.location.replace("/city.html");
+});
+
+
 const box = document.getElementById("box");
 const cobra = document.getElementById("cobra4");
 

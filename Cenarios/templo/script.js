@@ -278,3 +278,10 @@ function openModal() {
 function closeModal() {
   document.getElementById("modalSequencia").style.display = "none";
 }
+
+document.getElementById("btn-back").addEventListener("pointerdown", (e) => {
+  const destino = e.target.getAttribute("data-destino");
+  if (destino) {
+    window.location.href = destino;
+  }
+});

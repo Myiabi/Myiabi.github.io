@@ -1,6 +1,7 @@
 // loader.js — versão final corrigida e compatível com o script.js do minigame
 
 const scripts = [
+  
   "/core/global.js",
   "/core/caixa_dialogo/falas.js",
   // "/core/save/script.js",
@@ -126,4 +127,61 @@ const BLOCK_MAP = {
       "startMinigameLogic não encontrado no script.js! Minigame não pôde iniciar."
     );
   }
+})();
+
+
+// LOADING
+
+// loader.js - Tempo mínimo garantido SEMPRE
+(function () {
+  // Tempo mínimo (ms)
+  const minTime = 500;
+  const start = Date.now();
+
+  // Insere o loader imediatamente antes do render
+  document.write(`
+    <div id="global-loading" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 99999;
+      opacity: 1;
+      font-family: sans-serif;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      transition: opacity 0.5s ease;
+    ">
+      Loading...
+    </div>
+  `);
+
+  function finishLoader() {
+    const loading = document.getElementById('global-loading');
+    if (!loading) return;
+
+    const elapsed = Date.now() - start;
+    const wait = Math.max(0, minTime - elapsed);
+
+    setTimeout(() => {
+      loading.style.opacity = '0';
+      setTimeout(() => loading.remove(), 500);
+    }, wait);
+  }
+
+  // Garante que o loader finalize no load
+  window.addEventListener('load', finishLoader);
+
+  // SE o "load" já tiver acontecido antes do script rodar...
+  if (document.readyState === 'complete') {
+    finishLoader();
+  }
+
 })();

@@ -118,3 +118,32 @@ body {
   height: 60%;
   object-fit: contain; /* mostra inteira sem distorcer */
 }
+
+.btnback {
+  position: absolute;
+  top: 1.5vw;
+  left: 1.5vw;
+  font-size: min(5vw, 32px);
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  z-index: 9999;
+
+  color: #fff;
+  background: rgba(0,0,0,0.55);
+  padding: .35em .55em;
+  border-radius: .6em;
+  border: 2px solid rgba(255,255,255,0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  backdrop-filter: blur(4px);
+  transition: background .2s, border-color .2s;
+}
+
+.btnback:hover {
+  background: rgba(0,0,0,0.7);
+  border-color: rgba(255,255,255,0.5);
+}

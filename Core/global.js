@@ -54,3 +54,10 @@ $(window).smartresize(function(){
 janela . addEventListener ( "contextmenu" , e => e . preventDefault ( ) ) ;  
 
 
+
+document.getElementById("btn-back").addEventListener("pointerdown", (e) => {
+  const destino = e.target.getAttribute("/city.html");
+  if (destino) {
+    window.location.href = destino;
+  }
+});
