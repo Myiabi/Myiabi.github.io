@@ -211,7 +211,7 @@ body {
   font-weight: bold;
   cursor: pointer;
   user-select: none;
-  z-index: 9999;
+  z-index: 1000;
 
   color: #fff;
   background: rgba(0,0,0,0.55);

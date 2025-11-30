@@ -1,7 +1,6 @@
-
 window.personagens = {
   
-  /*   padrão: {
+  /* padrão: {
     nome: "padrão",
     lado: "direita",
     fonte: "'Wild Words', sans-serif",
@@ -27,11 +26,145 @@ window.personagens = {
 
 marin: {
     nome: "Marin",
-    lado: "direita",
+    lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_Marin.png')",
+      pensativo: "url('/assets/img/NPC_Marin.png')"
+    },
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      depoisDoTreinamento: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
+  },
+felicia: {
+    nome: "felicia",
+    lado: "esquerda",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/NPC_Marin.png')",
+      pensativo: "url('/assets/img/NPC_Marin.png')"
+    },
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      depoisDoTreinamento: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
+  },
+lily: {
+    nome: "Lily",
+    lado: "esquerda",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/NPC_Marin.png')",
+      pensativo: "url('/assets/img/NPC_Marin.png')"
+    },
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      depoisDoTreinamento: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
+  },
+day25: {
+    nome: "Day25",
+    lado: "esquerda",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/NPC_Marin.png')",
+      pensativo: "url('/assets/img/NPC_Marin.png')"
+    },
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      depoisDoTreinamento: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
+  },
+cat: {
+    nome: "Cat",
+    lado: "esquerda",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/NPC_Marin.png')",
+      pensativo: "url('/assets/img/NPC_Marin.png')"
+    },
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      depoisDoTreinamento: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
+  },
+forest: {
+    nome: "Forest",
+    lado: "esquerda",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/NPC_Marin.png')",
+      pensativo: "url('/assets/img/NPC_Marin.png')"
+    },
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      depoisDoTreinamento: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
+  },
+ballerina: {
+    nome: "Ballerina",
+    lado: "esquerda",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/NPC_Marin.png')",
+      pensativo: "url('/assets/img/NPC_Marin.png')"
+    },
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      depoisDoTreinamento: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
+  },
+
+mint: {
+    nome: "Mint",
+    lado: "esquerda",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/NPC_Marin.png')",
+      pensativo: "url('/assets/img/NPC_Marin.png')"
     },
     falas: {
       inicio: [
@@ -68,7 +201,7 @@ aiko: {
     }
   },
 
-  Gwenan: {
+  nana: {
     nome:"Gwenan",
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
@@ -89,7 +222,7 @@ aiko: {
   },
 
   nodata: {
-    nome:"",
+    nome:"     ",
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
@@ -131,7 +264,7 @@ barman: {
     }
   },
 
-waiter: {
+assistant: {
     nome:"Waiter",
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
@@ -170,6 +303,7 @@ waiter: {
       ]
     }
   },
+
 
 
 // ------------ MARKET -------------//
@@ -215,3 +349,63 @@ myopic: {
   }
 
 };
+
+//city//
+// O símbolo '?' abaixo faz o código ignorar o elemento se ele não existir na página atual.
+document.getElementById("marin")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.marin);
+});
+document.getElementById("felicia")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.felicia);
+});
+document.getElementById("lily")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.lily);
+});
+document.getElementById("day25")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.day25);
+});
+document.getElementById("cat")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.cat);
+});
+document.getElementById("ballerina")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.ballerina);
+});
+document.getElementById("forest")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.forest);
+});
+document.getElementById("mint")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.mint);
+});
+
+//market//
+
+document.getElementById("wayway")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.wayway);
+});
+
+document.getElementById("myopic")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.myopic);
+});
+
+// bar //
+
+document.getElementById("barman")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.barman);
+});
+
+document.getElementById("assistant")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.assistant);
+});
+
+// templo //
+
+document.getElementById("nana")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.nana);
+});
+
+document.getElementById("nodata")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.nodata);
+});
+document.getElementById("leader")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.aiko);
+});

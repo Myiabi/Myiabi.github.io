@@ -3,6 +3,7 @@
 const scripts = [
   
   "/core/global.js",
+  "/city.js",
   "/core/caixa_dialogo/falas.js",
   // "/core/save/script.js",
   "/core/achievements/script.js",
@@ -10,8 +11,7 @@ const scripts = [
   "/core/popup/script.js",
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
-  "/core/menu_interativo/script.js",
-  "/devmod.js"
+  "/core/menu_interativo/script.js"
 ];
 
 // =========================
