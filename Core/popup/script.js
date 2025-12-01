@@ -1,6 +1,18 @@
 // tooltip.js
 
-const myStyle = "color: gold; font-size: 18px; font-weight: bold; animation: bounce 0.5s infinite;";
+// NOVO myStyle com efeito de Balão de Fala (Speech Bubble)
+const myStyle = `
+  color: #333333; 
+  background: #FFFFCC; 
+  border: 2px solid #333333; 
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); 
+  padding: 8px 15px; 
+  border-radius: 20px 20px 20px 4px; /* Formato de balão arredondado com um canto sutil */
+  font-size: 16px; 
+  font-weight: bold; 
+  animation: bounce 0.5s infinite;
+`;
+
 
 /**
  * Cria um tooltip flutuante acima e centralizado de um elemento.
@@ -9,7 +21,7 @@ const myStyle = "color: gold; font-size: 18px; font-weight: bold; animation: bou
  * @param {number} offsetX - deslocamento horizontal
  * @param {number} offsetY - deslocamento vertical
  * @param {string} style - CSS inline opcional
- * @param {boolean} hover - se true, aparece ao passar o mouse
+ * @param {boolean} hover - se true, aparece ao passar o mouse ou tocar
  */
 function createFloatingTooltip(elementId, content, offsetX = 0, offsetY = -10, style = "", hover = false) {
   const element = document.getElementById(elementId);
@@ -20,7 +32,8 @@ function createFloatingTooltip(elementId, content, offsetX = 0, offsetY = -10, s
   tooltip.innerHTML = content;
   tooltip.style.position = 'absolute';
   tooltip.style.pointerEvents = 'none'; // não bloqueia clique
-  tooltip.style.cssText = `${tooltip.style.cssText}; ${style}`;
+  // Aplica o style opcional
+  tooltip.style.cssText = `${tooltip.style.cssText} ${style}`; 
   document.body.appendChild(tooltip);
 
   let animationFrame;
@@ -29,8 +42,13 @@ function createFloatingTooltip(elementId, content, offsetX = 0, offsetY = -10, s
   function updatePosition() {
     if (!visible) return;
     const rect = element.getBoundingClientRect();
+    
+    // CÁLCULO PARA CENTRALIZAÇÃO HORIZONTAL
     const left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2 + window.scrollX + offsetX;
+    
+    // CÁLCULO PARA POSICIONAMENTO VERTICAL (ACIMA)
     const top = rect.top - tooltip.offsetHeight + window.scrollY + offsetY;
+    
     tooltip.style.left = `${left}px`;
     tooltip.style.top = `${top}px`;
     animationFrame = requestAnimationFrame(updatePosition);
@@ -49,14 +67,23 @@ function createFloatingTooltip(elementId, content, offsetX = 0, offsetY = -10, s
     setTimeout(hide, duration);
   }
 
-  // Hover automático opcional
+  // Hover automático opcional (Mouse e Toque)
   if (hover) {
+    // 1. Eventos de Mouse (Desktop)
     element.addEventListener('mouseenter', () => {
       visible = true;
       tooltip.classList.add('show');
       updatePosition();
     });
     element.addEventListener('mouseleave', hide);
+    
+    // 2. Evento de Toque/Clique (Mobile/Tablet e Desktop)
+    element.addEventListener('click', (e) => {
+      e.preventDefault(); 
+      show(2500); // INICIA O TIMER, GARANTINDO QUE O POPUP VAI SUMIR.
+    });
+    
+    // O listener 'touchstart' foi removido
   }
 
   return { show, element, tooltip };
@@ -65,9 +92,11 @@ function createFloatingTooltip(elementId, content, offsetX = 0, offsetY = -10, s
 // ----------------------
 // EXEMPLOS
 
-// Tooltip tipo "fala", "nome da cidade", "pensamento", etc.
-const cityTooltip = createFloatingTooltip('personagem', '🏰 CIDADE DE AURELIA 🏰', 0, -20, myStyle);
+// Tooltip com timer automático
+const cityTooltip = createFloatingTooltip('personagem', '🏰 CIDADE DE AURELIA 🏰', 0, -50, myStyle); 
 cityTooltip.show(3000);
 
-// Tooltip hover (dica)
+// Tooltip hover/toque com timer
 createFloatingTooltip('botao', '💡 Clique para abrir o menu!', 0, -10, myStyle, true);
+
+// Seu elemento div#glass com timer

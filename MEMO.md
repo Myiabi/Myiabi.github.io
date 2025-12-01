@@ -55,6 +55,9 @@ e anotar no README MAIN também.
 -~~Queria isolar as falas em um arquivo só de fala~~
 - ~~Fazer um container bonitinho pro sol e lua.~~
 
+- Lua com nova função de replace img
+-
+
 
 
 # Ideias
@@ -71,7 +74,7 @@ e anotar no README MAIN também.
 - Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
 - Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.
 - Tela final com pedidos de Patreon e Buy me a Coffee
-- Tela de Loading
+- ~~Tela de Loading~~
 - Timer de jogo
 
 # Aprender

@@ -125,10 +125,22 @@ filter:
   left: 60%;
 }
 
-#mint {
-  width: 5%;
-  top: 50%;
+#mint1 {
+  position: absolute;
+  width: 10%;
+  height: 20%;
+  top: 47%;
   left: 17%;
+  align-items: center;
+  
+}
+#mint {
+  width: 50%;
+  height: 60%;
+  top: 60%;
+  left: 17%;
+  object-fit: contain;
+
 }
 
 #lily {
@@ -180,4 +192,54 @@ filter:
   left: 5%;    
   width: 12%;   
   height: 24%;  
+}
+
+.poste {
+  position: absolute;
+  width: 3.5%;   
+  height: 17%;
+  z-index: 1000;
+
+}
+
+#poste1 {
+  top: 79%;     
+  left: 55%;
+}
+
+#poste2 {
+  top: 79%;     
+  left: 64%;
+}
+#poste3 {
+  top: 0%;     
+  left: 66%;
+}
+#poste4 {
+  top: 0%;     
+  left: 55%;
+}
+#poste5 {
+  top: 27%;     
+  left: 28%;
+}
+#poste6 {
+  top: 46.2%;     
+  left: 28%;
+}
+#poste7 {
+  top: 27%;     
+  left: 93%;
+}
+#poste8 {
+  top: 44%;     
+  left: 93%;
+}
+#poste9 {
+  top: 42%;     
+  left: 46%;
+}
+#poste10 {
+  top: 42%;     
+  left: 73%;
 }

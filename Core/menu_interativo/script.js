@@ -64,7 +64,7 @@ let dragClone = null;
 // 🔥 Aura do fogo
 let auraFogo = null;
 
-const RADIUS = 8;
+const RADIUS = 7.6;
 const START_THRESHOLD_VW = 0.5;
 const RADIUS_DETECT_VW = 10; // Valor razoável para a "borda" de detecção
 
@@ -473,6 +473,13 @@ addSunTarget(document.querySelector(".gelo-alvo"), {
 });
 
 addSunTarget(document.querySelector(".bola-alvo"), {
+  action: "swap",
+  newImage: "",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector(".poste-some"), {
   action: "swap",
   newImage: "",
   sound: "whoosh",

@@ -3,3 +3,4 @@ document.querySelectorAll(".back").forEach(p => {
     window.location.replace(p.dataset.destino);
   });
 });
+

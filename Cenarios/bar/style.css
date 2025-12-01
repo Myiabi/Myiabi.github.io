@@ -286,4 +286,144 @@ body {
   border-color: rgba(255,255,255,0.5);
 }
 
+#glass {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 6%;
+  height: 20%;
+  top: 2%;
+  left:44.5%;
+  border: none;
+  overlay: none;
+}
+#girlfriend {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 5%;
+  height: 25%;
+  top: 7%;
+  left: 8.5%;
+  border: none;
+  overlay: none;
+}
+
+#boyfriend {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 5%;
+  height: 25%;
+  top: 7%;
+  left:26%;
+  border: none;
+  overlay: none;
+}
+#moreno {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 7%;
+  height: 30%;
+  top: 60%;
+  left:5%;
+  border: none;
+  overlay: none;
+}
+#rosinha {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 6.5%;
+  height: 15%;
+  top: 57%;
+  left:14%;
+  border: none;
+  overlay: none;
+}
+#gorro {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 6.5%;
+  height: 30%;
+  top: 60%;
+  left:22.5%;
+  border: none;
+  overlay: none;
+}
+
+#verdinha {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 6.5%;
+  height: 30%;
+  top: 60%;
+  left: 36%;
+  border: none;
+  overlay: none;
+}
+#kid1 {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 5%;
+  height: 15%;
+  top: 60%;
+  left:43%;
+  border: none;
+  overlay: none;
+}
+#kid2 {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 5%;
+  height: 15%;
+  top: 60%;
+  left:48.3%;
+  border: none;
+  overlay: none;
+}
+#cachecol {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  z-index: 1000;
+  width: 6.5%;
+  height: 30%;
+  top: 60%;
+  left:53.5%;
+  border: none;
+  overlay: none;
+}
+
+#cake1 {
+  position: absolute;
+  width: 2%;
+  height: 5%;
+  top: 70%;
+  left: 49.5%;
+  z-index: 2000;
+}
+#cake2 {
+  position: absolute;
+  width: 2%;
+  height: 5%;
+  top: 70%;
+  left: 45.2%;
+  z-index: 2000;
+}
+
 

@@ -248,3 +248,17 @@ window.startMinigameLogic = function () {
 document.getElementById("btn-back").addEventListener("click", () => {
   window.location.replace("/city.html");
 });
+
+createFloatingTooltip('glass', 'Só quero esquecer os problemas...', 150, 90, myStyle, true);
+
+createFloatingTooltip('girlfriend', 'Estou de dieta, mas cá entre nós... coloque as fritas dele sem querer no meu lado, se é que me entende', 160, 120, myStyle, true);
+createFloatingTooltip('boyfriend', 'Vou comer tudo que não presta! Certeza que não vai querer mais nada? acho melhor previnir então...',130, 100, myStyle, true);
+
+createFloatingTooltip('gorro', 'Estou com tanto sono...', 0, 0, myStyle, true);
+createFloatingTooltip('rosinha', 'Sou intolerante a lactose.', 0, 0, myStyle, true);
+createFloatingTooltip('moreno', 'Hoje é o dia do Lixo! Certeza que não vai querer mais nada? acho melhor previnir então...', 140, 110, myStyle, true);
+
+createFloatingTooltip('verdinha', 'Vou querer algo que sirva 4 pessoas, ah! e algo gelado sem gás.', 0, 0, myStyle, true);
+createFloatingTooltip('kid1', 'Cake?', 0, 0, myStyle, true);
+createFloatingTooltip('kid2', 'CAKE!!!', 0, 0, myStyle, true);
+createFloatingTooltip('cachecol', 'Vão me julgar se eu pedir isso nesse frio...?', 0, 0, myStyle, true);

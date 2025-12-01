@@ -11,3 +11,5 @@
 - Ao derreter com o sol
 - Ao eliminar com a Lua
 - Cadeado abrindo
+- Ascender fogo
+
