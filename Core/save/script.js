@@ -30,6 +30,11 @@ const defaultData = {
   4: false
 },
 
+sunTargets: {
+  // preenchido automaticamente na primeira interação
+},
+
+
 
   // achievements já desbloqueados (persistente)
   unlockedAchievements: {}
@@ -321,3 +326,40 @@ window.unlockAchievement = unlockAchievement;
 // FIM DO SISTEMA
 // ======================================================
 
+// 🔵 1. Garantir estrutura de persistência
+if (!defaultData.visualState.swaps) {
+  defaultData.visualState.swaps = {};
+}
+
+if (!gameData.visualState.swaps) {
+  gameData.visualState.swaps = {};
+}
+
+// 🔵 2. Função que reaplica imagens/emoji salvos
+function applySavedSwaps() {
+  const saved = gameData.visualState.swaps;
+  if (!saved) return;
+
+  for (const id in saved) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+
+    const val = saved[id];
+
+    // Se for imagem (tem / ou .)
+    if (val.includes("/") || val.includes(".")) {
+      if (el.tagName === "IMG") {
+        el.src = val;
+      } else {
+        el.style.backgroundImage = `url('${val}')`;
+      }
+    } 
+    // Se for emoji
+    else {
+      el.textContent = val;
+    }
+  }
+}
+
+// 🔵 3. Chamar logo após carregar o save
+applySavedSwaps();

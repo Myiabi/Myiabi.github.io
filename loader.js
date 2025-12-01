@@ -5,7 +5,7 @@ const scripts = [
   "/core/global.js",
   "/city.js",
   "/core/caixa_dialogo/falas.js",
-  // "/core/save/script.js",
+  "/core/save/script.js",
   "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",

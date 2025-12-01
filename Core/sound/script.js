@@ -140,7 +140,7 @@ window.addEventListener('load', () => {
 });
 
 document.getElementById("vitoriaBtn").addEventListener("click", () => {
-  tocarEfeito("vitoria", 0.5);
+  tocarEfeito("whoosh", 0.5);
   
 });
 

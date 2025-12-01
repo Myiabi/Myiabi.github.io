@@ -5,6 +5,9 @@
 // ---------------------------
 // Cria menu
 // ---------------------------
+
+console.log("script.js carregado!");
+
 const menu = document.createElement("div");
 menu.id = "menu-secundario";
 document.body.appendChild(menu);
@@ -166,32 +169,112 @@ function checkReveal(x, y) {
 // ======================================================
 // 🔥 S O L   (independente)
 // ======================================================
+// armazenamento
+// armazenamento
 const sunTargets = [];
 const sunTimers = new WeakMap();
 const sunOptions = new WeakMap();
 
+// adicionar alvo (uses = número de vezes que pode ativar; padrão 1)
 function addSunTarget(el, options = {}) {
   if (!el) return;
-  sunTargets.push({ el });
-  sunOptions.set(el, Object.assign({ action: "hide", delayMs: 350 }, options));
+  const opt = Object.assign({ action: "hide", delayMs: 350, uses: 1 }, options);
+  // se já houver um opt para esse elemento, sobrescreve (comportamento opcional)
+  sunOptions.set(el, opt);
+
+  // evita duplicar entradas do mesmo elemento no array
+  const exists = sunTargets.find(t => t.el === el);
+  if (!exists) sunTargets.push({ el, disabled: false });
+}
+
+// Função util pra migrar opções quando substituímos um elemento (ex: IMG -> DIV)
+function migrateTargetData(oldEl, newEl) {
+  const opt = sunOptions.get(oldEl);
+  if (opt) {
+    sunOptions.delete(oldEl);
+    sunOptions.set(newEl, opt);
+  }
+  // atualiza referência no array de targets
+  for (const t of sunTargets) {
+    if (t.el === oldEl) {
+      t.el = newEl;
+      break;
+    }
+  }
 }
 
 function checkSun(x, y) {
   sunTargets.forEach((target) => {
+    if (target.disabled) return;
+
     const el = target.el;
+    if (!document.body.contains(el)) {
+      target.disabled = true;
+      return;
+    }
+
     const rect = el.getBoundingClientRect();
     const opt = sunOptions.get(el);
+    if (!opt) return;
 
     const inside =
-      x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+      x >= rect.left && x <= rect.right &&
+      y >= rect.top && y <= rect.bottom;
 
     if (inside) {
       if (!sunTimers.has(el)) {
         const timer = setTimeout(() => {
-          // if(opt.sound && typeof tocarEfeito === 'function') tocarEfeito(opt.sound);
+          // toca som se definido
+          if (opt.sound && typeof tocarEfeito === "function") {
+            tocarEfeito(opt.sound);
+          }
 
-          if (opt.action === "hide") el.style.display = "none";
-          else if (opt.action === "swap") el.innerHTML = opt.newImage;
+          // Ação
+          if (opt.action === "hide") {
+            el.style.display = "none";
+
+          } else if (opt.action === "swap") {
+            
+            if (el.tagName === "IMG") {
+              const ni = String(opt.newImage || "");
+              if (ni.match(/\.(png|jpe?g|webp|gif|svg)(\?.*)?$/i)) {
+                el.src = ni;
+              } else {
+                const div = document.createElement("div");
+                div.textContent = opt.newImage;
+                const style = window.getComputedStyle(el);
+                // preservar posição/estilo básico
+                div.style.position = style.position === "static" ? "relative" : style.position;
+                div.style.left = el.style.left || style.left;
+                div.style.top = el.style.top || style.top;
+                div.style.width = (el.width || el.clientWidth) + "px";
+                div.style.height = (el.height || el.clientHeight) + "px";
+                div.style.display = style.display === "inline" ? "inline-block" : style.display;
+                div.style.fontSize = "2.5rem";
+                div.style.textAlign = "center";
+                el.replaceWith(div);
+                migrateTargetData(el, div); // transfere opt e referencia
+              }
+            } else {
+              el.innerHTML = opt.newImage;
+            }
+          }
+
+          // decrementa contador direto no opt
+          if (typeof opt.uses === "number") {
+            opt.uses = opt.uses - 1;
+            if (opt.uses <= 0) {
+              // desativa esse target permanentemente
+              target.disabled = true;
+              sunOptions.delete(target.el);
+            } else {
+              // atualiza o map (não estritamente necessário pois opt é referência,
+              // mas deixamos para clareza)
+              sunOptions.set(target.el, opt);
+            }
+          }
+
+          sunTimers.delete(el);
         }, opt.delayMs);
 
         sunTimers.set(el, timer);
@@ -204,6 +287,8 @@ function checkSun(x, y) {
     }
   });
 }
+
+
 
 // ======================================================
 // D R A G
@@ -467,7 +552,7 @@ addTarget(document.querySelector("#hidel"), {
 // ==========================================================
 addSunTarget(document.querySelector(".gelo-alvo"), {
   action: "swap",
-  newImage: "",
+  newImage: "🙄",
   sound: "whoosh",
   delayMs: 350,
 });
@@ -479,9 +564,74 @@ addSunTarget(document.querySelector(".bola-alvo"), {
   delayMs: 350,
 });
 
-addSunTarget(document.querySelector(".poste-some"), {
+
+addSunTarget(document.querySelector("#poste1"), {
   action: "swap",
-  newImage: "",
+  newImage: "/assets/img/Pole-turned-on.png",
   sound: "whoosh",
   delayMs: 350,
 });
+
+addSunTarget(document.querySelector("#poste2"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector("#poste3"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector("#poste4"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector("#poste5"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector("#poste6"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector("#poste7"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector("#poste8"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector("#poste9"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
+addSunTarget(document.querySelector("#poste10"), {
+  action: "swap",
+  newImage: "/assets/img/Pole-turned-on.png",
+  sound: "whoosh",
+  delayMs: 350,
+});
+
