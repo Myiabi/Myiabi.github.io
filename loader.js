@@ -3,15 +3,15 @@
 const scripts = [
   
   "/core/global.js",
-  "/city.js",
-  "/core/caixa_dialogo/falas.js",
   "/core/save/script.js",
+  "/core/menu_interativo/script.js",
+  "/core/caixa_dialogo/falas.js",
   "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
-  "/core/menu_interativo/script.js"
+  "/city.js"
 ];
 
 // =========================
@@ -184,4 +184,36 @@ const BLOCK_MAP = {
     finishLoader();
   }
 
+})();
+
+// CLEAR LOCALSTORAGE //
+
+(function () {
+  function injectButton() {
+    const btn = document.createElement("button");
+    btn.textContent = "";
+    btn.onclick = () => localStorage.clear();
+
+    Object.assign(btn.style, {
+      position: "fixed",
+      bottom: "5px",
+      right: "5px",
+      background: "red",
+      color: "white",
+      padding: "10px 14px",
+      fontSize: "14px",
+      border: "none",
+      borderRadius: "6px",
+      cursor: "pointer",
+      zIndex: "999999",
+    });
+
+    document.body.appendChild(btn);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", injectButton);
+  } else {
+    injectButton();
+  }
 })();

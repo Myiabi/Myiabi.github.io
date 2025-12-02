@@ -30,10 +30,7 @@ const defaultData = {
   4: false
 },
 
-sunTargets: {
-  // preenchido automaticamente na primeira interação
-},
-
+visualState: {}, // Variaveis do SOl & LUA 
 
 
   // achievements já desbloqueados (persistente)
@@ -216,6 +213,7 @@ function aplicarMudancaVisual(prop, value) {
   const npc1 = document.getElementById("npc1");
   const porta = document.getElementById("porta");
   const boss = document.getElementById("boss");
+  const rigelon = document.getElementById("rigelon");
 
   switch (prop) {
     case "npc1Visivel":
@@ -229,6 +227,11 @@ function aplicarMudancaVisual(prop, value) {
     case "bossDerrotado":
       if (boss) boss.style.filter = value ? "grayscale(1)" : "none";
       break;
+
+      case "rigelVisivel": 
+            // 🎯 CORREÇÃO DE LÓGICA: Se value é TRUE, o display é "block" (visível)
+            if (rigelon) rigelon.style.display = value ? "block" : "none";
+            break;
   }
 }
 
@@ -326,40 +329,3 @@ window.unlockAchievement = unlockAchievement;
 // FIM DO SISTEMA
 // ======================================================
 
-// 🔵 1. Garantir estrutura de persistência
-if (!defaultData.visualState.swaps) {
-  defaultData.visualState.swaps = {};
-}
-
-if (!gameData.visualState.swaps) {
-  gameData.visualState.swaps = {};
-}
-
-// 🔵 2. Função que reaplica imagens/emoji salvos
-function applySavedSwaps() {
-  const saved = gameData.visualState.swaps;
-  if (!saved) return;
-
-  for (const id in saved) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-
-    const val = saved[id];
-
-    // Se for imagem (tem / ou .)
-    if (val.includes("/") || val.includes(".")) {
-      if (el.tagName === "IMG") {
-        el.src = val;
-      } else {
-        el.style.backgroundImage = `url('${val}')`;
-      }
-    } 
-    // Se for emoji
-    else {
-      el.textContent = val;
-    }
-  }
-}
-
-// 🔵 3. Chamar logo após carregar o save
-applySavedSwaps();

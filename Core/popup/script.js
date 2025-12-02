@@ -28,6 +28,13 @@ function createFloatingTooltip(elementId, content, offsetX = 0, offsetY = -10, s
   if (!element) return console.warn(`Elemento com ID '${elementId}' não encontrado.`);
 
   const tooltip = document.createElement('div');
+
+  tooltip.id = `tooltip-for-${elementId}`; 
+  
+  tooltip.className = 'floating-tooltip';
+  tooltip.innerHTML = content;
+  tooltip.style.position = 'absolute';
+
   tooltip.className = 'floating-tooltip';
   tooltip.innerHTML = content;
   tooltip.style.position = 'absolute';

@@ -409,13 +409,24 @@ body {
   overlay: none;
 }
 
+#whisky {
+  position: absolute;
+  width: 2%;
+  height: 5%;
+  top: 15%;
+  left: 46.5%;
+  z-index: 1000;
+  display: none;
+}
+
 #cake1 {
   position: absolute;
   width: 2%;
   height: 5%;
   top: 70%;
   left: 49.5%;
-  z-index: 2000;
+  z-index: 1000;
+  display: none;
 }
 #cake2 {
   position: absolute;
@@ -423,7 +434,110 @@ body {
   height: 5%;
   top: 70%;
   left: 45.2%;
-  z-index: 2000;
+  z-index: 1000;
+  display: none;
+}
+#salad {
+  position: absolute;
+  width: 3%;
+  height: 8%;
+  top: 17%;
+  left: 14%;
+  z-index: 1000;
+  display: none;
+}
+#fries {
+  position: absolute;
+  width: 2.5%;
+  height: 7%;
+  top: 18.7%;
+  left: 15%;
+  z-index: 1000;
+  display: none;
+}
+#burg {
+  position: absolute;
+  width: 2.5%;
+  height: 6%;
+  top: 19%;
+  left: 22.5%;
+  z-index: 1000;
+  display: none;
+}
+#hotdog {
+  position: absolute;
+  width: 3%;
+  height: 7%;
+  top: 17%;
+  left: 21%;
+  z-index: 1000;
+  display: none;
+}
+#chicken {
+  position: absolute;
+  width: 3%;
+  height: 7%;
+  top: 21%;
+  left: 20%;
+  z-index: 1000;
+  display: none;
+}
+
+#pizza {
+  position: absolute;
+  width: 5%;
+  height: 10%;
+  top: 71.2%;
+  left: 45.5%;
+  z-index: 1000;
+  display: none;
+}
+#tea {
+  position: absolute;
+  width: 2.3%;
+  height: 6%;
+  top: 69%;
+  left: 16%;
+  z-index: 1000;
+  display: none;
+}
+#cocoa {
+  position: absolute;
+  width: 3%;
+  height: 7%;
+  top: 71.2%;
+  left: 11.5%;
+  z-index: 1000;
+  display: none;
+}
+
+#coffee {
+  position: absolute;
+  width: 2.4%;
+  height: 5%;
+  top: 73%;
+  left: 21%;
+  z-index: 1000;
+  display: none;
+}
+#coke {
+  position: absolute;
+  width: 3%;
+  height: 7%;
+  top: 69.9%;
+  left: 41.5%;
+  z-index: 1000;
+  display: none;
+}
+
+#milkshake {
+  position: absolute;
+  width: 3%;
+  height: 7%;
+  top: 70%;
+  left: 52%;
+  z-index: 1000;
+  display: none;
 }
 
 

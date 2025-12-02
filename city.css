@@ -84,10 +84,11 @@ filter:
   top: 55%;
   left: 64%;
 }
-#rigel {
+#rigelon {
   width: 4%;
   top: 55%;
   left: 67.5%;
+  display: none;
 }
 #sirius {
   width: 4%;

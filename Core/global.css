@@ -56,9 +56,7 @@
    user-select: none;
   -webkit-user-drag: none;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
-  
+  -moz-osx-font-smoothing: grayscale;  
 
 }
 
