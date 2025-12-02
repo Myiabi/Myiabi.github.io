@@ -32,6 +32,11 @@ const defaultData = {
 
 visualState: {}, // Variaveis do SOl & LUA 
 
+// --- ADICIONE ESTAS DUAS LINHAS: ---
+  jardimCompleto: false, // Trava o minigame se vencer
+  itensJardim: {},       // Salva cada item individualmente
+  // -----------------------------------
+
 
   // achievements já desbloqueados (persistente)
   unlockedAchievements: {}

@@ -1,0 +1,43 @@
+/* Overlay que bloqueia tudo atrás */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Preto com opacidade */
+    display: none; /* Escondido por padrão */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Fica em cima de tudo */
+}
+
+/* O quadrado do modal */
+.modal-box {
+    background: #222;
+    color: white;
+    padding: 20px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    max-width: 80%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+/* Botões preparados para touch */
+.modal-btn {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    min-width: 80px;
+}
+
+.btn-yes { background: #4CAF50; color: white; }
+.btn-no { background: #f44336; color: white; }

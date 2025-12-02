@@ -1,6 +1,6 @@
 # Lembrar
 - Ao implementar/testar os minigames em definitivo, criar um README lembrando como funciona a chamada de cada função,
-e anotar no README MAIN também. 
+e anotar no README MAIN também.
 - ~~Criar função que encapsula códigos em modais automaticamente.~~
 - ~~Lembrar de fazer um import unificado.~~
 - ~~Como fazer os outros eventos drags importados se comportarem bem junto com outros códigos?~~
@@ -10,8 +10,8 @@ e anotar no README MAIN também.
 - ~~Se livrar do código de modal e criar modal pra cada minigame.~~
 - ~~Função do Fogo~~
 - ~~Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.~~
+- ~~Posts de calor~~
 - Seria interessante pesquisar diversas fontes
-- Posts de calor
 
 - Achar bebês cobras {
     1 - ~~Invisivel (Usar Lua)~~
@@ -58,6 +58,9 @@ e anotar no README MAIN também.
 - Lua com nova função de replace img
 -
 
+# Corrigir com Copilot Github
+
+- 
 
 
 # Ideias
@@ -71,10 +74,10 @@ e anotar no README MAIN também.
 - ~~Quero um botão de accept do tipo hold (carrega).~~
 - ~~Pedras no Menu drag viram droplets~~ 
 - ~~Servir 4 mesas e tentar deduzir qual prato cada cliente pediu~~
+- ~~Tela de Loading~~
 - Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
 - Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.
 - Tela final com pedidos de Patreon e Buy me a Coffee
-- ~~Tela de Loading~~
 - Timer de jogo
 
 # Aprender
