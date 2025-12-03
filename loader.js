@@ -2,8 +2,8 @@
 
 const scripts = [
   
-  "/core/global.js",
   "/core/save/script.js",
+  "/core/global.js",
   "/core/menu_interativo/script.js",
   "/core/caixa_dialogo/falas.js",
   "/core/achievements/script.js",

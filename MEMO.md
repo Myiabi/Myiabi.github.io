@@ -56,6 +56,10 @@ e anotar no README MAIN também.
 - ~~Fazer um container bonitinho pro sol e lua.~~
 
 - ~~Lua com nova função de replace img~~
+- Aumentar tempo do popup no touch
+- Muda o audio do menu para enquanto e não após
+- Botão back da cave
+
 
 # Corrigir com Copilot Github
 
