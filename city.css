@@ -64,15 +64,17 @@ filter:
   left: 60%;
 }
 
-#kofongo {
+#kofongoon {
   width: 4%;
   top: 55%;
   left: 50%;
+  display: none;
 }
 #capella {
   width: 4%;
   top: 55%;
   left: 53.5%;
+  display: none;
 }
 #aldebaran {
   width: 4%;
@@ -126,20 +128,11 @@ filter:
   left: 60%;
 }
 
-#mint1 {
-  position: absolute;
-  width: 10%;
-  height: 20%;
-  top: 47%;
-  left: 17%;
-  align-items: center;
-  
-}
 #mint {
-  width: 50%;
-  height: 60%;
-  top: 60%;
-  left: 17%;
+  width: 5%;
+  height: 14%;
+  top: 45%;
+  left: 20%;
   object-fit: contain;
 
 }

@@ -5,13 +5,30 @@
 
 /* ---------- NPC ---------- */
 function randomNPC() {
-    return Math.floor(Math.random() * 20) + 1 === 1;
+    return Math.floor(Math.random() * 2000 ) + 1 === 1;
 }
 function entrarNoLocal() {
     const npc = document.getElementById("cobra5");
-    if (!window.gameData || typeof gameData.npcApareceu === "undefined") return;
-    if (!gameData.npcApareceu && randomNPC()) gameData.npcApareceu = true;
-    if (npc) npc.style.display = gameData.npcApareceu ? "block" : "none";
+    
+    // 1. Se não tiver gameData (erro grave), aí sim para.
+    if (!window.gameData) return;
+
+    // 2. CORREÇÃO: Se a variável não existe no save, cria ela como false agora.
+    // (Antes o código parava aqui)
+    if (typeof gameData.npcApareceu === "undefined") {
+        gameData.npcApareceu = false;
+    }
+
+    // 3. Roda o dado: Se ainda não apareceu (false) e deu sorte no dado...
+    if (!gameData.npcApareceu && randomNPC()) {
+        gameData.npcApareceu = true;
+        // Se o seu sistema não salva automático ao mudar variável, chame salvarJogo() aqui.
+    }
+
+    // 4. Aplica o visual
+    if (npc) {
+        npc.style.display = gameData.npcApareceu ? "block" : "none";
+    }
 }
 
 /* ---------- CONFIG ---------- */

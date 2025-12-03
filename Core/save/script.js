@@ -16,13 +16,6 @@ const defaultData = {
     czar: "inicio"
   },
 
-  // 🆕 Controle visual de elementos (exemplo)
-  visualState: {
-    npc1Visivel: true,
-    portaAberta: false,
-    bossDerrotado: false,
-  },
-
   mesas: {
   1: false,
   2: false,
@@ -219,6 +212,9 @@ function aplicarMudancaVisual(prop, value) {
   const porta = document.getElementById("porta");
   const boss = document.getElementById("boss");
   const rigelon = document.getElementById("rigelon");
+  const kofongoon = document.getElementById("kofongoon");
+  const cobra4 = document.getElementById("cobra4");
+  const box = document.getElementById("box");      
 
   switch (prop) {
     case "npc1Visivel":
@@ -237,8 +233,30 @@ function aplicarMudancaVisual(prop, value) {
             // 🎯 CORREÇÃO DE LÓGICA: Se value é TRUE, o display é "block" (visível)
             if (rigelon) rigelon.style.display = value ? "block" : "none";
             break;
+            
+      case "kofongoVisivel": 
+            // 🎯 CORREÇÃO DE LÓGICA: Se value é TRUE, o display é "block" (visível)
+            if (kofongoon) kofongoon.style.display = value ? "block" : "none";
+            break;
+
+      case "boxSumiu":
+      if (box) {
+         box.style.display = value ? "none" : "block";
+         // Se já sumiu, garante que a classe hidden também esteja lá pra evitar glitch visual
+         if (value) box.classList.add("hidden"); 
+      }
+      break;
+
+    // Se "cobraSumiu" for TRUE, o display vira NONE
+    case "cobraSumiu": 
+      if (cobra4) {
+         cobra4.style.display = value ? "none" : "block";
+         if (value) cobra4.classList.add("hidden");
+      }
+      break;
   }
 }
+
 
 // ---------------------------
 // 🧠 FUNÇÃO RECURSIVA DE PROXY (atualizada)

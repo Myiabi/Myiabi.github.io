@@ -53,8 +53,8 @@ felicia: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Estou sentindo uma presença inquieta nesse lugar...", expressao: "pensativo" },
+      
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -91,8 +91,9 @@ day25: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Eu estou sempre preso no dia 25, já vivi o dia de hoje ínumeras vezes, sei de tudo que já aconteceu (acontecerá)", expressao: "pensativo" },
+        { texto: "E olha... você foi incrível! Me emocionei no final.", expressao: "normal" },
+        { texto: "Pera. Você não vai desistir do jogo na metade né? né???", expressao: "normal" }
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -110,8 +111,7 @@ cat: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Miau myah myu nyah nyeh?", expressao: "pensativo" },
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -128,11 +128,11 @@ forest: {
       pensativo: "url('/assets/img/NPC_Marin.png')"
     },
     falas: {
-      inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      inicial: [
+        { texto: "Essa cidade é bem populosa, com centenas de moradores. Mas está tão frio que a maioria não sai mais de casa.", expressao: "normal" },
+        { texto: "Até os postes de fogo não se aguentam mais acesos, qualquer fogo normal apaga no primeiro vento.", expressao: "normal" }
       ],
-      depoisDoTreinamento: [
+      segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
         { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
       ]
@@ -148,8 +148,8 @@ ballerina: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "", expressao: "pensativo" },
+        { texto: "", expressao: "normal" }
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -168,8 +168,7 @@ mint: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Todos ficam reclamando sobre o quão está frio. Já eu saio de casa todos os dias, eu não sinto nada mesmo.", expressao: "pensativo" },
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -284,7 +283,7 @@ assistant: {
     }
   },
 
-  felicia: {
+  feliciaBar: {
     nome:"Felicia",
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",

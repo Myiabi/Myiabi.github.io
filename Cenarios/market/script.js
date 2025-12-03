@@ -4,29 +4,50 @@ document.getElementById("btn-back").addEventListener("click", () => {
 });
 
 
-const box = document.getElementById("box");
-const cobra = document.getElementById("cobra4");
+// Seu script de interação (provavelmente no final do body ou arquivo separado)
+
+const boxEl = document.getElementById("box"); // Mudei o nome pra não conflitar
+const cobraEl = document.getElementById("cobra4");
 
 let clicks = 0;
-let timer = null;
-
+let clickTimer = null;
 const delayCobra = 2000;
 
-// ---- sistema de clicks ----
-box.addEventListener("pointerdown", () => {
-  clicks++;
+// Se carregar a página e já estiver salvo que sumiu, garante a classe hidden visualmente
+if (window.gameData.visualState.boxSumiu) boxEl.classList.add("hidden");
+if (window.gameData.visualState.cobraSumiu) cobraEl.classList.add("hidden");
 
-  clearTimeout(timer);
-  timer = setTimeout(() => clicks = 0, 1000);
+// ---- sistema de clicks ----
+boxEl.addEventListener("pointerdown", (e) => {
+  // Previne comportamentos estranhos no touch
+  e.preventDefault(); 
+  
+  clicks++;
+  clearTimeout(clickTimer);
+  clickTimer = setTimeout(() => clicks = 0, 1000);
 
   if (clicks >= 7) {
-    box.classList.add("hidden");
-
+    // 1. Efeito visual imediato
+    boxEl.classList.add("hidden");
+    
+    // 2. SALVAR NO GLOBAL (Isso ativa o Proxy e o salvarJogo)
+    // O nome da propriedade TEM que bater com o case do switch no script.js
+    window.gameData.visualState.boxSumiu = true; 
+    
     setTimeout(() => {
-      cobra.classList.add("hidden");
+      cobraEl.classList.add("hidden");
+      // Salva que a cobra sumiu
+      
+      window.gameData.visualState.cobraSumiu = true; 
+      window.gameData.visualState.kofongoVisivel = true; 
+      
+      // Se tiver achievement relacionado, libera aqui
+      // unlockAchievement('acheiACobra'); 
     }, delayCobra);
   }
 });
+
+// ... resto do código da tremida ...
 
 // ---- tremidinha ocasional ----
 function tremerBox() {
