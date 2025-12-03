@@ -35,14 +35,18 @@ boxEl.addEventListener("pointerdown", (e) => {
     window.gameData.visualState.boxSumiu = true; 
     
     setTimeout(() => {
-      cobraEl.classList.add("hidden");
-      // Salva que a cobra sumiu
       
-      window.gameData.visualState.cobraSumiu = true; 
-      window.gameData.visualState.kofongoVisivel = true; 
+      // 1. Inicia a animação visual (Fade Out)
+      // Como você já configurou o transition no CSS, isso vai demorar 0.5s
+      cobraEl.style.opacity = "0"; 
       
-      // Se tiver achievement relacionado, libera aqui
-      // unlockAchievement('acheiACobra'); 
+      // 2. Cria um novo tempo de espera EXATAMENTE do tamanho da sua animação (500ms)
+      setTimeout(() => {
+          // Só agora, que o visual terminou, a gente mata o objeto e salva
+          window.gameData.visualState.cobraSumiu = true; 
+          window.gameData.visualState.kofongoVisivel = true; 
+      }, 500); // 500ms = 0.5s do seu CSS
+      
     }, delayCobra);
   }
 });
@@ -60,7 +64,7 @@ function tremerBox() {
   }
 
   // intervalo aleatório entre 3 e 10 segundos
-  const proximo = Math.floor(Math.random() * 7000) + 5000;
+  const proximo = Math.floor(Math.random() * 20000) + 5000;
 
   setTimeout(tremerBox, proximo);
 }

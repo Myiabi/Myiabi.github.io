@@ -1,0 +1,153 @@
+/* --- 1. RESET (Tira a borda branca) --- */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #000a12;
+  overflow: hidden; /* Garante que nada gere rolagem */
+}
+
+/* --- 2. O FUNDO (A cor escura que você aprovou) --- */
+.ocean-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  /* Gradiente profundo: Azul Marinho -> Quase Preto */
+  background: linear-gradient(to bottom, #003a5c, #00121f 85%);
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* --- 3. AS LUZES DO CODEPEN (Adaptadas) --- */
+.light-rays-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* O click passa reto */
+  perspective: 500px; /* O segredo do 3D */
+  filter: blur(6px); /* Suavidade */
+  z-index: 1; /* Ficam acima do fundo, mas abaixo da UI do jogo */
+}
+
+/* Estrutura do Raio (Matemática traduzida) */
+.ray {
+  /* Variáveis base */
+  --deg: 0;
+  --length: 0px;
+  --thickness: 20px;
+  --duration: 3s;
+  --delay: 0s;
+  --rotate: 0deg;
+  
+  /* Configuração */
+  --degRange: 72.5deg;
+  --spreadRange: 50vw; /* Espalha bem na tela */
+
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--thickness);
+  height: calc(20% + 400px + var(--length)); /* Altura dinâmica */
+  
+  transform-origin: center -100px;
+  /* Posicionamento 3D complexo */
+  transform: 
+    translateX(calc(-50% + var(--deg) * var(--spreadRange) * -1 + 0.5 * var(--spreadRange))) 
+    translateY(-100px) 
+    rotateZ(calc(var(--degRange) * -0.5 + var(--deg) * var(--degRange))) 
+    rotateX(0.01deg);
+
+  mix-blend-mode: screen; /* Faz a luz brilhar no escuro */
+  
+  animation: 
+    shimmer linear var(--duration) calc(var(--delay) * -1) infinite alternate forwards,
+    rotateRay ease-in-out calc(var(--duration) * 3.14) calc(var(--delay) * -1) infinite alternate forwards;
+}
+
+/* O "Corpo" da luz (Volume 3D) */
+.ray::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  /* Cor Ciano original do CodePen, fica linda no fundo escuro */
+  background: linear-gradient(to bottom, rgba(166, 255, 248, 0.8), rgba(166, 255, 248, 0) 100%);
+  transform-origin: top center;
+  transform: rotateX(40deg); /* A inclinação mágica */
+}
+
+/* Animações da Luz */
+@keyframes shimmer {
+  0% { opacity: 0.2; }
+  100% { opacity: 0.05; }
+}
+@keyframes rotateRay {
+  0% { rotate: 0deg; }
+  100% { rotate: var(--rotate); }
+}
+
+/* Configuração Manual dos 20 Raios (Aleatoriedade Fixa) */
+.ray:nth-child(1) { --deg: 0.1; --thickness: 25px; --length: 20px; --duration: 2.1s; --delay: 2.5s; --rotate: -3deg; }
+.ray:nth-child(2) { --deg: 0.15; --thickness: 12px; --length: -30px; --duration: 1.8s; --delay: 2.1s; --rotate: 2deg; }
+.ray:nth-child(3) { --deg: 0.2; --thickness: 30px; --length: 50px; --duration: 2.8s; --delay: 2.9s; --rotate: -4deg; }
+.ray:nth-child(4) { --deg: 0.25; --thickness: 18px; --length: 0px; --duration: 2.4s; --delay: 2.2s; --rotate: 3deg; }
+.ray:nth-child(5) { --deg: 0.3; --thickness: 22px; --length: 40px; --duration: 1.5s; --delay: 2.7s; --rotate: -2deg; }
+.ray:nth-child(6) { --deg: 0.4; --thickness: 32px; --length: -10px; --duration: 2.2s; --delay: 2.0s; --rotate: 1deg; }
+.ray:nth-child(7) { --deg: 0.45; --thickness: 15px; --length: 60px; --duration: 2.6s; --delay: 2.4s; --rotate: -3deg; }
+.ray:nth-child(8) { --deg: 0.5; --thickness: 28px; --length: 20px; --duration: 1.9s; --delay: 2.8s; --rotate: 4deg; }
+.ray:nth-child(9) { --deg: 0.55; --thickness: 10px; --length: -40px; --duration: 2.3s; --delay: 2.1s; --rotate: -1deg; }
+.ray:nth-child(10){ --deg: 0.6; --thickness: 24px; --length: 35px; --duration: 2.7s; --delay: 2.6s; --rotate: 2deg; }
+.ray:nth-child(11){ --deg: 0.7; --thickness: 20px; --length: -20px; --duration: 1.7s; --delay: 2.3s; --rotate: -2deg; }
+.ray:nth-child(12){ --deg: 0.75; --thickness: 34px; --length: 45px; --duration: 2.5s; --delay: 2.9s; --rotate: 3deg; }
+.ray:nth-child(13){ --deg: 0.8; --thickness: 14px; --length: 10px; --duration: 2.0s; --delay: 2.2s; --rotate: -4deg; }
+.ray:nth-child(14){ --deg: 0.85; --thickness: 26px; --length: -50px; --duration: 2.9s; --delay: 2.5s; --rotate: 1deg; }
+.ray:nth-child(15){ --deg: 0.9; --thickness: 18px; --length: 30px; --duration: 1.6s; --delay: 2.8s; --rotate: -3deg; }
+/* Extras pra encher */
+.ray:nth-child(16){ --deg: 0.35; --thickness: 29px; --length: -15px; --duration: 2.4s; --delay: 2.1s; --rotate: 2deg; }
+.ray:nth-child(17){ --deg: 0.65; --thickness: 11px; --length: 55px; --duration: 1.8s; --delay: 2.7s; --rotate: -2deg; }
+.ray:nth-child(18){ --deg: 0.12; --thickness: 23px; --length: 25px; --duration: 2.6s; --delay: 2.4s; --rotate: 3deg; }
+.ray:nth-child(19){ --deg: 0.88; --thickness: 16px; --length: -35px; --duration: 2.1s; --delay: 2.2s; --rotate: -1deg; }
+.ray:nth-child(20){ --deg: 0.52; --thickness: 31px; --length: 15px; --duration: 2.8s; --delay: 2.6s; --rotate: 4deg; }
+
+
+/* --- 4. AS BOLHAS (Restauradas da versão que você gostou) --- */
+.bubble {
+  position: absolute;
+  bottom: -30px;
+  background-color: rgba(255, 255, 255, 0.15); /* Opacidade boa */
+  border-radius: 50%;
+  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.3); /* Sombra interna expressiva */
+  animation: rise infinite ease-in-out;
+  pointer-events: none;
+  z-index: 2; /* Bolhas na frente da luz */
+}
+
+@keyframes rise {
+  0% { bottom: -30px; transform: translateX(0) scale(0.8); opacity: 0; }
+  15% { opacity: 0.7; }
+  100% { bottom: 110vh; transform: translateX(var(--sway, -30px)) scale(1.1); opacity: 0; }
+}
+
+/* Configuração Aleatória das Bolhas */
+.bubble:nth-child(1) { width: 8px; height: 8px; left: 10%; animation-duration: 12s; }
+.bubble:nth-child(2) { width: 4px; height: 4px; left: 20%; animation-duration: 18s; animation-delay: 1s; }
+.bubble:nth-child(3) { width: 12px; height: 12px; left: 35%; animation-duration: 14s; animation-delay: 3s; }
+.bubble:nth-child(4) { width: 6px; height: 6px; left: 50%; animation-duration: 20s; animation-delay: 0s; --sway: 30px; }
+.bubble:nth-child(5) { width: 10px; height: 10px; left: 55%; animation-duration: 16s; animation-delay: 5s; }
+.bubble:nth-child(6) { width: 5px; height: 5px; left: 65%; animation-duration: 13s; animation-delay: 2s; }
+.bubble:nth-child(7) { width: 15px; height: 15px; left: 75%; animation-duration: 19s; animation-delay: 7s; --sway: 20px; }
+.bubble:nth-child(8) { width: 7px; height: 7px; left: 85%; animation-duration: 15s; animation-delay: 4s; }
+.bubble:nth-child(9) { width: 4px; height: 4px; left: 90%; animation-duration: 17s; animation-delay: 1s; }
+.bubble:nth-child(10) { width: 11px; height: 11px; left: 25%; animation-duration: 13s; animation-delay: 6s; --sway: 40px; }
+.bubble:nth-child(11) { width: 9px; height: 9px; left: 5%; animation-duration: 15s; animation-delay: 2s; }
+.bubble:nth-child(12) { width: 5px; height: 5px; left: 15%; animation-duration: 22s; animation-delay: 0s; --sway: 15px;}
+.bubble:nth-child(13) { width: 14px; height: 14px; left: 40%; animation-duration: 11s; animation-delay: 4s; }
+.bubble:nth-child(14) { width: 7px; height: 7px; left: 48%; animation-duration: 18s; animation-delay: 8s; }
+.bubble:nth-child(15) { width: 12px; height: 12px; left: 60%; animation-duration: 14s; animation-delay: 1s; --sway: -10px;}
+.bubble:nth-child(16) { width: 6px; height: 6px; left: 72%; animation-duration: 16s; animation-delay: 3s; }
+.bubble:nth-child(17) { width: 10px; height: 10px; left: 82%; animation-duration: 20s; animation-delay: 5s; }
+.bubble:nth-child(18) { width: 8px; height: 8px; left: 95%; animation-duration: 13s; animation-delay: 2s; --sway: 25px; }
+.bubble:nth-child(19) { width: 5px; height: 5px; left: 30%; animation-duration: 19s; animation-delay: 6s; }
+.bubble:nth-child(20) { width: 13px; height: 13px; left: 58%; animation-duration: 12s; animation-delay: 7s; }

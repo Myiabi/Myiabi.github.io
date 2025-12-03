@@ -55,8 +55,7 @@ e anotar no README MAIN também.
 -~~Queria isolar as falas em um arquivo só de fala~~
 - ~~Fazer um container bonitinho pro sol e lua.~~
 
-- Lua com nova função de replace img
--
+- ~~Lua com nova função de replace img~~
 
 # Corrigir com Copilot Github
 
@@ -75,10 +74,11 @@ e anotar no README MAIN também.
 - ~~Pedras no Menu drag viram droplets~~ 
 - ~~Servir 4 mesas e tentar deduzir qual prato cada cliente pediu~~
 - ~~Tela de Loading~~
-- Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
-- Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.
+- ~~Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.~~
 - Tela final com pedidos de Patreon e Buy me a Coffee
 - Timer de jogo
+- Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
+- Quest do fundo do lago é sobre desenhar simbolos nas bolhas.
 
 # Aprender
 

@@ -72,8 +72,8 @@ lily: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Não consigo plantar nada nesse frio. Estranhamente essa é a unica parte quentinha da cidade. Apesar disso ninguém se aproxima dela.", expressao: "pensativo" },
+        { texto: "Alguma coisa estranha está acontecendo nessa caverna, se eu pudesse ter essa fonte de calor, conseguiria plantar algo e aumentar a vida nessa cidade.", expressao: "normal" }
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -148,8 +148,7 @@ ballerina: {
     },
     falas: {
       inicio: [
-        { texto: "", expressao: "pensativo" },
-        { texto: "", expressao: "normal" }
+        { texto: "No gelo eu consigo expressar 100% da minha dança", expressao: "pensativo" },
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -317,8 +316,8 @@ wayway: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Seja Bem-vindo! Estamos nos estabelecendo para as festas de final de ano. Nós trouxemos mercadorias que podem ajudar a população nesse frio intenso. Mas nossa... quando falaram que era frio, foram bonzinhos.", expressao: "pensativo" },
+        { texto: "Ainda estamos arrumando tudo, então se precisar de alguma coisa pode falar comigo.", expressao: "normal" }
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -337,8 +336,9 @@ myopic: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Ahhh! Estamos abrindo a loja, mas as melhores mercadorias estão nessa baú protegido com um cadeado de runas!!!", expressao: "pensativo" },
+        { texto: "Pra piorar as coisas, eu deixei meus óculos cairem dentro do baú e fechei o cadeado, agora não enxergo mais nada!", expressao: "normal" },
+        { texto: "Eu tenho certeza que eu anotei a senha no computador da loja, mas por mais que eu olhe não enxergo nada!!!", expressao: "normal" }
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
