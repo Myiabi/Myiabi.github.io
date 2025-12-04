@@ -1,6 +1,6 @@
 # Lembrar
-- Ao implementar/testar os minigames em definitivo, criar um README lembrando como funciona a chamada de cada função,
-e anotar no README MAIN também.
+-~~Ao implementar/testar os minigames em definitivo, criar um README lembrando como funciona a chamada de cada função,~~
+~~e anotar no README MAIN também.~~
 - ~~Criar função que encapsula códigos em modais automaticamente.~~
 - ~~Lembrar de fazer um import unificado.~~
 - ~~Como fazer os outros eventos drags importados se comportarem bem junto com outros códigos?~~
@@ -57,8 +57,9 @@ e anotar no README MAIN também.
 
 - ~~Lua com nova função de replace img~~
 - Aumentar tempo do popup no touch
-- Muda o audio do menu para enquanto e não após
+- Muda o audio do menu para "enquanto" e não "após"
 - Botão back da cave
+- ~~Kofongo não some mais~~
 
 
 # Corrigir com Copilot Github

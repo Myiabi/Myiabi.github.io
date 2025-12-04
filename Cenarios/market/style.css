@@ -55,6 +55,15 @@ body {
   top: 35%;
   left: 60%;
 }
+#myopic_half {
+  position: absolute;
+  width: 20%;
+  height: 30%;
+  top: 11.74%;
+  left: 43%;
+  rotate: 0.3deg;
+}
+
 #cobra4 {
   position: absolute;
   width: 12%;
