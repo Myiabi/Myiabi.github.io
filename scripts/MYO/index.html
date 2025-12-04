@@ -1,18 +1,584 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Creator</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Your Own Character - Final Aligned</title>
+    
+    <!-- Biblioteca necessária para gerar o PNG a partir das camadas HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    
+    <style>
+        /* --- CSS Reset & Base --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        /* --- Estilos Gerais (Página Principal) --- */
+        .main-content {
+            display: flex; align-items: center; gap: 20px;
+            padding: 30px; 
+            z-index: 5;
+        }
+
+        .open-modal-btn {
+            padding: 15px 30px; font-size: 1.2rem; background: #ff4757; color: white;
+            border: none; border-radius: 8px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.2s, background 0.2s;
+        }
+        .open-modal-btn:hover { transform: scale(1.05); background: #ff6b81; }
+        .open-modal-btn:disabled { display: none; }
+
+        /* Área do Resultado (Onde o boneco vai aparecer) */
+        #result-area {
+            display: flex; justify-content: center; align-items: center;
+            min-width: 100px; min-height: 160px;
+            border: 2px dashed #ccc; border-radius: 8px;
+        }
+
+        /* --- MODAL OVERLAY --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
+            z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+
+        .game-container {
+            width: 100%; height: 100%; max-width: 1200px; max-height: 90vh;
+            background: #1a1a1a; border-radius: 16px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 1px solid #333;
+            display: flex; position: relative; overflow: hidden;
+        }
+
+        .close-btn {
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(0,0,0,0.5); color: #888; border: 1px solid #444;
+            width: 36px; height: 36px; border-radius: 50%;
+            font-weight: bold; cursor: pointer; z-index: 200;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease; backdrop-filter: blur(4px);
+        }
+        .close-btn:hover { background: #ff4757; border-color: #ff4757; color: white; transform: rotate(90deg); }
+
+        /* --- Menu Esquerdo --- */
+        .menu-panel {
+            flex: 1; background: #1e1e1e; display: flex; flex-direction: column; 
+            border-right: 1px solid #2a2a2a; z-index: 10; position: relative; overflow: hidden;
+        }
+
+        .controls-list {
+            flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            padding: 20px; display: flex; flex-direction: column; gap: 12px;
+        }
+        .controls-list::-webkit-scrollbar { width: 6px; }
+        .controls-list::-webkit-scrollbar-track { background: #1e1e1e; }
+        .controls-list::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+        .finish-btn-container {
+            flex-shrink: 0; height: 120px; width: 100%; background: #1e1e1e;
+            border-top: 1px solid #333; display: flex; justify-content: center; align-items: center;
+            position: relative; z-index: 20;
+        }
+
+        .finish-btn {
+            width: 80px; height: 80px; border-radius: 50%; border: none;
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 2; margin: 0;
+            box-shadow: 0 6px 0 #c41e3a, 0 15px 20px rgba(0,0,0,0.4);
+            transition: all 0.1s; text-transform: uppercase;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+        }
+        .finish-btn:active { transform: translate(-50%, -50%) translateY(4px); box-shadow: 0 0px 0 #c41e3a, 0 5px 10px rgba(0,0,0,0.3); }
+
+        .progress-ring {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);
+            width: 100px; height: 100px; z-index: 1; pointer-events: none;
+        }
+        .progress-ring__track { stroke: #333; stroke-width: 4; fill: transparent; }
+        .progress-ring__circle {
+            stroke: #ff4757; stroke-width: 4; fill: transparent;
+            stroke-dasharray: 289; stroke-dashoffset: 289; transition: stroke-dashoffset 0s linear;
+        }
+        .is-holding .progress-ring__circle { stroke-dashoffset: 0; transition: stroke-dashoffset 3s linear; }
+
+        /* --- Caixa de Confirmação --- */
+        .confirm-box {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+            background: #222; border: 2px solid #ff4757; padding: 30px; border-radius: 15px;
+            text-align: center; color: white; z-index: 300; box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .confirm-box.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+        .confirm-box h3 { margin-bottom: 20px; font-size: 1.4rem; }
+        .confirm-actions { display: flex; gap: 15px; justify-content: center; }
+        .confirm-btn { padding: 10px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
+        .confirm-btn:hover { transform: scale(1.05); }
+        .btn-no { background: #444; color: white; }
+        .btn-yes { background: #ff4757; color: white; }
+
+        /* --- Área do Personagem (Preview) --- */
+        .character-stage {
+            flex: 1.5; position: relative; background-color: #0f0f0f;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        .character-stage::after {
+            content: ''; position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%); width: 60%; height: 30px;
+            background: radial-gradient(ellipse at center, rgba(255, 71, 87, 0.15) 0%, transparent 70%); filter: blur(5px); pointer-events: none; z-index: 0;
+        }
+        
+        /* --- BOTÕES DO PALCO (Download e Random) --- */
+        .stage-btn {
+            position: absolute;
+            top: 20px;
+            width: 36px; height: 36px;
+            background: rgba(40, 40, 40, 0.7);
+            color: #ff4757;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 200;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s, color 0.2s, transform 0.1s;
+            backdrop-filter: blur(4px);
+        }
+        .stage-btn:hover { background: #ff4757; color: white; border-color: #ff4757; }
+        .stage-btn:active { transform: scale(0.95); }
+
+        #downloadBtn { right: 80px; }
+        #randomBtn { left: 20px; }
+
+        /* --- Controles --- */
+        .control-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #252525; padding: 10px 15px; border-radius: 10px; color: white; border: 1px solid #333;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); flex-shrink: 0;
+        }
+        .control-row:hover { border-color: #ff4757; background: #2a2a2a; transform: translateX(5px); }
+        .control-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.2px; color: #888; flex: 1; text-align: center; }
+        .control-value { display: block; font-size: 0.75rem; color: #ff6b81; margin-top: 4px; font-weight: 600; }
+        .nav-btn {
+            background: transparent; border: 1px solid #444; color: #666; width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-btn:hover { background: #ff4757; border-color: #ff4757; color: white; }
+        .nav-btn:active { transform: scale(0.92); background: #e04050; }
+
+        /* --- Layers e Preview --- */
+        .char-wrapper {
+            position: relative; width: 100%; height: 100%; max-width: 500px; max-height: 800px; aspect-ratio: 500 / 800; 
+            z-index: 1; filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 4px #ffffff);
+        }
+        .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; transition: opacity 0.15s ease; }
+        
+        .z-body { z-index: 0; } .z-claws { z-index: 5; } .z-marks { z-index: 10; } .z-tail { z-index: 15; } .z-mouth { z-index: 20; } .z-eyes { z-index: 25; } .z-eyebrows { z-index: 30; } .z-cloth { z-index: 35; } .z-hair { z-index: 45; } .z-accessory { z-index: 49; } .z-horns { z-index: 50; }
+
+        /* --- Mobile --- */
+        @media (max-width: 768px) {
+            .game-container { flex-direction: column-reverse; height: 100%; border-radius: 10px; }
+            .menu-panel { flex: 0 0 50%; border-right: none; border-top: 1px solid #333; padding: 0; }
+            .controls-list { padding: 15px; }
+            .close-btn { top: 10px; right: 10px; }
+            #downloadBtn { top: 10px; right: 50px; width: 30px; height: 30px;} 
+            #randomBtn { top: 10px; left: 10px; width: 30px; height: 30px; } /* Ajuste mobile */
+            .modal-overlay { padding: 10px; }
+            .finish-btn-container { height: 100px; }
+        }
+    </style>
 </head>
 <body>
 
-<button id="openCreator">Criar Personagem</button>
+    <h1>Meu Jogo Incrível</h1>
+    
+    <div class="main-content">
+        <button id="openCreatorBtn" class="open-modal-btn" onclick="openGame()">CRIAR PERSONAGEM</button>
+        <!-- O boneco persistente será injetado aqui -->
+        <div id="result-area"></div> 
+    </div>
 
-<!-- Contêiner onde o JS vai criar tudo -->
-<div id="creatorRoot"></div>
+    <!-- MODAL -->
+    <div id="charCreatorModal" class="modal-overlay">
+        <div class="game-container" id="gameContainerContent">
+            
+            <button class="close-btn" onclick="closeGame()">X</button>
 
-<script src="/loader.js"></script>
+            <div class="menu-panel" id="menuPanel">
+                <div id="controlsList" class="controls-list">
+                    <!-- JS injeta aqui -->
+                </div>
+                <div class="finish-btn-container" id="finishContainer">
+                    <svg class="progress-ring" width="100" height="100" viewBox="0 0 100 100">
+                        <circle class="progress-ring__track" cx="50" cy="50" r="46" />
+                        <circle class="progress-ring__circle" cx="50" cy="50" r="46" />
+                    </svg>
+                    <button class="finish-btn" id="finishBtn">FINISH</button>
+                </div>
+            </div>
+
+            <div class="character-stage">
+                <!-- Botões MOVIDOS para cá para ficarem relativos ao palco -->
+                <button id="randomBtn" class="stage-btn" onclick="randomizeCharacter()" title="Aleatório">
+                    <!-- Icone Dados -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 8h.01"></path><path d="M8 8h.01"></path><path d="M8 16h.01"></path><path d="M16 16h.01"></path><path d="M12 12h.01"></path></svg>
+                </button>
+
+                <button id="downloadBtn" class="stage-btn" onclick="downloadCharacter()" title="Baixar PNG">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                </button>
+
+                <!-- ID para capturar a imagem do boneco -->
+                <div class="char-wrapper" id="characterCaptureArea">
+                    <img src="" class="layer z-body" id="img-body">
+                    <img src="" class="layer z-marks" id="img-marks">
+                    <img src="" class="layer z-tail" id="img-tail">
+                    <img src="" class="layer z-claws" id="img-claws">
+                    <img src="" class="layer z-mouth" id="img-mouth">
+                    <img src="" class="layer z-eyes" id="img-eyes">
+                    <img src="" class="layer z-eyebrows" id="img-eyebrows">
+                    <img src="" class="layer z-cloth" id="img-cloth">
+                    <img src="" class="layer z-accessory" id="img-accessory">
+                    <img src="" class="layer z-hair" id="img-hair">
+                    <img src="" class="layer z-horns" id="img-horns">
+                </div>
+            </div>
+
+            <div class="confirm-box" id="confirmBox">
+                <h3>Salvar e criar personagem?</h3>
+                <div class="confirm-actions">
+                    <button class="confirm-btn btn-no" onclick="closeConfirmBox()">NÃO</button>
+                    <!-- O SIM agora chama a função que faz o download ANTES de finalizar -->
+                    <button class="confirm-btn btn-yes" onclick="finalizeAndDownload()">SIM</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Importa o sistema de Save (script.js) -->
+    <script src="script.js"></script>
+
+    <script>
+        let finalCharacterData = null; 
+
+        function openGame() { document.getElementById('charCreatorModal').style.display = 'flex'; }
+        function closeGame() { document.getElementById('charCreatorModal').style.display = 'none'; }
+
+        // --- CHECK INICIAL (PERSISTÊNCIA) ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                // Checa se gameData e customCharacter existem antes de renderizar
+                if (window.gameData && window.gameData.customCharacter) {
+                    renderSavedCharacter(window.gameData.customCharacter);
+                }
+            }, 100);
+        });
+
+        function renderSavedCharacter(charInfo) {
+            const openBtn = document.getElementById('openCreatorBtn');
+            if(openBtn) openBtn.style.display = 'none';
+
+            const boneco = createCharacterElement(charInfo.traits, '180px');
+            
+            boneco.style.position = 'absolute';
+            boneco.style.left = charInfo.x;
+            boneco.style.top = charInfo.y;
+            boneco.style.zIndex = '100';
+
+            document.body.appendChild(boneco);
+        }
+        
+        // --- FUNÇÃO RANDOM (NOVA) ---
+        function randomizeCharacter() {
+            Object.keys(config).forEach(key => {
+                const item = config[key];
+                
+                if (item.type === 'color') {
+                    // Sorteia cor (índice do array)
+                    item.current = Math.floor(Math.random() * item.options.length);
+                } else {
+                    // Sorteia item numérico
+                    const min = item.min || 0; // Se não tiver min, assume 0 (vazio)
+                    const max = item.max;
+                    
+                    // Nota: Math.random() * (max - min + 1) + min
+                    item.current = Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+
+                // Atualiza Texto da UI
+                const valueDisplay = document.getElementById(`val-${key}`);
+                if(valueDisplay) valueDisplay.innerText = getDisplayValue(key, item);
+                
+                // Atualiza Imagem
+                updateLayer(key);
+            });
+        }
+
+        // --- FUNÇÃO DE DOWNLOAD (AGORA SÍNCRONA) ---
+        // Retorna uma Promise para poder ser aguardada
+        function downloadCharacter() {
+            return new Promise((resolve, reject) => {
+                const tempWrapper = createCharacterElement(getcurrentTraits(), '500px');
+                
+                tempWrapper.style.position = 'absolute';
+                tempWrapper.style.left = '-9999px';
+                tempWrapper.style.top = '0';
+                tempWrapper.style.width = '500px'; 
+                tempWrapper.style.height = '800px';
+                tempWrapper.style.aspectRatio = 'unset';
+                tempWrapper.style.filter = 'none';
+                tempWrapper.style.transform = 'none';
+                
+                document.body.appendChild(tempWrapper);
+
+                html2canvas(tempWrapper, { 
+                    backgroundColor: null, 
+                    scale: 2, 
+                    logging: false,
+                    useCORS: true 
+                }).then(canvas => {
+                    const imageURL = canvas.toDataURL('image/png');
+                    
+                    const a = document.createElement('a');
+                    a.href = imageURL;
+                    a.download = 'Personagem_Magma.png';
+                    
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    document.body.removeChild(tempWrapper);
+                    
+                    resolve(); // Sucesso: resolve a Promise
+                }).catch(err => {
+                    console.error('Erro no download:', err);
+                    if(tempWrapper.parentNode) document.body.removeChild(tempWrapper);
+                    alert('Erro ao gerar imagem para download.');
+                    reject(err); // Falha: rejeita a Promise
+                });
+            });
+        }
+        
+        function getcurrentTraits() {
+            const traits = {};
+            Object.keys(config).forEach(key => { traits[key] = config[key].current; });
+            return traits;
+        }
+        
+        // --- BOTÃO FINISH (Lógica de Hold) ---
+        const finishBtn = document.getElementById('finishBtn');
+        const finishContainer = document.getElementById('finishContainer');
+        const confirmBox = document.getElementById('confirmBox');
+        let holdTimer = null;
+
+        function startHold(e) {
+            e.preventDefault();
+            finishContainer.classList.add('is-holding');
+            holdTimer = setTimeout(() => { showConfirmBox(); cancelHold(); }, 3000);
+        }
+        function cancelHold() { clearTimeout(holdTimer); finishContainer.classList.remove('is-holding'); }
+
+        finishBtn.addEventListener('mousedown', startHold);
+        finishBtn.addEventListener('touchstart', startHold);
+        finishBtn.addEventListener('mouseup', cancelHold);
+        finishBtn.addEventListener('mouseleave', cancelHold);
+        finishBtn.addEventListener('touchend', cancelHold);
+
+        function showConfirmBox() { confirmBox.classList.add('active'); }
+        function closeConfirmBox() { confirmBox.classList.remove('active'); }
+
+        // --- FUNÇÃO FINALIZAR E BAIXAR (NOVA CHAMADA PARA O SIM) ---
+        async function finalizeAndDownload() {
+            closeConfirmBox(); // Fecha a caixa de confirmação primeiro
+
+            // Notificação visual enquanto baixa (Opcional)
+            const oldText = finishBtn.innerText;
+            finishBtn.innerText = 'Baixando...';
+            finishBtn.disabled = true;
+
+            try {
+                // 1. BAIXA A IMAGEM (Aguarda a Promise do download)
+                await downloadCharacter();
+
+                // 2. SALVA A PERSISTÊNCIA E RENDERIZA O BONECO NO JOGO
+                finalizeCharacter(); 
+
+            } catch (error) {
+                console.error("Finalização interrompida por erro de download.");
+            } finally {
+                // Restaura o botão caso algo falhe
+                finishBtn.innerText = oldText;
+                finishBtn.disabled = false;
+            }
+        }
+
+
+        // --- FUNÇÃO FINALIZAR ORIGINAL (AGORA AUXILIAR) ---
+        function finalizeCharacter() {
+            const traits = getcurrentTraits();
+
+            const characterInfo = {
+                traits: traits,
+                x: '50%',
+                y: '60%'
+            };
+
+            if (window.gameData) {
+                window.gameData.customCharacter = characterInfo;
+                if(window.salvarJogo) window.salvarJogo();
+            }
+
+            renderSavedCharacter(characterInfo);
+            closeGame();
+        }
+
+        // --- CREATE CHARACTER FACTORY ---
+        function createCharacterElement(data, width = '200px') {
+            const container = document.createElement('div');
+            container.style.width = width;
+            container.style.height = 'auto'; container.style.aspectRatio = '500 / 800'; 
+            container.style.position = 'relative'; container.style.display = 'inline-block'; 
+            container.style.filter = 'drop-shadow(0 0 2px rgba(255,255,255,0.5))';
+
+            Object.keys(data).forEach(key => {
+                if(key === 'hairColor') return; 
+                const currentVal = data[key];
+                if(currentVal === 0) return; 
+
+                const img = document.createElement('img');
+                img.style.position = 'absolute'; img.style.top = '0'; img.style.left = '0';
+                img.style.width = '100%'; img.style.height = '100%'; img.style.objectFit = 'contain';
+                
+                let zIndex = 0;
+                if(key === 'body') zIndex = 0;
+                else if(key === 'claws') zIndex = 5;
+                else if(key === 'marks') zIndex = 10;
+                else if(key === 'tail') zIndex = 15;
+                else if(key === 'mouth') zIndex = 20;
+                else if(key === 'eyes') zIndex = 25;
+                else if(key === 'eyebrows') zIndex = 30;
+                else if(key === 'cloth') zIndex = 35;
+                else if(key === 'hairStyle') zIndex = 45;
+                else if(key === 'horns') zIndex = 50;
+                else if(key === 'accessory') { zIndex = (currentVal === 2 || currentVal === 4) ? 55 : 49; }
+                img.style.zIndex = zIndex;
+
+                const itemConfig = config[key]; 
+                if (key === 'hairStyle') {
+                    const colorIndex = data['hairColor'];
+                    const colorName = config.hairColor.options[colorIndex];
+                    img.src = `${basePath}Hair${currentVal}-${colorName}.png`;
+                } else {
+                    const filePrefix = itemConfig.filename ? itemConfig.filename : capitalize(key);
+                    img.src = `${basePath}${filePrefix}-${currentVal}.png`;
+                }
+                container.appendChild(img);
+            });
+            return container;
+        }
+
+        // --- INIT PADRÃO DO MODAL ---
+        const basePath = '/assets/img/MYO/'; 
+        const config = {
+            body:      { label: 'Base',       max: 4,  current: 1, min: 1, filename: 'BASE' },
+            eyes:      { label: 'Eyes',       max: 8,  current: 1, min: 1 }, 
+            eyebrows:  { label: 'Eyebrows',   max: 4,  current: 0 }, 
+            mouth:     { label: 'Mouth',      max: 10, current: 0 },
+            hairStyle: { label: 'Hair Style', max: 20, current: 0 },
+            hairColor: { label: 'Hair Color', type: 'color', current: 0, 
+                         options: ['Black', 'Blue', 'Brown', 'Green', 'Pink', 'Purple', 'Red', 'White', 'Yellow'] },
+            horns:     { label: 'Horns',      max: 3,  current: 1, min: 1 },
+            claws:     { label: 'Claws',      max: 3,  current: 1, min: 1 },
+            marks:     { label: 'Marks',      max: 5,  current: 0 },
+            tail:      { label: 'Tail',       max: 3,  current: 1, min: 1 },
+            cloth:     { label: 'Cloth',      max: 16, current: 0 },
+            accessory: { label: 'Accessory',  max: 9,  current: 0 }
+        };
+        const menuOrder = ['body', 'eyes', 'eyebrows', 'mouth', 'hairStyle', 'hairColor', 'horns', 'claws', 'marks', 'tail', 'cloth', 'accessory'];
+
+        function init() {
+            const controlsList = document.getElementById('controlsList');
+            menuOrder.forEach(key => {
+                const item = config[key];
+                const div = document.createElement('div');
+                div.className = 'control-row';
+                let displayVal = getDisplayValue(key, item);
+                div.innerHTML = `
+                    <button class="nav-btn" onclick="changeItem('${key}', -1)">&#10094;</button>
+                    <div class="control-label">${item.label}<span class="control-value" id="val-${key}">${displayVal}</span></div>
+                    <button class="nav-btn" onclick="changeItem('${key}', 1)">&#10095;</button>
+                `;
+                controlsList.appendChild(div);
+            });
+            updateAllLayers();
+        }
+
+        function changeItem(key, direction) {
+            const item = config[key];
+            if (item.type === 'color') {
+                let newIndex = item.current + direction;
+                if (newIndex < 0) newIndex = item.options.length - 1;
+                if (newIndex >= item.options.length) newIndex = 0;
+                item.current = newIndex;
+            } else {
+                const min = item.min || 0; 
+                let newIndex = item.current + direction;
+                if (newIndex > item.max) newIndex = min;
+                if (newIndex < min) newIndex = item.max;
+                item.current = newIndex;
+            }
+            document.getElementById(`val-${key}`).innerText = getDisplayValue(key, item);
+            updateLayer(key);
+        }
+
+        function getDisplayValue(key, item) {
+            if (item.type === 'color') return item.options[item.current];
+            if (item.current === 0) return "None";
+            return `Option ${item.current}`;
+        }
+
+        function updateAllLayers() { Object.keys(config).forEach(key => { if(key !== 'hairColor') updateLayer(key); }); }
+
+        function updateLayer(key) {
+            if (key === 'hairStyle' || key === 'hairColor') { updateHair(); return; }
+            const item = config[key];
+            const imgEl = document.getElementById(`img-${key}`);
+            if (!imgEl) return;
+
+            if (key === 'accessory') { imgEl.style.zIndex = (item.current === 2 || item.current === 4) ? "55" : "49"; }
+
+            if (item.current === 0) {
+                imgEl.style.display = 'none'; imgEl.src = '';
+            } else {
+                const filePrefix = item.filename ? item.filename : capitalize(key);
+                imgEl.src = `${basePath}${filePrefix}-${item.current}.png`;
+                imgEl.style.display = 'block';
+                imgEl.onerror = function() { this.style.display = 'none'; };
+            }
+        }
+
+        function updateHair() {
+            const style = config.hairStyle.current;
+            const colorIndex = config.hairColor.current;
+            const colorName = config.hairColor.options[colorIndex];
+            const imgEl = document.getElementById('img-hair');
+            if (style === 0) { imgEl.style.display = 'none'; imgEl.src = ''; } else {
+                imgEl.style.display = 'block';
+                imgEl.src = `${basePath}Hair${style}-${colorName}.png`;
+            }
+        }
+
+        function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+        init();
+    </script>
 </body>
 </html>

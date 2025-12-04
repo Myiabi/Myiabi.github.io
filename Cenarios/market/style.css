@@ -62,6 +62,7 @@ body {
   top: 11.74%;
   left: 43%;
   rotate: 0.3deg;
+  transform: scaleX(-1);
 }
 
 #cobra4 {

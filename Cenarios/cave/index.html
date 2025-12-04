@@ -4,38 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+     <!-- Bibliotecas Externas -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"></script>
+
+    <!-- CSS Global e Local -->
     <link rel="stylesheet" href="/core/global.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"></script>
-<script>
-  tsParticles.load("fire-background", {
-    preset: "fire"
-    
-  });
-</script>
+<body oncontextmenu="return false" data-no="menu">
 
-<body oncontextmenu="return false", data-no="menu">
+    <!-- Interface Fixa -->
+    <div class="btnback" id="btn-back" data-destino="/city.html">↩</div>    
+    <div id="fire-background"></div>
 
-  <div class="btnback" id="btn-back" data-destino="/city.html">↩</div>    
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Botão Principal -->
+        <button id="openCreatorBtn" class="open-modal-btn" onclick="openGame()">CRIAR PERSONAGEM</button>
+        <!-- O boneco salvo aparecerá aqui -->
+    </div>
 
+    <!-- ========================================== -->
+    <!-- MODAL DO CRIADOR (Janela Flutuante) -->
+    <!-- ========================================== -->
+    <div id="charCreatorModal" class="modal-overlay" style="display: none;">
+        <div class="game-container" id="gameContainerContent">
+            
+            <button class="close-btn" onclick="closeGame()">X</button>
 
-<div id="fire-background"></div>
+            <!-- Menu Esquerdo -->
+            <div class="menu-panel" id="menuPanel">
+                <div id="controlsList" class="controls-list">
+                    <!-- JS injeta os controles aqui -->
+                </div>
+                <!-- Rodapé com Botão Finish -->
+                <div class="finish-btn-container" id="finishContainer">
+                    <svg class="progress-ring" width="100" height="100" viewBox="0 0 100 100">
+                        <circle class="progress-ring__track" cx="50" cy="50" r="46" />
+                        <circle class="progress-ring__circle" cx="50" cy="50" r="46" />
+                    </svg>
+                    <button class="finish-btn" id="finishBtn">FINISH</button>
+                </div>
+            </div>
 
+            <!-- Palco do Personagem -->
+            <div class="character-stage">
+                <button id="randomBtn" class="stage-btn" onclick="randomizeCharacter()" title="Aleatório">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 8h.01"></path><path d="M8 8h.01"></path><path d="M8 16h.01"></path><path d="M16 16h.01"></path><path d="M12 12h.01"></path></svg>
+                </button>
 
+                <button id="downloadBtn" class="stage-btn" onclick="downloadCharacter()" title="Baixar PNG">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                </button>
 
+                <!-- Área de Captura -->
+                <div class="char-wrapper" id="characterCaptureArea">
+                    <img src="" class="layer z-body" id="img-body">
+                    <img src="" class="layer z-marks" id="img-marks">
+                    <img src="" class="layer z-tail" id="img-tail">
+                    <img src="" class="layer z-claws" id="img-claws">
+                    <img src="" class="layer z-mouth" id="img-mouth">
+                    <img src="" class="layer z-eyes" id="img-eyes">
+                    <img src="" class="layer z-eyebrows" id="img-eyebrows">
+                    <img src="" class="layer z-cloth" id="img-cloth">
+                    <img src="" class="layer z-accessory" id="img-accessory">
+                    <img src="" class="layer z-hair" id="img-hair">
+                    <img src="" class="layer z-horns" id="img-horns">
+                </div>
+            </div>
 
+            <!-- Caixa de Confirmação -->
+            <div class="confirm-box" id="confirmBox">
+                <h3>Salvar e criar personagem?</h3>
+                <div class="confirm-actions">
+                    <button class="confirm-btn btn-no" onclick="closeConfirmBox()">NÃO</button>
+                    <button class="confirm-btn btn-yes" onclick="finalizeAndDownload()">SIM</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Scripts (Apenas um arquivo JS agora) -->
+    <script src="/loader.js"></script>
+    <script src="script.js"></script>
 
-
-
-
-  </div>
-<script src="/loader.js"></script>
-<script src="/scripts/wendigo_fight/script.js"></script>
-<script src="script.js"></script>
 
 </body>
 

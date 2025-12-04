@@ -30,6 +30,9 @@ visualState: {}, // Variaveis do SOl & LUA
   itensJardim: {},       // Salva cada item individualmente
   // -----------------------------------
 
+   // --- NOVO: DADOS DO PERSONAGEM CRIADO ---
+  customCharacter: null, // Vai guardar { traits: {}, x: '10%', y: '50%' }
+
 
   // achievements já desbloqueados (persistente)
   unlockedAchievements: {}
