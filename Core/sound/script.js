@@ -1,5 +1,5 @@
 // --------------------
-// GERENCIADOR DE SONS COM BOTÃO DE ÍCONE
+// GERENCIADOR DE SONS COM BOTÃO DE ÍCONE + LOOPS
 // --------------------
 const Sons = {
   trilhas: {
@@ -9,9 +9,15 @@ const Sons = {
   efeitos: {
     vitoria: "/assets/sounds/efeitos/tuturu_1.mp3",
     click: "/assets/sounds/efeitos/tuturu_1.mp3",
-    whoosh: "/assets/sounds/efeitos/whooshfogo.mp3"
+    whoosh: "/assets/sounds/efeitos/whooshfogo.mp3",
+    
+    // --- ADICIONE SEUS SONS DE LOOP AQUI EMBAIXO ---
+    // Exemplo:
+    // magia: "/assets/sounds/efeitos/magia_loop.mp3",
+    // fritando: "/assets/sounds/efeitos/fritando.mp3"
   },
-  trilhaAtual: null
+  trilhaAtual: null,
+  loopsAtivos: {} // Armazena os sons contínuos que estão tocando
 };
 
 // Configura todas as trilhas
@@ -47,12 +53,48 @@ function resumirTrilha() {
   if (Sons.trilhaAtual) Sons.trilhaAtual.play().catch(() => {});
 }
 
+// --------------------
+// FUNÇÕES DE EFEITOS (ONE-SHOT)
+// --------------------
 function tocarEfeito(nome, volume = 0.5) {
   const caminho = Sons.efeitos[nome];
   if (!caminho) return;
   const som = new Audio(caminho);
   som.volume = volume;
   som.play().catch(()=>{});
+}
+
+// --------------------
+// FUNÇÕES DE LOOP (CONTÍNUOS) - NOVO
+// --------------------
+function iniciarLoop(nome, volume = 0.5) {
+  // Se já estiver tocando, ignora pra não encavalar
+  if (Sons.loopsAtivos[nome]) return;
+
+  const caminho = Sons.efeitos[nome];
+  if (!caminho) {
+    console.warn(`Som de loop "${nome}" não encontrado. Verifique a lista Sons.efeitos.`);
+    return;
+  }
+
+  const audio = new Audio(caminho);
+  audio.loop = true; // Faz repetir infinitamente
+  audio.volume = volume;
+  
+  audio.play().catch((e) => {
+    console.log("Autoplay bloqueado ou erro no loop:", e);
+  });
+
+  Sons.loopsAtivos[nome] = audio;
+}
+
+function pararLoop(nome) {
+  const audio = Sons.loopsAtivos[nome];
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0; // Volta pro início
+    delete Sons.loopsAtivos[nome]; // Remove da lista de ativos
+  }
 }
 
 // --------------------
@@ -133,14 +175,16 @@ function criarBotaoMusica() {
 // INICIALIZAÇÃO
 // --------------------
 window.addEventListener('load', () => {
-  //tocarTrilha('cidade');
+  // Se quiser iniciar uma trilha logo de cara, descomente abaixo:
+  // tocarTrilha('cidade');
   
   criarBotaoMusica();
-  
 });
 
-document.getElementById("vitoriaBtn").addEventListener("click", () => {
-  tocarEfeito("whoosh", 0.5);
-  
-});
-
+// Exemplo de uso existente
+const vitoriaBtn = document.getElementById("vitoriaBtn");
+if (vitoriaBtn) {
+    vitoriaBtn.addEventListener("click", () => {
+      tocarEfeito("whoosh", 0.5);
+    });
+}

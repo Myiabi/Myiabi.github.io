@@ -1,5 +1,5 @@
 // ==========================================================
-// loader.js - Sistema Lua + Sol + Aura de Fogo (Com PERSISTÊNCIA SAVE)
+// loader.js - Sistema Lua + Sol + Aura de Fogo + SOM EM LOOP
 // ==========================================================
 
 // ---------------------------
@@ -111,7 +111,7 @@ function hideLoupe() {
 }
 
 // ======================================================
-// 🌙 L U A   (revelar targets individuais) - CORRIGIDO
+// 🌙 L U A  (revelar targets individuais) - CORRIGIDO
 // ======================================================
 const targets = [];
 const revealTimers = new WeakMap();
@@ -155,7 +155,19 @@ function checkReveal(x, y) {
 
     if (inside) {
       if (!revealTimers.has(el)) {
+        
+        // 🔥 SOM LOOP LUA: START
+        if (target.options.soundLoop && typeof iniciarLoop === "function") {
+             iniciarLoop(target.options.soundLoop);
+        }
+
         const timer = setTimeout(() => {
+          
+          // 🔥 SOM LOOP LUA: STOP (Sucesso)
+          if (target.options.soundLoop && typeof pararLoop === "function") {
+             pararLoop(target.options.soundLoop);
+          }
+
           if (mapa) {
             const layerTop = mapa.querySelector(".layer.top");
             if (layerTop) layerTop.style.display = "none";
@@ -182,6 +194,12 @@ function checkReveal(x, y) {
       }
     } else {
       if (revealTimers.has(el)) {
+        
+        // 🔥 SOM LOOP LUA: STOP (Cancelado pois saiu da área)
+        if (target.options.soundLoop && typeof pararLoop === "function") {
+             pararLoop(target.options.soundLoop);
+        }
+
         clearTimeout(revealTimers.get(el));
         revealTimers.delete(el);
       }
@@ -190,7 +208,7 @@ function checkReveal(x, y) {
 }
 
 // ======================================================
-// 🔥 S O L   (independente) - CORRIGIDO
+// 🔥 S O L  (independente) - CORRIGIDO
 // ======================================================
 // armazenamento
 const sunTargets = [];
@@ -271,8 +289,20 @@ function checkSun(x, y) {
 
     if (inside) {
       if (!sunTimers.has(el)) {
+        
+        // 🔥 SOM LOOP SOL: START
+        if (opt.soundLoop && typeof iniciarLoop === "function") {
+             iniciarLoop(opt.soundLoop);
+        }
+
         const timer = setTimeout(() => {
-          // toca som se definido
+          
+          // 🔥 SOM LOOP SOL: STOP (Sucesso)
+          if (opt.soundLoop && typeof pararLoop === "function") {
+             pararLoop(opt.soundLoop);
+          }
+
+          // toca som de finalização se definido
           if (opt.sound && typeof tocarEfeito === "function") {
             tocarEfeito(opt.sound);
           }
@@ -338,6 +368,12 @@ function checkSun(x, y) {
       }
     } else {
       if (sunTimers.has(el)) {
+        
+        // 🔥 SOM LOOP SOL: STOP (Cancelado, saiu da área)
+        if (opt.soundLoop && typeof pararLoop === "function") {
+             pararLoop(opt.soundLoop);
+        }
+
         clearTimeout(sunTimers.get(el));
         sunTimers.delete(el);
       }
@@ -532,14 +568,21 @@ function onPointerUp(e) {
   if (isDragging) {
     isDragging = false;
 
-    // Chamada para parar som de loop (se houver)
-    // if (typeof pararEfeito === 'function') {
-    //     if (currentItem?.func === "revelar") {
-    //         pararEfeito("som_loop_lua");
-    //     } else if (currentItem?.func === "sol") {
-    //         pararEfeito("som_loop_sol");
-    //     }
-    // }
+    // 🔥 SEGURANÇA: PARAR TODOS OS LOOPS AO SOLTAR O ITEM
+    // (Caso o usuário solte o item NO MEIO do processo)
+    if (typeof pararLoop === 'function') {
+        targets.forEach(t => {
+            if (revealTimers.has(t.el) && t.options.soundLoop) {
+                pararLoop(t.options.soundLoop);
+            }
+        });
+        sunTargets.forEach(t => {
+            if (sunTimers.has(t.el)) {
+                const opt = sunOptions.get(t.el);
+                if (opt && opt.soundLoop) pararLoop(opt.soundLoop);
+            }
+        });
+    }
 
     hideLoupe(); // desliga aura da lua
 
@@ -605,6 +648,7 @@ window.startMinigameLogic = function() {
     addTarget(document.querySelector(".capetinha"), {
       delay: 2000,
       sound: "woosh",
+      soundLoop: "magia" // <--- EXEMPLO: Nome igual ao que está em Sons.efeitos
     });
 
     addTarget(document.querySelector(".rage"), {
@@ -630,7 +674,8 @@ window.startMinigameLogic = function() {
       action: "swap",
       newImage: "🙄",
       sound: "whoosh",
-      delayMs: 350,
+      delayMs: 3050,
+      soundLoop: "whoosh" // <--- EXEMPLO: Se tiver um som de gelo derretendo
     });
 
     addSunTarget(document.querySelector(".bola-alvo"), {
