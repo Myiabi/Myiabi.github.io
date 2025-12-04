@@ -282,6 +282,26 @@ assistant: {
     }
   },
 
+maid: {
+    nome:"Red Snapper Maid",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/npc-czar.png')",
+      pensativo: "url('/assets/img/npc-czar2.png')"
+    },
+    falas: {
+      inicio: [
+        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+      ],
+      segunda: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
+  },
+
   feliciaBar: {
     nome:"Felicia",
     lado: "Esquerdo",
@@ -396,6 +416,10 @@ document.getElementById("assistant")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.assistant);
 });
 
+document.getElementById("maid")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.maid);
+});
+
 // templo //
 
 document.getElementById("nana")?.addEventListener("pointerdown", () => {
@@ -405,6 +429,7 @@ document.getElementById("nana")?.addEventListener("pointerdown", () => {
 document.getElementById("nodata")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.nodata);
 });
+
 document.getElementById("leader")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.aiko);
 });
