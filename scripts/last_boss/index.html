@@ -55,7 +55,7 @@
       align-items: center;
       justify-content: center;
       transition: transform 0.2s;
-      font-size: 3vw; /* Para os emojis substitutos */
+      font-size: 3vw; 
     }
 
     .menu-item:active {
@@ -73,8 +73,8 @@
     /* LUPA (LUA) */
     .loupe {
       position: fixed;
-      width: 10vw;
-      height: 10vw;
+      width: 15vw;
+      height: 15vw;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(135, 206, 250, 0.15) 50%, rgba(0, 0, 0, 0) 70%);
       border: 1px solid rgba(255, 255, 255, 0.5);
@@ -146,7 +146,7 @@
       50% { transform: translate(-50%, -60%) rotate(-0.5deg); filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); }
     }
     .drag-clone-float {
-      animation: fly-animation 2.5s ease-in-out infinite alternate; 
+      /* Animation logic handled in JS for sync, mostly removed here to avoid conflict */
     }
 
     /* =========================================
@@ -163,19 +163,31 @@
         pointer-events: none;
     }
 
+    /* Animação de flutuação universal do Boss (4s, 1.5vh) */
+    @keyframes floatBoss { 
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-1.5vh); } 
+    }
+
     /* O Corpo do Boss */
     #boss-body {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        height: 80vh; /* Tamanho do Boss */
+        height: 80vh; 
         width: auto;
         z-index: 1;
         opacity: 0.9;
+        animation: floatBody 4s ease-in-out infinite; 
+    }
+    
+    @keyframes floatBody { 
+        0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+        50% { transform: translate(-50%, -50%) translateY(-1.5vh); }
     }
 
-    /* Wrappers das Mãos (A área que segura mão + algema) */
+    /* Wrappers das Mãos */
     .hand-wrapper {
         position: absolute;
         display: flex;
@@ -185,15 +197,11 @@
         z-index: 10;
         pointer-events: auto;
         transition: opacity 0.5s;
+        /* Mesma animação do corpo para garantir sincronia */
+        animation: floatBoss 4s ease-in-out infinite; 
     }
 
-    @keyframes floatHand {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-2vh); }
-    }
-    .hand-wrapper { animation: floatHand 3s ease-in-out infinite; }
-
-    /* === CONFIGURAÇÃO DE POSIÇÃO (ATUALIZADA) === */
+    /* === CONFIGURAÇÃO DE POSIÇÃO === */
 
     /* --- GRUPO ESQUERDO (Mão + Algema) --- */
     #wrapper-left {
@@ -217,14 +225,13 @@
         right: 15%;
         width: 50%;
         height: 50%;
-                border: red solid 2px;
 
     }
 
     /* --- GRUPO DIREITO (Mão + Algema) --- */
     #wrapper-right {
-        top: 30%;    /* Posição Vertical na tela */
-        right: 28.5%;   /* Posição Horizontal (Direita) */
+        top: 29%;    /* Posição Vertical na tela */
+        right: 27.9%;   /* Posição Horizontal (Direita) */
         width: 25vw; /* Tamanho total da área */
         height: 25vw;
     }
@@ -243,7 +250,6 @@
         right: 35%;
         width: 50%;
         height: 50%;
-        border: rebeccapurple solid 2px;
 
     }
     
@@ -274,7 +280,7 @@
 
     /* Alvo do Sol (Mão) */
     .boss-hand-target {
-        position: relative; /* Mudado de absolute para relative, já que wrapper é flex */
+        position: relative;
         z-index: 5;
     }
 
@@ -291,26 +297,22 @@
         100% { filter: drop-shadow(0 0 0px #00FFFF); }
     }
 
-    /* Aplica o brilho na imagem da MÃO agora */
     .hand-img.regenerating-glow {
-        animation: cuff-regeneration 0.6s ease-in-out 3; /* Repete 3 vezes */
+        animation: cuff-regeneration 0.6s ease-in-out 3; 
     }
 
-    /* Barras de Cast - Estilo Gelo Atualizado */
+    /* Barras de Cast */
     .cast-bar-container {
-        width: 20%; /* Tamanho próximo da mão (18%) */
-        height: 0.6vh; /* Mais fina e elegante */
-        background: rgba(0, 20, 40, 0.6); /* Fundo azul escuro translúcido */
-        border: 1px solid rgba(100, 200, 255, 0.5); /* Borda fina cor de gelo */
-        box-shadow: 0 0 5px rgba(0, 255, 255, 0.5); /* Glow externo suave */
+        width: 20%;
+        height: 0.6vh;
+        background: rgba(0, 20, 40, 0.6);
+        border: 1px solid rgba(100, 200, 255, 0.5);
+        box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         border-radius: 2px;
-        
-        /* Posicionamento ABAIXO da mão */
         position: absolute;
-        top: 65%; /* Abaixo do centro (onde está a mão) */
+        top: 65%;
         left: 50%;
-        transform: translateX(-50%); /* Centraliza perfeitamente */
-        
+        transform: translateX(-50%);
         margin-bottom: 0;
         overflow: hidden;
         z-index: 30;
@@ -319,16 +321,15 @@
     .cast-bar-fill {
         width: 0%;
         height: 100%;
-        /* Gradiente Gelo: Branco (brilho) -> Ciano -> Azul */
         background: linear-gradient(90deg, #ffffff, #00ffff, #0077be);
-        box-shadow: 0 0 8px #00ffff; /* Glow interno na barra */
+        box-shadow: 0 0 8px #00ffff;
         transition: width 0.1s linear;
     }
 
     /* FASE 2: OLHOS */
     #boss-eyes-container {
         position: absolute;
-        top: 36%; /* Ajuste visual para o rosto */
+        top: 30%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 12vw;
@@ -347,7 +348,7 @@
     @keyframes pulseEye { from { opacity: 0.6; transform: scale(1); } to { opacity: 1; transform: scale(1.1); } }
 
     #cast-eyes {
-        top: 25%;
+        top: 10%;
         left: 50%;
         transform: translateX(-50%);
         width: 20vw;
@@ -356,44 +357,90 @@
     }
     #cast-eyes .cast-bar-fill { background: linear-gradient(90deg, #ff00cc, #333399); }
 
-    /* UI JOGADOR - SIMPLIFICADA PARA SER APENAS O CONTÊINER BASE */
+    /* BARRA DE REGEN DOS OLHOS */
+    #regen-eyes {
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20vw;
+        display: none;
+        z-index: 20;
+        border-color: #ffd700;
+    }
+    
+    #regen-eyes::before {
+        content: "REGEN";
+        position: absolute;
+        top: -2.5vh;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ffd700;
+        font-weight: bold;
+        font-size: 1.5vh;
+        text-shadow: 0 0 5px #000;
+    }
+
+    #regen-eyes .cast-bar-fill {
+        background: linear-gradient(90deg, #fff, #ffd700, #ff8c00);
+        box-shadow: 0 0 8px #ffd700;
+    }
+
+    /* UI JOGADOR */
     #player-hp-container {
-        position: fixed; /* O contêiner de HP ainda é fixo para referência, mas os postes dentro são absolutos */
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        pointer-events: none; /* Não bloqueia o toque/mouse */
+        pointer-events: none;
         z-index: 100;
     }
 
-    /* ESTILO DO POSTE (Agora é uma IMG) */
     .poste-vida {
-        /* A imagem já está definida no HTML */
         object-fit: contain;
         transition: filter 0.3s;
-        pointer-events: none; /* Crucial: Imagens da vida não devem interferir no drag/sol/lua */
-        filter: drop-shadow(0 0 5px rgba(255,100,0,0.5)); /* Adiciona um brilho de vida */
+        pointer-events: none;
+        filter: drop-shadow(0 0 5px rgba(255,100,0,0.5));
     }
 
-    /* CLASSE QUANDO O POSTE É APAGADO (Perde vida) */
     .poste-apagado {
         filter: grayscale(1) brightness(0.3);
     }
-    
-    /* === POSICIONAMENTO INDIVIDUAL DOS POSTES (EDITAR AQUI) === */
-    /* Você pode ajustar o top, left, width de cada um individualmente */
-    #poste-1 { top: 85vh; left: 30vw; width: 4vw; }
-    #poste-2 { top: 85vh; left: 35vw; width: 4vw; }
-    #poste-3 { top: 85vh; left: 40vw; width: 4vw; }
-    #poste-4 { top: 85vh; left: 45vw; width: 4vw; }
-    #poste-5 { top: 85vh; left: 55vw; width: 4vw; }
-    #poste-6 { top: 85vh; left: 60vw; width: 4vw; }
-    #poste-7 { top: 85vh; left: 65vw; width: 4vw; }
-    #poste-8 { top: 85vh; left: 70vw; width: 4vw; }
-    /* ======================================================== */
 
-    /* MENSAGEM FLUTUANTE (AJUSTADA) */
+    @keyframes shake {
+        0% { transform: translate(1px, 1px) rotate(0deg); }
+        10% { transform: translate(-1px, -2px) rotate(-1deg); }
+        20% { transform: translate(-3px, 0px) rotate(1deg); }
+        30% { transform: translate(3px, 2px) rotate(0deg); }
+        40% { transform: translate(1px, -1px) rotate(1deg); }
+        50% { transform: translate(-1px, 2px) rotate(-1deg); }
+        60% { transform: translate(-3px, 1px) rotate(0deg); }
+        70% { transform: translate(3px, 1px) rotate(-1deg); }
+        80% { transform: translate(-1px, -1px) rotate(1deg); }
+        90% { transform: translate(1px, 2px) rotate(0deg); }
+        100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+    
+    .shake {
+        animation: shake 0.5s;
+    }
+    
+    /* POSICIONAMENTO DOS 13 POSTES */
+    #poste-1 { top: 85vh; left: 15vw; width: 4vw; }
+    #poste-2 { top: 85vh; left: 20vw; width: 4vw; }
+    #poste-3 { top: 85vh; left: 25vw; width: 4vw; }
+    #poste-4 { top: 85vh; left: 30vw; width: 4vw; }
+    #poste-5 { top: 85vh; left: 35vw; width: 4vw; }
+    #poste-6 { top: 85vh; left: 40vw; width: 4vw; }
+    #poste-7 { top: 85vh; left: 45vw; width: 4vw; }
+    #poste-8 { top: 85vh; left: 50vw; width: 4vw; }
+    #poste-9 { top: 85vh; left: 55vw; width: 4vw; }
+    #poste-10 { top: 85vh; left: 60vw; width: 4vw; }
+    #poste-11 { top: 85vh; left: 65vw; width: 4vw; }
+    #poste-12 { top: 85vh; left: 70vw; width: 4vw; }
+    #poste-13 { top: 85vh; left: 75vw; width: 4vw; }
+
+    /* MENSAGEM FLUTUANTE */
     .floating-text {
         position: fixed;
         font-weight: bold;
@@ -401,8 +448,8 @@
         pointer-events: none;
         z-index: 3000;
         white-space: nowrap;
-        font-size: 1.5vw; /* MENOR (Era 2vw) */
-        animation: floatUp 2s ease-out forwards; /* MAIS DURADOURO (Era 1s) */
+        font-size: 1.5vw;
+        animation: floatUp 2s ease-out forwards;
     }
 
     @keyframes floatUp {
@@ -430,9 +477,8 @@
 </head>
 <body oncontextmenu="return false;">
 
-  <!-- UI: Vida do Jogador (8 Postes) -->
+  <!-- UI: Vida do Jogador (13 Postes) -->
   <div id="player-hp-container">
-    <!-- ATENÇÃO: Cada poste deve ser posicionado individualmente via CSS com #poste-N -->
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-1" style="position: absolute; width: 3vw; height: 6vw;">
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-2" style="position: absolute; width: 3vw; height: 6vw;">
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-3" style="position: absolute; width: 3vw; height: 6vw;">
@@ -441,6 +487,11 @@
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-6" style="position: absolute; width: 3vw; height: 6vw;">
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-7" style="position: absolute; width: 3vw; height: 6vw;">
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-8" style="position: absolute; width: 3vw; height: 6vw;">
+    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-9" style="position: absolute; width: 3vw; height: 6vw;">
+    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-10" style="position: absolute; width: 3vw; height: 6vw;">
+    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-11" style="position: absolute; width: 3vw; height: 6vw;">
+    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-12" style="position: absolute; width: 3vw; height: 6vw;">
+    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-13" style="position: absolute; width: 3vw; height: 6vw;">
   </div>
 
   <!-- UI: Mensagens de Sistema -->
@@ -449,17 +500,23 @@
   <!-- ARENA DO BOSS -->
   <div id="boss-arena">
     
-    <!-- CORPO DO BOSS (Imagem 1) -->
+    <!-- CORPO DO BOSS -->
     <img src="/assets/img/Villain.png" id="boss-body" alt="Boss Body" draggable="false">
 
     <!-- ÁREA DOS OLHOS (FASE 2) -->
+    <!-- NOTA: eye-glow está dentro de layer top -->
     <div class="container mapa" id="boss-eyes-container">
       <div class="layer bottom"></div>
       <div class="layer top">
         <div class="eye-glow"></div> 
       </div>
     </div>
+    <!-- Barra de Cast dos Olhos -->
     <div class="cast-bar-container" id="cast-eyes">
+      <div class="cast-bar-fill"></div>
+    </div>
+    <!-- Barra de Regen dos Olhos -->
+    <div class="cast-bar-container" id="regen-eyes">
       <div class="cast-bar-fill"></div>
     </div>
 
@@ -494,7 +551,7 @@
         <img src="/assets/img/Villain-hand-right.png" class="hand-img" draggable="false">
       </div>
 
-      <!-- Cuff Direita (Corrigido para fairy-cuffs) -->
+      <!-- Cuff Direita -->
       <div class="container mapa cuff-target" id="cuff-right">
         <div class="layer bottom"></div>
         <div class="layer top">
@@ -506,11 +563,10 @@
   </div>
 
   <script>
-    // Mock do gameData para não quebrar o loader
     window.gameData = { visualState: {} };
 
     // ==========================================================
-    // SCRIPT.JS (LOADER) - ADAPTADO PARA RODAR NO CANVAS
+    // SCRIPT.JS (LOADER) - Drag & Drop System
     // ==========================================================
     console.log("script.js carregado!");
 
@@ -518,7 +574,6 @@
     menu.id = "menu-secundario";
     document.body.appendChild(menu);
 
-    // Substitua o bloco 'const itens' e o 'itens.forEach' por este aqui:
     const itens = [
       {
         id: "item-lupa",
@@ -538,10 +593,7 @@
       const div = document.createElement("div");
       div.className = "menu-item";
       div.id = it.id;
-      
-      // Inserindo a imagem na estrutura solicitada
       div.innerHTML = `<img src="${it.img}" draggable="false">`;
-
       div.style.touchAction = "none";
       menu.appendChild(div);
     });
@@ -564,9 +616,8 @@
     let dragClone = null;
     let auraFogo = null;
 
-    const RADIUS = 5;
+    const RADIUS = 7.6;
     const START_THRESHOLD_VW = 0.5;
-    const RADIUS_DETECT_VW = 10;
     let startX = 0, startY = 0;
 
     function vwToPx(vw) { return window.innerWidth * (vw / 100); }
@@ -602,54 +653,48 @@
 
     function addTarget(el, options = {}) {
       if (!el) return;
-      // Removi a checagem de gameData pra simplificar o teste, pode reinserir se precisar
       targets.push({ el, options });
     }
 
     function checkReveal(x, y) {
-      // Colisão Circular baseada no centro da IMAGEM da algema
-      
-      // Raio da Lua. O dragClone tem 5vw de width, então o raio é 2.5vw.
       const LUPA_RAIO_PX = vwToPx(2.5); 
       
       targets.forEach((target) => {
         const mapa = target.el;
         if (!mapa) return;
-        
-        // 1. Pegar a imagem dentro do mapa (cuff-img)
-        const cuffImg = mapa.querySelector('.cuff-img');
-        if (!cuffImg) return;
-        
         if (window.getComputedStyle(mapa).display === 'none') return;
+
+        let alvoInterno = mapa.querySelector('.cuff-img');
+        if (!alvoInterno) {
+            alvoInterno = mapa.querySelector('.eye-glow'); 
+        }
+        if (!alvoInterno) return;
         
-        const rect = cuffImg.getBoundingClientRect(); // Usa as dimensões da IMAGEM real
-        
-        // 2. Achar o centro da IMAGEM da algema
+        const rect = alvoInterno.getBoundingClientRect(); 
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
-        // 3. Calcular a distância entre o ponteiro (x,y) e o centro da IMAGEM
         const dx = x - centerX;
         const dy = y - centerY;
         const distancia = Math.sqrt(dx*dx + dy*dy);
         
-        // 4. O raio do ALVO. Usamos um valor pequeno (5px) como margem de contato 
-        // para garantir que a Lua encoste perto do centro da imagem da algema.
-        // A colisão ocorre quando o centro da Lua está a até 5px da borda da imagem da algema.
-        const MARGEM_CONTATO_PX = 5; 
+        const MARGEM_CONTATO_PX = 10; 
         const distanciaMinima = LUPA_RAIO_PX + MARGEM_CONTATO_PX;
 
         if (distancia < distanciaMinima) {
-          if (!revealTimers.has(mapa)) { // Usa o mapa como chave do timer
+          if (!revealTimers.has(mapa)) { 
             const timer = setTimeout(() => {
               if (mapa) {
                 const layerTop = mapa.querySelector(".layer.top");
-                if (layerTop) layerTop.style.display = "none";
+                if (layerTop) layerTop.style.display = "none"; // ESCONDE O CONTEÚDO (Imagem Algema ou Brilho Olho)
                 
                 if (target.options.onComplete && typeof target.options.onComplete === 'function') {
                     target.options.onComplete(mapa); 
                 }
-                mapa.style.display = "none";
+                
+                // ESCONDE O CONTAINER APENAS SE FOR ALGEMA (Para Olhos, o container precisa existir pro Sol)
+                if (mapa.id !== 'boss-eyes-container') {
+                    mapa.style.display = "none"; 
+                }
               }
               revealTimers.delete(mapa);
             }, target.options?.delay ?? 2000);
@@ -673,7 +718,6 @@
       const opt = Object.assign({ action: "hide", delayMs: 350, uses: 1 }, options);
       sunOptions.set(el, opt);
       const exists = sunTargets.find(t => t.el === el);
-      // CORREÇÃO: Removendo 'uses: 1' para ser infinito por padrão (Postes)
       if (!exists) sunTargets.push({ el, disabled: false, uses: options.uses || 999 }); 
     }
 
@@ -682,7 +726,6 @@
         if (target.disabled) return;
         const el = target.el;
         if (!document.body.contains(el)) { target.disabled = true; return; }
-        // Se o elemento estiver visivelmente oculto ou display none, ignora (segurança extra)
         if(el.offsetParent === null) return;
 
         const rect = el.getBoundingClientRect();
@@ -696,17 +739,14 @@
             const timer = setTimeout(() => {
               if (opt.action === "hide") {
                 el.style.display = "none";
-              } else if (opt.action === "swap") {
-                  // Lógica simplificada de swap
               }
 
               if (opt.onComplete && typeof opt.onComplete === 'function') {
                   opt.onComplete(el);
               }
 
-              // CORREÇÃO: Lógica para decrementar USES se houver
               if (opt.uses === 999) {
-                  // Não faz nada (infinito)
+                  // Infinito
               } else if (typeof opt.uses === "number") {
                 opt.uses = opt.uses - 1;
                 if (opt.uses <= 0) {
@@ -766,15 +806,11 @@
 
       dragClone = document.createElement("div");
       dragClone.className = "menu-item drag-clone-float";
-      
-      // Usa a imagem definida no 'itens'
       dragClone.style.backgroundImage = `url('${item.img}')`;
       dragClone.style.backgroundSize = "80%";
       dragClone.style.backgroundPosition = "center";
       dragClone.style.backgroundRepeat = "no-repeat";
-      
       dragClone.style.backgroundColor = "rgba(255,255,255,0.2)";
-
       dragClone.style.position = "fixed";
       dragClone.style.opacity = "0.9";
       dragClone.style.pointerEvents = "none";
@@ -823,8 +859,13 @@
         } else return;
       }
       if (isDragging && dragClone) {
+        // CORREÇÃO: Aplicar o movimento da mão no dragClone enquanto arrasta
+        const currentYOffset = Math.sin(performance.now() / 4000 * Math.PI) * vwToPx(1.5) / window.innerHeight * 100; 
+        
         dragClone.style.left = (x / window.innerWidth) * 100 + "vw";
-        dragClone.style.top = (y / window.innerHeight) * 100 + "vh"; 
+        // Ajustar a posição Y para incluir a flutuação
+        dragClone.style.top = ((y / window.innerHeight) * 100) + currentYOffset + "vh";
+        
         if (currentItem?.func === "sol") {
           auraFogo.style.left = dragClone.style.left;
           auraFogo.style.top = dragClone.style.top;
@@ -835,9 +876,7 @@
           let insideMap = false;
           let activeIndex = null;
           for (let i = 0; i < containers.length; i++) {
-            // Checa display para não bugar com container oculto
             if(window.getComputedStyle(containers[i]).display === 'none') continue;
-
             const rect = containers[i].getBoundingClientRect();
             if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
               insideMap = true;
@@ -871,7 +910,8 @@
         });
 
         if (dragClone) {
-          let outside = true; // Simplificado pra sempre voltar ao menu se soltar
+          // Remover a classe de flutuação para que o clone retorne suavemente
+          dragClone.classList.remove("drag-clone-float");
           returnToMenu(dragClone, menuItem);
           dragClone = null;
         }
@@ -888,10 +928,11 @@
     // ==========================================================
     const BOSS_CONFIG = {
         cuffRegenTime: 2000,
-        handMaxHits: 3,
-        castSpeedHand: 0.105, // (0.15 * 0.70) - 30% mais lento
-        castSpeedEye: 0.3,    // Permanece 0.3
-        totalPostes: 8
+        handMaxHits: 1,      
+        castSpeedHand: 0.105, 
+        castSpeedEye: 0.105,  
+        regenSpeedEye: 0.04,   
+        totalPostes: 13       
     };
 
     const gameState = {
@@ -902,13 +943,14 @@
         castLeft: 0,
         castRight: 0,
         castEyes: 0,
+        eyesRegen: 0,
         phase: 1, 
         eyesStunned: false,
-        postesVivos: 8,
+        necromancyMode: false, 
+        postesVivos: 13,
         gameOver: false
     };
 
-    // Pega elementos
     const els = {
         leftWrapper: document.getElementById('wrapper-left'),
         rightWrapper: document.getElementById('wrapper-right'),
@@ -921,8 +963,10 @@
         eyesContainer: document.getElementById('boss-eyes-container'),
         eyesCastBar: document.getElementById('cast-eyes'),
         eyesFill: document.querySelector('#cast-eyes .cast-bar-fill'),
+        eyesRegenBar: document.getElementById('regen-eyes'),
+        eyesRegenFill: document.querySelector('#regen-eyes .cast-bar-fill'),
         msg: document.getElementById('game-message'),
-        postes: Array.from(document.querySelectorAll('.poste-vida')) // Pega a nova classe
+        postes: Array.from(document.querySelectorAll('.poste-vida'))
     };
 
     function gameLoop() {
@@ -932,19 +976,13 @@
             // Mão Esquerda
             if (gameState.hpLeftHand > 0) {
                 gameState.castLeft += BOSS_CONFIG.castSpeedHand;
-                if (gameState.castLeft >= 100) {
-                    dispararMagia("left");
-                    gameState.castLeft = 0;
-                }
+                if (gameState.castLeft >= 100) { dispararMagia("left"); gameState.castLeft = 0; }
                 els.fillLeft.style.width = gameState.castLeft + "%";
             }
             // Mão Direita
             if (gameState.hpRightHand > 0) {
                 gameState.castRight += BOSS_CONFIG.castSpeedHand;
-                if (gameState.castRight >= 100) {
-                    dispararMagia("right");
-                    gameState.castRight = 0;
-                }
+                if (gameState.castRight >= 100) { dispararMagia("right"); gameState.castRight = 0; }
                 els.fillRight.style.width = gameState.castRight + "%";
             }
             // Vitória Fase 1
@@ -953,111 +991,191 @@
             }
         } 
         else if (gameState.phase === 2) {
-            if (!gameState.eyesStunned) {
+            
+            // CONTAGEM DE MÃOS VIVAS
+            const handsAliveCount = (gameState.hpLeftHand > 0 ? 1 : 0) + (gameState.hpRightHand > 0 ? 1 : 0);
+
+            // Mãos atacam independentemente se estiverem vivas
+            if (gameState.hpLeftHand > 0) {
+                gameState.castLeft += BOSS_CONFIG.castSpeedHand;
+                if (gameState.castLeft >= 100) { dispararMagia("left"); gameState.castLeft = 0; }
+                els.fillLeft.style.width = gameState.castLeft + "%";
+            }
+            if (gameState.hpRightHand > 0) {
+                gameState.castRight += BOSS_CONFIG.castSpeedHand;
+                if (gameState.castRight >= 100) { dispararMagia("right"); gameState.castRight = 0; }
+                els.fillRight.style.width = gameState.castRight + "%";
+            }
+
+            // ============================================================
+            // LÓGICA DE ESTADO: MODO NECROMANCIA
+            // ============================================================
+            
+            // Ativa o modo SOMENTE se as duas mãos morrerem
+            if (handsAliveCount === 0) {
+                gameState.necromancyMode = true;
+            }
+            // Desativa o modo SOMENTE se as duas mãos estiverem vivas
+            if (handsAliveCount === 2) {
+                gameState.necromancyMode = false;
+            }
+
+            // ============================================================
+            // HIERARQUIA DE COMPORTAMENTO
+            // ============================================================
+
+            // 1. MODO NECROMANCIA (Prioridade Total para Reviver)
+            if (gameState.necromancyMode) {
+                
+                // CORREÇÃO: Sempre mostra a barra verde (cast eyes) no modo Necromancia
+                els.eyesCastBar.style.display = 'block';
+                els.eyesRegenBar.style.display = 'none';
+
+                // BARRA VERDE (Necromancia) - Foca em reviver
+                els.eyesFill.style.background = 'linear-gradient(90deg, #ccffcc, #00ff00, #006600)';
                 gameState.castEyes += BOSS_CONFIG.castSpeedEye;
+                
                 if (gameState.castEyes >= 100) {
-                    dispararMagia("eyes");
+                    reviveOneHand(); 
                     gameState.castEyes = 0;
                 }
                 els.eyesFill.style.width = gameState.castEyes + "%";
+
+                // Se estiver stunado, o player ainda pode bater, mas o Boss está ocupado revivendo
+                // A regeneração do escudo é ignorada aqui, foco é nas mãos.
+            }
+
+            // 2. MODO NORMAL (Com pelo menos 1 mão viva E fora do modo Necromancia)
+            else {
+                // Prioridade A: Regenerar Escudo se estiver Stunado
+                if (gameState.eyesStunned) {
+                    // BARRA AMARELA
+                    els.eyesCastBar.style.display = 'none';
+                    els.eyesRegenBar.style.display = 'block';
+
+                    gameState.eyesRegen += BOSS_CONFIG.regenSpeedEye;
+                    els.eyesRegenFill.style.width = gameState.eyesRegen + "%";
+                    
+                    if (gameState.eyesRegen >= 100) {
+                        awakenEyes();
+                    }
+                }
+                // Prioridade B: Atacar
+                else {
+                    // BARRA ROXA
+                    els.eyesCastBar.style.display = 'block';
+                    els.eyesRegenBar.style.display = 'none';
+
+                    els.eyesFill.style.background = 'linear-gradient(90deg, #ff00cc, #333399)';
+                    gameState.castEyes += BOSS_CONFIG.castSpeedEye;
+                    
+                    if (gameState.castEyes >= 100) {
+                        dispararMagia("eyes");
+                        gameState.castEyes = 0;
+                    }
+                    els.eyesFill.style.width = gameState.castEyes + "%";
+                }
             }
         }
         requestAnimationFrame(gameLoop);
     }
 
+    function reviveOneHand() {
+        let deadHands = [];
+        if (gameState.hpLeftHand <= 0) deadHands.push("left");
+        if (gameState.hpRightHand <= 0) deadHands.push("right");
+
+        if (deadHands.length > 0) {
+            const side = deadHands[Math.floor(Math.random() * deadHands.length)];
+            
+            if (side === "left") {
+                gameState.hpLeftHand = BOSS_CONFIG.handMaxHits;
+                // CORREÇÃO: Usar opacity para não resetar animação CSS
+                els.leftWrapper.style.opacity = '1';
+                els.leftWrapper.style.pointerEvents = 'auto';
+                
+                gameState.castLeft = 0;
+                els.fillLeft.style.width = "0%";
+            } else {
+                gameState.hpRightHand = BOSS_CONFIG.handMaxHits;
+                // CORREÇÃO: Usar opacity para não resetar animação CSS
+                els.rightWrapper.style.opacity = '1';
+                els.rightWrapper.style.pointerEvents = 'auto';
+
+                gameState.castRight = 0;
+                els.fillRight.style.width = "0%";
+            }
+            regenerarCuff(side);
+            showFloatingText(els.eyesContainer, "Revive!", "#00ff00");
+        }
+    }
+
     function dispararMagia(origem) {
         const postesAcesos = els.postes.filter(p => !p.classList.contains('poste-apagado'));
         if (postesAcesos.length > 0) {
-            
-            // Lógica de dano duplo para os olhos (item 2)
             let dano = (origem === "eyes") ? 2 : 1; 
 
             for(let i = 0; i < dano && postesAcesos.length > 0; i++) {
-                // Pega um alvo aleatório do array restante
                 const randomIndex = Math.floor(Math.random() * postesAcesos.length);
-                const alvo = postesAcesos.splice(randomIndex, 1)[0]; // Remove do array de aceso e pega o elemento
-                
-                if (alvo) {
-                    apagarPoste(alvo);
-                }
+                const alvo = postesAcesos.splice(randomIndex, 1)[0]; 
+                if (alvo) { apagarPoste(alvo); }
             }
-
-            mostrarMensagem("GELO!", "#00ffff");
         }
     }
 
     function apagarPoste(el) {
-        // Altera a imagem para o poste apagado
         el.src = "/assets/img/Pole-turned-off.png"; 
         el.classList.add('poste-apagado');
-        
-        // Adiciona target do SOL para reacender (item 3: Infinito)
+        el.classList.add('shake');
+        setTimeout(() => { el.classList.remove('shake'); }, 500);
+
         addSunTarget(el, {
             action: "none", 
-            uses: 999, // <--- CORREÇÃO: Força uses: 999 para ser REUTILIZÁVEL infinitamente
+            uses: 999, 
             delayMs: 500,
             onComplete: (e) => {
-                // Altera a imagem para o poste aceso
                 e.src = "/assets/img/Pole-turned-on.png"; 
                 e.classList.remove('poste-apagado');
                 gameState.postesVivos++;
             }
         });
         gameState.postesVivos--;
-        if (gameState.postesVivos <= 0) {
-            gameOver(false);
-        }
+        // if (gameState.postesVivos <= 0) gameOver(false);
     }
 
     function setupTargetsMao(side) {
         const cuffEl = side === "left" ? els.leftCuff : els.rightCuff;
         const handEl = side === "left" ? document.getElementById('hand-left') : document.getElementById('hand-right');
 
-        // LUA nas Cuffs
         addTarget(cuffEl, {
-            delay: 3000, 
-            onComplete: () => {
-                onCuffBroken(side);
-            }
+            delay: 500, // Ajustado para 500ms (Debug)
+            onComplete: () => { onCuffBroken(side); }
         });
 
-        // SOL na Mão
         addSunTarget(handEl, {
             action: "none", 
             uses: 999,
             delayMs: 500,
-            onComplete: (el) => {
-                tentarDarDano(side, el);
-            }
+            onComplete: (el) => { tentarDarDano(side, el); }
         });
     }
 
-    // --- NOVA FUNÇÃO DE TEXTO FLUTUANTE (CORRIGIDO: MAIS PERTO E DURADOURO) ---
     function showFloatingText(element, text, color) {
         const rect = element.getBoundingClientRect();
         const floating = document.createElement('div');
         floating.className = 'floating-text';
         floating.innerText = text;
         floating.style.color = color || '#fff';
-        
-        // Posiciona centralizado acima do elemento, mas um pouco mais "dentro" do topo (rect.height/4)
         floating.style.left = (rect.left + rect.width / 2) + 'px';
         floating.style.top = (rect.top + rect.height / 4) + 'px'; 
         floating.style.transform = 'translate(-50%, -100%)';
-
         document.body.appendChild(floating);
-
-        // Remove após 2s (igual ao CSS animation)
-        setTimeout(() => {
-            floating.remove();
-        }, 2000);
+        setTimeout(() => { floating.remove(); }, 2000);
     }
 
     function onCuffBroken(side) {
         if (side === "left") gameState.isLeftCuffActive = false;
         else gameState.isRightCuffActive = false;
-        
-        // Texto Flutuante Específico
         const wrapper = side === "left" ? els.leftWrapper : els.rightWrapper;
         showFloatingText(wrapper, "Vulnerable!", "gold");
     }
@@ -1071,14 +1189,18 @@
             return; 
         }
 
-        // --- CORREÇÃO: BLOQUEIO IMEDIATO (1 HIT APENAS) ---
-        // Ativa a proteção na lógica AGORA para impedir o segundo clique
         if (side === "left") gameState.isLeftCuffActive = true;
         else gameState.isRightCuffActive = true;
 
-        // DANO! 
-        if (side === "left") gameState.hpLeftHand--;
-        else gameState.hpRightHand--;
+        if (side === "left") {
+            gameState.hpLeftHand--;
+            gameState.castLeft = 0;
+            els.fillLeft.style.width = "0%";
+        } else {
+            gameState.hpRightHand--;
+            gameState.castRight = 0;
+            els.fillRight.style.width = "0%";
+        }
 
         const img = handEl.querySelector('img');
         img.classList.add('hand-damaged');
@@ -1087,11 +1209,37 @@
         showFloatingText(wrapper, "Hit!", "orange");
 
         const hp = side === "left" ? gameState.hpLeftHand : gameState.hpRightHand;
+        
         if (hp <= 0) {
-            if (side === "left") els.leftWrapper.style.display = 'none';
-            else els.rightWrapper.style.display = 'none';
+            // CORREÇÃO: Usar opacity 0 para esconder sem parar a animação
+            if (side === "left") {
+                els.leftWrapper.style.opacity = '0';
+                els.leftWrapper.style.pointerEvents = 'none';
+            } else {
+                els.rightWrapper.style.opacity = '0';
+                els.rightWrapper.style.pointerEvents = 'none';
+            }
+
+            // FORCE RESET LOGIC (só para garantir o estado Necromancy logo no ato da morte da segunda mão)
+            if (gameState.phase === 2) {
+                const otherHandHp = (side === "left") ? gameState.hpRightHand : gameState.hpLeftHand;
+                
+                // Se ambas morreram
+                if (otherHandHp <= 0) {
+                     showFloatingText(els.eyesContainer, "NECROMANCY!", "#00ff00");
+
+                     // Força acordar o boss (repor escudo) se ele estiver stunado
+                     if (gameState.eyesStunned) {
+                         awakenEyes(); 
+                         showFloatingText(els.eyesContainer, "SHIELD RESTORED!", "cyan");
+                     }
+                     // Reseta barra verde para o começo
+                     gameState.castEyes = 0;
+                     els.eyesFill.style.width = "0%";
+                }
+            }
+
         } else {
-            // REGENERAÇÃO VISUAL COM DELAY (O bloqueio lógico já ocorreu acima)
             setTimeout(() => regenerarCuff(side), 1500); 
         }
     }
@@ -1099,31 +1247,21 @@
     function regenerarCuff(side) {
         const cuffEl = side === "left" ? els.leftCuff : els.rightCuff;
         const topLayer = cuffEl.querySelector('.layer.top');
-        const handImg = side === "left" ? els.leftHandImg : els.rightHandImg; // Mão para o brilho
-        const wrapper = side === "left" ? els.leftWrapper : els.rightWrapper; // Wrapper para o texto
+        const handImg = side === "left" ? els.leftHandImg : els.rightHandImg; 
+        const wrapper = side === "left" ? els.leftWrapper : els.rightWrapper; 
 
-        // Traz o contêiner e o layer de volta
         cuffEl.style.display = 'flex'; 
         topLayer.style.display = 'flex'; 
-        
-        // Lógica de reset do loader (Esconde a algema visualmente de novo)
         topLayer.style.clipPath = "circle(0% at 0 0)";
         
-        // Garantia de estado (já foi setado no tentarDarDano, mas reforça aqui)
         if (side === "left") gameState.isLeftCuffActive = true;
         else gameState.isRightCuffActive = true;
-
-        // EFEITO VISUAL DE REGENERAÇÃO (Glow na Mão + Texto)
         
-        // 1. Texto Flutuante "Shield Up"
         showFloatingText(wrapper, "Shield Up", "cyan");
 
-        // 2. Glow Azul na Mão
         if (handImg) {
             handImg.classList.add('regenerating-glow');
-            setTimeout(() => {
-                handImg.classList.remove('regenerating-glow');
-            }, 1800); 
+            setTimeout(() => { handImg.classList.remove('regenerating-glow'); }, 1800); 
         }
     }
 
@@ -1131,34 +1269,82 @@
         gameState.phase = 2;
         mostrarMensagem("FASE 2: OLHOS!", "red");
         
-        // Troca para a imagem Villain2.png na fase 2
         document.getElementById('boss-body').src = "/assets/img/Villain2.png";
 
         els.eyesContainer.style.display = 'block';
         els.eyesCastBar.style.display = 'block';
 
+        gameState.hpLeftHand = BOSS_CONFIG.handMaxHits;
+        gameState.hpRightHand = BOSS_CONFIG.handMaxHits;
+        
+        // CORREÇÃO: Resetar opacidade e pointer-events em vez de display
+        els.leftWrapper.style.opacity = '1';
+        els.leftWrapper.style.pointerEvents = 'auto';
+        els.rightWrapper.style.opacity = '1';
+        els.rightWrapper.style.pointerEvents = 'auto';
+        
+        regenerarCuff("left");
+        regenerarCuff("right");
+
         addTarget(els.eyesContainer, {
-            delay: 2000,
-            onComplete: () => {
-                stunEyes();
-            }
+            delay: 3000,
+            onComplete: () => { stunEyes(); }
         });
+
+        addSunTarget(els.eyesContainer, {
+            action: "none", 
+            uses: 999, 
+            delayMs: 100,
+            onComplete: (el) => { checkFinalBlow(); }
+        });
+    }
+
+    function checkFinalBlow() {
+        const handsDead = (gameState.hpLeftHand <= 0) && (gameState.hpRightHand <= 0);
+        
+        // Verifica se ambas as mãos morreram E se os olhos estão sem escudo
+        if (handsDead && gameState.eyesStunned) {
+            gameOver(true); 
+        } else {
+            let msg = "";
+            if (!handsDead) msg = "Destrua as Mãos!";
+            else if (!gameState.eyesStunned) msg = "Quebre o Escudo dos Olhos!";
+            showFloatingText(els.eyesContainer, msg, "gray");
+        }
     }
 
     function stunEyes() {
         gameState.eyesStunned = true;
+        gameState.eyesRegen = 0; 
+        
+        document.getElementById('boss-body').src = "/assets/img/Villain.png"; 
+
         showFloatingText(els.eyesContainer, "Stunned!", "gold");
-        els.eyesContainer.style.display = 'none';
+        
+        // CORREÇÃO: Não esconder o Container, apenas o Brilho/Escudo
+        // Isso mantém o elemento "físico" para receber o Sol
+        els.eyesContainer.querySelector('.eye-glow').style.display = 'none';
+        
+        els.eyesCastBar.style.display = 'none';
+        els.eyesRegenBar.style.display = 'block';
+    }
 
-        setTimeout(() => {
-            if (gameState.gameOver) return;
-            gameState.eyesStunned = false;
-            els.eyesContainer.style.display = 'block';
-            els.eyesContainer.querySelector('.layer.top').style.display = 'flex';
-        }, 5000); 
+    function awakenEyes() {
+        gameState.eyesStunned = false;
+        
+        document.getElementById('boss-body').src = "/assets/img/Villain2.png";
 
-        // Vitória instantânea (placeholder)
-        setTimeout(() => gameOver(true), 1000);
+        showFloatingText(els.eyesContainer, "Awake!", "red");
+
+        // CORREÇÃO: Traz de volta o brilho
+        els.eyesContainer.querySelector('.eye-glow').style.display = 'block';
+        
+        els.eyesContainer.querySelector('.layer.top').style.display = 'flex'; 
+        els.eyesCastBar.style.display = 'block';
+        els.eyesRegenBar.style.display = 'none';
+        
+        gameState.castEyes = 0;
+        els.eyesFill.style.width = "0%";
     }
 
     function mostrarMensagem(texto, cor) {
@@ -1189,7 +1375,6 @@
         document.body.appendChild(overlay);
     }
 
-    // Inicialização
     function init() {
         console.log("BOSS BATTLE START!");
         setupTargetsMao("left");
@@ -1197,7 +1382,6 @@
         requestAnimationFrame(gameLoop);
     }
     
-    // Chama a inicialização
     init();
 
   </script>
