@@ -32,7 +32,8 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom left;
-  transform: translateX(-5%);
+  /* CORREÇÃO 1: Mudado de -5% para 0% para mover para direita */
+  transform: translateX(0%);
   z-index: -1;
   pointer-events: none;
   opacity: 0;
@@ -276,11 +277,9 @@ function init() {
         const { cenarioAtual, falasAtuais } = pacote;
         const falaInicial = falasAtuais[0] || { texto: "(vazio)" };
         
-        // --- NOVO: Executar função da primeira fala se existir ---
         if (typeof falaInicial.executar === "function") {
             try { falaInicial.executar(); } catch(e) { console.error("Erro no executar:", e); }
         }
-        // --------------------------------------------------------
 
         const expressaoInicial = atual?.expressoes?.[falaInicial.expressao];
         if (portrait) portrait.style.backgroundImage = expressaoInicial || "";
@@ -297,7 +296,8 @@ function init() {
             portrait.style.left = "0";
             portrait.style.right = "auto";
             portrait.style.backgroundPosition = "bottom left";
-            portrait.style.transform = "translateX(-5%) scaleX(1)";
+             // CORREÇÃO 1: Atualizado o JS também para 0% (padrão)
+            portrait.style.transform = "translateX(0%) scaleX(1)";
           }
         }
 
@@ -352,21 +352,25 @@ function init() {
             if (indicator) indicator.style && (indicator.style.display = "none");
             const novaFala = falasAtuais[indiceFala] || { texto: "(vazio)" };
 
-            // --- NOVO: Executar função nas falas seguintes ---
             if (typeof novaFala.executar === "function") {
                 try { novaFala.executar(); } catch(e) { console.error("Erro no executar:", e); }
             }
-            // -------------------------------------------------
 
             const novaExpressao = atual?.expressoes?.[novaFala.expressao];
             if (text) text.style.fontFamily = novaFala.fonte || atual?.fonte || "'Wild Words', sans-serif";
+            
+            // -------------------------------------------------
+            // CORREÇÃO 2: Removida a lógica de "piscar" (setTimeout)
+            // Se houver nova expressão, troca imediatamente.
             if (novaExpressao && portrait) {
-              portrait.classList.remove("show");
-              setTimeout(() => {
-                portrait.style.backgroundImage = novaExpressao;
-                portrait.classList.add("show");
-              }, 150);
+               portrait.style.backgroundImage = novaExpressao;
+               // Garante que está visível caso algo tenha dado errado antes
+               if (!portrait.classList.contains("show")) {
+                   portrait.classList.add("show");
+               }
             }
+            // -------------------------------------------------
+
             digitarTexto(String(novaFala.texto ?? "(vazio)"), novaFala.emote);
           } else {
             fecharDialogo();
@@ -485,11 +489,9 @@ function init() {
     window.dialogo = {
       abrir: abrirDialogo,
       fechar: fecharDialogo,
-      // --- ATUALIZADO: agora aceita delayAposMs ---
       abrirAsync(personagem, cenario = null, delayAposMs = 0) {
         return new Promise((resolve) => {
            abrirDialogo(personagem, () => {
-             // Se tiver delay, espera antes de dar resolve()
              if (delayAposMs > 0) {
                setTimeout(resolve, delayAposMs);
              } else {

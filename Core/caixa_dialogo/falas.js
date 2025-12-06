@@ -361,6 +361,27 @@ myopic: {
         { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
       ]
     }
+  },
+
+  wendigo: {
+    nome:"Wendigo Warrior",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "url('/assets/img/NPC_portrait-Warrior.png')",
+      
+    },
+    falas: {
+      inicio: [
+        { texto: "Ahhh! Estamos abrindo a loja, mas as melhores mercadorias estão nessa baú protegido com um cadeado de runas!!!", expressao: "normal" },
+        { texto: "Pra piorar as coisas, eu deixei meus óculos cairem dentro do baú e fechei o cadeado, agora não enxergo mais nada!", expressao: "normal" },
+        { texto: "Eu tenho certeza que eu anotei a senha no computador da loja, mas por mais que eu olhe não enxergo nada!!!", expressao: "normal" }
+      ],
+      segunda: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      ]
+    }
   }
 
 };
@@ -428,4 +449,10 @@ document.getElementById("nodata")?.addEventListener("pointerdown", () => {
 
 document.getElementById("leader")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.aiko);
+});
+
+//cave //
+
+document.getElementById("wendigo")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.wendigo);
 });

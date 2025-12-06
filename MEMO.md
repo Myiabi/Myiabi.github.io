@@ -12,6 +12,7 @@
 - ~~Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.~~
 - ~~Posts de calor~~
 - Seria interessante pesquisar diversas fontes
+- Pegar trilhas sonoras e efeitos.
 
 - Achar bebês cobras {
     1 - ~~Invisivel (Usar Lua)~~
@@ -20,6 +21,9 @@
     4 - ~~Aparece no Bar aleatóriamente~~
     5 - Preso com Wendigo
     6 - Quest no fundo do lago
+
+- Posteres do mercado
+
 }
 
 
@@ -56,10 +60,20 @@
 - ~~Fazer um container bonitinho pro sol e lua.~~
 
 - ~~Lua com nova função de replace img~~
-- Aumentar tempo do popup no touch
-- Muda o audio do menu para "enquanto" e não "após"
-- Botão back da cave
 - ~~Kofongo não some mais~~
+- ~~Botão back da cave~~
+- ~~Muda o audio do menu para "enquanto" e não "após"~~
+- Aumentar tempo do popup no touch
+- Ajeitar as imagens da incubadora.
+- Colocar falas no wendigo
+- Criar cenário Forest
+- Corrigir nome do drop Forest pra não confundir
+- Ajeitar Portraits tortos
+- Colocar peixes no Lago
+- Ajeitar pescaria com itens novos e revisar codigo
+- Revisar Wendigo Fight
+- Revisar achievments.
+
 
 
 # Corrigir com Copilot Github
@@ -83,6 +97,7 @@
 - ~~Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos.~~
 - Tela final com pedidos de Patreon e Buy me a Coffee
 - Quest do fundo do lago é sobre desenhar simbolos nas bolhas.
+- Criar puzzle de empurrar pedra e revelar o Pollux.
 
 # Aprender
 

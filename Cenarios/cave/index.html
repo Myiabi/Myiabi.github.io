@@ -6,9 +6,9 @@
     <title>Document</title>
 
      <!-- Bibliotecas Externas -->
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js" defer></script>
 
     <!-- CSS Global e Local -->
     <link rel="stylesheet" href="/core/global.css">
@@ -20,8 +20,7 @@
     <img id="bg" src="/assets/img/BG_Cave.png" alt="BG" draggable="false">
     <img id="cobra1" src="/assets/img/NPC_Snake-Pollux.png" draggable="false">
     <img id="wendigo" src="/assets/img/NPC_Warrior-guard.png" draggable="false">
-    <img id="rock" src="/assets/img/Stone.png" draggable="false">
-    
+    <img id="rock" src="/assets/img/Stone.png" draggable="false" alt="Pedra">    
     
     
     
@@ -30,14 +29,29 @@
     <div id="fire-background"></div>
     
     <div class="main-content">
+
+
+    <div id="incubadora-wrapper" class="img-btn" onclick="openGame()">
+    
     <img 
         id="openCreatorBtn" 
-        class="img-btn" 
-        onclick="openGame()" 
         src="/assets/img/Incubator-stage0.png" 
-        draggable="false"
-        alt="Abrir Criador"
+        draggable="false" 
+        alt="Incubadora Base"
     >
+
+    <img 
+        id="inc-materia" 
+        src="/assets/img/Incubator-stage-only-drop.png" 
+        class="inc-overlay"
+    >
+
+    <img 
+        id="inc-rainha" 
+        src="/assets/img/Queens-power.png" 
+        class="inc-overlay"
+    >
+</div>
     
     <div id="result-area"></div>
 </div>

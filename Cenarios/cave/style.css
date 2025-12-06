@@ -85,6 +85,49 @@ body {
     left: 77%;
 }
 
+/* O Container (Herda a posição .img-btn que você já criou: top 65%, left 77%) */
+#incubadora-wrapper {
+    position: absolute; /* Garante que respeita o top/left do seu CSS original */
+    /* Removemos o src aqui, pois é uma div, mas mantemos o tamanho */
+}
+
+/* Garante que a imagem base ocupe todo o espaço do container */
+#incubadora-wrapper #openCreatorBtn {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Fica atrás */
+}
+
+/* Estilo das camadas de cima (Drop e Rainha) */
+.inc-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2; /* Fica na frente */
+    display: none; /* Começam escondidas */
+    pointer-events: none; /* O clique passa direto pra div pai */
+}
+
+/* Estilo específico da Rainha dentro da Incubadora */
+#inc-rainha {
+    position: absolute;
+    /* 1. Tamanho: Ajuste a porcentagem conforme o gosto */
+    width: 35% !important;  /* Era 100%, agora é 40% do tamanho da incubadora */
+    height: 32%;           /* Mantém a proporção pra não esticar */
+
+    /* 2. Posicionamento (Como ela é absolute, usamos Top/Left) */
+    top: 7%;   /* Empurra 30% pra baixo */
+    left: 33%;  /* Empurra 30% pra direita (pra centralizar visualmente) */
+
+    /* Opcional: Se quiser garantir que ela fique na frente da geleia mas atrás do vidro */
+    z-index: 15; 
+}
+
 #wendigo {
     position: absolute;
     width: 15%;
@@ -99,13 +142,69 @@ body {
     height: 20%;
     top: 70%;
     left: 17%;
+    
 }
+
+/* Personagem Salvo na Caverna */
+#saved-char-display {
+    position: absolute;
+    /* Mesmas dimensões do Wendigo */
+    width: 15%;
+    height: 45%;
+    
+    /* Posicionamento: */
+    /* Left: 75.5% (Ajustei levemente pra centralizar na posição original da incubadora que era 77%) */
+    left: 75.5%; 
+    
+    /* Top: 47% (Cálculo: O chão da incubadora é ~92%. 92% - 45% altura do boneco = 47%) */
+    top: 47%;
+    
+    z-index: 100;
+    pointer-events: none; /* Pra não bloquear cliques se tiver algo atrás */
+}
+
+/* Ajuste interno para as imagens do boneco preencherem a div corretamente */
+#saved-char-display img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Garante que não estique/deforme */
+}
+
+/* --- Puzzle da Pedra --- */
 #rock {
     position: absolute;
-    width: 20%;
-    height: 50%;
-    top: 45%;
+    width: 20%;       /* Largura ok */
+    height: auto;     /* MUDANÇA: deixa a altura se ajustar sozinha */
+    top: 49%;
     left: 13%;
+    
+    /* Configuração do Puzzle */
+    z-index: 100;         /* Garante que está na frente de tudo */
+    touch-action: none;   /* Importante pro mobile não tentar dar scroll */
+    user-select: none;    /* Não deixa selecionar como texto */
+}
+
+#rock.dragging {
+    cursor: grabbing;
+    transform: scale(1.02); /* Feedback visual leve quando segura */
+}
+
+/* Classe para fazer a cobra sumir suavemente */
+.fade-out {
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+    pointer-events: none; /* Impede clicar nela depois que sumir */
+}
+
+/* Estado da cobra quando o puzzle tá feito */
+.hidden-element {
+  display: none !important;
+}
+
+/* Estado da pedra travada no final */
+.rock-locked {
+  /* Empurra a pedra 40% pra direita, simulando o final do drag */
+  pointer-events: none; /* Impede o mouse/dedo de interagir */
 }
 
 
