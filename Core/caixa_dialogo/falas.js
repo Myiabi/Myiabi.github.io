@@ -29,13 +29,13 @@ marin: {
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_Marin.png')",
-      pensativo: "url('/assets/img/NPC_Marin.png')"
+      normal: "url('/assets/img/NPC_portrait-Marin1.png')",
+      pensativo: "url('/assets/img/NPC_portrait-Marin2.png')"
     },
     falas: {
       inicio: [
         { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Bom, não tenho muita escolha agora.", expressao: "pensativo" }
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -43,17 +43,18 @@ marin: {
       ]
     }
   },
+
 felicia: {
-    nome: "felicia",
+    nome: "Felicia",
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_Marin.png')",
-      pensativo: "url('/assets/img/NPC_Marin.png')"
+      normal: "url('/assets/img/NPC_portrait-Felicia1.png')",
+      seria: "url('/assets/img/NPC_portrait-Felicia2.png')"
     },
     falas: {
       inicio: [
-        { texto: "Estou sentindo uma presença inquieta nesse lugar...", expressao: "pensativo" },
+        { texto: "Estou sentindo uma presença inquieta nesse lugar...", expressao: "normal" },
       
       ],
       depoisDoTreinamento: [
@@ -67,12 +68,12 @@ lily: {
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_Marin.png')",
-      pensativo: "url('/assets/img/NPC_Marin.png')"
+      normal: "url('/assets/img/NPC_portrait-Lily.png')",
+      
     },
     falas: {
       inicio: [
-        { texto: "Não consigo plantar nada nesse frio. Estranhamente essa é a unica parte quentinha da cidade. Apesar disso ninguém se aproxima dela.", expressao: "pensativo" },
+        { texto: "Não consigo plantar nada nesse frio. Estranhamente essa é a unica parte quentinha da cidade. Apesar disso ninguém se aproxima dela.", expressao: "normal" },
         { texto: "Alguma coisa estranha está acontecendo nessa caverna, se eu pudesse ter essa fonte de calor, conseguiria plantar algo e aumentar a vida nessa cidade.", expressao: "normal" }
       ],
       depoisDoTreinamento: [
@@ -106,12 +107,11 @@ cat: {
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_Marin.png')",
-      pensativo: "url('/assets/img/NPC_Marin.png')"
+      normal: "url('/assets/img/NPC_Cat.png')",
     },
     falas: {
       inicio: [
-        { texto: "Miau myah myu nyah nyeh?", expressao: "pensativo" },
+        { texto: "Miau myah myu nyah nyeh?", expressao: "normal" },
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -184,8 +184,8 @@ aiko: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_portrait-Leader1.png')",
+      pensativo: "url('/assets/img/NPC_portrait-Leader2.png')"
     },
     falas: {
       inicio: [
@@ -204,12 +204,12 @@ aiko: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_portrait-Nan1.png')",
+      pensativo: "url('/assets/img/NPC_portrait-Nan2.png.png')"
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Hmm... será que devo confiar nela?", expressao: "normal" },
         { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
       ],
       segunda: [
@@ -224,8 +224,8 @@ aiko: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_portrait-Nodata1.png')",
+      pensativo: "url('/assets/img/NPC_portrait-Nodata2.png')"
     },
     falas: {
       inicio: [
@@ -247,12 +247,11 @@ barman: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_portrait-Barman.png')",
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Hmm... será que devo confiar nela?", expressao: "normal" },
         { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
       ],
       segunda: [
@@ -267,12 +266,11 @@ assistant: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_portrait-Assistent.png')",
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Hmm... será que devo confiar nela?", expressao: "normal" },
         { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
       ],
       segunda: [
@@ -287,12 +285,11 @@ maid: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/7-06.png')",
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
+        { texto: "Hmm... será que devo confiar nela?", expressao: "normal" },
         { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
       ],
       segunda: [
@@ -307,8 +304,7 @@ maid: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_portrait-Felicia2.png')",
     },
     falas: {
       inicio: [
@@ -331,12 +327,12 @@ wayway: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_portrait-Wayway1.png')",
+      furioso: "url('/assets/img/NPC_portrait-Wayway2.png')"
     },
     falas: {
       inicio: [
-        { texto: "Seja Bem-vindo! Estamos nos estabelecendo para as festas de final de ano. Nós trouxemos mercadorias que podem ajudar a população nesse frio intenso. Mas nossa... quando falaram que era frio, foram bonzinhos.", expressao: "pensativo" },
+        { texto: "Seja Bem-vindo! Estamos nos estabelecendo para as festas de final de ano. Nós trouxemos mercadorias que podem ajudar a população nesse frio intenso. Mas nossa... quando falaram que era frio, foram bonzinhos.", expressao: "normal" },
         { texto: "Ainda estamos arrumando tudo, então se precisar de alguma coisa pode falar comigo.", expressao: "normal" }
       ],
       segunda: [
@@ -351,12 +347,12 @@ myopic: {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/npc-czar.png')",
-      pensativo: "url('/assets/img/npc-czar2.png')"
+      normal: "url('/assets/img/NPC_portrait-Myopic1.png')",
+      pensativo: "url('/assets/img/NPC_portrait-Myopic2.png')"
     },
     falas: {
       inicio: [
-        { texto: "Ahhh! Estamos abrindo a loja, mas as melhores mercadorias estão nessa baú protegido com um cadeado de runas!!!", expressao: "pensativo" },
+        { texto: "Ahhh! Estamos abrindo a loja, mas as melhores mercadorias estão nessa baú protegido com um cadeado de runas!!!", expressao: "normal" },
         { texto: "Pra piorar as coisas, eu deixei meus óculos cairem dentro do baú e fechei o cadeado, agora não enxergo mais nada!", expressao: "normal" },
         { texto: "Eu tenho certeza que eu anotei a senha no computador da loja, mas por mais que eu olhe não enxergo nada!!!", expressao: "normal" }
       ],
