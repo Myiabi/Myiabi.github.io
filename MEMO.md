@@ -18,7 +18,7 @@
     2 - Congelado (usar Sol)
     3 - ~~Dentro de um Baú no shop (Clicar 7x)~~
     4 - ~~Aparece no Bar aleatóriamente~~
-    5 - Presa com Wendigo
+    5 - Preso com Wendigo
     6 - Quest no fundo do lago
 }
 
@@ -80,9 +80,8 @@
 - ~~Servir 4 mesas e tentar deduzir qual prato cada cliente pediu~~
 - ~~Tela de Loading~~
 - ~~Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.~~
+- ~~Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos.~~
 - Tela final com pedidos de Patreon e Buy me a Coffee
-- Timer de jogo
-- Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos. 
 - Quest do fundo do lago é sobre desenhar simbolos nas bolhas.
 
 # Aprender

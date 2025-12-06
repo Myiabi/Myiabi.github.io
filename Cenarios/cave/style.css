@@ -62,6 +62,59 @@ body {
     gap: 20px; overflow: hidden;
 }
 
+#bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* estica para preencher */
+  z-index: 0;
+}
+
+/* Estilo para transformar imagem em botão */
+.img-btn {
+    cursor: pointer;       /* Mãozinha */
+    transition: transform 0.2s, filter 0.2s; /* Animação suave */
+    width: 12%;
+    height: 27%;      /* Tamanho máximo para não estourar */
+    display: block;        /* Garante comportamento de bloco */
+    user-select: none;
+    position: absolute;
+    top: 65%; 
+    left: 77%;
+}
+
+#wendigo {
+    position: absolute;
+    width: 15%;
+    height: 45%;
+    top: 45%;
+    left: 50%;
+}
+
+#cobra1 {
+    position: absolute;
+    width: 8%;
+    height: 20%;
+    top: 70%;
+    left: 17%;
+}
+#rock {
+    position: absolute;
+    width: 20%;
+    height: 50%;
+    top: 45%;
+    left: 13%;
+}
+
+
+
+/* Garante que suma quando desabilitado/criado (controlado pelo JS) */
+.img-btn[style*="display: none"] {
+    display: none !important;
+}
+
 /* Fundo de Fogo */
 #fire-background {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
