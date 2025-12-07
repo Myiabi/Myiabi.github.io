@@ -80,6 +80,22 @@ body {
   left: 79%;
   transition: opacity 0.5s ease;
 }
+#patreon {
+  position: absolute;
+  width: 8%;
+  height: 14%;
+  top: 1%;
+  left: 25.2%;
+  transition: opacity 0.5s ease;
+}
+#kofi {
+  position: absolute;
+  width: 8%;
+  height: 18%;
+  top: 1.5%;
+  left: 76%;
+  transition: opacity 0.5s ease;
+}
 
 #box, #cobra4 {
   transition: opacity 0.5s ease;

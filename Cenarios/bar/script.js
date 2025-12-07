@@ -5,7 +5,7 @@
 
 /* ---------- NPC ---------- */
 function randomNPC() {
-    return Math.floor(Math.random() * 1 ) + 1 === 1;
+    return Math.floor(Math.random() * 35 ) + 1 === 1;
 }
 function entrarNoLocal() {
     const npc = document.getElementById("cobra5");
@@ -112,7 +112,7 @@ function hideAllFoodInitially() {
  * Cria os elementos tooltip.
  */
 function setupTooltips() {
-    createFloatingTooltip('glass', 'So quero esquecer os problemas...', 150, 90, myStyle, true);
+    createFloatingTooltip('glass', 'So quero esquecer os problemas...', 150, 90, myStyle, true, 5000);
 
     createFloatingTooltip('girlfriend', 'Estou de dieta, quero algo leve... (Mas ele pediu minha preferida)', 140, 80, myStyle, true);
     createFloatingTooltip('boyfriend', 'Hoje vou comer de tudo! Certeza que não vai querer uma porçao? Nao? Ok.',130, 100, myStyle, true);

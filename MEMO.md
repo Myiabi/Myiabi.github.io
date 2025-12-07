@@ -19,10 +19,21 @@
     2 - Congelado (usar Sol)
     3 - ~~Dentro de um Baú no shop (Clicar 7x)~~
     4 - ~~Aparece no Bar aleatóriamente~~
-    5 - Preso com Wendigo
+    5 - ~~Preso com Wendigo~~
     6 - Quest no fundo do lago
 
-- Posteres do mercado
+- ~~Posteres do mercado~~
+
+
+- Buraco de gelo com persistencia e link
+- Vara com link pro minigame
+- Menu SOL e Lua disable e com persistencia
+- Escrever algumas falas por dia
+- Estátuas com disable e persistencia
+- Gatilho da quest do bar
+- Falas da Felicia no Bar
+- Reposicionar o cobrinha aleatorio
+- 
 
 }
 
@@ -64,11 +75,11 @@
 - ~~Botão back da cave~~
 - ~~Muda o audio do menu para "enquanto" e não "após"~~
 - Aumentar tempo do popup no touch
-- Ajeitar as imagens da incubadora.
-- Colocar falas no wendigo
+- ~~Ajeitar as imagens da incubadora.~~
+- ~~Colocar falas no wendigo~~
 - Criar cenário Forest
-- Corrigir nome do drop Forest pra não confundir
-- Ajeitar Portraits tortos
+- ~~Corrigir nome do drop Forest pra não confundir~~
+-~~ Ajeitar Portraits tortos~~
 - Colocar peixes no Lago
 - Ajeitar pescaria com itens novos e revisar codigo
 - Revisar Wendigo Fight
@@ -97,7 +108,7 @@
 - ~~Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos.~~
 - Tela final com pedidos de Patreon e Buy me a Coffee
 - Quest do fundo do lago é sobre desenhar simbolos nas bolhas.
-- Criar puzzle de empurrar pedra e revelar o Pollux.
+- ~~Criar puzzle de empurrar pedra e revelar o Pollux.~~
 
 # Aprender
 
