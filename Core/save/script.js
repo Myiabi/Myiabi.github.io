@@ -23,8 +23,7 @@ const defaultData = {
 
   // --- VARIÁVEIS VISUAIS GERAIS (SOL/LUA/PEDRA) ---
   visualState: {
-    pedraResolvida: false,
-    pedraLiberada: true,
+    
   },
 
   jardimCompleto: false,
@@ -87,6 +86,7 @@ function aplicarMudancaVisual(prop, value) {
   const box = document.getElementById("box");
 
 
+
   switch (prop) {
     // --- VISUAIS GERAIS ---
     case "npc1Visivel":
@@ -104,6 +104,18 @@ function aplicarMudancaVisual(prop, value) {
       break;
     case "kofongoVisivel":
       if (kofongoon) kofongoon.style.display = value ? "block" : "none";
+      break;
+    case "aldebaranVisivel":
+      if (aldebaran) pollux.style.display = value ? "block" : "none";
+      break;
+    case "capellaVisivel":
+      if (capella) pollux.style.display = value ? "block" : "none";
+      break;
+    case "polluxVisivel":
+      if (pollux) pollux.style.display = value ? "block" : "none";
+      break;
+    case "siriusVisivel":
+      if (pollux) pollux.style.display = value ? "block" : "none";
       break;
     case "boxSumiu":
       if (box) {

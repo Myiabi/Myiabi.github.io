@@ -17,6 +17,18 @@
 
 <body oncontextmenu="return false" data-no="menu">
 
+    <div id="noteModal" class="modal-overlay" onclick="if(event.target === this) closeNote()">
+    <div class="note-paper">
+        <div class="pin"></div> <span class="close-note" onclick="closeNote()">×</span>
+        <h3>Ingredients Needed:</h3>
+        <ul class="note-list">
+            <li id="note-materia">Dark Matter</li>
+            <li id="note-rainha">Queen's Powers</li>
+            <li id="note-jelly">Jelly</li>
+        </ul>
+    </div>
+</div>
+
     <img id="bg" src="/assets/img/BG_Cave.png" alt="BG" draggable="false">
     <img id="cobra1" src="/assets/img/NPC_Snake-Pollux.png" draggable="false">
     <img id="wendigo" src="/assets/img/NPC_Warrior-guard.png" draggable="false">

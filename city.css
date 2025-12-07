@@ -75,16 +75,21 @@ filter:
   top: 55%;
   left: 53.5%;
   display: none;
+  display: none;
+
 }
 #aldebaran {
   width: 4%;
   top: 55%;
   left: 57%;
+  display: none;
+
 }
 #pollux {
   width: 4%;
   top: 55%;
   left: 64%;
+  display: none;
 }
 #rigelon {
   width: 4%;
@@ -96,6 +101,8 @@ filter:
   width: 4%;
   top: 55%;
   left: 70%;
+  display: none;
+
 }
 
 #cat {
@@ -245,6 +252,8 @@ filter:
   top: 61.5%;     
   left: 36.6%;
   z-index: 500;
+  display: none;
+
 }
 
 #rode {

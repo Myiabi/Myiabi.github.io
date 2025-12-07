@@ -306,7 +306,7 @@ body {
 
 /* Anel de Progresso */
 .progress-ring {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);
+    position: absolute; top: 53%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);
     width: 100px; height: 100px; z-index: 1; pointer-events: none;
 }
 .progress-ring__track { stroke: #333; stroke-width: 4; fill: transparent; }
@@ -390,4 +390,84 @@ body {
     #randomBtn { top: 10px; left: 10px; width: 30px; height: 30px; } 
     .modal-overlay { padding: 10px; }
     .finish-btn-container { height: 100px; }
+}
+
+/* --- Modal da Nota (Lista de Tarefas) --- */
+.note-paper {
+    background: #fffdf0; /* Cor creme/papel */
+    width: 90%;
+    max-width: 320px;
+    padding: 30px 20px;
+    position: relative;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    transform: rotate(-2deg); /* Leve inclinação pra dar estilo */
+    font-family: 'Courier New', Courier, monospace; /* Fonte estilo máquina de escrever */
+    color: #4a4a4a;
+    border: 1px solid #e0e0e0;
+}
+
+.note-paper h3 {
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid #4a4a4a;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.note-list {
+    list-style: none;
+    padding-left: 10px;
+}
+
+.note-list li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    position: relative;
+    transition: color 0.3s;
+}
+
+/* O item riscado */
+.note-list li.checked {
+    text-decoration: line-through;
+    color: #b0b0b0; /* Cinza claro */
+    font-style: italic;
+}
+
+/* Bolinha antes do item */
+.note-list li::before {
+    content: '☐'; /* Checkbox vazio */
+    margin-right: 10px;
+    font-weight: bold;
+}
+.note-list li.checked::before {
+    content: '☒'; /* Checkbox marcado */
+    color: #ff4757;
+}
+
+/* Botão Fechar */
+.close-note {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #888;
+    line-height: 20px;
+}
+.close-note:hover { color: #ff4757; }
+
+/* Alfinete decorativo no topo */
+.pin {
+    background-color: #d94646;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
 }

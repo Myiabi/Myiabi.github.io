@@ -37,10 +37,27 @@ marin: {
         { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
         { texto: "Bom, não tenho muita escolha agora.", expressao: "pensativo" }
       ],
-      depoisDoTreinamento: [
+      kofongo: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
-      ]
+      ],
+      pollux: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+      ],
+      sirius: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+      ],
+      aldebaran: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+      ],
+      rigel: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+      ],
+      capella: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+      ],
+      final: [
+        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+      ],
     }
   },
 
@@ -57,7 +74,7 @@ felicia: {
         { texto: "Estou sentindo uma presença inquieta nesse lugar...", expressao: "normal" },
       
       ],
-      depoisDoTreinamento: [
+      estatua: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
         { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
       ]
@@ -87,12 +104,12 @@ day25: {
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_Marin.png')",
+      normal: "url('/assets/img/NPC_portrait-Day-25.png')",
       pensativo: "url('/assets/img/NPC_Marin.png')"
     },
     falas: {
       inicio: [
-        { texto: "Eu estou sempre preso no dia 25, já vivi o dia de hoje ínumeras vezes, sei de tudo que já aconteceu (acontecerá)", expressao: "pensativo" },
+        { texto: "Eu estou sempre preso no dia 25, já vivi o dia de hoje ínumeras vezes, sei de tudo que já aconteceu (acontecerá)", expressao: "normal" },
         { texto: "E olha... você foi incrível! Me emocionei no final.", expressao: "normal" },
         { texto: "Pera. Você não vai desistir do jogo na metade né? né???", expressao: "normal" }
       ],
@@ -120,12 +137,11 @@ cat: {
     }
   },
 forest: {
-    nome: "Forest",
+    nome: "Pine Forest",
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_Marin.png')",
-      pensativo: "url('/assets/img/NPC_Marin.png')"
+      normal: "url('/assets/img/NPC_portrait-Pine-forest.png')",
     },
     falas: {
       inicial: [
@@ -143,12 +159,12 @@ ballerina: {
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_Marin.png')",
+      normal: "url('/assets/img/NPC_portrait-Ballerina.png')",
       pensativo: "url('/assets/img/NPC_Marin.png')"
     },
     falas: {
       inicio: [
-        { texto: "No gelo eu consigo expressar 100% da minha dança", expressao: "pensativo" },
+        { texto: "No gelo eu consigo expressar 100% da minha dança", expressao: "normal" },
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -162,12 +178,11 @@ mint: {
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_Marin.png')",
-      pensativo: "url('/assets/img/NPC_Marin.png')"
+      normal: "url('/assets/img/NPC_portrait-Mint.png')",
     },
     falas: {
       inicio: [
-        { texto: "Todos ficam reclamando sobre o quão está frio. Já eu saio de casa todos os dias, eu não sinto nada mesmo.", expressao: "pensativo" },
+        { texto: "Todos ficam reclamando sobre o quão está frio. Já eu saio de casa todos os dias, eu não sinto nada mesmo.", expressao: "normal" },
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
