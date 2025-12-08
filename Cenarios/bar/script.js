@@ -5,7 +5,7 @@
 
 /* ---------- NPC ---------- */
 function randomNPC() {
-    return Math.floor(Math.random() * 35 ) + 1 === 1;
+    return Math.floor(Math.random() * 1 ) + 1 === 1;
 }
 function entrarNoLocal() {
     const npc = document.getElementById("cobra5");

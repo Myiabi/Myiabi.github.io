@@ -174,8 +174,8 @@ body {
 #rock {
     position: absolute;
     width: 20%;       /* Largura ok */
-    height: auto;     /* MUDANÇA: deixa a altura se ajustar sozinha */
-    top: 49%;
+    height: 30%;     /* MUDANÇA: deixa a altura se ajustar sozinha */
+    top: 63%;
     left: 13%;
     
     /* Configuração do Puzzle */

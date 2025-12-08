@@ -22,9 +22,7 @@ const defaultData = {
   myoLiberado: false, // Trava do criador
 
   // --- VARIÁVEIS VISUAIS GERAIS (SOL/LUA/PEDRA) ---
-  visualState: {
-    
-  },
+  visualState: {},
 
   jardimCompleto: false,
   itensJardim: {},
@@ -76,29 +74,21 @@ function apagarSave() {
 // 👁️ 3. SISTEMA VISUAL UNIFICADO (O CÉREBRO VISUAL)
 // ---------------------------
 function aplicarMudancaVisual(prop, value) {
-  // Elementos Genéricos
-  const npc1 = document.getElementById("npc1");
-  const porta = document.getElementById("porta");
-  const boss = document.getElementById("boss");
+  
   const rigelon = document.getElementById("rigelon");
   const kofongoon = document.getElementById("kofongoon");
   const cobra4 = document.getElementById("cobra4");
   const box = document.getElementById("box");
-
-
+  const menu_lua = document.getElementById("item-lupa");
+  const menu_sol = document.getElementById("item-fogo");
+  const container = document.getElementById("menu-secundario");
+  const cadeadoOFF = document.getElementById("locker");
+  const myopic = document.getElementById("myopic");
+  const estatua = document.getElementById("btn-open");
 
   switch (prop) {
     // --- VISUAIS GERAIS ---
-    case "npc1Visivel":
-      if (npc1) npc1.style.display = value ? "block" : "none";
-      break;
-    case "portaAberta":
-      if (porta)
-        porta.style.transform = value ? "rotateY(90deg)" : "rotateY(0deg)";
-      break;
-    case "bossDerrotado":
-      if (boss) boss.style.filter = value ? "grayscale(1)" : "none";
-      break;
+
     case "rigelVisivel":
       if (rigelon) rigelon.style.display = value ? "block" : "none";
       break;
@@ -106,16 +96,16 @@ function aplicarMudancaVisual(prop, value) {
       if (kofongoon) kofongoon.style.display = value ? "block" : "none";
       break;
     case "aldebaranVisivel":
-      if (aldebaran) pollux.style.display = value ? "block" : "none";
+      if (aldebaran) aldebaran.style.display = value ? "block" : "none";
       break;
     case "capellaVisivel":
-      if (capella) pollux.style.display = value ? "block" : "none";
+      if (capella) capella.style.display = value ? "block" : "none";
       break;
     case "polluxVisivel":
       if (pollux) pollux.style.display = value ? "block" : "none";
       break;
     case "siriusVisivel":
-      if (pollux) pollux.style.display = value ? "block" : "none";
+      if (sirius) sirius.style.display = value ? "block" : "none";
       break;
     case "boxSumiu":
       if (box) {
@@ -130,6 +120,73 @@ function aplicarMudancaVisual(prop, value) {
       }
       break;
 
+    case "luaON":
+      if (menu_lua) {
+        // 1. Atualiza a Lua
+        menu_lua.style.display = value ? "block" : "none";
+
+        // 2. Checa se ALGUÉM ficou visível (Lua ou Sol) para decidir sobre o container
+        // Nota: O menu_sol.style.display pode retornar vazio se nunca foi mexido, então checamos se não é "none"
+        const solEstaVisivel =
+          menu_sol &&
+          menu_sol.style.display !== "none" &&
+          menu_sol.style.display !== "";
+
+        if (value || solEstaVisivel) {
+          if (container) container.style.display = "flex";
+        } else {
+          // Se Lua desligou E Sol não está visível -> esconde container
+          if (container) container.style.display = "none";
+        }
+      }
+      break;
+
+    case "solON":
+      if (menu_sol) {
+        // 1. Atualiza o Sol
+        menu_sol.style.display = value ? "block" : "none";
+
+        // 2. Checa se ALGUÉM ficou visível
+        const luaEstaVisivel =
+          menu_lua &&
+          menu_lua.style.display !== "none" &&
+          menu_lua.style.display !== "";
+
+        if (value || luaEstaVisivel) {
+          if (container) container.style.display = "flex";
+        } else {
+          if (container) container.style.display = "none";
+        }
+      }
+      break;
+
+    case "minigame1":
+      if (cadeadoOFF) {
+        // Bloqueia o clique no BOTÃO (que é o pai da imagem)
+        cadeadoOFF.parentElement.style.pointerEvents = value ? "none" : "auto";
+
+        // (Opcional) Tira a mãozinha do mouse pra indicar que tá travado
+        cadeadoOFF.parentElement.style.cursor = value ? "default" : "pointer";
+
+      }
+
+      if (myopic) {
+        myopic.src = value
+          ? "/assets/img/NPC_Myopic2.png"
+          : "/assets/img/NPC_Myopic1.png";
+      }
+      break;
+
+    case "minigame2":
+      if (estatua) {
+        // Bloqueia o clique no BOTÃO (que é o pai da imagem)
+        estatua.style.pointerEvents = value ? "none" : "auto";
+
+        // (Opcional) Tira a mãozinha do mouse pra indicar que tá travado
+        estatua.style.cursor = value ? "default" : "pointer";
+      }
+
+      break;
   }
 }
 

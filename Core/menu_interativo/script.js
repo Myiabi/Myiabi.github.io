@@ -10,6 +10,7 @@ console.log("script.js carregado!");
 
 const menu = document.createElement("div");
 menu.id = "menu-secundario";
+menu.style.display = "none"; // <--- SÓ ADICIONAR ISSO AQUI
 document.body.appendChild(menu);
 
 // !!! ATENÇÃO: COLOQUE AQUI AS SUAS URLS DE IMAGEM !!!
@@ -38,8 +39,27 @@ itens.forEach((it) => {
   div.appendChild(imgElement);
 
   div.style.touchAction = "none";
+
+  if (it.id === "item-lupa") {
+      // Verifica se gameData existe E se luaON está true dentro do visualState
+      const taLigado = window.gameData?.visualState?.luaON; 
+      div.style.display = taLigado ? "flex" : "none";
+  }
+
+  if (it.id === "item-fogo") {
+      const taLigado = window.gameData?.visualState?.solON;
+      div.style.display = taLigado ? "flex" : "none";
+  }
+  // -----------------------
+
   menu.appendChild(div);
 });
+
+// E LOGO ABAIXO DO LOOP, GARANTA QUE O MENU (CONTAINER) APAREÇA SE TIVER ALGUM ITEM
+const temAlgumItem = (window.gameData?.visualState?.luaON || window.gameData?.visualState?.solON);
+if (temAlgumItem) {
+    menu.style.display = "flex";
+}
 
 // ---------------------------
 // Lupa + aura da lua

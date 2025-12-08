@@ -31,8 +31,8 @@
 - Escrever algumas falas por dia
 - Estátuas com disable e persistencia
 - Gatilho da quest do bar
-- Falas da Felicia no Bar
-- Reposicionar o cobrinha aleatorio
+- ~~Falas da Felicia no Bar~~
+-~~ Reposicionar o cobrinha aleatorio~~
 - 
 
 }

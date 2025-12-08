@@ -1,30 +1,6 @@
 window.personagens = {
   
-  /* padrão: {
-    nome: "padrão",
-    lado: "direita",
-    fonte: "'Wild Words', sans-serif",
-    expressoes: {
-      neutra: "url('/assets/img/NPC_Warrior-guard.png')",
-      sorrindo: "url('/assets/img/npc-cientist2.png')",
-      triste: "url('/assets/img/npc-cientist.png')"
-      },
-      falas: {
-        introducao: [
-          { texto: "Ah, veja ali na minha mesa...", expressao: "neutra" },
-          { texto: "Tem algo que pode te interessar.", expressao: "sorrindo", emote: "❗" },
-          { texto: "Mas cuidado com o que você tocar!", expressao: "triste", emote: "🤔" }
-          ],
-          depoisDoMinigame: [
-            { texto: "Então você conseguiu vencer, hein?", expressao: "sorrindo" },
-            { texto: "Parece que você está melhorando!", expressao: "neutra", emote: "✨" }
-            ]
-            }
-            }, */
-
-//------------------CITY-------------//
-
-marin: {
+  marin: {
     nome: "Marin",
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
@@ -34,29 +10,29 @@ marin: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "pensativo" }
+        { texto: "I came here with my wife and my sextuplets but  they all ended up getting lost in the city. I don't know from where to start the search for them..", expressao: "normal" },
+        { texto: "They're all good hunters and know how to hide their presence, maybe if you find them in their own play, they will agree to back here and behave.", expressao: "pensativo" }
       ],
       kofongo: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Kofongo is a mischievous girl who have lots of energy. For sure she found a fun place to play and went to there.", expressao: "pensativo" },
       ],
       pollux: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Pollux is a lonely child who always is searching big preys and is the strongest of his siblings. I am sure my wife is missing his presence already.", expressao: "pensativo" },
       ],
       sirius: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Sirius spend lots of time reading his books and he is not so good at hunting but he is very smart.", expressao: "pensativo" },
       ],
       aldebaran: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Alde is very shy and usually don't talk at all, but he always is a good child.", expressao: "pensativo" },
       ],
       rigel: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Rigel is a quirky child who can be a rebel sometimes--He still is getting used to his powers.", expressao: "pensativo" },
       ],
       capella: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Capra is always seen with kofongo but sometimes he can't resist the smell of a good treat.", expressao: "normal" },
       ],
       final: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "", expressao: "pensativo"},
       ],
     }
   },
@@ -75,8 +51,8 @@ felicia: {
       
       ],
       estatua: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+        { texto: "", expressao: "normal" },
+        { texto: "", expressao: "pensativo" }
       ]
     }
   },
@@ -99,27 +75,7 @@ lily: {
       ]
     }
   },
-day25: {
-    nome: "Day25",
-    lado: "esquerda",
-    fonte: "'Wild Words', sans-serif",
-    expressoes: {
-      normal: "url('/assets/img/NPC_portrait-Day-25.png')",
-      pensativo: "url('/assets/img/NPC_Marin.png')"
-    },
-    falas: {
-      inicio: [
-        { texto: "Eu estou sempre preso no dia 25, já vivi o dia de hoje ínumeras vezes, sei de tudo que já aconteceu (acontecerá)", expressao: "normal" },
-        { texto: "E olha... você foi incrível! Me emocionei no final.", expressao: "normal" },
-        { texto: "Pera. Você não vai desistir do jogo na metade né? né???", expressao: "normal" }
-      ],
-      depoisDoTreinamento: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
-      ]
-    }
-  },
-cat: {
+  cat: {
     nome: "Cat",
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
@@ -136,7 +92,29 @@ cat: {
       ]
     }
   },
-forest: {
+
+  day25: {
+      nome: "Day25",
+      lado: "esquerda",
+      fonte: "'Wild Words', sans-serif",
+      expressoes: {
+        normal: "url('/assets/img/NPC_portrait-Day-25.png')",
+        pensativo: "url('/assets/img/NPC_Marin.png')"
+      },
+      falas: {
+        inicio: [
+          { texto: "Eu estou sempre preso no dia 25, já vivi o dia de hoje ínumeras vezes, sei de tudo que já aconteceu (acontecerá)", expressao: "normal" },
+          { texto: "E olha... você foi incrível! Me emocionei no final.", expressao: "normal" },
+          { texto: "Pera. Você não vai desistir do jogo na metade né? né???", expressao: "normal" }
+        ],
+        depoisDoTreinamento: [
+          { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+          { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+        ]
+      }
+    },
+
+  forest: {
     nome: "Pine Forest",
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
@@ -149,8 +127,11 @@ forest: {
         { texto: "Até os postes de fogo não se aguentam mais acesos, qualquer fogo normal apaga no primeiro vento.", expressao: "normal" }
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+        { texto: "Está tão quentinho! Como você conseguiu acender os postes? ", expressao: "normal" },
+
+        
+        { texto: "Day-25 é meu melhor amigo, eu sei da situação dele, então eu me esforço para todo dia falar algo diferente.", expressao: "normal" },
+        //code aqui//
       ]
     }
   },
@@ -186,7 +167,7 @@ mint: {
       ],
       depoisDoTreinamento: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+        
       ]
     }
   },
@@ -304,8 +285,7 @@ maid: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "normal" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Como está lotado hoje!!!", expressao: "normal" },
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -314,22 +294,38 @@ maid: {
     }
   },
 
-  feliciaBar: {
+  felicia2: {
     nome:"Felicia",
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_portrait-Felicia2.png')",
+      normal: "url('/assets/img/NPC_portrait-Felicia1.png')",
+      sorrindo: "url('/assets/img/NPC_portrait-Felicia2.png')",
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Esse vento frio todo me deu calor. Chefe!!! desce um sorvete trincando!", expressao: "sorrindo" },
+        { texto: "", expressao: "sorrindo" }
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
         { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
       ]
+    }
+  },
+
+  cobra5: {
+    nome:"Capella",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        { texto: "Couldn't resist the sweet scent of the food here! Everything seems so yummy!♥"},
+      ],
     }
   },
 
@@ -450,6 +446,14 @@ document.getElementById("assistant")?.addEventListener("pointerdown", () => {
 
 document.getElementById("maid")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.maid);
+});
+
+document.getElementById("felicia2")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.felicia2);
+});
+
+document.getElementById("cobra5")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.cobra5);
 });
 
 // templo //

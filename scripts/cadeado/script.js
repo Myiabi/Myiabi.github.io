@@ -24,10 +24,9 @@ function abrirLockGame() {
 
     // ====== DEFINE O ESTADO INICIAL SE FOR A PRIMEIRA VEZ ======
     if (!initialCurrent) {
-        // começa longe da senha (aleatório)
-        initialCurrent = Array.from({ length: 4 }, () =>
-            Math.floor(Math.random() * icons.length)
-        );
+        // Agora começa fixo em [0, 0, 0, 0] (ou os ícones que você quiser)
+        // A senha é [6, 5, 2, 0], então aqui tá seguro!
+        initialCurrent = [0, 1, 3, 5];
     }
 
     // AGORA current APONTA PARA O MESMO ARRAY
@@ -141,8 +140,8 @@ function abrirLockGame() {
     // VITÓRIA
     // =====================================================
     function win() {
-        const audio = new Audio("/assets/sounds/win.mp3");
-        audio.play();
+        tocarEfeito("whoosh")
+        gameData.visualState.minigame1 = true
 
         // desativa todos os slots imediatamente ao vencer
     slots.forEach(slot => {
