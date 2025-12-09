@@ -4,8 +4,8 @@ window.personagens = {
     lado: "esquerda",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/NPC_portrait-Marin1.png')",
-      pensativo: "url('/assets/img/NPC_portrait-Marin2.png')",
+      normal: "url('./assets/img/NPC_portrait-Marin1.png')",
+      pensativo: "url('./assets/img/NPC_portrait-Marin2.png')",
     },
     falas: {
       inicio: [

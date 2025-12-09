@@ -41,6 +41,8 @@
 - popup dos lugares ao abrir a pagina
 - desabilitar rock
 - desabilitar incubadora
+- Verificar back em historico de navegador
+- Conferir os Globals
 
 
 

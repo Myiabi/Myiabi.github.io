@@ -188,18 +188,20 @@ const BLOCK_MAP = {
 
 })();
 
-// CLEAR LOCALSTORAGE //
-
 (function () {
   function injectButton() {
     const btn = document.createElement("button");
-    btn.textContent = ""; // Adicionei um texto para ser mais claro
-    
-    // CORREÇÃO: Função para limpar o localStorage E recarregar forçadamente.
+    btn.textContent = "RESET TOTAL"; // Botei texto pra você ver o botão
+
     btn.onclick = () => {
+      // 1. Limpa o passado (Tatuagens e Pulseiras velhas)
       localStorage.clear();
-      // O 'true' força o navegador a recarregar do servidor (bypassando o cache), 
-      // simulando o Control + F5.
+      sessionStorage.clear();
+
+      // 2. Cria o VIP instantâneo (pra não ser chutado no reload)
+      sessionStorage.setItem('acesso_dropmoon', 'autorizado');
+
+      // 3. Recarrega a página forçando limpeza de cache
       window.location.reload(true); 
     };
 
@@ -215,6 +217,7 @@ const BLOCK_MAP = {
       borderRadius: "6px",
       cursor: "pointer",
       zIndex: "999999",
+      fontWeight: "bold"
     });
 
     document.body.appendChild(btn);

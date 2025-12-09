@@ -1,3 +1,9 @@
+if (sessionStorage.getItem('acesso_dropmoon') !== 'autorizado') {
+            // Mude '/' para o link da sua cidade/menu
+            window.location.replace('/city.html'); 
+        }
+
+
 const TOTAL_NUM_FLAKES = 300;
 const SNOW_SYMBOLS = ["•", "❅", "❆", "❄"];
 

@@ -293,29 +293,33 @@ function endGame(win) {
   gameOver = true;
   clearInterval(timerInterval);
   if (endMsg) endMsg.remove();
-  if (restartButton) restartButton.remove(); // Garante que remove se existir
+  if (restartButton) restartButton.remove(); 
 
-  // Configurações da mensagem (Texto e Cor)
+  // 1. O ASSASSINO DO TOKEN: Apaga a permissão assim que o jogo acaba
+  sessionStorage.removeItem('acesso_dropmoon');
+
+  // Configurações da mensagem 
   const message = win ? "You did it!!!" : "He escaped...";
-  const color = win ? "#4ff" : "#f55"; // Azul ciano se ganhou, vermelho claro se perdeu
+  const color = win ? "#4ff" : "#f55"; 
 
   endMsg = document.createElement("div");
-  // Mantive o estilo dramático, só mudei a cor dinamicamente
   endMsg.style.cssText = `position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8vmin;color:${color};text-shadow:0 0 2vmin #000;z-index:9999;text-align:center;width:100%;font-weight:bold;font-family:'Wild Words', sans-serif;`;
   endMsg.textContent = message;
   document.body.appendChild(endMsg);
 
-  // AQUI É ONDE MUDA A VARIÁVEL
   if (win) {
+    // 1. A TATUAGEM ETERNA: Grava que esse minigame já foi vencido
+    localStorage.setItem('dropmoon_completo', 'true'); // <--- ADICIONE ISSO
+
     mudarCenario(personagens.felicia, 'luaWon');
-    gameData.visualState.luaON = true
-
-
-  }
+    gameData.visualState.luaON = true;
+}
 
   // Espera 2.5 segundos para ler a mensagem e vaza
   setTimeout(() => {
-      window.location.href = "/cenarios/forest/index.html";
+      // 2. O CHUTE PERFEITO: Troquei .href por .replace
+      // Isso impede que o botão "Voltar" traga o jogador de volta pra cá
+      window.location.replace("/cenarios/forest/index.html");
   }, 2500);
 }
 
