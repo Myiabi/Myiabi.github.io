@@ -191,8 +191,15 @@ const BLOCK_MAP = {
 (function () {
   function injectButton() {
     const btn = document.createElement("button");
-    btn.textContent = "";
-    btn.onclick = () => localStorage.clear();
+    btn.textContent = ""; // Adicionei um texto para ser mais claro
+    
+    // CORREÇÃO: Função para limpar o localStorage E recarregar forçadamente.
+    btn.onclick = () => {
+      localStorage.clear();
+      // O 'true' força o navegador a recarregar do servidor (bypassando o cache), 
+      // simulando o Control + F5.
+      window.location.reload(true); 
+    };
 
     Object.assign(btn.style, {
       position: "fixed",

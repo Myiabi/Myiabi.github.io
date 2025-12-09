@@ -134,6 +134,7 @@ body {
     height: 45%;
     top: 45%;
     left: 50%;
+    display: none;
 }
 
 #cobra1 {
@@ -182,6 +183,7 @@ body {
     z-index: 100;         /* Garante que está na frente de tudo */
     touch-action: none;   /* Importante pro mobile não tentar dar scroll */
     user-select: none;    /* Não deixa selecionar como texto */
+
 }
 
 #rock.dragging {

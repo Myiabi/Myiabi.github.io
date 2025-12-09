@@ -1,222 +1,76 @@
 // ======================================================
-// 1. CONFIGURAÇÕES E DADOS PADRÃO
+// SCRIPT DA CAVERNA (Visual e Lógica de Interação)
 // ======================================================
+
 const CHAR_BASE_PATH = "/assets/img/MYO/";
-const SAVE_KEY = "meuSaveDoJogo";
 
-const defaultData = {
-  // --- Dados Gerais ---
-  itemMoeda: false,
-  salaSecreta: false,
-  minigameWon: false,
-  dialogos: { aiko: "introducao", czar: "inicio" },
-  mesas: { 1: false, 2: false, 3: false, 4: false },
-  jardimCompleto: false,
-  customCharacter: null,
+document.addEventListener("DOMContentLoaded", () => {
+  if (!window.gameData) {
+    console.warn("⚠️ GameData ainda não carregou, aguardando...");
+    return;
+  }
 
-  // --- SISTEMA DA INCUBADORA ---
-  incubadora: {
-    hasJelly: false,
-    hasRainha: false,
-    hasMateria: false,
-  },
-  myoLiberado: false,
+  // 1. Renderiza Personagem Salvo (Se existir)
+  // Isso precisa ficar aqui pois depende dos assets locais
+  if (window.gameData.customCharacter) {
+    renderSavedCharacter(window.gameData.customCharacter);
+  }
 
-  // --- CONTROLE VISUAL E DE ACESSO ---
-  visualState: {
-    // Incubadora começa TRAVADA (sem clique)
-    incubadoraLiberada: false, 
-    
-    // Pedra
-    pedraLiberada: false, 
-    pedraResolvida: false,
-    polluxVisivel: false
-  },
-};
+  // 2. Partículas do Fundo
+  if (typeof tsParticles !== "undefined") {
+    tsParticles.load("fire-background", {
+      preset: "fire", fullScreen: { enable: false }, background: { color: "#000000" },
+    });
+  }
+
+  // 3. Inicializa Criador de Personagem
+  if (document.getElementById("controlsList")) {
+    initCharCreator();
+    setupFinishButton();
+  }
+
+  // 4. Inicializa Puzzle da Pedra
+  initRockPuzzle();
+
+  // 5. Botão Voltar
+  const btnBack = document.getElementById("btn-back");
+  if (btnBack) {
+    btnBack.addEventListener("click", () => {
+      const dest = btnBack.getAttribute("data-destino");
+      if (dest) window.location.href = dest;
+    });
+  }
+});
 
 // ======================================================
-// 2. SISTEMA DE SAVE E REATIVIDADE (O CÉREBRO)
-// ======================================================
-
-function carregarJogo() {
-  const saved = localStorage.getItem(SAVE_KEY);
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      const merged = Object.assign({}, defaultData, parsed);
-      merged.incubadora = { ...defaultData.incubadora, ...(parsed.incubadora || {}) };
-      merged.visualState = { ...defaultData.visualState, ...(parsed.visualState || {}) };
-      return merged;
-    } catch (e) {
-      console.error("Save corrompido, resetando.", e);
-    }
-  }
-  return JSON.parse(JSON.stringify(defaultData));
-}
-
-window.salvarJogo = function () {
-  localStorage.setItem(SAVE_KEY, JSON.stringify(window.gameData));
-};
-
-window.apagarSave = function () {
-  localStorage.removeItem(SAVE_KEY);
-  location.reload();
-};
-
-// --- APLICAÇÃO VISUAL (O que muda na tela) ---
-function aplicarMudancaVisual(prop, value) {
-  const elMateria = document.getElementById("inc-materia");
-  const elRainha = document.getElementById("inc-rainha");
-  const elBase = document.getElementById("openCreatorBtn");
-  const elWrapper = document.getElementById("incubadora-wrapper");
-
-  const rock = document.getElementById("rock");
-  const cobra1 = document.getElementById("cobra1");
-
-  switch (prop) {
-    // --- Incubadora: Itens ---
-    case "hasMateria":
-      if (elMateria) elMateria.style.display = value ? "block" : "none";
-      break;
-    case "hasRainha":
-      if (elRainha) elRainha.style.display = value ? "block" : "none";
-      break;
-    case "hasJelly":
-      if (elBase) elBase.src = value ? "/assets/img/Incubator-stage-only-honey.png" : "/assets/img/Incubator-stage0.png";
-      break;
-      
-    // --- Incubadora: Controle de Acesso ---
-    case "incubadoraLiberada":
-      if (elWrapper) {
-          if (value === true) {
-              elWrapper.style.pointerEvents = "auto";
-          } else {
-              elWrapper.style.pointerEvents = "none";
-          }
-      }
-      break;
-
-    case "myoLiberado":
-      // Muda o cursor para mãozinha
-      if (elWrapper) elWrapper.style.cursor = value ? "pointer" : "default";
-      
-      // Se liberou o Myo, destrava o clique da incubadora automaticamente
-      if (value === true) {
-          // Verifica antes para não ficar setando repetido (boa prática)
-          if (!window.gameData.visualState.incubadoraLiberada) {
-              window.gameData.visualState.incubadoraLiberada = true;
-          }
-      }
-      break;
-
-    // --- Pedra: Controle de Acesso ---
-    case "pedraLiberada":
-      if (rock) {
-        const jaResolvida = window.gameData.visualState.pedraResolvida;
-        if (value === true && !jaResolvida) {
-            rock.style.pointerEvents = "auto";
-            rock.style.cursor = "grab";
-        } else {
-            // Se não liberou ou já resolveu (e tá locked), mantém none
-            if (!jaResolvida) rock.style.pointerEvents = "none";
-            rock.style.cursor = "default";
-        }
-      }
-      break;
-
-    // --- Pedra: Estado Final ---
-    case "pedraResolvida":
-      if (value === true) {
-        if (cobra1) cobra1.style.display = "none"; 
-        if (rock) {
-          rock.classList.add("rock-locked");
-          rock.style.pointerEvents = "none"; 
-          if (window.gameData.visualState) window.gameData.visualState.polluxVisivel = true;
-          
-          // IMPORTANTE: Só posiciona automaticamente se NÃO tiver style.left
-          // Isso significa que é um reload (F5). Se tiver style.left, é pq o dedo acabou de mexer.
-          if (!rock.style.left) {
-             setTimeout(() => {
-                if (rock.clientWidth > 0) {
-                    let maxDist = rock.clientWidth * 0.4;
-                    rock.style.transform = `translateX(${maxDist}px)`;
-                }
-             }, 50);
-          }
-        }
-      }
-      break;
-  }
-}
-
-// --- Checagem de Vitória da Incubadora ---
-function checkIncubadoraCompleta() {
-  const i = window.gameData.incubadora;
-  if (i.hasJelly && i.hasRainha && i.hasMateria && !window.gameData.myoLiberado) {
-    console.log("⚡ Completou! Liberando Myo...");
-    window.gameData.myoLiberado = true;
-  }
-}
-
-// --- Proxy Inteligente ---
-function criarProxy(obj, caminho = []) {
-  return new Proxy(obj, {
-    set(target, prop, value) {
-      if (target[prop] === value) return true;
-
-      const fullPath = [...caminho, prop];
-      target[prop] = (value && typeof value === "object" && !Array.isArray(value)) ? criarProxy(value, fullPath) : value;
-
-      // Reatividade
-      if (fullPath[0] === "incubadora") {
-        aplicarMudancaVisual(prop, value);
-        checkIncubadoraCompleta();
-      } else if (fullPath[0] === "visualState") {
-        aplicarMudancaVisual(prop, value);
-      } else if (prop === "myoLiberado") {
-        aplicarMudancaVisual(prop, value);
-      }
-
-      window.salvarJogo();
-      return true;
-    },
-    get(target, prop) {
-      const value = target[prop];
-      if (value && typeof value === "object" && !Array.isArray(value)) {
-        return criarProxy(value, [...caminho, prop]);
-      }
-      return value;
-    },
-  });
-}
-
-// Inicializa
-const loadedData = carregarJogo();
-window.gameData = criarProxy(loadedData);
-
-// ======================================================
-// 3. INTERAÇÃO E INICIALIZAÇÃO
+// 2. INTERAÇÃO (Botões e Menus)
 // ======================================================
 
 function openGame() {
-  // 1. Se o Myo já nasceu, abre o Criador
-  if (window.gameData.myoLiberado) {
+  // Confere direto do Global
+  const inc = window.gameData.incubadora;
+  const myoLiberado = window.gameData.myoLiberado;
+
+  if (myoLiberado || (inc.hasJelly && inc.hasRainha && inc.hasMateria)) {
+    // Se por acaso a flag estava false mas tem os itens, o Proxy corrige ao salvar
+    if (!myoLiberado) {
+        window.gameData.myoLiberado = true; 
+    }
     document.getElementById("charCreatorModal").style.display = "flex";
   } else {
-    // 2. Se não, abre a Nota (Lista de Tarefas)
-    updateNoteList(); // Atualiza os riscados antes de abrir
+    // Mostra notas se faltar item
+    updateNoteList(); 
     document.getElementById("noteModal").style.display = "flex";
   }
 }
 
-// Atualiza visualmente quais itens você já tem na nota
 function updateNoteList() {
+    // Apenas visualização momentânea, o visual fixo é controlado pelo save.js
     const inc = window.gameData.incubadora;
     const liMateria = document.getElementById("note-materia");
     const liRainha = document.getElementById("note-rainha");
     const liJelly = document.getElementById("note-jelly");
 
-    // Risca (adiciona classe .checked) se tiver o item
     if(liMateria) inc.hasMateria ? liMateria.classList.add("checked") : liMateria.classList.remove("checked");
     if(liRainha) inc.hasRainha ? liRainha.classList.add("checked") : liRainha.classList.remove("checked");
     if(liJelly) inc.hasJelly ? liJelly.classList.add("checked") : liJelly.classList.remove("checked");
@@ -230,82 +84,107 @@ function closeGame() {
   document.getElementById("charCreatorModal").style.display = "none";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // 1. Aplica visuais da Incubadora
-  if (window.gameData.incubadora) {
-    Object.entries(window.gameData.incubadora).forEach(([k, v]) => aplicarMudancaVisual(k, v));
+// ======================================================
+// 3. PUZZLE DA PEDRA
+// ======================================================
+
+function initRockPuzzle() {
+  const rock = document.getElementById("rock");
+  const cobra = document.getElementById("cobra1");
+
+  if (!rock || !cobra) return;
+  
+  // Se já está resolvido no global, nem inicia a lógica de arrastar
+  if (window.gameData.visualState && window.gameData.visualState.pedraResolvida) {
+      rock.classList.add("rock-locked");
+      rock.style.left = (rock.offsetLeft + rock.clientWidth * 0) + "px"; // Posição visual aproximada
+      cobra.style.display = "none";
+      return;
   }
-  aplicarMudancaVisual("myoLiberado", window.gameData.myoLiberado);
 
-  // 2. Aplica ESTADOS DE TRAVAMENTO
-  if (window.gameData.visualState) {
-      // Incubadora
-      aplicarMudancaVisual("incubadoraLiberada", window.gameData.visualState.incubadoraLiberada);
+  let isDragging = false;
+  let startMouseX = 0;
+  let startRockLeft = 0;
+  let solved = false;
+  let originLeft = rock.offsetLeft;
+  let maxDistance = 0;
 
-      // Pedra
-      aplicarMudancaVisual("pedraLiberada", window.gameData.visualState.pedraLiberada);
-      if (window.gameData.visualState.pedraResolvida) {
-          aplicarMudancaVisual("pedraResolvida", true);
+  window.addEventListener("resize", () => {
+    if (!solved) { rock.style.left = ""; originLeft = rock.offsetLeft; }
+  });
+
+  const getX = (e) => e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+
+  function startDrag(e) {
+    if (solved) return;
+    if (window.getComputedStyle(rock).pointerEvents === 'none') return;
+
+    if (e.cancelable && e.type !== "mousedown") e.preventDefault();
+    maxDistance = rock.clientWidth * 0.4;
+    isDragging = true;
+    rock.classList.add("dragging");
+    rock.style.transition = 'none';
+    startMouseX = getX(e);
+    startRockLeft = rock.offsetLeft;
+  }
+
+  function onDrag(e) {
+    if (!isDragging || solved) return;
+    if (e.cancelable) e.preventDefault();
+    const mouseDiff = getX(e) - startMouseX;
+    let newPos = startRockLeft + mouseDiff;
+
+    if (newPos < originLeft) newPos = originLeft;
+    if (newPos > originLeft + maxDistance) newPos = originLeft + maxDistance;
+
+    rock.style.left = `${newPos}px`;
+    if (newPos >= originLeft + maxDistance * 0.9) triggerWin();
+  }
+
+  function stopDrag() {
+    isDragging = false;
+    rock.classList.remove("dragging");
+    if (!solved) {
+        rock.style.transition = 'left 0.3s ease';
+        rock.style.left = originLeft + 'px';
+    }
+  }
+
+  function triggerWin() {
+    if (solved) return;
+    solved = true;
+    isDragging = false;
+    rock.classList.remove("dragging");
+    rock.style.pointerEvents = 'none';
+    rock.style.transition = "none";
+    rock.style.left = (originLeft + maxDistance) + "px";
+    
+    // Efeito visual local imediato
+    cobra.classList.add("fade-out");
+
+    // ATUALIZA O GLOBAL (O save.js vai capturar e salvar)
+    setTimeout(() => {
+      if (window.gameData) {
+        window.gameData.visualState.pedraResolvida = true; 
+        window.gameData.visualState.polluxVisivel = true; // Libera Pollux se necessário
       }
+    }, 500);
   }
 
-  // 3. Personagem salvo
-  if (window.gameData.customCharacter) {
-    renderSavedCharacter(window.gameData.customCharacter);
-  }
-
-  // 4. Partículas
-  if (typeof tsParticles !== "undefined") {
-    tsParticles.load("fire-background", {
-      preset: "fire", fullScreen: { enable: false }, background: { color: "#000000" },
-    });
-  }
-
-  // Inicializadores
-  if (document.getElementById("controlsList")) {
-    initCharCreator();
-    setupFinishButton();
-  }
-
-  initRockPuzzle();
-
-  const btnBack = document.getElementById("btn-back");
-  if (btnBack) {
-    btnBack.addEventListener("click", () => {
-      const dest = btnBack.getAttribute("data-destino");
-      if (dest) window.location.href = dest;
-    });
-  }
-});
-
-// Exports para o HTML
-window.openGame = openGame;
-window.closeGame = closeGame;
-window.closeNote = closeNote;
-window.changeCharItem = changeCharItem;
-window.randomizeCharacter = randomizeCharacter;
-window.downloadCharacter = downloadCharacter;
-window.closeConfirmBox = closeConfirmBox;
-window.finalizeAndDownload = finalizeAndDownload;
-
-
-// Debug
-window.debugGanharTudo = function () {
-  window.gameData.incubadora.hasJelly = true;
-  window.gameData.incubadora.hasMateria = true;
-  window.gameData.incubadora.hasRainha = true;
-  window.gameData.visualState.incubadoraLiberada = true;
-  console.log("✅ DEBUG: Itens ganhos e Incubadora Destravada!");
-};
-
-window.debugLiberarPedra = function() {
-    window.gameData.visualState.pedraLiberada = true;
-    console.log("🔓 DEBUG: Pedra Liberada!");
+  rock.addEventListener("mousedown", startDrag);
+  rock.addEventListener("touchstart", startDrag, { passive: false });
+  window.addEventListener("mousemove", onDrag);
+  window.addEventListener("touchmove", onDrag, { passive: false });
+  window.addEventListener("mouseup", stopDrag);
+  window.addEventListener("touchend", stopDrag);
 }
 
+
 // ======================================================
-// 4. CRIADOR DE PERSONAGEM
+// 4. CRIADOR DE PERSONAGEM (Lógica Interna)
 // ======================================================
+// (Mantive igual pois é lógica de UI local, só o final salva no global)
+
 const charConfig = {
   body: { label: "Base", max: 4, current: 1, min: 1, filename: "BASE" },
   eyes: { label: "Eyes", max: 8, current: 1, min: 1 },
@@ -402,9 +281,7 @@ function randomizeCharacter() {
 
 function downloadCharacter() {
   return new Promise((resolve, reject) => {
-    // O 'false' aqui no final remove a aura branca do PNG
     const tempWrapper = createCharacterElement(getcurrentTraits(), "500px", false);
-    
     tempWrapper.style.position = "absolute"; tempWrapper.style.left = "-9999px"; tempWrapper.style.top = "0";
     document.body.appendChild(tempWrapper);
     if (typeof html2canvas === "undefined") return;
@@ -444,21 +321,24 @@ async function finalizeAndDownload() {
 
 function finalizeCharacter() {
   const characterInfo = { traits: getcurrentTraits(), x: "50%", y: "60%" };
-  window.gameData.customCharacter = characterInfo;
-  salvarJogo();
+  
+  // SALVA NO GLOBAL
+  window.gameData.customCharacter = characterInfo; 
+  
+  // Atualiza visual localmente
   renderSavedCharacter(characterInfo);
   closeGame();
 }
 
 function renderSavedCharacter(charInfo) {
+  // Esconde incubadora (o save.js também faz isso, mas aqui garantimos o timing da animação)
   const wrapper = document.getElementById("incubadora-wrapper");
   if (wrapper) { wrapper.style.display = "none"; wrapper.style.pointerEvents = "none"; }
+  
   const existing = document.getElementById("saved-char-display");
   if (existing) existing.remove();
   
-  // O 'false' aqui garante que o boneco na caverna fique sem a aura também
   const boneco = createCharacterElement(charInfo.traits, "100%", false);
-  
   boneco.id = "saved-char-display";
   boneco.style.position = ""; boneco.style.width = ""; boneco.style.height = ""; boneco.style.aspectRatio = "";
   document.body.appendChild(boneco);
@@ -471,11 +351,7 @@ function createCharacterElement(data, width = "200px", comAura = false) {
   container.style.aspectRatio = "500 / 800";
   container.style.position = "relative";
   container.style.display = "inline-block";
-  
-  // SÓ ADICIONA A AURA SE O PARÂMETRO FOR TRUE
-  if (comAura) {
-      container.style.filter = "drop-shadow(0 0 2px rgba(255,255,255,0.5))";
-  }
+  if (comAura) container.style.filter = "drop-shadow(0 0 2px rgba(255,255,255,0.5))";
 
   Object.keys(data).forEach((key) => {
     if (key === "hairColor") return;
@@ -500,95 +376,12 @@ function createCharacterElement(data, width = "200px", comAura = false) {
   return container;
 }
 
-// ======================================================
-// 5. PUZZLE DA PEDRA
-// ======================================================
-
-function initRockPuzzle() {
-  const rock = document.getElementById("rock");
-  const cobra = document.getElementById("cobra1");
-
-  if (!rock || !cobra) return;
-  if (window.gameData.visualState && window.gameData.visualState.pedraResolvida) return;
-
-  let isDragging = false;
-  let startMouseX = 0;
-  let startRockLeft = 0;
-  let solved = false;
-  let originLeft = rock.offsetLeft;
-  let maxDistance = 0;
-
-  window.addEventListener("resize", () => {
-    if (!solved) { rock.style.left = ""; originLeft = rock.offsetLeft; }
-  });
-
-  const getX = (e) => e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
-
-  function startDrag(e) {
-    if (solved) return;
-    // Se pointer-events for 'none' (travada), não faz nada
-    if (window.getComputedStyle(rock).pointerEvents === 'none') return;
-
-    if (e.cancelable && e.type !== "mousedown") e.preventDefault();
-    maxDistance = rock.clientWidth * 0.4;
-    isDragging = true;
-    rock.classList.add("dragging");
-    rock.style.transition = 'none';
-    startMouseX = getX(e);
-    startRockLeft = rock.offsetLeft;
-  }
-
-  function onDrag(e) {
-    if (!isDragging || solved) return;
-    if (e.cancelable) e.preventDefault();
-    const mouseDiff = getX(e) - startMouseX;
-    let newPos = startRockLeft + mouseDiff;
-
-    if (newPos < originLeft) newPos = originLeft;
-    if (newPos > originLeft + maxDistance) newPos = originLeft + maxDistance;
-
-    rock.style.left = `${newPos}px`;
-    if (newPos >= originLeft + maxDistance * 0.9) triggerWin();
-  }
-
-  function stopDrag() {
-    isDragging = false;
-    rock.classList.remove("dragging");
-    if (!solved) {
-        rock.style.transition = 'left 0.3s ease';
-        rock.style.left = originLeft + 'px';
-    }
-  }
-
-  function triggerWin() {
-    if (solved) return;
-    solved = true;
-    isDragging = false;
-    rock.classList.remove("dragging");
-    
-    // 1. Trava imediata
-    rock.style.pointerEvents = 'none'; 
-    console.log("Puzzle resolvido!");
-
-    // 2. Cobra sai
-    cobra.classList.add("fade-out");
-
-    // 3. Trava pedra onde está (no final)
-    rock.style.transition = "none";
-    rock.style.left = (originLeft + maxDistance) + "px";
-
-    // 4. Salva depois
-    setTimeout(() => {
-      if (window.gameData) {
-        window.gameData.visualState.pedraResolvida = true;
-      }
-    }, 1500);
-  }
-
-  rock.addEventListener("mousedown", startDrag);
-  rock.addEventListener("touchstart", startDrag, { passive: false });
-  window.addEventListener("mousemove", onDrag);
-  window.addEventListener("touchmove", onDrag, { passive: false });
-  window.addEventListener("mouseup", stopDrag);
-  window.addEventListener("touchend", stopDrag);
-}
+// Exports para o HTML usar no onclick
+window.openGame = openGame;
+window.closeGame = closeGame;
+window.closeNote = closeNote;
+window.changeCharItem = changeCharItem;
+window.randomizeCharacter = randomizeCharacter;
+window.downloadCharacter = downloadCharacter;
+window.closeConfirmBox = closeConfirmBox;
+window.finalizeAndDownload = finalizeAndDownload;

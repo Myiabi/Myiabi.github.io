@@ -86,9 +86,10 @@ lily: {
       inicio: [
         { texto: "Miau myah myu nyah nyeh?", expressao: "normal" },
       ],
-      depoisDoTreinamento: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+      segunda: [
+        { texto: "Você consegue me entender agora? Myau", expressao: "normal" },
+        { texto: "Eu sou um eximio pescador dessa cidade, o problema que ficou tão frio que a superficie do lago congelou, não conseguimos fazer um buraco sequer", expressao: "normal" },
+        { texto: "Tantos dias sem pegar um único peixe, estou com tanta fome", expressao: "normal" }
       ]
     }
   },
@@ -185,12 +186,16 @@ aiko: {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" }
+        { texto: "Você pode se sentir a vontade pra dar uma volta e conhecer a cidade", expressao: "normal" }
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        { texto: "Mas ainda tenho um longo caminho pela frente.", expressao: "pensativo" }
+        { texto: "Você encontrou alguma pista sobre um dos espiritos!?", expressao: "normal" },
+        { texto: "Você vai precisar de alguma proteção para conseguir acalma-los. A benção do templo seria perfeita, mas infelizmente, eu como sacerdote, não possuo esse habilidade. Sinto muito.", expressao: "pensativo",  },
+        { texto: "Mas havia uma forma de conseguir a benção do templo... Orando para as estatuas das sacerdotizas antigas. Porém, elas só funcionam se estiverem na ordem correta, quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa! Mas tem um bilhete deixado pelo sacerdote antigo.", expressao: "pensativo",
+        executar: function() {
+                  gameData.visualState.minigame2 = false;
+        }
+       }
       ]
     }
   },
