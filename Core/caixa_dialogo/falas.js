@@ -80,6 +80,9 @@ window.personagens = {
           texto:
             "Estou sentindo uma presença inquieta nesse lugar... Será um dos espiritos guardiões?",
           expressao: "normal",
+          executar: function () {
+          mudarCenario(personagens.aiko, 'segunda');
+          },
         },
       ],
       estatua: [
@@ -108,6 +111,7 @@ window.personagens = {
         {
           texto: "Você conseguiu! Ele parece tão calmo agora... ",
           expressao: "normal",
+          
         },
       ],
     },
@@ -329,9 +333,38 @@ window.personagens = {
           texto:
             "Mas havia uma forma de conseguir a benção do templo... Orando para as estatuas das sacerdotizas antigas. Porém, elas só funcionam se estiverem na ordem correta, quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa! Mas tem um bilhete deixado pelo sacerdote antigo.",
           expressao: "pensativo",
-          executar: function () {
-            gameData.visualState.minigame2 = false;
+          aofechar: function () {
+            gameData.visualState.estatuasON = true;
           },
+        },
+      ],
+
+      estatuaWon: [
+        {
+          texto:
+            "Vejo que conseguiu a benção das sacerdotizas! Incrivel!",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Agora você conseguirá enfrentar batalhas mais dificeis, por tempo limitado, mas é o suficiente.",
+          expressao: "normal",
+          executar: function () {
+            mudarCenario(personagens.felicia, 'estatua');
+          },
+        },
+        {
+          texto:
+            "Como também os moradores da cidade poderão voltar a rezar para os guardiões. Eu queria que eles tivessem mantido a fé mesmo perante a crise, mas agora podemos ter esperança",
+          expressao: "normal",
+        },
+      ],
+
+      luaMenu: [
+        {
+          texto:
+            "YAY!",
+          expressao: "normal",
         },
       ],
     },
@@ -665,7 +698,7 @@ document.getElementById("nodata")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.nodata);
 });
 
-document.getElementById("leader")?.addEventListener("pointerdown", () => {
+document.getElementById("aiko")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.aiko);
 });
 

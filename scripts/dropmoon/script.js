@@ -311,8 +311,10 @@ function endGame(win) {
     // 1. A TATUAGEM ETERNA: Grava que esse minigame já foi vencido
     localStorage.setItem('dropmoon_completo', 'true'); // <--- ADICIONE ISSO
 
+    mudarCenario(personagens.aiko, 'luaMenu');
     mudarCenario(personagens.felicia, 'luaWon');
     gameData.visualState.luaON = true;
+
 }
 
   // Espera 2.5 segundos para ler a mensagem e vaza

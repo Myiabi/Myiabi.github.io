@@ -38,6 +38,12 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+.fade-out {
+  opacity: 0;
+}
+.fade-in {
+  opacity: 1;
+}
 
 .dialog-box {
   display: flex;

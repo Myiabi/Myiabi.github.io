@@ -54,7 +54,7 @@ body {
   top: 50%;
   left: 62%;
 }
-#leader {
+#aiko {
   position: absolute;
   width: 10%;
   top: 65%;
@@ -141,6 +141,7 @@ body {
 
   gap: 1rem;
   flex-grow: 1;
+  position: relative;
 }
 
 /* Itens responsivos */
@@ -231,5 +232,91 @@ body {
   border-color: rgba(255,255,255,0.5);
 }
 
+.riddle-note {
+  position: absolute;
+  bottom: 10px; /* Fica no pé do container */
+  right: 10px;  /* No canto direito */
+  width: 50px;
+  height: 50px;
+  background: #f4e4bc; /* Cor de pergaminho */
+  border: 2px solid #c2a370;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 2000; /* Acima das estátuas */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
 
+.note-icon {
+  font-size: 1.5rem;
+  pointer-events: none; /* O clique vai na div pai */
+}
+
+.note-content {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  pointer-events: none; /* Não interage quando fechado */
+  transform: scale(0.8);
+  transition: opacity 0.2s;
+}
+
+/* Estilo da Nota ABERTA (Expandida) */
+.riddle-note.expanded {
+  width: 90%;   /* Ocupa quase todo o container */
+  height: 90%;
+  right: 5%;    /* Centraliza visualmente */
+  bottom: 5%;
+  border-radius: 1rem;
+  background: #fff8dc; /* Papel mais claro */
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.riddle-note.expanded .note-icon {
+  display: none;
+}
+
+.riddle-note.expanded .note-content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* Tipografia do enigma */
+.note-content h3 {
+  margin: 0 0 1rem 0;
+  color: #5d4037;
+  text-align: center;
+  width: 100%;
+  font-family: serif;
+}
+
+.note-content ul {
+  padding-left: 1.2rem;
+  margin: 0;
+  color: #3e2723;
+  font-family: serif;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  line-height: 1.4;
+}
+
+.note-content li {
+  margin-bottom: 0.5rem;
+}
+
+.note-content small {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: #888;
+  font-style: italic;
+}
 

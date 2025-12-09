@@ -10,7 +10,6 @@ const defaultData = {
   salaSecreta: false,
   minigameWon: false,
 
-  dialogos: { aiko: "introducao", czar: "inicio" },
   mesas: { 1: false, 2: false, 3: false, 4: false },
 
   // --- SISTEMA DA INCUBADORA (CAVERNA) ---
@@ -28,6 +27,7 @@ const defaultData = {
     polluxVisivel: false,
     wendigoAparece: false,
     incubadoraLiberada: false
+    
   },
 
   jardimCompleto: false,
@@ -150,12 +150,29 @@ function aplicarMudancaVisual(prop, value) {
       }
       if (myopic) myopic.src = value ? "/assets/img/NPC_Myopic2.png" : "/assets/img/NPC_Myopic1.png";
       break;
+
     case "minigame2":
+      // Verifica se estamos no templo (estátua existe)
       if (estatua) {
         estatua.style.pointerEvents = value ? "none" : "auto";
         estatua.style.cursor = value ? "default" : "pointer";
+
+        // AGORA SIM: Protegido dentro do IF.
+        // Só tenta mudar os personagens se estivermos no mapa certo.
+        // Adicionei uma checagem extra pra garantir que 'personagens' já carregou
+        if (window.personagens) {
+            if (personagens.aiko) mudarCenario(personagens.aiko, 'estatuaWon');
+            if (personagens.nodata) mudarCenario(personagens.nodata, 'segunda');
+        }
       }
       break;
+      
+      case "estatuasON":
+      if (estatua) {
+        estatua.style.pointerEvents = value ? "auto" : "none";
+        estatua.style.cursor = value ? "pointer" : "default";
+
+      }  
 
     // ==================================
     // 2. NOVOS VISUAIS (CAVERNA)
