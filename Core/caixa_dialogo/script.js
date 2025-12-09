@@ -32,7 +32,6 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom left;
-  /* CORREÇÃO 1: Mudado de -5% para 0% para mover para direita */
   transform: translateX(0%);
   z-index: -1;
   pointer-events: none;
@@ -296,7 +295,6 @@ function init() {
             portrait.style.left = "0";
             portrait.style.right = "auto";
             portrait.style.backgroundPosition = "bottom left";
-             // CORREÇÃO 1: Atualizado o JS também para 0% (padrão)
             portrait.style.transform = "translateX(0%) scaleX(1)";
           }
         }
@@ -338,6 +336,7 @@ function init() {
             return;
           }
 
+          // Se estiver digitando, completa o texto instantaneamente e para
           if (digitando) {
             if (intervaloTexto) clearInterval(intervaloTexto);
             const current = falasAtuais[indiceFala];
@@ -346,6 +345,15 @@ function init() {
             if (indiceFala < falasAtuais.length - 1 && indicator) indicator.style && (indicator.style.display = "block");
             return;
           }
+
+          // === AQUI É A MUDANÇA PRINCIPAL ===
+          // Se chegou aqui, o texto já terminou de digitar.
+          // Antes de ir pra próxima ou fechar, executa o 'aofechar' da fala atual se existir.
+          const falaAtualParaSair = falasAtuais[indiceFala];
+          if (falaAtualParaSair && typeof falaAtualParaSair.aofechar === "function") {
+             try { falaAtualParaSair.aofechar(); } catch (e) { console.error("Erro no aofechar:", e); }
+          }
+          // ===================================
 
           if (indiceFala < falasAtuais.length - 1) {
             indiceFala++;
@@ -359,17 +367,12 @@ function init() {
             const novaExpressao = atual?.expressoes?.[novaFala.expressao];
             if (text) text.style.fontFamily = novaFala.fonte || atual?.fonte || "'Wild Words', sans-serif";
             
-            // -------------------------------------------------
-            // CORREÇÃO 2: Removida a lógica de "piscar" (setTimeout)
-            // Se houver nova expressão, troca imediatamente.
             if (novaExpressao && portrait) {
                portrait.style.backgroundImage = novaExpressao;
-               // Garante que está visível caso algo tenha dado errado antes
                if (!portrait.classList.contains("show")) {
                    portrait.classList.add("show");
                }
             }
-            // -------------------------------------------------
 
             digitarTexto(String(novaFala.texto ?? "(vazio)"), novaFala.emote);
           } else {

@@ -1,4 +1,14 @@
-/* --- 1. RESET (Tira a borda branca) --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
 body, html {
   margin: 0;
   padding: 0;
@@ -7,6 +17,56 @@ body, html {
   background-color: #000a12;
   overflow: hidden; /* Garante que nada gere rolagem */
 }
+
+
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* BG real que estica para preencher tela inteira */
+#bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* estica para preencher */
+  z-index: 0;
+}
+
+/* NPCs */
+.npc {
+  height: 52%; 
+  position: absolute;
+}
+
+#cory {
+  width: 18%;;
+  top: 0%;
+  left: 0%;
+}
+
+#paddlefish  {
+  width: 17%;;
+  top: 48%;
+  left: 17%;
+}
+
+#spanish  {
+  width: 18%;;
+  top:45%;
+  left:50%;
+}
+
+#wholphin  {
+  width: 18%;;
+  top: 46%;
+  left: 80%;
+}
+
 
 /* --- 2. O FUNDO (A cor escura que você aprovou) --- */
 .ocean-container {

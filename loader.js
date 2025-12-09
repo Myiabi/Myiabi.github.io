@@ -6,11 +6,13 @@ const scripts = [
   "/core/global.js",
   "/core/menu_interativo/script.js",
   "/core/caixa_dialogo/falas.js",
+  "/core/yesorno/script.js",
   "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
+  "/scripts/jardim/script.js",
   "/city.js"
 ];
 
