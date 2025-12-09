@@ -290,3 +290,15 @@ nav a {
   background: rgba(0,0,0,0.7);
   border-color: rgba(255,255,255,0.5);
 }
+
+/* ===================== */
+/* FIX: GPU RENDER       */
+/* ===================== */
+/* Força a placa de vídeo a segurar a imagem na memória */
+/* Resolve o bug de piscar itens invisíveis ao trocar de aba */
+.hidden-item img {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: opacity; /* Opcional: avisa o navegador que vai mudar */
+}

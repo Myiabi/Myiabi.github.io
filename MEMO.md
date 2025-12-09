@@ -25,15 +25,24 @@
 - ~~Posteres do mercado~~
 
 
-- Buraco de gelo com persistencia e link
-- Vara com link pro minigame
-- Menu SOL e Lua disable e com persistencia
-- Escrever algumas falas por dia
-- Estátuas com disable e persistencia
-- Gatilho da quest do bar
+- ~~Menu SOL e Lua disable e com persistencia~~
+- ~~Escrever algumas falas por dia~~
+- ~~Estátuas com disable e persistencia~~
 - ~~Falas da Felicia no Bar~~
 -~~ Reposicionar o cobrinha aleatorio~~
-- 
+- Gatilho da quest do bar
+- Vara com link pro minigame
+- Buraco de gelo com persistencia e link
+
+- Postes de fogo com ativação de falas 
+- Persistencia do wendigo
+- Falas dos peixes do fundo do mar
+- Ajeitar portrait da Maid
+- popup dos lugares ao abrir a pagina
+- desabilitar rock
+- desabilitar incubadora
+
+
 
 }
 
@@ -80,7 +89,7 @@
 - Criar cenário Forest
 - ~~Corrigir nome do drop Forest pra não confundir~~
 -~~ Ajeitar Portraits tortos~~
-- Colocar peixes no Lago
+- ~~Colocar peixes no Lago~~
 - Ajeitar pescaria com itens novos e revisar codigo
 - Revisar Wendigo Fight
 - Revisar achievments.

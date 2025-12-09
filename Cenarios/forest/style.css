@@ -45,4 +45,19 @@ body {
   height: 45%;
   top: 50%;
   left: 40%;
+  display: none;
+}
+#cobra3 {
+  position: absolute;
+  width:10%;
+  height: 30%;
+  top: 65%;
+  left: 43%;
+}
+#iceBlock {
+  position: absolute;
+  width:18%;
+  height: 45%;
+  top: 50%;
+  left: 40%;
 }

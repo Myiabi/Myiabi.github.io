@@ -66,7 +66,7 @@ body {
 .name {
   font-weight: bold;
   color: #00bfff;
-  margin-bottom: 0.5vh;
+  margin-bottom: 2vh;
   font-size: 2vw;
 }
 

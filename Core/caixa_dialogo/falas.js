@@ -311,7 +311,7 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Você pode se sentir a vontade pra dar uma volta e conhecer a cidade",
+            "Você pode se sentir a vontade pra dar uma volta e conhecer a cidade. Se precisar de alguma coisa, estarei aqui no templo. Deixe-me saber se descobrir alguma pista dos Guardiões.",
           expressao: "normal",
         },
       ],
@@ -343,12 +343,11 @@ window.personagens = {
     fonte: "'Wild Words', sans-serif",
     expressoes: {
       normal: "url('/assets/img/NPC_portrait-Nan1.png')",
-      pensativo: "url('/assets/img/NPC_portrait-Nan2.png.png')",
+      sorrindo: "url('/assets/img/NPC_portrait-Nan2.png')",
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "normal" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" },
+        { texto: "Visite a loja do Wayway perto do templo. Ele é muito prestativo. Se precisar alguma coisa com certeza ele terá.", expressao: "sorrindo" },
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -361,17 +360,16 @@ window.personagens = {
   },
 
   nodata: {
-    nome: "     ",
+    nome: "⠀⠀⠀⠀",
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
       normal: "url('/assets/img/NPC_portrait-Nodata1.png')",
-      pensativo: "url('/assets/img/NPC_portrait-Nodata2.png')",
+      sorrindo: "url('/assets/img/NPC_portrait-Nodata2.png')",
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "pensativo" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" },
+        { texto: "Se vir meu marido e minhas crianças por aí, dê um Oi. Eles são díficeis mas são interessantes.", expressao: "pensativo" },
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },

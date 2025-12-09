@@ -41,14 +41,14 @@ itens.forEach((it) => {
   div.style.touchAction = "none";
 
   if (it.id === "item-lupa") {
-      // Verifica se gameData existe E se luaON está true dentro do visualState
-      const taLigado = window.gameData?.visualState?.luaON; 
-      div.style.display = taLigado ? "flex" : "none";
+    // Verifica se gameData existe E se luaON está true dentro do visualState
+    const taLigado = window.gameData?.visualState?.luaON;
+    div.style.display = taLigado ? "flex" : "none";
   }
 
   if (it.id === "item-fogo") {
-      const taLigado = window.gameData?.visualState?.solON;
-      div.style.display = taLigado ? "flex" : "none";
+    const taLigado = window.gameData?.visualState?.solON;
+    div.style.display = taLigado ? "flex" : "none";
   }
   // -----------------------
 
@@ -56,9 +56,10 @@ itens.forEach((it) => {
 });
 
 // E LOGO ABAIXO DO LOOP, GARANTA QUE O MENU (CONTAINER) APAREÇA SE TIVER ALGUM ITEM
-const temAlgumItem = (window.gameData?.visualState?.luaON || window.gameData?.visualState?.solON);
+const temAlgumItem =
+  window.gameData?.visualState?.luaON || window.gameData?.visualState?.solON;
 if (temAlgumItem) {
-    menu.style.display = "flex";
+  menu.style.display = "flex";
 }
 
 // ---------------------------
@@ -140,14 +141,19 @@ function addTarget(el, options = {}) {
   if (!el) return;
 
   // [MODIFICAÇÃO SAVE - LOAD]: Verifica se já foi revelado antes
-  if (el.id && window.gameData && window.gameData.visualState && window.gameData.visualState[el.id]) {
-      const mapa = el.closest(".mapa");
-      if (mapa) {
-         mapa.style.display = "none"; // Já esconde direto
-      } else {
-         el.style.display = "none";
-      }
-      return; // Não adiciona aos targets ativos
+  if (
+    el.id &&
+    window.gameData &&
+    window.gameData.visualState &&
+    window.gameData.visualState[el.id]
+  ) {
+    const mapa = el.closest(".mapa");
+    if (mapa) {
+      mapa.style.display = "none"; // Já esconde direto
+    } else {
+      el.style.display = "none";
+    }
+    return; // Não adiciona aos targets ativos
   }
 
   targets.push({ el, options });
@@ -155,37 +161,35 @@ function addTarget(el, options = {}) {
 
 function checkReveal(x, y) {
   // O raio do dragClone (5vw / 2 = 2.5vw)
-  const LUPA_RAIO_VW = 2.5; 
+  const LUPA_RAIO_VW = 2.5;
   // O raio de detecção é o tamanho da borda (RADIUS_DETECT_VW) mais o raio da lupa
-  const mapaDetectionRaioPx = vwToPx(RADIUS_DETECT_VW) + vwToPx(LUPA_RAIO_VW); 
+  const mapaDetectionRaioPx = vwToPx(RADIUS_DETECT_VW) + vwToPx(LUPA_RAIO_VW);
 
   targets.forEach((target) => {
     const el = target.el;
     const mapa = el.closest(".mapa");
     if (!mapa) return;
-    
-    const rect = mapa.getBoundingClientRect(); 
+
+    const rect = mapa.getBoundingClientRect();
 
     // O centro da lupa (x,y) está dentro do retângulo do mapa + margem aumentada?
     const inside =
-      x >= rect.left - mapaDetectionRaioPx && 
+      x >= rect.left - mapaDetectionRaioPx &&
       x <= rect.right + mapaDetectionRaioPx &&
       y >= rect.top - mapaDetectionRaioPx &&
       y <= rect.bottom + mapaDetectionRaioPx;
 
     if (inside) {
       if (!revealTimers.has(el)) {
-        
         // 🔥 SOM LOOP LUA: START
         if (target.options.soundLoop && typeof iniciarLoop === "function") {
-             iniciarLoop(target.options.soundLoop);
+          iniciarLoop(target.options.soundLoop);
         }
 
         const timer = setTimeout(() => {
-          
           // 🔥 SOM LOOP LUA: STOP (Sucesso)
           if (target.options.soundLoop && typeof pararLoop === "function") {
-             pararLoop(target.options.soundLoop);
+            pararLoop(target.options.soundLoop);
           }
 
           if (mapa) {
@@ -194,15 +198,18 @@ function checkReveal(x, y) {
 
             if (typeof tocarEfeito === "function" && target.options?.sound)
               tocarEfeito(target.options.sound);
-            
+
             // [MODIFICAÇÃO SAVE - WRITE]: Salva estado
             if (el.id && window.gameData) {
-               window.gameData.visualState[el.id] = true;
+              window.gameData.visualState[el.id] = true;
             }
-            
+
             // 🎯 EXECUTA O CALLBACK onComplete ANTES DE SUMIR
-            if (target.options.onComplete && typeof target.options.onComplete === 'function') {
-                target.options.onComplete(el); 
+            if (
+              target.options.onComplete &&
+              typeof target.options.onComplete === "function"
+            ) {
+              target.options.onComplete(el);
             }
 
             mapa.style.display = "none";
@@ -214,10 +221,9 @@ function checkReveal(x, y) {
       }
     } else {
       if (revealTimers.has(el)) {
-        
         // 🔥 SOM LOOP LUA: STOP (Cancelado pois saiu da área)
         if (target.options.soundLoop && typeof pararLoop === "function") {
-             pararLoop(target.options.soundLoop);
+          pararLoop(target.options.soundLoop);
         }
 
         clearTimeout(revealTimers.get(el));
@@ -239,28 +245,33 @@ const sunOptions = new WeakMap();
 function addSunTarget(el, options = {}) {
   if (!el) return;
   const opt = Object.assign({ action: "hide", delayMs: 350, uses: 1 }, options);
-  
+
   // [MODIFICAÇÃO SAVE - LOAD]: Verifica persistência no carregamento (Sol/Fogo)
-  if (el.id && window.gameData && window.gameData.visualState && window.gameData.visualState[el.id]) {
+  if (
+    el.id &&
+    window.gameData &&
+    window.gameData.visualState &&
+    window.gameData.visualState[el.id]
+  ) {
     // Aplica o estado final IMEDIATAMENTE (sem som, sem delay)
     if (opt.action === "hide") {
       el.style.display = "none";
     } else if (opt.action === "swap") {
-        if (el.tagName === "IMG") {
-          const ni = String(opt.newImage || "");
-          if (ni.match(/\.(png|jpe?g|webp|gif|svg)(\?.*)?$/i)) {
-            el.src = ni;
-          }
-        } else {
-             // Caso div, troca innerHTML (lógica simplificada para load rápido)
-             el.innerHTML = opt.newImage;
+      if (el.tagName === "IMG") {
+        const ni = String(opt.newImage || "");
+        if (ni.match(/\.(png|jpe?g|webp|gif|svg)(\?.*)?$/i)) {
+          el.src = ni;
         }
+      } else {
+        // Caso div, troca innerHTML (lógica simplificada para load rápido)
+        el.innerHTML = opt.newImage;
+      }
     }
     // Salva opções no map caso precise consultar, mas marca como disabled no array
     sunOptions.set(el, opt);
     // Adiciona como disabled para garantir que não interaja
-    const exists = sunTargets.find(t => t.el === el);
-    if (!exists) sunTargets.push({ el, disabled: true }); 
+    const exists = sunTargets.find((t) => t.el === el);
+    if (!exists) sunTargets.push({ el, disabled: true });
     return; // Não adiciona aos targets ativos
   }
 
@@ -269,7 +280,7 @@ function addSunTarget(el, options = {}) {
   sunOptions.set(el, opt);
 
   // evita duplicar entradas do mesmo elemento no array
-  const exists = sunTargets.find(t => t.el === el);
+  const exists = sunTargets.find((t) => t.el === el);
   if (!exists) sunTargets.push({ el, disabled: false });
 }
 
@@ -304,22 +315,19 @@ function checkSun(x, y) {
     if (!opt) return;
 
     const inside =
-      x >= rect.left && x <= rect.right &&
-      y >= rect.top && y <= rect.bottom;
+      x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
 
     if (inside) {
       if (!sunTimers.has(el)) {
-        
         // 🔥 SOM LOOP SOL: START
         if (opt.soundLoop && typeof iniciarLoop === "function") {
-             iniciarLoop(opt.soundLoop);
+          iniciarLoop(opt.soundLoop);
         }
 
         const timer = setTimeout(() => {
-          
           // 🔥 SOM LOOP SOL: STOP (Sucesso)
           if (opt.soundLoop && typeof pararLoop === "function") {
-             pararLoop(opt.soundLoop);
+            pararLoop(opt.soundLoop);
           }
 
           // toca som de finalização se definido
@@ -329,15 +337,13 @@ function checkSun(x, y) {
 
           // [MODIFICAÇÃO SAVE - WRITE]: Salva estado
           if (el.id && window.gameData) {
-             window.gameData.visualState[el.id] = true;
+            window.gameData.visualState[el.id] = true;
           }
 
           // Ação
           if (opt.action === "hide") {
             el.style.display = "none";
-
           } else if (opt.action === "swap") {
-            
             if (el.tagName === "IMG") {
               const ni = String(opt.newImage || "");
               if (ni.match(/\.(png|jpe?g|webp|gif|svg)(\?.*)?$/i)) {
@@ -347,12 +353,14 @@ function checkSun(x, y) {
                 div.textContent = opt.newImage;
                 const style = window.getComputedStyle(el);
                 // preservar posição/estilo básico
-                div.style.position = style.position === "static" ? "relative" : style.position;
+                div.style.position =
+                  style.position === "static" ? "relative" : style.position;
                 div.style.left = el.style.left || style.left;
                 div.style.top = el.style.top || style.top;
                 div.style.width = (el.width || el.clientWidth) + "px";
                 div.style.height = (el.height || el.clientHeight) + "px";
-                div.style.display = style.display === "inline" ? "inline-block" : style.display;
+                div.style.display =
+                  style.display === "inline" ? "inline-block" : style.display;
                 div.style.fontSize = "2.5rem";
                 div.style.textAlign = "center";
                 el.replaceWith(div);
@@ -364,8 +372,8 @@ function checkSun(x, y) {
           }
 
           // 🎯 EXECUTA O CALLBACK onComplete AQUI!
-          if (opt.onComplete && typeof opt.onComplete === 'function') {
-              opt.onComplete(el);
+          if (opt.onComplete && typeof opt.onComplete === "function") {
+            opt.onComplete(el);
           }
 
           // decrementa contador direto no opt
@@ -388,10 +396,9 @@ function checkSun(x, y) {
       }
     } else {
       if (sunTimers.has(el)) {
-        
         // 🔥 SOM LOOP SOL: STOP (Cancelado, saiu da área)
         if (opt.soundLoop && typeof pararLoop === "function") {
-             pararLoop(opt.soundLoop);
+          pararLoop(opt.soundLoop);
         }
 
         clearTimeout(sunTimers.get(el));
@@ -400,7 +407,6 @@ function checkSun(x, y) {
     }
   });
 }
-
 
 // ======================================================
 // D R A G
@@ -590,18 +596,18 @@ function onPointerUp(e) {
 
     // 🔥 SEGURANÇA: PARAR TODOS OS LOOPS AO SOLTAR O ITEM
     // (Caso o usuário solte o item NO MEIO do processo)
-    if (typeof pararLoop === 'function') {
-        targets.forEach(t => {
-            if (revealTimers.has(t.el) && t.options.soundLoop) {
-                pararLoop(t.options.soundLoop);
-            }
-        });
-        sunTargets.forEach(t => {
-            if (sunTimers.has(t.el)) {
-                const opt = sunOptions.get(t.el);
-                if (opt && opt.soundLoop) pararLoop(opt.soundLoop);
-            }
-        });
+    if (typeof pararLoop === "function") {
+      targets.forEach((t) => {
+        if (revealTimers.has(t.el) && t.options.soundLoop) {
+          pararLoop(t.options.soundLoop);
+        }
+      });
+      sunTargets.forEach((t) => {
+        if (sunTimers.has(t.el)) {
+          const opt = sunOptions.get(t.el);
+          if (opt && opt.soundLoop) pararLoop(opt.soundLoop);
+        }
+      });
     }
 
     hideLoupe(); // desliga aura da lua
@@ -653,132 +659,148 @@ document.addEventListener("pointerdown", onPointerDown, { passive: false });
 document.addEventListener("pointermove", onPointerMove, { passive: false });
 document.addEventListener("pointerup", onPointerUp, { passive: false });
 
-
 // ==========================================================
 // 🚀 FUNÇÃO DE INICIALIZAÇÃO DE ASSETS (Chamada pelo Loader)
 // ==========================================================
 
 // Usamos a função startMinigameLogic, pois o seu loader.js tenta chamá-la
-window.startMinigameLogic = function() {
-    console.log("Assets do minigame inicializados após o carregamento do save.");
+window.startMinigameLogic = function () {
+  console.log("Assets do minigame inicializados após o carregamento do save.");
+
+  // ==========================================================
+  // Registra ALVOS LUA (ANTIGO: addTarget chamadas)
+  // ==========================================================
+  addTarget(document.querySelector(".capetinha"), {
+    delay: 2000,
+    sound: "woosh",
+    soundLoop: "magia", // <--- EXEMPLO: Nome igual ao que está em Sons.efeitos
+  });
+
+  addTarget(document.querySelector(".rage"), {
+    delay: 2000,
+    sound: "woosh2",
+  });
+
+  addTarget(document.querySelector("#rigel"), {
+    delay: 2000,
+    sound: "whoosh",
+    // 🐍 LÓGICA DE EXECUÇÃO AO FINAL DO EFEITO DA LUA
+    onComplete: function (elemento) {
+      window.gameData.visualState.rigelVisivel = true;
+    },
+  });
+
+  // ==========================================================
+  // Sol (Postes e Outros Alvos) (ANTIGO: addSunTarget chamadas)
+  // ==========================================================
+  addSunTarget(document.querySelector(".gelo-alvo"), {
+    action: "swap",
+    newImage: "🙄",
+    sound: "whoosh",
+    delayMs: 3050,
+    soundLoop: "whoosh", // <--- EXEMPLO: Se tiver um som de gelo derretendo
+  });
+
+  addSunTarget(document.querySelector("#iceBlock"), {
+    action: "hide", // <--- AQUI: "hide" para sumir
+    delayMs: 305, // Tempo do delay
+    soundLoop: "fire", 
+
+    onComplete: function(elemento) {
+      console.log("Gelo derretido! Rodando código extra...");
+      
+      // 1. Ativar variável global
+      window.geloDerreteu = true; 
+      
+      // 2. Chamar outra função se quiser
+      // liberarPassagem(); 
+      
+      // 3. Ou até dar um alert pra testar
+      // alert("O caminho está livre!");
+  }
     
-    // ==========================================================
-    // Registra ALVOS LUA (ANTIGO: addTarget chamadas)
-    // ==========================================================
-    addTarget(document.querySelector(".capetinha"), {
-      delay: 2000,
-      sound: "woosh",
-      soundLoop: "magia" // <--- EXEMPLO: Nome igual ao que está em Sons.efeitos
-    });
+  });
 
-    addTarget(document.querySelector(".rage"), {
-      delay: 2000,
-      sound: "woosh2",
-    });
+  addSunTarget(document.querySelector(".bola-alvo"), {
+    action: "swap",
+    newImage: "",
+    sound: "whoosh",
+    delayMs: 350,
+    // 🔥 LÓGICA DE EXECUÇÃO AO FINAL DO EFEITO DO SOL
+    onComplete: function (elemento) {
+      console.log(elemento.id, "foi derretido!");
+      alert("Bola derreteu! Postes liberados.");
+      window.bolaDerretida = true;
+    },
+  });
 
-    addTarget(document.querySelector("#rigel"), {
-      delay: 2000,
-      sound: "whoosh",
-      // 🐍 LÓGICA DE EXECUÇÃO AO FINAL DO EFEITO DA LUA
-      onComplete: function(elemento) {
-          
-        window.gameData.visualState.rigelVisivel = true;
+  addSunTarget(document.querySelector("#poste1"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
-      }
-    });
+  addSunTarget(document.querySelector("#poste2"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
-    // ==========================================================
-    // Sol (Postes e Outros Alvos) (ANTIGO: addSunTarget chamadas)
-    // ==========================================================
-    addSunTarget(document.querySelector(".gelo-alvo"), {
-      action: "swap",
-      newImage: "🙄",
-      sound: "whoosh",
-      delayMs: 3050,
-      soundLoop: "whoosh" // <--- EXEMPLO: Se tiver um som de gelo derretendo
-    });
+  addSunTarget(document.querySelector("#poste3"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
-    addSunTarget(document.querySelector(".bola-alvo"), {
-      action: "swap",
-      newImage: "",
-      sound: "whoosh",
-      delayMs: 350,
-      // 🔥 LÓGICA DE EXECUÇÃO AO FINAL DO EFEITO DO SOL
-      onComplete: function(elemento) {
-          console.log(elemento.id, "foi derretido!");
-          alert("Bola derreteu! Postes liberados.");
-          window.bolaDerretida = true;
-      }
-    });
+  addSunTarget(document.querySelector("#poste4"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
+  addSunTarget(document.querySelector("#poste5"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
-    addSunTarget(document.querySelector("#poste1"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
+  addSunTarget(document.querySelector("#poste6"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
-    addSunTarget(document.querySelector("#poste2"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
+  addSunTarget(document.querySelector("#poste7"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
-    addSunTarget(document.querySelector("#poste3"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
+  addSunTarget(document.querySelector("#poste8"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
-    addSunTarget(document.querySelector("#poste4"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
+  addSunTarget(document.querySelector("#poste9"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 
-    addSunTarget(document.querySelector("#poste5"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
-
-    addSunTarget(document.querySelector("#poste6"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
-
-    addSunTarget(document.querySelector("#poste7"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
-
-    addSunTarget(document.querySelector("#poste8"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
-
-    addSunTarget(document.querySelector("#poste9"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
-
-    addSunTarget(document.querySelector("#poste10"), {
-      action: "swap",
-      newImage: "/assets/img/Pole-turned-on.png",
-      sound: "whoosh",
-      delayMs: 350,
-    });
+  addSunTarget(document.querySelector("#poste10"), {
+    action: "swap",
+    newImage: "/assets/img/Pole-turned-on.png",
+    sound: "whoosh",
+    delayMs: 350,
+  });
 };
