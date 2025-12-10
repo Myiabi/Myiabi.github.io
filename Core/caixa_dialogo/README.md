@@ -34,6 +34,9 @@ dialogo.abrir('aiko');
 ```js
 
 dialogo.abrir(personagens.czar, 'inicio');
+
+
+dialogo.agendar(personagens.barman, 'sus', 1000);
 ```
 
 **4. Usando callback (executa algo quando o diálogo termina)**
@@ -46,23 +49,27 @@ dialogo.abrir(personagens.aiko, 'introducao', () => {
 
 **5. Usando await (modo cutscene / cenas encadeadas)**
 ```js
+
 async function cenaTutorial() {
+  // O código espera a fala terminar para ir para a próxima linha
   await dialogo.abrirAsync(personagens.aiko, 'introducao');
+  
+  // Você pode colocar ações no meio
+  console.log("Aiko terminou, agora entra o narrador...");
+  
+  await dialogo.abrirAsync({ nome: "Narrador", texto: "Um vento frio percorre o laboratório..." });
+  
+  // Espera de tempo simples (com tela liberada)
+  await esperar(1000);
+  
   await dialogo.abrirAsync(personagens.czar, 'inicio');
+  
+  // Exemplo com atraso no final (espera 2s após fechar)
+  await dialogo.abrirAsync(personagens.nana, 'final', 2000);
+  
   console.log('Cena finalizada!');
 }
+
 cenaTutorial();
-
-ou
-
-async function cutsceneTeste() {
-  await dialogo.abrirAsync(personagens.aiko, "introducao");
-  await dialogo.abrirAsync({ nome: "Narrador", texto: "Um vento frio percorre o laboratório..." });
-  await esperar(500);
-  await dialogo.abrirAsync(personagens.czar, "inicio");
-  await dialogo.abrirAsync({ nome: "Narrador", texto: "E assim termina o primeiro ato." });
-}
-
-cutsceneTeste();
 
 

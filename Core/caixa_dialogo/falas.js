@@ -426,15 +426,11 @@ window.personagens = {
       normal: "url('/assets/img/NPC_portrait-Barman.png')",
     },
     falas: {
-      inicio: [
+      primeira: [
         { texto: "Quer um drink?", expressao: "normal" },
       ],
-      segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
-        },
+      sus: [
+        { texto: "...", expressao: "normal" },
       ],
     },
   },
@@ -454,8 +450,9 @@ window.personagens = {
         { texto: "[Observe os clientes para descobrir o que cada um pediu. Clique na mesa para iniciar e arraste as comidas certas para cada cliente.]",
           aofechar: function () {
             gameData.visualState.mesasON = true;
-          },
-        },
+            dialogo.agendar(personagens.barman, 'sus', 500);
+  },  
+},
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -472,7 +469,7 @@ window.personagens = {
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
-      normal: "url('/assets/img/7-06.png')",
+      normal: "url('/assets/img/7-06-half.png')",
     },
     falas: {
       inicio: [{ texto: "Como está lotado hoje!!!", expressao: "normal" }],

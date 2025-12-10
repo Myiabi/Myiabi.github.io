@@ -38,12 +38,8 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.fade-out {
-  opacity: 0;
-}
-.fade-in {
-  opacity: 1;
-}
+.fade-out { opacity: 0; }
+.fade-in { opacity: 1; }
 
 .dialog-box {
   display: flex;
@@ -97,17 +93,9 @@ body {
   51%, 100% { opacity: 1; }
 }
 
-.dialog-overlay.show {
-  opacity: 1;
-}
-
-.dialog-box.show {
-  opacity: 1;
-}
-
-#portrait.show {
-  opacity: 1;
-}
+.dialog-overlay.show { opacity: 1; }
+.dialog-box.show { opacity: 1; }
+#portrait.show { opacity: 1; }
 
 @media (orientation: portrait) {
   body {
@@ -257,6 +245,15 @@ function init() {
 
     function abrirDialogo(personagem, aoTerminar = null, cenario = null) {
       try {
+        // Se a trava manual estava ativa, a gente limpa ela agora
+        if (window.dialogo && window.dialogo._manterOverlay) {
+            window.dialogo._manterOverlay = false;
+        }
+        
+        // Limpa opacidade forçada (caso estivesse travado)
+        if (dialogBox) dialogBox.style.opacity = "";
+        if (portrait) portrait.style.opacity = "";
+
         fimDialogoCallback = aoTerminar;
 
         if (intervaloTexto) clearInterval(intervaloTexto);
@@ -342,7 +339,7 @@ function init() {
             return;
           }
 
-          // Se estiver digitando, completa o texto instantaneamente e para
+          // 1. Se estiver digitando, completa o texto e para.
           if (digitando) {
             if (intervaloTexto) clearInterval(intervaloTexto);
             const current = falasAtuais[indiceFala];
@@ -352,15 +349,19 @@ function init() {
             return;
           }
 
-          // === AQUI É A MUDANÇA PRINCIPAL ===
-          // Se chegou aqui, o texto já terminou de digitar.
-          // Antes de ir pra próxima ou fechar, executa o 'aofechar' da fala atual se existir.
+          // 2. Se já terminou de digitar, processa a saída da fala atual.
+          let manterOverlayAtivo = false;
           const falaAtualParaSair = falasAtuais[indiceFala];
+          
           if (falaAtualParaSair && typeof falaAtualParaSair.aofechar === "function") {
-             try { falaAtualParaSair.aofechar(); } catch (e) { console.error("Erro no aofechar:", e); }
+             try { 
+                 // Se o callback retornar TRUE, ativamos a proteção
+                 const retorno = falaAtualParaSair.aofechar(); 
+                 if (retorno === true) manterOverlayAtivo = true;
+             } catch (e) { console.error("Erro no aofechar:", e); }
           }
-          // ===================================
 
+          // 3. Verifica se tem próxima fala
           if (indiceFala < falasAtuais.length - 1) {
             indiceFala++;
             if (indicator) indicator.style && (indicator.style.display = "none");
@@ -382,7 +383,13 @@ function init() {
 
             digitarTexto(String(novaFala.texto ?? "(vazio)"), novaFala.emote);
           } else {
-            fecharDialogo();
+            // 4. FIM DO DIALOGO
+            if (manterOverlayAtivo) {
+                // Ativa a proteção manualmente e esconde a caixa visualmente
+                window.dialogo.manterOverlay();
+            } else {
+                fecharDialogo();
+            }
           }
         } catch (e) {
           console.error("dialogBox pointerdown handler erro:", e);
@@ -445,8 +452,29 @@ function init() {
     function fecharDialogo() {
       try {
         if (fechandoDialogo) return;
+
+        // --- TRAVA DE SEGURANÇA ---
+        if (window.dialogo && window.dialogo._manterOverlay) {
+           // Força opacidade zero para sumir visualmente, mas o overlay fica
+           if (dialogBox) {
+               dialogBox.classList.remove("show");
+               dialogBox.style.opacity = "0"; 
+           }
+           if (portrait) {
+               portrait.classList.remove("show");
+               portrait.style.opacity = "0";
+           }
+           
+           digitando = false;
+           if (intervaloTexto) clearInterval(intervaloTexto);
+           return; // <--- Interrompe aqui.
+        }
+        // --------------------------
+
         fechandoDialogo = true;
         if (intervaloTexto) clearInterval(intervaloTexto);
+        
+        // Remove classes visuais
         overlay && overlay.classList && overlay.classList.remove("show");
         dialogBox && dialogBox.classList && dialogBox.classList.remove("show");
         portrait && portrait.classList && portrait.classList.remove("show");
@@ -455,6 +483,8 @@ function init() {
           try {
             overlay && (overlay.style.display = "none");
             fechandoDialogo = false;
+            
+            // Limpezas de variáveis
             if (atual) {
               try {
                 delete atual.__falasAtuaisTemp;
@@ -495,9 +525,50 @@ function init() {
       }
     };
 
+    // --- OBJETO DIALOGO ATUALIZADO ---
     window.dialogo = {
       abrir: abrirDialogo,
       fechar: fecharDialogo,
+      
+      // Ativa trava manual
+      manterOverlay: function() {
+          this._manterOverlay = true;
+          // Esconde visualmente na hora
+          const db = document.getElementById("dialogBox");
+          const pt = document.getElementById("portrait");
+          if(db) { db.classList.remove("show"); db.style.opacity = "0"; }
+          if(pt) { pt.classList.remove("show"); pt.style.opacity = "0"; }
+          
+          if (intervaloTexto) clearInterval(intervaloTexto);
+          digitando = false;
+      },
+      
+      // Destrava tudo e fecha
+      liberar: function() {
+          this._manterOverlay = false;
+          const db = document.getElementById("dialogBox");
+          const pt = document.getElementById("portrait");
+          if(db) db.style.opacity = "";
+          if(pt) pt.style.opacity = "";
+          fecharDialogo(); 
+      },
+
+      // Agendar atualizado para usar a lógica nova
+      agendar: function(personagem, cenario, tempoMs = 1000) {
+         this.manterOverlay(); // Trava
+         
+         setTimeout(() => {
+             // Quando o tempo acaba, destrava (internamente) e abre o próximo
+             this._manterOverlay = false;
+             const db = document.getElementById("dialogBox");
+             const pt = document.getElementById("portrait");
+             if(db) db.style.opacity = "";
+             if(pt) pt.style.opacity = "";
+
+             abrirDialogo(personagem, null, cenario);
+         }, tempoMs);
+      },
+
       abrirAsync(personagem, cenario = null, delayAposMs = 0) {
         return new Promise((resolve) => {
            abrirDialogo(personagem, () => {
