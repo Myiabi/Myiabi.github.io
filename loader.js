@@ -3,10 +3,10 @@
 const scripts = [
   
   "/core/save/script.js",
+  "/core/caixa_dialogo/falas.js",
   "/core/global.js",
   "/core/yesorno/script.js",
   "/core/menu_interativo/script.js",
-  "/core/caixa_dialogo/falas.js",
   "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",

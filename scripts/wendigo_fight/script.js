@@ -652,9 +652,9 @@ function buildHeartsUI(){
 function onBossDefeated() {
   console.log("✅ Boss derrotado");
   unlockAchievement('itemMoeda');
+  gameData.visualState.solON = true
   gameData.visualState.minigame4 = true;
   window.location.replace("/cenarios/cave/index.html");
-  gameData.visualState.solON = true
 
   // 🔊 ADICIONE SOM DE VITÓRIA AQUI
   // new Audio('assets/sfx/victory.mp3').play();

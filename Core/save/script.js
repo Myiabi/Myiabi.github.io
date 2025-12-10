@@ -25,7 +25,6 @@ const defaultData = {
     // Visuais globais e da caverna
     pedraResolvida: false,
     polluxVisivel: false,
-    wendigoAparece: false,
     incubadoraLiberada: false
     
   },
@@ -162,10 +161,9 @@ function aplicarMudancaVisual(prop, value) {
         // Adicionei uma checagem extra pra garantir que 'personagens' já carregou
         if (window.personagens) {
             if (personagens.aiko) mudarCenario(personagens.aiko, 'estatuaWon');
-            if (personagens.nodata) mudarCenario(personagens.nodata, 'segunda');
-            // O Wayway não precisa pois ele é de outro mapa
         }
       }
+      break;
     case "minigame4":
       
         if (window.personagens) {
@@ -173,6 +171,7 @@ function aplicarMudancaVisual(prop, value) {
             if (personagens.lily) mudarCenario(personagens.lily, 'jardim');
         
       }
+
       break;
       case "estatuasON":
       if (estatua) {
