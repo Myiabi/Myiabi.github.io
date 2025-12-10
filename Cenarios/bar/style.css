@@ -228,11 +228,12 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 3vw;
+  position: relative;
 }
 
 .dropzone {
   width: 20%;
-  height: 25%;
+  height: 55%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -242,8 +243,72 @@ body {
   font-size: 20px;
   transition: .2s;
   gap: 50%;
+  position:relative;
 
 }
+
+/* O Retrato do personagem estilo "Quadro Redondo" */
+.npc-icon {
+  position: absolute;
+
+  width: 6%;  /* Ajustei levemente o tamanho */
+  height: 24%;
+  z-index: 20;
+  pointer-events: none;
+
+  /* --- ESTILO DE QUADRO REDONDO --- */
+  border: 3px solid #827d7d; /* Borda branca grossa parecendo moldura */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5); /* Sombra para dar profundidade 3D */
+  border-radius: 50%; /* Transforma em círculo */
+  background-color: #333; /* Cor de fundo caso a imagem seja PNG transparente */
+}
+
+#glasses-icon {
+  top: 80%;
+  left: 47%;
+}
+
+#gf-icon {
+  top: 80%;
+  left:35%;
+}
+
+#bf-icon {
+  top: 80%;
+  left: 58.5%;
+}
+
+#cocoa-icon {
+  top: 80%;
+  left: 24%;
+}
+#lac-icon {
+  top: 80%;
+  left: 47%;
+}
+#cap-icon {
+  top: 80%;
+  left: 70%;
+}
+
+#greenie-icon {
+  top: 80%;
+  left: 12%;
+}
+#stb-icon {
+  top: 80%;
+  left: 35%;
+}
+#choco-icon {
+  top: 80%;
+  left: 59%;
+}
+#coffee-icon {
+  top: 80%;
+  left: 82%;
+}
+
+
 
 .dropzone img {
 

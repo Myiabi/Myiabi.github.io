@@ -1,175 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/core/global.css">
-    <link rel="stylesheet" href="/core/popup/style.css">
-    <link rel="stylesheet" href="/core/yesorno/style.css">
+    <link rel="stylesheet" href="/core/global.css" />
+    <link rel="stylesheet" href="/core/popup/style.css" />
+    <link rel="stylesheet" href="/core/yesorno/style.css" />
     <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
-    <link rel="stylesheet" href="/core/menu_interativo/style.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/core/menu_interativo/style.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="scene">
+      <div class="btnback" id="btn-back" data-destino="/city.html">↩</div>
 
-  
-  <div id="scene">
-    
-<div class="btnback" id="btn-back" data-destino="/city.html">↩</div>    
+      <img
+        class="food"
+        id="whisky"
+        src="/assets/img/Food-whisky.png"
+        draggable="false"
+      />
 
-<img class="food" id="whisky" src="/assets/img/Food-whisky.png" draggable="false">
+      <img
+        class="food"
+        id="salad"
+        src="/assets/img/Food-salad.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="fries"
+        src="/assets/img/Food-fries.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="hotdog"
+        src="/assets/img/Food-hotdog.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="burg"
+        src="/assets/img/Food-hamburger.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="chicken"
+        src="/assets/img/Food-friedchicken.png"
+        draggable="false"
+      />
 
-<img class="food" id="salad" src="/assets/img/Food-salad.png" draggable="false">
-<img class="food" id="fries" src="/assets/img/Food-fries.png" draggable="false">
-<img class="food" id="hotdog" src="/assets/img/Food-hotdog.png" draggable="false">
-<img class="food" id="burg" src="/assets/img/Food-hamburger.png" draggable="false">
-<img class="food" id="chicken" src="/assets/img/Food-friedchicken.png" draggable="false">
+      <img
+        class="food"
+        id="tea"
+        src="/assets/img/Food-tea.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="cocoa"
+        src="/assets/img/Food-hotcocoa.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="coffee"
+        src="/assets/img/Food-coffee.png"
+        draggable="false"
+      />
 
-<img class="food" id="tea" src="/assets/img/Food-tea.png" draggable="false">
-<img class="food" id="cocoa" src="/assets/img/Food-hotcocoa.png" draggable="false">
-<img class="food" id="coffee" src="/assets/img/Food-coffee.png" draggable="false">
+      <img
+        class="food"
+        id="pizza"
+        src="/assets/img/Food-pizza.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="coke"
+        src="/assets/img/Food-coke.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="cake1"
+        src="/assets/img/Food-cake2.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="cake2"
+        src="/assets/img/Food-cake1.png"
+        draggable="false"
+      />
+      <img
+        class="food"
+        id="milkshake"
+        src="/assets/img/Food-milkshake.png"
+        draggable="false"
+      />
 
-<img class="food" id="pizza" src="/assets/img/Food-pizza.png" draggable="false">
-<img class="food" id="coke" src="/assets/img/Food-coke.png" draggable="false">
-<img class="food" id="cake1" src="/assets/img/Food-cake2.png" draggable="false">
-<img class="food" id="cake2" src="/assets/img/Food-cake1.png" draggable="false">
-<img class="food" id="milkshake" src="/assets/img/Food-milkshake.png" draggable="false">
+      <img
+        class="food"
+        id="milkshake"
+        src="/assets/img/Food-milkshake.png"
+        draggable="false"
+      />
 
-<img class="food" id="milkshake" src="/assets/img/Food-milkshake.png" draggable="false">
+      <img src="/assets/img/NPC_Snake-Capella.png" id="cobra5" />
 
+      <div id="game1" class="modal-overlay hidden">
+        <div class="modal-box">
+          <h1>Mesa 1</h1>
 
-<img src="/assets/img/NPC_Snake-Capella.png" id="cobra5">
-    
-  <div id="game1" class="modal-overlay hidden">
+          <div class="items-area">
+            <div class="draggable itemA" data-game="1">
+              <img src="/assets/img/Food-milkshake.png" />
+            </div>
+            <div class="draggable itemA" data-game="1">
+              <img src="/assets/img/Food-coke.png" />
+            </div>
+            <div class="draggable itemA" data-game="1" data-required="true">
+              <img src="/assets/img/Food-whisky.png" />
+            </div>
+            <div class="draggable itemA" data-game="1">
+              <img src="/assets/img/Food-coffee.png" />
+            </div>
+          </div>
 
-    <div class="modal-box">
-      <h1>Mesa 1</h1>
+          <div class="container">
+            <div class="dropzone interact" data-type="A" data-game="1">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <img
+                class="npc-icon"
+                id="glasses-icon"
+                src="/assets/img/glasses.png"
+              />
+          </div>
 
-      <div class="items-area">
-        <div class="draggable itemA" data-game="1">   <img src="/assets/img/Food-milkshake.png"> </div>
-        <div class="draggable itemA" data-game="1"> <img src="/assets/img/Food-coke.png"> </div>
-        <div class="draggable itemA" data-game="1" data-required="true"> <img src="/assets/img/Food-whisky.png"> </div>
-        <div class="draggable itemA" data-game="1"> <img src="/assets/img/Food-coffee.png">  </div>
+          <div class="close-x" data-close="game1">✕</div>
+        </div>
       </div>
 
-      <div class="container">
-        <div class="dropzone interact" data-type="A" data-game="1"> <img src="/assets/img/Corner-table.png">  </div>
+      <div id="game2" class="modal-overlay hidden">
+        <div class="modal-box">
+          <h1>Mesa 2</h1>
+
+          <div class="items-area">
+            <div class="draggable itemB" data-game="2" data-required="true">
+              <img src="/assets/img/Food-hamburger.png" />
+            </div>
+            <div class="draggable itemA" data-game="2" data-required="true">
+              <img src="/assets/img/Food-fries.png" />
+            </div>
+            <div class="draggable itemB" data-game="2" data-required="true">
+              <img src="/assets/img/Food-hotdog.png" />
+            </div>
+            <div class="draggable itemA" data-game="2" data-required="true">
+              <img src="/assets/img/Food-salad.png" />
+            </div>
+            <div class="draggable itemB" data-game="2" data-required="true">
+              <img src="/assets/img/Food-friedchicken.png" />
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="dropzone interact" data-type="A" data-game="2">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <div class="dropzone interact" data-type="B" data-game="2">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <img class="npc-icon" id="gf-icon" src="/assets/img/gf.png" />
+            <img class="npc-icon" id="bf-icon" src="/assets/img/bf.png" />
+          </div>
+
+          <div class="close-x" data-close="game2">✕</div>
+        </div>
       </div>
 
-        <div class="close-x" data-close="game1">✕</div>
-    </div>
+      <div id="game3" class="modal-overlay hidden">
+        <div class="modal-box">
+          <h1>Mesa 3</h1>
 
-  </div>
+          <div class="items-area">
+            <div class="draggable itemA" data-game="3" data-required="true">
+              <img src="/assets/img/Food-hotcocoa.png" />
+            </div>
+            <div class="draggable itemB" data-game="3" data-required="true">
+              <img src="/assets/img/Food-tea.png" />
+            </div>
+            <div class="draggable itemC" data-game="3" data-required="true">
+              <img src="/assets/img/Food-milkshake.png" />
+            </div>
+          </div>
 
+          <div class="container">
+            <div class="dropzone interact" data-type="A" data-game="3">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <div class="dropzone interact" data-type="B" data-game="3">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <div class="dropzone interact" data-type="C" data-game="3">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <img class="npc-icon" id="cocoa-icon" src="/assets/img/cocoa.png" />
 
-  <div id="game2" class="modal-overlay hidden">
+            <img class="npc-icon" id="lac-icon" src="/assets/img/lac.png" />
 
-    <div class="modal-box">
-      <h1>Mesa 2</h1>
+            <img class="npc-icon" id="cap-icon" src="/assets/img/cap.png" />
+          </div>
 
-      <div class="items-area">
-
-        <div class="draggable itemB" data-game="2" data-required="true"><img src="/assets/img/Food-hamburger.png"></div>
-        <div class="draggable itemA" data-game="2" data-required="true"><img src="/assets/img/Food-fries.png"></div>
-        <div class="draggable itemB" data-game="2" data-required="true"><img src="/assets/img/Food-hotdog.png"></div>
-        <div class="draggable itemA" data-game="2" data-required="true"><img src="/assets/img/Food-salad.png"></div>
-        <div class="draggable itemB" data-game="2" data-required="true"><img src="/assets/img/Food-friedchicken.png"></div>
-        
-
+          <div class="close-x" data-close="game3">✕</div>
+        </div>
       </div>
 
-      <div class="container">
-        <div class="dropzone interact" data-type="A" data-game="2"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="B" data-game="2"><img src="/assets/img/Corner-table.png"></div>
-      </div>
+      <div id="game4" class="modal-overlay hidden">
+        <div class="modal-box">
+          <h1>Mesa 4</h1>
 
-        <div class="close-x" data-close="game2">✕</div>
-    </div>
+          <div class="items-area">
+            <div class="draggable itemB" data-game="4" data-required="true">
+              <img src="/assets/img/Food-cake1.png" />
+            </div>
+            <div class="draggable itemA" data-game="4" data-required="true">
+              <img src="/assets/img/Food-coke.png" />
+            </div>
+            <div class="draggable itemD" data-game="4" data-required="true">
+              <img src="/assets/img/Food-coffee.png" />
+            </div>
+            <div class="draggable itemC" data-game="4" data-required="true">
+              <img src="/assets/img/Food-cake2.png" />
+            </div>
+            <div class="draggable itemA" data-game="4" data-required="true">
+              <img src="/assets/img/Food-pizza.png" />
+            </div>
+          </div>
 
-  </div>
+          <div class="container">
+            <div class="dropzone interact" data-type="A" data-game="4">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <div class="dropzone interact" data-type="B" data-game="4">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <div class="dropzone interact" data-type="C" data-game="4">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <div class="dropzone interact" data-type="D" data-game="4">
+              <img src="/assets/img/Corner-table.png" />
+            </div>
+            <img class="npc-icon" id="greenie-icon" src="/assets/img/greenie.png" />
 
+            <img class="npc-icon" id="stb-icon" src="/assets/img/stb.png" />
 
-  <div id="game3" class="modal-overlay hidden">
-    <div class="modal-box">
-      <h1>Mesa 3</h1>
+            <img class="npc-icon" id="choco-icon" src="/assets/img/choco.png" />
 
-      <div class="items-area">
-        
-        <div class="draggable itemA" data-game="3" data-required="true"><img src="/assets/img/Food-hotcocoa.png"></div>
-        <div class="draggable itemB" data-game="3" data-required="true"><img src="/assets/img/Food-tea.png"></div>
-        <div class="draggable itemC" data-game="3" data-required="true"><img src="/assets/img/Food-milkshake.png"></div>
-        
-      </div>
-      
-      <div class="container">
-        <div class="dropzone interact" data-type="A" data-game="3"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="B" data-game="3"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="C" data-game="3"><img src="/assets/img/Corner-table.png"></div>
-      </div>
-      
-      <div class="close-x" data-close="game3">✕</div>
-    </div>
-  </div>
-  
-  
-  <div id="game4" class="modal-overlay hidden">
-    <div class="modal-box">
-      <h1>Mesa 4</h1>
-      
-      <div class="items-area">
-        
-        <div class="draggable itemB" data-game="4" data-required="true"><img src="/assets/img/Food-cake1.png"></div>
-        <div class="draggable itemA" data-game="4" data-required="true"><img src="/assets/img/Food-coke.png"></div>
-        <div class="draggable itemD" data-game="4" data-required="true"><img src="/assets/img/Food-coffee.png"></div>
-        <div class="draggable itemC" data-game="4" data-required="true"><img src="/assets/img/Food-cake2.png"></div>
-        <div class="draggable itemA" data-game="4" data-required="true"><img src="/assets/img/Food-pizza.png"></div>
-
-      </div>
-
-      <div class="container">
-        <div class="dropzone interact" data-type="A" data-game="4"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="B" data-game="4"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="C" data-game="4"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="D" data-game="4"><img src="/assets/img/Corner-table.png"></div>
-      </div>
+            <img class="npc-icon" id="coffee-icon" src="/assets/img/coffee.png"/>
+          </div>
 
           <div class="close-x" data-close="game4">✕</div>
+        </div>
+      </div>
+
+      <img id="bg" src="/assets/img/BG_Bar.png" alt="BG" draggable="false" />
+      <img id="counter" src="/assets/img/counter.png" draggable="false" />
+      <img
+        class="npc"
+        id="barman"
+        src="/assets/img/NPC_Barman.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="assistant"
+        src="/assets/img/NPC_Assistent.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="felicia2"
+        src="/assets/img/NPC_Felicia.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="maid"
+        src="/assets/img/NPC_Maid.png"
+        draggable="false"
+      />
+
+      <img
+        class="table open-btn"
+        data-modal="game1"
+        id="table1"
+        src="/assets/img/table1.png"
+        draggable="false"
+      />
+      <button id="glass"></button>
+
+      <img
+        class="table open-btn"
+        data-modal="game2"
+        id="table2"
+        src="/assets/img/table2.png"
+        draggable="false"
+      />
+      <button id="girlfriend"></button>
+      <button id="boyfriend"></button>
+
+      <img
+        class="table open-btn"
+        data-modal="game4"
+        id="table4"
+        src="/assets/img/table4.png"
+        draggable="false"
+      />
+      <button id="gorro"></button>
+      <button id="moreno"></button>
+      <button id="rosinha"></button>
+
+      <img
+        class="table open-btn"
+        data-modal="game3"
+        id="table3"
+        src="/assets/img/table3.png"
+        draggable="false"
+      />
+      <button id="cachecol"></button>
+      <button id="kid1"></button>
+      <button id="kid2"></button>
+      <button id="verdinha"></button>
     </div>
-  </div>
 
-
-
-  <img id="bg" src="/assets/img/BG_Bar.png" alt="BG" draggable="false">
-  <img id="counter" src="/assets/img/counter.png" draggable="false">
-  <img class="npc" id="barman" src="/assets/img/NPC_Barman.png" draggable="false">
-  <img class="npc" id="assistant" src="/assets/img/NPC_Assistent.png" draggable="false"> 
-  <img class="npc" id="felicia2" src="/assets/img/NPC_Felicia.png" draggable="false"> 
-  <img class="npc" id="maid" src="/assets/img/NPC_Maid.png" draggable="false"> 
-
-  <img class="table open-btn" data-modal="game1" id="table1" src="/assets/img/table1.png" draggable="false">
-  <button id="glass"></button>
-  
-  <img class="table open-btn" data-modal="game2" id="table2" src="/assets/img/table2.png" draggable="false">
-  <button id="girlfriend"></button>
-  <button id="boyfriend"></button>
-
-  <img class="table open-btn" data-modal="game4" id="table4" src="/assets/img/table4.png" draggable="false">
-    <button id="gorro"></button>
-    <button id="moreno"></button>
-    <button id="rosinha"></button>
-
-  <img class="table open-btn" data-modal="game3" id="table3" src="/assets/img/table3.png" draggable="false">
-    <button id="cachecol"></button>
-    <button id="kid1"></button>
-    <button id="kid2"></button>
-    <button id="verdinha"></button>
-
-
-  
-</div>
-
-
-<script src="/loader.js"></script>    
-</body>
+    <script src="/loader.js"></script>
+  </body>
 </html>

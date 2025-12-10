@@ -427,8 +427,7 @@ window.personagens = {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "normal" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" },
+        { texto: "Quer um drink?", expressao: "normal" },
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -449,8 +448,14 @@ window.personagens = {
     },
     falas: {
       inicio: [
-        { texto: "Hmm... será que devo confiar nela?", expressao: "normal" },
-        { texto: "Bom, não tenho muita escolha agora.", expressao: "normal" },
+        { texto: "E agora. O que eu faço...? ", expressao: "normal" },
+        { texto: "Tem tanta gente hoje que misturei todas as comandas, não sei quem pediu o que! Se o chefe descobrir estarei frito.", expressao: "normal" },
+        { texto: "Que tal prestar atenção nos clientes e descobrir quem pediu cada prato?", expressao: "normal" },
+        { texto: "[Observe os clientes para descobrir o que cada um pediu. Clique na mesa para iniciar e arraste as comidas certas para cada cliente.]",
+          aofechar: function () {
+            gameData.visualState.mesasON = true;
+          },
+        },
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },

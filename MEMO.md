@@ -11,7 +11,7 @@
 - ~~Função do Fogo~~
 - ~~Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.~~
 - ~~Posts de calor~~
-- Seria interessante pesquisar diversas fontes
+- ~~Seria interessante pesquisar diversas fontes~~
 - Pegar trilhas sonoras e efeitos.
 
 - Achar bebês cobras {
@@ -85,10 +85,10 @@
 - ~~Kofongo não some mais~~
 - ~~Botão back da cave~~
 - ~~Muda o audio do menu para "enquanto" e não "após"~~
-- Aumentar tempo do popup no touch
+- ~~Aumentar tempo do popup no touch~~
 - ~~Ajeitar as imagens da incubadora.~~
 - ~~Colocar falas no wendigo~~
-- Criar cenário Forest
+- ~~Criar cenário Forest~~
 - ~~Corrigir nome do drop Forest pra não confundir~~
 -~~ Ajeitar Portraits tortos~~
 - ~~Colocar peixes no Lago~~
