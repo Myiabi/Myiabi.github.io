@@ -60,13 +60,13 @@ const NEW_TOOLTIP_CONTENT = {
     "glass": "Me sinto melhor agora.",
     "girlfriend": "Me dá um pouco das batatas fritas? hihihi",
     "boyfriend": "Claro amor! (Eu sabia grrrr)",
-    "gorro": "Esse café tá potente",
+    "gorro": "Meu deus eu fiquei agora estou com frio por dentro e por fora",
     "rosinha": "Ahhh acalmou minha barriginha",
     "moreno": "Estou quentinho agora",
     "verdinha": "Esse lugar é maravilhoso, meus comprimentos ao chef!",
     "kid1": "Obrigado pelo bolo! 😊",
     "kid2": "Obrigado pelo bolo! 😄",
-    "cachecol": "Meu deus eu fiquei agora estou com frio por dentro e por fora",
+    "cachecol": "Esse café tá potente",
 };
 
 /**
@@ -117,14 +117,14 @@ function setupTooltips() {
     createFloatingTooltip('girlfriend', 'Estou de dieta, quero algo leve... (Mas ele pediu minha preferida)', 140, 80, myStyle, true);
     createFloatingTooltip('boyfriend', 'Hoje vou comer de tudo! Certeza que não vai querer uma porçao? Nao? Ok.',130, 100, myStyle, true);
 
-    createFloatingTooltip('gorro', 'Estou com tanto sono...', 0, 0, myStyle, true);
+    createFloatingTooltip('gorro', 'Vão me julgar se eu pedir isso nesse frio...?', 0, 0, myStyle, true);
     createFloatingTooltip('rosinha', 'Sou intolerante a lactose.', 0, 0, myStyle, true);
     createFloatingTooltip('moreno', 'Estou morrendo de frio!!!', 135, 30, myStyle, true);
 
     createFloatingTooltip('verdinha', 'Vou querer algo que sirva 4 pessoas, ah! e algo gelado.', 0, 0, myStyle, true);
     createFloatingTooltip('kid1', 'Cake?', 0, 0, myStyle, true);
     createFloatingTooltip('kid2', 'CAKE!!!', 0, 0, myStyle, true);
-    createFloatingTooltip('cachecol', 'Vão me julgar se eu pedir isso nesse frio...?', 0, 0, myStyle, true);
+    createFloatingTooltip('cachecol', 'Estou com tanto sono...', 0, 0, myStyle, true);
 }
 
 

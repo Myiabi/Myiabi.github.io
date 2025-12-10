@@ -654,6 +654,9 @@ function onBossDefeated() {
   unlockAchievement('itemMoeda');
   gameData.visualState.solON = true
   gameData.visualState.minigame4 = true;
+  gameData.visualState.pedraLiberada = true;
+  gameData.visualState.incLista = true;
+
   window.location.replace("/cenarios/cave/index.html");
 
   // 🔊 ADICIONE SOM DE VITÓRIA AQUI

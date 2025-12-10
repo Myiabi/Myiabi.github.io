@@ -83,6 +83,7 @@ body {
     position: absolute;
     top: 65%; 
     left: 77%;
+    pointer-events: none;
 }
 
 /* O Container (Herda a posição .img-btn que você já criou: top 65%, left 77%) */
@@ -183,6 +184,8 @@ body {
     z-index: 100;         /* Garante que está na frente de tudo */
     touch-action: none;   /* Importante pro mobile não tentar dar scroll */
     user-select: none;    /* Não deixa selecionar como texto */
+    pointer-events: none; /* Impede clicar nela depois que sumir */
+
 
 }
 

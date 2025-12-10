@@ -110,6 +110,7 @@ body {
   height: 63%;
   top: 23%;
   left: 47%;
+  pointer-events: none;
 
 
 }
@@ -119,6 +120,7 @@ body {
   height: 59%;
   top: 24%;
   left: 20%;
+  pointer-events: none;
 
 }
 
@@ -128,6 +130,7 @@ body {
   height: 59%;
   top: 77%;
   left: 17%;
+  pointer-events: none;
 
 }
 #table4 
@@ -137,6 +140,7 @@ body {
   top: 77%;
   left: 48%;
   z-index: 10;
+  pointer-events: none;
 
 }
 

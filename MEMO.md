@@ -35,13 +35,13 @@
 - Buraco de gelo com persistencia e link
 
 - Postes de fogo com ativação de falas 
-- Persistencia do wendigo
+- ~~Persistencia do wendigo~~
 - Falas dos peixes do fundo do mar
 - Ajeitar portrait da Maid
 - popup dos lugares ao abrir a pagina
 - desabilitar rock
 - desabilitar incubadora
-- Verificar back em historico de navegador
+- ~~Verificar back em historico de navegador~~
 - Conferir os Globals
 
 
@@ -93,7 +93,7 @@
 -~~ Ajeitar Portraits tortos~~
 - ~~Colocar peixes no Lago~~
 - Ajeitar pescaria com itens novos e revisar codigo
-- Revisar Wendigo Fight
+- ~~Revisar Wendigo Fight~~
 - Revisar achievments.
 
 

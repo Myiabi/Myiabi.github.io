@@ -104,6 +104,14 @@ function aplicarMudancaVisual(prop, value) {
   const noteRainha = document.getElementById("note-rainha");
   const noteJelly = document.getElementById("note-jelly");
 
+  // mesas
+
+    const mesa1 = document.getElementById("table1");
+    const mesa2 = document.getElementById("table2");
+    const mesa3 = document.getElementById("table3");
+    const mesa4 = document.getElementById("table4");
+
+
 
   switch (prop) {
     // ==================================
@@ -206,6 +214,8 @@ function aplicarMudancaVisual(prop, value) {
       }
       break;
 
+
+
     // --- Puzzle da Pedra e Cobra ---
     case "pedraResolvida":
       if (value === true) {
@@ -225,6 +235,26 @@ function aplicarMudancaVisual(prop, value) {
     case "wendigoAparece":
       if (wendigo) wendigo.style.display = value ? "block" : "none";
       break;
+
+    case "pedraLiberada":
+      if (rock) rock.style.pointerEvents = value ? "auto" : "none";
+      break;
+
+    case "incLista":
+      if (elWrapper) elWrapper.style.pointerEvents = value ? "auto" : "none";
+      break;
+
+
+      //mesas //
+
+      case "mesasON":
+      if (mesa1) mesa1.style.pointerEvents = value ? "auto" : "none";
+      if (mesa2) mesa2.style.pointerEvents = value ? "auto" : "none";
+      if (mesa3) mesa3.style.pointerEvents = value ? "auto" : "none";
+      if (mesa4) mesa4.style.pointerEvents = value ? "auto" : "none";
+      break;
+
+
   }
 }
 
