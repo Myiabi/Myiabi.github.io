@@ -135,7 +135,7 @@ body {
 }
 #table4 
 { 
-  width:23%;
+  width:25%;
   height: 61%;
   top: 77%;
   left: 48%;
@@ -612,17 +612,18 @@ body {
   width: 3%;
   height: 7%;
   top: 69.9%;
-  left: 41.5%;
+  left: 41%;
+  transform: scaleX(-1);
   z-index: 1000;
   display: none;
 }
 
 #milkshake {
   position: absolute;
-  width: 3%;
+  width: 4%;
   height: 7%;
   top: 70%;
-  left: 52%;
+  left: 51.6%;
   z-index: 1000;
   display: none;
 }

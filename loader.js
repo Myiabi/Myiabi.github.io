@@ -1,3 +1,5 @@
+
+
 // loader.js — versão final corrigida e compatível com o script.js do minigame
 
 const scripts = [
@@ -15,6 +17,9 @@ const scripts = [
   "/scripts/jardim/script.js",
   "/city.js"
 ];
+
+
+
 
 // =========================
 // BLOQUEIA CONTEXTO — seguro

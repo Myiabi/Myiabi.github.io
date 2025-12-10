@@ -259,7 +259,13 @@ function checkAllPlaced(gameId) {
     const btn = document.querySelector(`[data-modal="game${gameId}"]`);
     if (btn) { btn.classList.add("completed"); btn.onclick = null; }
 
-    alert(`🔥 Mesa ${gameId} concluída!`);
+    tocarEfeito("whoosh")
+    mudarCenario(personagens.assistant, 'segunda');
+    mudarCenario(personagens.barman, 'mesaWin');
+    mudarCenario(personagens.assistant, 'mesaWin');
+
+
+
 }
 
 /* ---------- INIT e MODAIS (sem alteração) ---------- */

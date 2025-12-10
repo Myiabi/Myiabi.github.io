@@ -721,6 +721,21 @@ window.startMinigameLogic = function () {
     
   });
 
+  addSunTarget(document.querySelector("#hole"), {
+    action: "hide", // <--- AQUI: "hide" para sumir
+    delayMs: 305, // Tempo do delay
+    soundLoop: "fire", 
+
+    onComplete: function(elemento) {
+      console.log("Gelo derretido! Rodando código extra...");
+      
+      // 1. Ativar variável global
+      window.geloDerreteu = true; 
+      
+  }
+    
+  });
+
   addSunTarget(document.querySelector(".bola-alvo"), {
     action: "swap",
     newImage: "",

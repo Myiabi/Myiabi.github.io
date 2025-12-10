@@ -72,7 +72,9 @@ body {
   height: 30%;
   top:63%;
   left: 85%;
+  pointer-events: auto;
 }
+
 #box {
   position: absolute;
   width: 25%;

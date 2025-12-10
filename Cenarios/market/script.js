@@ -22,7 +22,6 @@ if (window.gameData.visualState.cobraSumiu) cobraEl.classList.add("hidden");
 
 // ---- sistema de clicks ----
 boxEl.addEventListener("pointerdown", (e) => {
-  // Previne comportamentos estranhos no touch
   e.preventDefault(); 
   
   clicks++;
@@ -30,27 +29,15 @@ boxEl.addEventListener("pointerdown", (e) => {
   clickTimer = setTimeout(() => clicks = 0, 1000);
 
   if (clicks >= 7) {
-    // 1. Efeito visual imediato
+    // 1. Efeito visual imediato na Box (já configurado no seu CSS)
     boxEl.classList.add("hidden");
-    
-    // 2. SALVAR NO GLOBAL (Isso ativa o Proxy e o salvarJogo)
-    // O nome da propriedade TEM que bater com o case do switch no script.js
+
+    // 2. ATUALIZAÇÃO ATÔMICA (Tudo de uma vez)
+    // O JS define que "já aconteceu". O CSS que lute pra mostrar o delay.
     window.gameData.visualState.boxSumiu = true; 
+    window.gameData.visualState.kofongoVisivel = true; // Salva JÁ
     
-    setTimeout(() => {
-      
-      // 1. Inicia a animação visual (Fade Out)
-      // Como você já configurou o transition no CSS, isso vai demorar 0.5s
-      cobraEl.style.opacity = "0"; 
-      
-      // 2. Cria um novo tempo de espera EXATAMENTE do tamanho da sua animação (500ms)
-      setTimeout(() => {
-          // Só agora, que o visual terminou, a gente mata o objeto e salva
-          window.gameData.visualState.cobraSumiu = true; 
-          window.gameData.visualState.kofongoVisivel = true; 
-      }, 500); // 500ms = 0.5s do seu CSS
-      
-    }, delayCobra);
+    // FIM. Sem setTimeout, sem risco de perder save.
   }
 });
 

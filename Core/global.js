@@ -61,3 +61,4 @@ document.getElementById("btn-back").addEventListener("pointerdown", (e) => {
     window.location.href = destino;
   }
 });
+

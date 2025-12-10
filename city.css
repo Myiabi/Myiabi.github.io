@@ -251,8 +251,7 @@ filter:
   height: 11%;
   top: 61.5%;     
   left: 36.6%;
-  z-index: 500;
-  display: none;
+  z-index: 400;
 }
 
 #fakehole {
@@ -261,8 +260,7 @@ filter:
   height: 11%;
   top: 61.5%;     
   left: 36.6%;
-  z-index: 500;
-  display: none;
+  z-index: 450;
 
 }
 

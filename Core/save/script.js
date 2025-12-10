@@ -135,6 +135,7 @@ function aplicarMudancaVisual(prop, value) {
         if (value) cobra4.classList.add("hidden");
       }
       break;
+      
     case "luaON":
       if (menu_lua) {
         menu_lua.style.display = value ? "block" : "none";

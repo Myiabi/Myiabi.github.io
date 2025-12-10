@@ -95,6 +95,7 @@
 - Ajeitar pescaria com itens novos e revisar codigo
 - ~~Revisar Wendigo Fight~~
 - Revisar achievments.
+- Cobrinhas não somem de verdade???
 
 
 
