@@ -1,43 +1,56 @@
-/* Overlay que bloqueia tudo atrás */
-.modal-overlay {
+/* Overlay Exclusivo YES/NO */
+.yesno-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Preto com opacidade */
-    display: none; /* Escondido por padrão */
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Fica em cima de tudo */
+    z-index: 99999; /* Bem alto pra garantir */
 }
 
-/* O quadrado do modal */
-.modal-box {
+/* Caixa Exclusiva */
+.yesno-box {
     background: #222;
     color: white;
-    padding: 20px;
+    padding: 25px;
     border: 2px solid #fff;
-    border-radius: 10px;
+    border-radius: 12px;
     text-align: center;
-    width: 300px;
-    max-width: 80%;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    width: 320px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    font-family: sans-serif;
 }
 
-.modal-buttons {
+.yesno-box h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.yesno-buttons {
     display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+    justify-content: space-evenly;
+    gap: 10px;
 }
 
-/* Botões preparados para touch */
-.modal-btn {
-    padding: 10px 20px;
-    font-size: 1.2rem;
+/* Botões Exclusivos */
+.yesno-btn {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-weight: bold;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
-    min-width: 80px;
+    border-radius: 8px;
+    min-width: 100px;
+    transition: transform 0.1s;
 }
 
-.btn-yes { background: #4CAF50; color: white; }
-.btn-no { background: #f44336; color: white; }
+.yesno-btn:active {
+    transform: scale(0.95);
+}
+
+.btn-yes-unique { background: #4CAF50; color: white; }
+.btn-no-unique { background: #f44336; color: white; }

@@ -53,6 +53,8 @@ body {
   height: 30%;
   top: 65%;
   left: 43%;
+  display: none;
+
 }
 #iceBlock {
   position: absolute;
@@ -60,4 +62,6 @@ body {
   height: 45%;
   top: 50%;
   left: 40%;
+  z-index: 500;
+  display: none;
 }

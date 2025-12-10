@@ -1,35 +1,40 @@
-// File: game.js
-// Versão atualizada: Dark HUD, colisões de círculo com partículas, cast rules ajustados,
-// inimigos somem ao game over, velocidades aumentadas.
+if (typeof tsParticles !== "undefined") {
+  tsParticles.load("fire-background", {
+    preset: "fire", fullScreen: { enable: false }, background: { color: "#000000" },
+  });
+}
 
 // ======== CONFIG ========
+// AGORA EM PORCENTAGEM (0 a 100 relativa a tela do jogo)
 const CONFIG = {
-  arenaPadding: 36,
+  arenaPadding: 36, // Padding em pixels ainda é seguro para bordas
   boss: {
-    img: '/assets/img/NPC_Warrior-attack.png',    // troque
-    size: 200,
-    hp: 1000,
-    speed: 0.55,        // px/ms (mais rápido)
+    img: '/assets/img/NPC_Warrior-attack.png',
+    widthPct: 40,      // 40% da largura da tela
+    heightPct: 35,     // 35% da altura da tela
+    hp: 200,
+    speed: 0.55,
     teleportInterval: [1500, 3000],
     castTime: 2500,
-    hitsToCancel: 3,    // boss precisa de 3 cortes para cancelar
-    damageHearts: 1,    // quantos corações perde por cast bem-sucedido
+    hitsToCancel: 3,
+    damageHearts: 1,
     hitDamage: 24
   },
   minion: {
     img: '/assets/img/NPC_Minion.png',
-    size: 150,
-    hp: 250,
+    widthPct: 18,      // 18% da largura da tela
+    heightPct: 18,     // 18% da altura da tela
+    hp: 50,
     speed: 0.44,
     teleportInterval: [2500, 3800],
     castTime: 2400,
-    hitsToCancel: 1,    // minion cancela com 1 golpe
+    hitsToCancel: 1,
     damageHearts: 1,
     hitDamage: 12
   },
   playerHearts: 6,
   sliceMinSpeed: 0.25,
-  trailLifetime: 450,   // rastro maior para detecção de círculo
+  trailLifetime: 450,
   hitCooldown: 280,
   circleDamageMultiplier: 2.6
 };
@@ -42,7 +47,6 @@ const particlesWrap = document.getElementById('particles');
 const bossBarFill = document.getElementById('boss-bar-fill');
 const overlayContainer = document.getElementById('overlay-container');
 const heartsWrap = document.getElementById('hearts');
-const restartBtn = document.getElementById('restart');
 
 // ======== STATE ========
 let state = {
@@ -77,7 +81,14 @@ class Enemy {
   constructor(opts){
     this.id = Math.random().toString(36).slice(2,9);
     this.isMinion = !!opts.isMinion;
-    this.size = opts.size;
+    
+    // Configurações visuais em %
+    this.wPct = opts.widthPct;
+    this.hPct = opts.heightPct;
+    
+    // Calcula pixels reais iniciais
+    this.updateDimensions();
+
     this.hp = opts.hp;
     this.maxHp = opts.hp;
     this.speed = opts.speed;
@@ -101,27 +112,49 @@ class Enemy {
     this.updateCastBound = this.updateCast.bind(this);
   }
 
+  // Recalcula pixels baseado na % e no tamanho atual da tela
+  updateDimensions(){
+    const arenaW = arena.clientWidth;
+    const arenaH = arena.clientHeight;
+    
+    this.wPx = arenaW * (this.wPct / 100);
+    this.hPx = arenaH * (this.hPct / 100);
+    
+    // "Size" vira uma média para a colisão circular funcionar +/- bem
+    this.size = (this.wPx + this.hPx) / 2; 
+
+    // Atualiza visual se o elemento já existir
+    if(this.el){
+      this.el.style.width = this.wPct + '%';
+      this.el.style.height = this.hPct + '%';
+      // Re-aplica posição para garantir que não saiu da tela no resize
+      this.setPos(this.x, this.y, true);
+    }
+  }
+
   createElement(){
     const el = document.createElement('div');
     el.className = 'enemy' + (this.isMinion ? ' minion' : '');
-    el.style.width = this.size + 'px';
-    el.style.height = this.size + 'px';
+    // Aplica % no CSS
+    el.style.width = this.wPct + '%';
+    el.style.height = this.hPct + '%';
+    el.style.position = 'absolute'; // Garante absolute
+    
     el.innerHTML = `
       <div class="hp-small"><div class="fill" style="width:100%"></div></div>
       <div class="cast-bar"><div class="fill"></div></div>
-      <img src="${this.imgSrc}" draggable="false" alt="enemy">
+      <img src="${this.imgSrc}" draggable="false" alt="enemy" style="width:100%; height:100%; object-fit:contain;">
     `;
     enemiesWrap.appendChild(el);
     this.el = el;
     this.hpFill = el.querySelector('.hp-small .fill');
     this.castFill = el.querySelector('.cast-bar .fill');
-    // by design: cast / hp small are hidden until needed (user requested)
   }
 
   spawn(){
     const pad = CONFIG.arenaPadding;
-    const aw = arena.clientWidth - pad*2 - this.size;
-    const ah = arena.clientHeight - pad*2 - this.size;
+    const aw = arena.clientWidth - pad*2 - this.wPx;
+    const ah = arena.clientHeight - pad*2 - this.hPx;
     this.x = pad + Math.random()*aw;
     this.y = pad + Math.random()*ah;
     this.setPos(this.x,this.y,true);
@@ -129,20 +162,23 @@ class Enemy {
   }
 
   setPos(x,y,noTransform){
-    this.x = clamp(x, 0, arena.clientWidth - this.size);
-    this.y = clamp(y, 0, arena.clientHeight - this.size);
+    // Clamp usando largura/altura em pixels atuais
+    this.x = clamp(x, 0, arena.clientWidth - this.wPx);
+    this.y = clamp(y, 0, arena.clientHeight - this.hPx);
+    
     this.el.style.left = this.x + 'px';
     this.el.style.top  = this.y + 'px';
+    
     if(!noTransform){
-      const rot = (Math.random()-0.5)*16;
+      const rot = (Math.random()-0.5)*10; // Reduzi a rotação pra não bugar layouts retangulares
       this.el.style.transform = `rotate(${rot}deg)`;
     }
   }
 
   pickTarget(){
     const pad = CONFIG.arenaPadding;
-    const aw = arena.clientWidth - pad*2 - this.size;
-    const ah = arena.clientHeight - pad*2 - this.size;
+    const aw = arena.clientWidth - pad*2 - this.wPx;
+    const ah = arena.clientHeight - pad*2 - this.hPx;
     this.targetX = pad + Math.random()*aw;
     this.targetY = pad + Math.random()*ah;
   }
@@ -153,8 +189,8 @@ class Enemy {
     this.teleportTimeout = setTimeout(()=>{
       if(!this.active || !state.running || this.hidden){ this.scheduleTeleport(); return; }
       const pad = CONFIG.arenaPadding;
-      const aw = arena.clientWidth - pad*2 - this.size;
-      const ah = arena.clientHeight - pad*2 - this.size;
+      const aw = arena.clientWidth - pad*2 - this.wPx;
+      const ah = arena.clientHeight - pad*2 - this.hPx;
       const tx = pad + Math.random()*aw;
       const ty = pad + Math.random()*ah;
       this.setPos(tx,ty);
@@ -176,7 +212,6 @@ class Enemy {
     this.casting = true;
     this.hitsDuringCast = 0;
     this.castStartAt = now();
-    // reveal cast bar while casting
     this.el.querySelector('.cast-bar').style.display = 'block';
     this.updateCast();
   }
@@ -194,23 +229,30 @@ class Enemy {
   }
 
   finishCast(){
-    // hide cast bar
     this.casting = false;
     this.castFill.style.width = '0%';
     this.el.querySelector('.cast-bar').style.display = 'none';
     this.scheduleCast();
+    
     if(this.hitsDuringCast >= this.hitsToCancel){
-      // cancelled
       this.flash('cancel');
     } else {
-      // hit player hearts
+      // ======== ATAQUE COMPLETO (DANO) ========
       damagePlayerHearts(this.damageHearts);
       this.flash('cast');
+
+      // 🔊 ADICIONE O SOM DE ATAQUE AQUI
+      if(this.isMinion) {
+         // Exemplo: new Audio('assets/sfx/minion-attack.mp3').play();
+         console.log("🔊 Som Minion Atacou");
+      } else {
+         // Exemplo: new Audio('assets/sfx/boss-attack.mp3').play();
+         console.log("🔊 Som Boss Atacou");
+      }
     }
   }
 
   cancelCastByHitImmediate(){
-    // for minions or boss circle
     if(!this.casting) return;
     this.casting = false;
     cancelAnimationFrame(this.castTimer);
@@ -243,13 +285,10 @@ class Enemy {
     this.el.classList.add('hit');
     setTimeout(()=> this.el.classList.remove('hit'), 140);
 
-    // cast cancel logic:
     if(this.casting){
       if(this.isMinion){
-        // minion loses concentration with 1 hit
         this.cancelCastByHitImmediate();
       } else {
-        // boss: circle cancels immediately, cuts increment counters
         if(opts.circle){
           this.cancelCastByHitImmediate();
         } else {
@@ -270,7 +309,6 @@ class Enemy {
     clearTimeout(this.teleportTimeout);
     clearTimeout(this.castScheduleTimeout);
     cancelAnimationFrame(this.castTimer);
-    // remove visually
     this.el.animate([{opacity:1, transform:'scale(1)'},{opacity:0, transform:'scale(0.6)'}], {duration:300, easing:'ease', fill:'forwards'});
     setTimeout(()=> {
       try{ enemiesWrap.removeChild(this.el); } catch(e){}
@@ -305,7 +343,8 @@ function spawnEnemy(isMinion=false){
   const cfg = isMinion ? CONFIG.minion : CONFIG.boss;
   const e = new Enemy({
     isMinion,
-    size: cfg.size,
+    widthPct: cfg.widthPct,   // Passando %
+    heightPct: cfg.heightPct, // Passando %
     hp: cfg.hp,
     speed: cfg.speed,
     teleportInterval: cfg.teleportInterval,
@@ -340,7 +379,6 @@ function damagePlayerHearts(n){
     if(heart) heart.classList.add('lost');
     state.playerHearts--;
   }
-  // heart shake effect
   heartsWrap.style.animation = 'heart-shake 420ms ease';
   setTimeout(()=> heartsWrap.style.animation = '', 440);
   if(state.playerHearts <= 0) {
@@ -401,7 +439,6 @@ function createTrail(x,y){
   path.setAttribute('id', id);
   trailsSvg.appendChild(path);
   state.currentTrail = {el:path, points:[{x,y,t:now()}]};
-  // auto finish later if user holds
   setTimeout(()=> {
     if(state.currentTrail && state.currentTrail.el === path) finishTrailAndEvaluateCircle();
   }, CONFIG.trailLifetime);
@@ -432,14 +469,16 @@ function finishTrail(){
 function checkSliceHit(x1,y1,x2,y2, radius){
   for(const e of state.enemies.slice()){
     if(!e.active || e.hidden || e.hp<=0) continue;
-    const cx = e.x + e.size/2, cy = e.y + e.size/2;
-    const r = e.size/2 * 0.9;
+    // Pega o centro baseado no tamanho atual (pixels)
+    const cx = e.x + e.wPx/2; 
+    const cy = e.y + e.hPx/2;
+    // Raio de colisão = metade do menor lado ou média
+    const r = (Math.min(e.wPx, e.hPx)/2) * 0.9;
+    
     const d = distPointToSegment(cx,cy, x1,y1,x2,y2);
     if(d <= r + radius*0.4){
-      // normal cut
       const applied = e.takeHit(e.hitDamage, {circle:false});
       if(applied){
-        // slight knockback
         e.targetX += (cx - x2) * 0.12;
         e.targetY += (cy - y2) * 0.12;
         updateBossBar();
@@ -447,40 +486,38 @@ function checkSliceHit(x1,y1,x2,y2, radius){
       }
     }
   }
-  // cleanup dead
   state.enemies = state.enemies.filter(en => en.hp > 0 && en.active);
 }
 
-// Evaluate circle (coverage) on trail finish
+// Evaluate circle
 function finishTrailAndEvaluateCircle(){
   if(!state.currentTrail) { finishTrail(); return; }
   const pts = state.currentTrail.points.slice();
   for(const e of state.enemies.slice()){
     if(!e.active || e.hidden || e.hp<=0) continue;
-    const cx = e.x + e.size/2, cy = e.y + e.size/2;
+    const cx = e.x + e.wPx/2; 
+    const cy = e.y + e.hPx/2;
     const angles = [];
     for(const p of pts){
       const dx = p.x - cx, dy = p.y - cy;
       const dist = Math.hypot(dx,dy);
-      // ignore points too close to center (stroke crossing center)
-      if(dist < Math.max(e.size*0.45, 20)) continue;
+      // Ajuste na detecção de proximidade com base no tamanho atual
+      const minSize = Math.min(e.wPx, e.hPx);
+      if(dist < Math.max(minSize*0.45, 20)) continue;
       angles.push(Math.atan2(dy,dx));
     }
     if(angles.length < 6) continue;
     angles.sort((a,b)=>a-b);
-    // max gap
     let maxGap = 0;
     for(let i=0;i<angles.length-1;i++) maxGap = Math.max(maxGap, angles[i+1]-angles[i]);
     const wrapGap = (angles[0] + Math.PI*2) - angles[angles.length-1];
     maxGap = Math.max(maxGap, wrapGap);
     const coverage = Math.PI*2 - maxGap;
-    if(coverage >= Math.PI){ // >= 180deg -> consider circle
+    if(coverage >= Math.PI){ 
       const dmg = Math.round(e.hitDamage * CONFIG.circleDamageMultiplier);
       const applied = e.takeHit(dmg, {circle:true});
       if(applied){
-        // particles + feedback
         spawnParticlesAt(cx, cy, Math.min(18, Math.round(12 + dmg/4)));
-        // boss special: if boss was hidden (during 65% phase), circle still affects (optional)
         updateBossBar();
         runTriggersAfterDamage();
       }
@@ -488,11 +525,10 @@ function finishTrailAndEvaluateCircle(){
   }
   finishTrail();
   state.currentTrail = null;
-  // cleanup dead
   state.enemies = state.enemies.filter(en => en.hp > 0 && en.active);
 }
 
-// ======== Particles for circle hits ========
+// ======== Particles ========
 function spawnParticlesAt(x,y,count){
   for(let i=0;i<count;i++){
     const p = document.createElement('div');
@@ -515,14 +551,12 @@ function spawnParticlesAt(x,y,count){
 function runTriggersAfterDamage(){
   const boss = state.enemies.find(e => !e.isMinion && e.active);
   if(!boss) return;
-  // 65%: hide boss and spawn 4 minions (once)
   if(!state.triggers.spawnedAt65 && boss.hp <= boss.maxHp * 0.65){
     state.triggers.spawnedAt65 = true;
     for(let i=0;i<4;i++) spawnEnemy(true);
     boss.hide();
     monitorMinionsForReveal(boss);
   }
-  // 30%: spawn 4 minions but boss stays
   if(!state.triggers.spawnedAt30 && boss.hp <= boss.maxHp * 0.30){
     state.triggers.spawnedAt30 = true;
     for(let i=0;i<5;i++) spawnEnemy(true);
@@ -556,7 +590,6 @@ function frame(){
 // ======== Game Over & reset ========
 function gameOver(){
   state.running = false;
-  // fade out enemies and clear
   state.enemies.forEach(e=>{
     e.active = false;
     clearTimeout(e.teleportTimeout);
@@ -564,19 +597,19 @@ function gameOver(){
     cancelAnimationFrame(e.castTimer);
     if(e.el) e.el.animate([{opacity:1},{opacity:0}], {duration:400, fill:'forwards'});
   });
-  // clear state.enemies after small timeout
   setTimeout(()=> {
     try{ enemiesWrap.innerHTML = ''; } catch(_) {}
     state.enemies = [];
   }, 420);
 
-  // overlay message
   overlayContainer.innerHTML = '';
   const msg = document.createElement('div');
-  restartBtn.style.display = 'block';
-  msg.className = 'overlay-msg';
-  msg.textContent = 'Você morreu — Reinicie para jogar novamente';
+  msg.textContent = 'Você foi derrotad!';
   overlayContainer.appendChild(msg);
+
+  setTimeout(() => {
+    window.location.replace("/cenarios/cave/index.html");
+  }, 5000);
 
 }
 
@@ -585,12 +618,9 @@ function clearOverlay(){
 }
 
 function resetGame(){
-  // clear overlay and particles
   clearOverlay();
   particlesWrap.innerHTML = '';
-  // clear trails
   try{ trailsSvg.innerHTML = ''; } catch(_){}
-  // cleanup enemies
   state.enemies.forEach(e=>{
     clearTimeout(e.teleportTimeout);
     clearTimeout(e.castScheduleTimeout);
@@ -598,20 +628,16 @@ function resetGame(){
     try{ enemiesWrap.removeChild(e.el); } catch(_) {}
   });
   state.enemies = [];
-  // reset state
   state.running = true;
   state.playerHearts = CONFIG.playerHearts;
   state.triggers = { spawnedAt65:false, spawnedAt30:false };
   state.currentTrail = null;
   state.lastFrame = now();
-  // rebuild hearts UI
   buildHeartsUI();
-  // spawn boss
   spawnEnemy(false);
   requestAnimationFrame(frame);
 }
 
-// ======== Hearts UI ========
 function buildHeartsUI(){
   heartsWrap.innerHTML = '';
   for(let i=0;i<CONFIG.playerHearts;i++){
@@ -622,33 +648,18 @@ function buildHeartsUI(){
   }
 }
 
-// ======== Init & events ========
-function init(){
-  // pointer
-  arena.addEventListener('pointerdown', (e)=> { arena.setPointerCapture(e.pointerId); startPointer(e); });
-  window.addEventListener('pointermove', (e)=> movePointer(e));
-  window.addEventListener('pointerup', (e)=> endPointer(e));
-  arena.addEventListener('contextmenu', e=> e.preventDefault());
-  window.addEventListener('resize', ()=> {
-    state.enemies.forEach(e=> e.setPos(e.x,e.y,true));
-  });
-  restartBtn.addEventListener('click', ()=> resetGame());
-  buildHeartsUI();
-  resetGame();
-}
-
-
 // ======== Boss Defeat / Victory Logic ========
-
-// Função chamada automaticamente quando o boss morre
 function onBossDefeated() {
-console.log("✅ Boss derrotado — adicione aqui sua lógica pós-vitória.");
-unlockAchievement('itemMoeda');
-  // Exemplo: tocar som, mostrar botão, mudar tela, etc.
-  // Ex: window.location.href = '/next-level.html';
+  console.log("✅ Boss derrotado");
+  unlockAchievement('itemMoeda');
+  gameData.visualState.minigame4 = true;
+  window.location.replace("/cenarios/cave/index.html");
+  gameData.visualState.solON = true
+
+  // 🔊 ADICIONE SOM DE VITÓRIA AQUI
+  // new Audio('assets/sfx/victory.mp3').play();
 }
 
-// Hooka a morte do boss
 const originalDie = Enemy.prototype.die;
 Enemy.prototype.die = function() {
   const wasBoss = !this.isMinion;
@@ -660,16 +671,12 @@ Enemy.prototype.die = function() {
 
 function handleBossDefeat() {
   state.running = false;
-
-  // Mata todos os minions instantaneamente
   state.enemies.forEach(e => {
     if (e.isMinion) {
       e.active = false;
       e.canDamage = false;
       e.casting = false;
       e.hp = 0;
-
-      // Remove do DOM imediatamente
       if (e.el && e.el.parentNode) {
         e.el.style.transition = "opacity 0.3s ease";
         e.el.style.opacity = "0";
@@ -679,22 +686,31 @@ function handleBossDefeat() {
       }
     }
   });
-
-  // Remove da lista global
   state.enemies = state.enemies.filter(e => !e.isMinion);
-
-  // Mostra mensagem de vitória
+  
   overlayContainer.innerHTML = '';
   const msg = document.createElement('div');
   msg.className = 'overlay-msg';
   msg.textContent = 'Você venceu!';
   overlayContainer.appendChild(msg);
-
-  // Chama hook customizável
+  
   onBossDefeated();
 }
 
-
-
+// ======== Init & events ========
+function init(){
+  arena.addEventListener('pointerdown', (e)=> { arena.setPointerCapture(e.pointerId); startPointer(e); });
+  window.addEventListener('pointermove', (e)=> movePointer(e));
+  window.addEventListener('pointerup', (e)=> endPointer(e));
+  arena.addEventListener('contextmenu', e=> e.preventDefault());
+  
+  // Resize agora recalcula os pixels dos inimigos
+  window.addEventListener('resize', ()=> {
+    state.enemies.forEach(e=> e.updateDimensions());
+  });
+  
+  buildHeartsUI();
+  resetGame();
+}
 
 init();

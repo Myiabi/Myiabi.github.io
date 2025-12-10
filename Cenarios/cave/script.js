@@ -385,3 +385,6 @@ window.randomizeCharacter = randomizeCharacter;
 window.downloadCharacter = downloadCharacter;
 window.closeConfirmBox = closeConfirmBox;
 window.finalizeAndDownload = finalizeAndDownload;
+
+
+

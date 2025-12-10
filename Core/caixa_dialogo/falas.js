@@ -238,6 +238,8 @@ window.personagens = {
           texto:
             "Até os postes de fogo não se aguentam mais acesos, qualquer fogo normal apaga no primeiro vento.",
           expressao: "normal",
+          
+
         },
       ],
       segunda: [
@@ -604,25 +606,39 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Ahhh! Estamos abrindo a loja, mas as melhores mercadorias estão nessa baú protegido com um cadeado de runas!!!",
+            "Você não é permitido aqui! Saia!",
           expressao: "normal",
         },
         {
           texto:
-            "Pra piorar as coisas, eu deixei meus óculos cairem dentro do baú e fechei o cadeado, agora não enxergo mais nada!",
+            "O Guardião do Sol não precisa de pessoas fracas! Sou eu quem vai proteger essas terras!",
           expressao: "normal",
         },
         {
           texto:
-            "Eu tenho certeza que eu anotei a senha no computador da loja, mas por mais que eu olhe não enxergo nada!!!",
+            "Não diga que eu não avisei! Lute comigo!",
           expressao: "normal",
+
+           texto:
+            "[Foque a 'Lupa' no guardião da Lua invisível para impedir que ele cresça, se ele crescer ao máximo você perderá. Aguente o tempo suficiente para acalma-lo.]",
+          aofechar: function () {
+            ConfirmModal.ask("Fight?", () => {
+              window.location.href = "/scripts/wendigo_fight/index.html";
+              console.log("O usuário aceitou!");
+            });
+          },
+          
         },
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Você me venceu.... talvez se for você... você consiga impedir ele...", expressao: "normal" },
         {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
+          texto: "O guardião do sol quer ir com você, eu estava pensando em fazer um exercíto para proteger essas terras, mas talvez você seja a melhor escolha.",
+          expressao: "normal",
+        },
+        {
+          texto: "Vou apostar minhas fichas em você. Por favor... vença!",
+          expressao: "normal",
         },
       ],
     },

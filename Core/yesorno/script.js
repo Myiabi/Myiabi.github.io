@@ -1,57 +1,61 @@
 const ConfirmModal = {
-    // 1. Cria o HTML e injeta na página (roda sozinho ao iniciar)
-    init() {
-        if (document.querySelector('.modal-overlay')) return; // Já existe? Para.
+    // 1. Cria o HTML com nomes ÚNICOS
+    _ensureModalExists() {
+        // IDs novos para não conflitar
+        const existingOverlay = document.getElementById('yesnoModal');
+        const existingText = document.getElementById('yesnoText');
 
+        // Auto-reparo: se achar algo velho ou quebrado com esse ID, remove
+        if (existingOverlay && !existingText) {
+            existingOverlay.remove();
+        }
+
+        if (document.getElementById('yesnoModal')) return;
+
+        // HTML com classes e IDs exclusivos 'yesno-'
         const html = `
-            <div class="modal-overlay" id="customModal">
-                <div class="modal-box">
-                    <h3 id="modalText">Tem certeza?</h3>
-                    <div class="modal-buttons">
-                        <button class="modal-btn btn-yes" id="btnYes">YES</button>
-                        <button class="modal-btn btn-no" id="btnNo">NO</button>
+            <div class="yesno-overlay" id="yesnoModal">
+                <div class="yesno-box">
+                    <h3 id="yesnoText">Confirma?</h3>
+                    <div class="yesno-buttons">
+                        <button class="yesno-btn btn-yes-unique" id="yesnoBtnYes">YES</button>
+                        <button class="yesno-btn btn-no-unique" id="yesnoBtnNo">NO</button>
                     </div>
                 </div>
             </div>
         `;
         document.body.insertAdjacentHTML('beforeend', html);
         
-        // Evento pra fechar no NÃO
-        document.getElementById('btnNo').addEventListener('click', () => {
+        // Configura o botão NO
+        document.getElementById('yesnoBtnNo').addEventListener('click', () => {
             this.close();
         });
     },
 
-    // 2. Função para abrir o modal
-    // texto: A pergunta que vai aparecer
-    // acaoConfirmar: A FUNÇÃO que vai rodar se der YES
     ask(texto, acaoConfirmar) {
-        const modal = document.getElementById('customModal');
-        const titulo = document.getElementById('modalText');
-        const btnYes = document.getElementById('btnYes');
+        this._ensureModalExists();
 
-        // Atualiza o texto
+        // Busca pelos IDs novos
+        const modal = document.getElementById('yesnoModal');
+        const titulo = document.getElementById('yesnoText');
+        const btnYes = document.getElementById('yesnoBtnYes');
+
         titulo.innerText = texto;
 
-        // Limpa eventos anteriores do botão YES (para não acumular funções velhas)
+        // Truque do cloneNode para limpar eventos antigos
         const novoBtnYes = btnYes.cloneNode(true);
         btnYes.parentNode.replaceChild(novoBtnYes, btnYes);
 
-        // Adiciona a nova função ao clicar YES
         novoBtnYes.addEventListener('click', () => {
-            acaoConfirmar(); // Executa o que você pediu
-            this.close();    // Fecha o modal
+            this.close();
+            acaoConfirmar();
         });
 
-        // Mostra o modal
         modal.style.display = 'flex';
     },
 
-    // 3. Fecha o modal
     close() {
-        document.getElementById('customModal').style.display = 'none';
+        const modal = document.getElementById('yesnoModal');
+        if (modal) modal.style.display = 'none';
     }
 };
-
-// Inicializa a estrutura assim que o script carregar
-ConfirmModal.init();

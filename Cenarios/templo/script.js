@@ -189,6 +189,7 @@ function checkOrder() {
     // O seu sistema externo (proxy/save) deve detectar o estado ou ouvir eventos.
     isSolved = true;
     gameData.visualState.minigame2 = true;
+    gameData.visualState.wendigoAparece = true;
     disablePuzzle();
     setTimeout(closeModal, 500); 
   }

@@ -163,10 +163,17 @@ function aplicarMudancaVisual(prop, value) {
         if (window.personagens) {
             if (personagens.aiko) mudarCenario(personagens.aiko, 'estatuaWon');
             if (personagens.nodata) mudarCenario(personagens.nodata, 'segunda');
+            // O Wayway não precisa pois ele é de outro mapa
         }
       }
-      break;
+    case "minigame4":
       
+        if (window.personagens) {
+            if (personagens.wendigo) mudarCenario(personagens.wendigo, 'segunda');
+            if (personagens.lily) mudarCenario(personagens.lily, 'jardim');
+        
+      }
+      break;
       case "estatuasON":
       if (estatua) {
         estatua.style.pointerEvents = value ? "auto" : "none";

@@ -4,9 +4,9 @@ const scripts = [
   
   "/core/save/script.js",
   "/core/global.js",
+  "/core/yesorno/script.js",
   "/core/menu_interativo/script.js",
   "/core/caixa_dialogo/falas.js",
-  "/core/yesorno/script.js",
   "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",
@@ -191,7 +191,7 @@ const BLOCK_MAP = {
 (function () {
   function injectButton() {
     const btn = document.createElement("button");
-    btn.textContent = "RESET TOTAL"; // Botei texto pra você ver o botão
+    btn.textContent = ""; // Botei texto pra você ver o botão
 
     btn.onclick = () => {
       // 1. Limpa o passado (Tatuagens e Pulseiras velhas)
