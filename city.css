@@ -64,7 +64,7 @@ filter:
   left: 60%;
 }
 
-#kofongoon {
+#kofongo {
   width: 4%;
   top: 55%;
   left: 50%;
@@ -141,8 +141,25 @@ filter:
   top: 45%;
   left: 20%;
   object-fit: contain;
+  display: none;
 
 }
+
+#ghost {
+  position: absolute;
+  width: 20%;
+  height: 30%;
+  top: 36.6%;
+  left:12.5%;
+}
+
+#mintghost {
+  width: 25%;
+  height:40%;
+  align-items: center;
+
+}
+
 
 #lily {
   width: 5%;

@@ -4,32 +4,42 @@
   const root = document.getElementById('fishing-root');
   const rodButton = document.getElementById('rodButton');
 
-  // --- CONFIGURAÇÃO DOS ITENS ---
+  // --- 🛠️ CONFIG DE DEBUG ---
+  const DEBUG_CONFIG = {
+    forceLegendary: false,
+    forceUnique: false,
+    maxSize: 3000 // 3 metros
+  };
+
   const ESPECIES = [
-    // Comuns
     { nome: 'Catfish', raridadeBase: 'comum', img: 'img/catfish.png' },
     { nome: 'Carp', raridadeBase: 'comum', img: 'img/carp.png' },
     { nome: 'Rainbow Trout', raridadeBase: 'comum', img: 'img/trout.png' },
     { nome: 'Pond Smelt', raridadeBase: 'comum', img: 'img/smelt.png' },
-    
-    // Especiais
     { nome: 'Legendary Fish', raridadeBase: 'lendario', img: 'img/legendary.png' },
     { nome: 'Star Hair Clip', raridadeBase: 'unico', img: 'img/star_clip.png', isUnique: true }
   ];
 
   let sessionActive = false;
+  // Variável Global para você usar fácil depois
+  window.RECORDE_ATUAL_PESO = 0; 
+
   const randInt = (a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 
   // --- LÓGICA DE DROP ---
   function pickPeixeBase(){
+    if(DEBUG_CONFIG.forceUnique) return ESPECIES.find(e => e.nome === 'Star Hair Clip');
+    if(DEBUG_CONFIG.forceLegendary) return ESPECIES.find(e => e.nome === 'Legendary Fish');
+
     const r = Math.random(); 
     
+    // Tenta ler do save global se já pegou a presilha
     const gameData = window.gameData;
     const jaPegouClip = gameData && gameData.fishing && gameData.fishing.uniqueItems['Star Hair Clip'];
 
     // 1. Chance do Item Único (5%)
-    if(r > 0.95){
-      if(!jaPegouClip) return ESPECIES.find(e => e.nome === 'Star Hair Clip');
+    if(r > 0.95 && !jaPegouClip){
+      return ESPECIES.find(e => e.nome === 'Star Hair Clip');
     }
 
     // 2. Chance do Lendário (5%)
@@ -46,18 +56,30 @@
     const base = pickPeixeBase();
     let size = null;
 
-    // Gera tamanho apenas se não for Presilha e não for o peixe lixo
-    if(base.raridadeBase !== 'unico' && base.nome !== 'Pond Smelt'){
-      size = randInt(10, 2000);
+    // SÓ a presilha não tem tamanho. O resto (inclusive o Pond Smelt) agora tem.
+    if(base.raridadeBase !== 'unico'){
       
-      const chance = size / 2000; 
-      if(chance > Math.random()){
-        const s2 = randInt(10, Math.min(size, 500));
-        size = s2; 
+      // Se for o peixinho pequeno (Pond Smelt)
+      if(base.nome === 'Pond Smelt') {
+          size = randInt(5, 25); // 5cm a 25cm
+      } 
+      // Se for Lendário (Sempre Monstro)
+      else if(base.raridadeBase === 'lendario') {
+         size = randInt(2500, DEBUG_CONFIG.maxSize);
+      } 
+      // Peixes Normais (Catfish, Carp, Trout) - Usa Tiers
+      else {
+         const roll = Math.random();
+         if(roll < 0.60) {
+            size = randInt(30, 1000);   // Pequeno/Médio
+         } else if (roll < 0.85) {
+            size = randInt(1001, 2000); // Grande
+         } else if (roll < 0.95) {
+            size = randInt(2001, 2800); // Gigante
+         } else {
+            size = randInt(2801, DEBUG_CONFIG.maxSize); // Monstro
+         }
       }
-      
-      // Lendário é sempre gigante
-      if(base.raridadeBase === 'lendario') size = randInt(1500, 3000);
     }
     
     return { ...base, size };
@@ -74,7 +96,6 @@
     p.style.opacity="0";
     p.style.transform="translate(-50%, -20px) scale(0.8)"; 
     
-    // Monta o HTML do popup
     p.innerHTML = `
       <img src="${peixe.img}" style="width:45px;height:45px;border-radius:6px; object-fit:contain;">
       <div>
@@ -159,19 +180,11 @@
         if(ok){
             let isRecord = false;
 
-            // --- [NOVO] CHECAGEM DE ITENS ESPECIAIS ---
-            if(peixe.isUnique) {
-               console.log("PEGOU PRESILHA!"); 
-               // gameData.minhasCoisas.presilha = true;
-            }
+            // --- CHECAGEM DE ESPECIAIS (Console) ---
+            if(peixe.isUnique) console.log("PEGOU PRESILHA!"); 
+            if(peixe.raridadeBase === 'lendario') console.log("PEGOU LENDÁRIO!");
 
-            if(peixe.raridadeBase === 'lendario') {
-               console.log("PEGOU LENDÁRIO!");
-               // gameData.minhasCoisas.peixeLendario = true;
-            }
-            // ------------------------------------------
-
-
+            // --- SAVE NO GAME DATA ---
             if(window.gameData && window.gameData.fishing){
                 const gd = window.gameData.fishing;
 
@@ -183,23 +196,28 @@
                 };
                 gd.inventory = [...gd.inventory, novoPeixe];
 
-                if(peixe.isUnique){
-                    gd.uniqueItems['Star Hair Clip'] = true;
-                }
+                if(peixe.isUnique) gd.uniqueItems['Star Hair Clip'] = true;
 
                 if(gd.stats) {
                     gd.stats.totalCatches++;
                     if(peixe.raridadeBase === 'lendario') gd.stats.legendaryCount++;
                 }
 
-                // --- [CORRIGIDO] LÓGICA DO MAIOR PEIXE ---
-                // Só conta recorde se tiver tamanho E NÃO FOR LENDÁRIO
+                // --- LÓGICA DO MAIOR PEIXE (Agora todos tem tamanho, menos presilha) ---
+                // Regra: Lendário NÃO conta pro recorde
                 if(peixe.size !== null && peixe.raridadeBase !== 'lendario'){
                     if(!gd.biggestFish) gd.biggestFish = { size: 0, name: "None" };
-
+                    
                     if(peixe.size > gd.biggestFish.size){
                         gd.biggestFish = { name: peixe.nome, size: peixe.size };
+                        
+                        // Atualiza a variável global simples que você pediu
+                        window.RECORDE_ATUAL_PESO = peixe.size; 
+                        
                         isRecord = true;
+                    } else {
+                        // Se não bateu o recorde, garante que a variavel global tenha o valor atual do save
+                        window.RECORDE_ATUAL_PESO = gd.biggestFish.size;
                     }
                 }
             }
@@ -220,23 +238,29 @@
     }
   }
 
-  // --- MECÂNICA (Tap, Hold, Spin) ---
+  // --- MECÂNICA DE DIFICULDADE (Justa e Proporcional) ---
   function runPhases(area, label, peixe){
     return new Promise((resolve)=>{
 
+      // Calcula dificuldade (0.1 a 1.0)
       const size = peixe.size ?? 100;
-      let difficulty = Math.max(0.1, size / 2000);
+      let sizeFactor = size / DEBUG_CONFIG.maxSize; 
+      sizeFactor = Math.max(0.1, sizeFactor);
 
-      if(peixe.raridadeBase === 'lendario') difficulty = 2.5;
-      if(peixe.raridadeBase === 'unico') difficulty = 2.0;
+      if(peixe.raridadeBase === 'unico') sizeFactor = 0.7; // Item único é "difícil" fixo
 
       const PHASES=['tap','hold','spin'];
       let cur=0;
 
-      const tapTarget = Math.floor(4 + 12 * difficulty);
-      const holdTargetSec = Math.floor(2 + 5 * difficulty);
-      const spinTargetDeg = Math.floor(720 + 3000 * difficulty);
-      const phaseLimit = 6000;
+      // Metas
+      const tapTarget = Math.floor(4 + (20 * sizeFactor));
+      const holdTargetSec = Math.floor(2 + (6 * sizeFactor));
+      const spinTargetDeg = Math.floor(360 + (1800 * sizeFactor));
+      
+      // Tempo Limite: Escala junto com a dificuldade
+      // 5s base + até 5s extras. Peixe grande = mais tempo pra clicar.
+      // Se for lento, o tempo acaba e perde (fail condition).
+      const phaseLimit = 5000 + (5000 * sizeFactor);
 
       let tapCount = 0;
       let holdAccum = 0;
@@ -286,18 +310,15 @@
         if(diff > 180) diff -= 360;
         if(diff < -180) diff += 360;
 
+        // Se girar errado (negativo), diminui o progresso
+        // Combinado com o tempo limite, isso faz o jogador perder
         spinAccum += diff;
         
-        // --- [NOVO] SOM DO GIRO AQUI ---
-        // Se girou mais que 5 graus (pra evitar tocar parado)
         if(Math.abs(diff) > 5) {
-             // Como esse evento dispara MUITO rápido, cuidado.
-             // O ideal é tocar um som curto tipo 'catraca'.
              if(typeof tocarEfeito === 'function') {
                  // tocarEfeito(); 
              }
         }
-        // -------------------------------
         
         lastAngle = angle;
       });
@@ -356,6 +377,8 @@
             if(currentSpin >= spinTargetDeg) return nextPhase();
           }
 
+          // CONDIÇÃO DE DERROTA
+          // Se o tempo acabar antes de completar a meta
           if(phaseElapsed >= phaseLimit){
             return fail();
           }

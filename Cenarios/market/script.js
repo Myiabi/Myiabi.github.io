@@ -35,8 +35,8 @@ boxEl.addEventListener("pointerdown", (e) => {
     // 2. ATUALIZAÇÃO ATÔMICA (Tudo de uma vez)
     // O JS define que "já aconteceu". O CSS que lute pra mostrar o delay.
     window.gameData.visualState.boxSumiu = true; 
-    window.gameData.visualState.kofongoVisivel = true; // Salva JÁ
-    
+/*     window.gameData.visualState.kofongoVisivel = true; // Salva JÁ
+ */    
     // FIM. Sem setTimeout, sem risco de perder save.
   }
 });

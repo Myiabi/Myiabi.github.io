@@ -182,10 +182,7 @@ body {
     
     /* Configuração do Puzzle */
     z-index: 100;         /* Garante que está na frente de tudo */
-    touch-action: none;   /* Importante pro mobile não tentar dar scroll */
-    user-select: none;    /* Não deixa selecionar como texto */
     pointer-events: none; /* Impede clicar nela depois que sumir */
-
 
 }
 

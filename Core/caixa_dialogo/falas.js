@@ -296,14 +296,15 @@ window.personagens = {
     },
     falas: {
       inicio: [
+        { texto: "Fui revelado! Mas... Não era como que eu estivesse me escondendo.", expressao: "normal" },
+        { texto: "Eu juro", expressao: "normal" },
+      ],
+      revelado: [
         {
           texto:
             "Todos ficam reclamando sobre o quão está frio. Já eu saio de casa todos os dias, eu não sinto nada mesmo.",
           expressao: "normal",
         },
-      ],
-      depoisDoTreinamento: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
       ],
     },
   },
@@ -533,6 +534,10 @@ window.personagens = {
         {
           texto:
             "Couldn't resist the sweet scent of the food here! Everything seems so yummy!♥",
+            aofechar: function () {
+            gameData.visualState.capellaVisivel = true;
+            gameData.npcApareceu = "sumiu";
+          },
         },
       ],
     },
@@ -607,6 +612,33 @@ window.personagens = {
     },
   },
 
+  cobra4: {
+    nome: "kofongo",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        {
+          texto:
+            "Tehee~ Você me achou.",
+        },
+        {
+          texto:
+            "Minha cauda coçou e não consegui ficar imovél. heh",
+            aofechar: function () {
+            gameData.visualState.kofongoVisivel = true;
+          },
+        },
+      ],
+    },
+  },
+
+
+   // CAVE // 
   wendigo: {
     nome: "Wendigo Warrior",
     lado: "Esquerdo",
@@ -655,7 +687,31 @@ window.personagens = {
       ],
     },
   },
+
+  cobra1: {
+    nome: "Pollux",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        {
+          texto:
+            "I want mom and dad!!",
+            aofechar: function () {
+            
+          },
+        },
+      ],
+    },
+  },
+  
 };
+
+
 
 //city//
 // O símbolo '?' abaixo faz o código ignorar o elemento se ele não existir na página atual.
@@ -712,8 +768,25 @@ document.getElementById("felicia2")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.felicia2);
 });
 
+// Cobrinhas // 
+
+document.getElementById("cobra1")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.cobra1);
+});
+document.getElementById("cobra2")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.cobra2);
+});
+document.getElementById("cobra3")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.cobra3);
+});
+document.getElementById("cobra4")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.cobra4);
+});
 document.getElementById("cobra5")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.cobra5);
+});
+document.getElementById("cobra6")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.cobra6);
 });
 
 // templo //

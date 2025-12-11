@@ -48,7 +48,11 @@ const defaultData = {
   itensJardim: {},
   customCharacter: null, // Onde o JSON do boneco final será salvo
   unlockedAchievements: {},
+
+
+  npcApareceu: false,
 };
+
 
 const SAVE_KEY = "meuSaveDoJogo";
 
@@ -94,16 +98,23 @@ function apagarSave() {
 function aplicarMudancaVisual(prop, value) {
   
   // --- ELEMENTOS GERAIS (Jardim/Menu) ---
-  const rigelon = document.getElementById("rigelon");
-  const kofongoon = document.getElementById("kofongoon");
-  const cobra4 = document.getElementById("cobra4"); 
-  const box = document.getElementById("box");
   const menu_lua = document.getElementById("item-lupa");
   const menu_sol = document.getElementById("item-fogo");
   const container = document.getElementById("menu-secundario");
   const cadeadoOFF = document.getElementById("locker");
   const myopic = document.getElementById("myopic");
   const estatua = document.getElementById("btn-open");
+  
+  // --- COBRINHAS ---- ///
+  const cobra4 = document.getElementById("cobra4"); 
+  const cobra5 = document.getElementById("cobra5"); 
+  const box = document.getElementById("box");
+  const rigelon = document.getElementById("rigelon");
+  const kofongo = document.getElementById("kofongo");
+  const sirius = document.getElementById("sirius")
+  const capella = document.getElementById("capella")
+  const aldebaran = document.getElementById("aldebaran")
+  
 
   // --- ELEMENTOS ESPECÍFICOS DA CAVERNA ---
   const elMateria = document.getElementById("inc-materia");
@@ -125,6 +136,10 @@ function aplicarMudancaVisual(prop, value) {
     const mesa2 = document.getElementById("table2");
     const mesa3 = document.getElementById("table3");
     const mesa4 = document.getElementById("table4");
+    
+    const mint = document.getElementById("mint");
+    const vara = document.getElementById("rodButton");
+    
 
 
 
@@ -136,18 +151,17 @@ function aplicarMudancaVisual(prop, value) {
       if (rigelon) rigelon.style.display = value ? "block" : "none";
       break;
     case "kofongoVisivel":
-      if (kofongoon) kofongoon.style.display = value ? "block" : "none";
+      if (kofongo) kofongo.style.display = value ? "block" : "none";
+      if (cobra4) cobra4.style.display = value ? "none" : "block";
+      break;
+    case "capellaVisivel":
+      if (capella) capella.style.display = value ? "block" : "none";
+      if (cobra5) cobra5.style.display = value ? "none" : "block";
       break;
     case "boxSumiu":
       if (box) {
         box.style.display = value ? "none" : "block";
         if (value) box.classList.add("hidden");
-      }
-      break;
-    case "cobraSumiu":
-      if (cobra4) {
-        cobra4.style.display = value ? "none" : "block";
-        if (value) cobra4.classList.add("hidden");
       }
       break;
       
@@ -235,7 +249,6 @@ function aplicarMudancaVisual(prop, value) {
     // --- Puzzle da Pedra e Cobra ---
     case "pedraResolvida":
       if (value === true) {
-        if (cobra1) cobra1.style.display = "none";
         if (rock) {
           rock.classList.add("rock-locked");
           rock.style.pointerEvents = "none";
@@ -270,6 +283,15 @@ function aplicarMudancaVisual(prop, value) {
       if (mesa4) mesa4.style.pointerEvents = value ? "auto" : "none";
       break;
 
+      // ghost //
+
+    case "mintVisivel":
+      if (mint) mint.style.display = value ? "block" : "none";
+      break;
+      
+    case "varaOn":
+      if (vara) vara.style.display = value ? "block" : "none";
+      break;
 
   }
 }

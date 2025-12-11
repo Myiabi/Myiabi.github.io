@@ -689,6 +689,13 @@ window.startMinigameLogic = function () {
       window.gameData.visualState.rigelVisivel = true;
     },
   });
+  addTarget(document.querySelector("#mintghost"), {
+    delay: 2000,
+    sound: "whoosh",
+    onComplete: function (elemento) {
+      window.gameData.visualState.mintVisivel = true;
+    },
+  });
 
   // ==========================================================
   // Sol (Postes e Outros Alvos) (ANTIGO: addSunTarget chamadas)

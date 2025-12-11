@@ -37,10 +37,10 @@
 - Postes de fogo com ativação de falas 
 - ~~Persistencia do wendigo~~
 - Falas dos peixes do fundo do mar
-- Ajeitar portrait da Maid
-- popup dos lugares ao abrir a pagina
-- desabilitar rock
-- desabilitar incubadora
+- ~~Ajeitar portrait da Maid~~
+- ~~popup dos lugares ao abrir a pagina~~
+- ~~desabilitar rock~~
+- ~~desabilitar incubadora~~
 - ~~Verificar back em historico de navegador~~
 - Conferir os Globals
 
@@ -95,7 +95,7 @@
 - Ajeitar pescaria com itens novos e revisar codigo
 - ~~Revisar Wendigo Fight~~
 - Revisar achievments.
-- Cobrinhas não somem de verdade???
+-~~ Cobrinhas não somem de verdade???~~
 
 
 
@@ -118,9 +118,9 @@
 - ~~Tela de Loading~~
 - ~~Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.~~
 - ~~Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos.~~
+- ~~Criar puzzle de empurrar pedra e revelar o Pollux.~~
 - Tela final com pedidos de Patreon e Buy me a Coffee
 - Quest do fundo do lago é sobre desenhar simbolos nas bolhas.
-- ~~Criar puzzle de empurrar pedra e revelar o Pollux.~~
 
 # Aprender
 
