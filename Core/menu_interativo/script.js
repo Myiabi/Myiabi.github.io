@@ -721,7 +721,7 @@ window.startMinigameLogic = function () {
     
   });
 
-  addSunTarget(document.querySelector("#hole"), {
+  addSunTarget(document.querySelector("#fakehole"), {
     action: "hide", // <--- AQUI: "hide" para sumir
     delayMs: 305, // Tempo do delay
     soundLoop: "fire", 

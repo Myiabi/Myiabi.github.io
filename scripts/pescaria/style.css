@@ -1,113 +1,150 @@
-/* style.css — Dracula inspired dark theme */
-/* Paleta Dracula: background #282a36, currentLine #44475a, selection #44475a, foreground #f8f8f2,
-   comment #6272a4, cyan #8be9fd, green #50fa7b, orange #ffb86c, pink #ff79c6, purple #bd93f9.
-   Estiliza modal, action area e resultado. */
+/* style.css — Versão Full Porcentagem */
 
-:root{
+:root {
   --bg: #282a36;
   --panel: #1f1f2a;
   --muted: #6272a4;
   --text: #f8f8f2;
-  --accent: #8be9fd;     /* cyan */
-  --accent-2: #bd93f9;   /* purple */
+  --accent: #8be9fd;
+  --accent-2: #bd93f9;
   --success: #50fa7b;
   --gold: #ffb86c;
-  --glass: rgba(255,255,255,0.03);
-  --card-shadow: 0 12px 30px rgba(2,6,23,0.6);
-  --glass-border: rgba(255,255,255,0.04);
+  --glass: rgba(255, 255, 255, 0.03);
+  --card-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
   --danger: #ff5555;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: Inter, system-ui, sans-serif;
 }
 
-/* base */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
-body{display:flex;flex-direction:column;align-items:center;padding:36px 16px}
-
-/* rod button */
-.rod-btn{
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color:var(--text);
-  border:1px solid var(--glass-border);
-  padding:12px 18px;border-radius:10px;cursor:pointer;font-weight:700;
-  box-shadow: 0 6px 20px rgba(2,6,23,0.45);
+/* BOTÃO DA VARA (Mantido o seu em %) */
+.rod-btn {
   position: absolute;
-  top: 50%
+  top: 55%;
+  left: 31%;
+  width: 4.2%;
+  height: 5%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 1000;
 }
-.rod-btn:active{transform:translateY(1px)}
+.rod-btn:active { transform: translateY(2px); }
 
-/* overlay / modal */
-.fishing-overlay{
-  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.6));z-index:1000;
-}
-.fishing-modal{
-  width:92%;max-width:460px;background:linear-gradient(180deg, var(--panel), rgba(30,30,40,0.98));
-  border-radius:14px;padding:18px;border:1px solid var(--glass-border);box-shadow:var(--card-shadow);
-  display:flex;flex-direction:column;gap:12px;align-items:center;
-}
-
-/* header */
-.header{display:flex;align-items:center;gap:12px;justify-content:center;width:100%}
-.emote{font-size:28px}
-.status{font-weight:800;color:var(--text);font-size:15px}
-#dots{color:var(--muted)}
-
-/* action area (circle) */
-.action-area{
-  margin-top:8px;width:220px;height:220px;border-radius:50%;
-  background: radial-gradient(circle at 25% 25%, rgba(139,233,253,0.06), rgba(189,147,249,0.03) 35%, transparent 60%);
-  border: 2px solid rgba(139,233,253,0.06);
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-  color:var(--text);font-weight:900;position:relative;user-select:none;touch-action:none;
-  box-shadow: 0 10px 30px rgba(11,12,18,0.55), inset 0 -6px 16px rgba(0,0,0,0.25);
-  transition: transform .12s ease, opacity .12s ease, visibility .12s;
-  transform: scale(.98); opacity:0; visibility:hidden;
-}
-.action-area.show{transform:scale(1);opacity:1;visibility:visible}
-.action-area::after{
-  content:"";position:absolute;inset:6px;border-radius:50%;
-  background: conic-gradient(from 180deg at 50% 50%, rgba(189,147,249,0.02), rgba(139,233,253,0.02));
+/* OVERLAY */
+.fishing-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+  backdrop-filter: blur(4px);
 }
 
-/* gesture label (pill) */
-.gesture-label{
-  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  color:var(--text);padding:8px 14px;border-radius:999px;font-size:14px;border:1px solid rgba(255,255,255,0.02);
-  box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+/* MODAL (Vidro) */
+.fishing-modal {
+  /* Largura relativa à tela */
+  width: 90%; 
+  /* Limita pra não ficar gigante em PC, mas ainda usa % se quiser */
+  max-width: 400px; 
+  
+  background: linear-gradient(180deg, rgba(31, 31, 42, 0.9), rgba(30, 30, 40, 0.95));
+  border-radius: 16px;
+  padding: 5%; /* Padding em % do tamanho do modal */
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Gap fixo fica melhor, mas se quiser % avisa */
+  align-items: center;
 }
 
-/* subtle pulse for attention (only visible when show) */
-.action-area .pulse {
-  position:absolute;inset:0;border-radius:50%;opacity:.06;pointer-events:none;animation:pulse 1.6s infinite;
-  background:radial-gradient(circle at 30% 20%, rgba(139,233,253,0.06), transparent 35%);
-}
-@keyframes pulse{0%{transform:scale(.96)}50%{transform:scale(1.06)}100%{transform:scale(.96)}}
+/* HEADER */
+.header { display: flex; align-items: center; gap: 3%; justify-content: center; width: 100%; }
+.emote { font-size: 32px; }
+.status { font-weight: 800; color: var(--text); font-size: 18px; }
 
-/* hint under area */
-.hint{font-size:13px;color:var(--muted);text-align:center}
-
-/* cancel */
-.cancel-btn{margin-top:8px;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);cursor:pointer}
-
-/* result popup */
-.result-popup{
-  position:fixed;top:26px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  padding:10px 18px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 10px 36px rgba(2,6,23,0.6);font-weight:800;color:var(--text);z-index:1100;
-  animation: resultIn .5s ease;
-}
-.result-popup.gold{color:var(--gold);text-shadow:0 2px 8px rgba(212,175,55,0.12)}
-@keyframes resultIn{0%{opacity:0;transform:translate(-50%,-8px) scale(.98)}100%{opacity:1;transform:translate(-50%,0) scale(1)}}
-
-/* danger flash when near escape (optional class) */
-.escape-warn{box-shadow:0 0 0 6px rgba(255,85,85,0.06), 0 10px 30px rgba(255,85,85,0.03) inset;border-color:rgba(255,85,85,0.18)}
-
-/* responsive tweaks */
-@media (max-width:420px){
-  .action-area{width:78vw;height:78vw}
-  .fishing-modal{padding:14px}
+.action-area {
+  width: 85%; /* Estava 65%, agora ocupa quase o modal todo */
+  aspect-ratio: 1 / 1; /* Mantém redonda */
+  
+  border-radius: 50%;
+  background: radial-gradient(circle at 25% 25%, rgba(139, 233, 253, 0.06), rgba(189, 147, 249, 0.03) 35%, transparent 60%);
+  border: 2px solid rgba(139, 233, 253, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: var(--text);
+  font-weight: 900;
+  position: relative;
+  user-select: none;
+  touch-action: none;
+  box-shadow: 0 10px 30px rgba(11, 12, 18, 0.55), inset 0 -4px 15px rgba(0, 0, 0, 0.25);
+  transition: transform .12s ease, opacity .12s ease;
+  transform: scale(.98); opacity: 0; visibility: hidden;
 }
 
-/* small helper: colored species names if needed */
-.species-legendary{color:var(--gold);font-weight:900}
-.species-rare{color:var(--accent-2)}
-.species-common{color:var(--text)}
+.action-area.show { transform: scale(1); opacity: 1; visibility: visible; }
+
+/* LABEL DO GESTO */
+.gesture-label {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  padding: 3% 6%;
+  border-radius: 50px;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* DICAS E BOTÕES */
+.hint { font-size: 14px; color: var(--muted); text-align: center; }
+
+.cancel-btn {
+  margin-top: 2%;
+  padding: 3% 6%;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* POPUP DE RESULTADO (No Topo Centralizado) */
+.result-popup {
+  position: fixed;
+  top: 5%; /* Mantive a altura que combinamos antes */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* MUDANÇA AQUI: */
+  width: auto;
+  min-width: 10%; /* Força ele a ocupar pelo menos 70% da tela (fica comprido) */
+  
+  /* Padding assimétrico: Pouco em cima/baixo (1.5vh), Bastante nos lados (4vw) */
+  padding: 1.5vh 4vw; 
+  
+  background: rgba(30, 30, 40, 0.95);
+  border-radius: 50px; /* Borda bem redonda (estilo pílula) ajuda a parecer mais comprido */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(2, 6, 23, 0.8);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza o conteúdo dentro da barra */
+  gap: 3vw;
+  
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  z-index: 10000;
+  
+  transition: opacity .25s ease, transform .25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.result-popup img { width: 45px; height: 45px; border-radius: 8px; }
+
+/* Classes utilitárias */
+.species-legendary { color: var(--gold); }
+.species-rare { color: var(--accent-2); }

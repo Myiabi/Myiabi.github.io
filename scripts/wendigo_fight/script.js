@@ -604,7 +604,7 @@ function gameOver(){
 
   overlayContainer.innerHTML = '';
   const msg = document.createElement('div');
-  msg.textContent = 'Você foi derrotad!';
+  msg.textContent = 'You have been defeated!';
   overlayContainer.appendChild(msg);
 
   setTimeout(() => {

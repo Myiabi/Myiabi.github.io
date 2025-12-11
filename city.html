@@ -9,12 +9,16 @@
     <link rel="stylesheet" href="/scripts//jardim/style.css">
     <link rel="stylesheet" href="city.css">
     <link rel="stylesheet" href="/core/yesorno/style.css">
+    <link rel="stylesheet" href="/scripts/pescaria/style.css">
     
 </head>
 
 <body>
 
 <div id="scene">
+
+        <button id="rodButton" class="rod-btn"></button>
+        <div id="fishing-root"></div>
 
         <div class="back" id="bar" data-destino="/cenarios/bar/index.html"></div>
         <div class="back" id="templo" data-destino="/cenarios/templo/index.html"></div>
@@ -62,10 +66,12 @@
         
         <div class="ice">
             
-        <img id="fakehole"src="/assets/img/Hole.png" draggable="false">
+        <img id="fakehole"src="/assets/img/hole2.png" draggable="false">
  
         </div>
-        <img id="hole"src="" draggable="false">
+
+        <img id="hole"src="/assets/img/hole.png" draggable="false">
+        
         <img id="rode"src="/assets/img/Fishing-pole.png" draggable="false">
 
 
@@ -128,5 +134,6 @@
 </body>
 
 <script src="/loader.js"></script>
+<script src="/scripts/pescaria/script.js"></script>
 
 </html>

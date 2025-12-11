@@ -1,57 +1,87 @@
-/* script.js — versão refinada com popup animado, hold real com delay, rarity por tamanho */
+/* fishing.js */
 
 (() => {
   const root = document.getElementById('fishing-root');
   const rodButton = document.getElementById('rodButton');
 
+  // --- CONFIGURAÇÃO DOS ITENS ---
   const ESPECIES = [
-    { nome: 'Bass', raridadeBase: 'comum',  img: 'img/bass.png' },
-    { nome: 'Salmon', raridadeBase: 'raro', img: 'img/salmon.png' },
-    { nome: 'Blue Marlin', raridadeBase: 'lendario', img: 'img/marlin.png' },
-    { nome: 'Trash', raridadeBase: 'comum', img: 'img/trash.png' }
+    // Comuns
+    { nome: 'Catfish', raridadeBase: 'comum', img: 'img/catfish.png' },
+    { nome: 'Carp', raridadeBase: 'comum', img: 'img/carp.png' },
+    { nome: 'Rainbow Trout', raridadeBase: 'comum', img: 'img/trout.png' },
+    { nome: 'Pond Smelt', raridadeBase: 'comum', img: 'img/smelt.png' },
+    
+    // Especiais
+    { nome: 'Legendary Fish', raridadeBase: 'lendario', img: 'img/legendary.png' },
+    { nome: 'Star Hair Clip', raridadeBase: 'unico', img: 'img/star_clip.png', isUnique: true }
   ];
 
   let sessionActive = false;
   const randInt = (a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 
+  // --- LÓGICA DE DROP ---
   function pickPeixeBase(){
-    const r = Math.random();
-    if(r < 0.04) return ESPECIES[2];
-    if(r < 0.20) return ESPECIES[1];
-    if(r < 0.92) return ESPECIES[0];
-    return ESPECIES[3];
+    const r = Math.random(); 
+    
+    const gameData = window.gameData;
+    const jaPegouClip = gameData && gameData.fishing && gameData.fishing.uniqueItems['Star Hair Clip'];
+
+    // 1. Chance do Item Único (5%)
+    if(r > 0.95){
+      if(!jaPegouClip) return ESPECIES.find(e => e.nome === 'Star Hair Clip');
+    }
+
+    // 2. Chance do Lendário (5%)
+    if(r > 0.90 && r <= 0.95){
+      return ESPECIES.find(e => e.nome === 'Legendary Fish');
+    }
+
+    // 3. Comuns (90%)
+    const comuns = ESPECIES.filter(e => e.raridadeBase === 'comum');
+    return comuns[Math.floor(Math.random() * comuns.length)];
   }
 
   function generatePeixe(){
     const base = pickPeixeBase();
-    let size = base.nome === 'Trash' ? null : randInt(10,2000);
+    let size = null;
 
-    if(size !== null){
+    // Gera tamanho apenas se não for Presilha e não for o peixe lixo
+    if(base.raridadeBase !== 'unico' && base.nome !== 'Pond Smelt'){
+      size = randInt(10, 2000);
+      
       const chance = size / 2000; 
-      const roll = Math.random();
-      if(chance > roll){
+      if(chance > Math.random()){
         const s2 = randInt(10, Math.min(size, 500));
-        size = s2;
+        size = s2; 
       }
+      
+      // Lendário é sempre gigante
+      if(base.raridadeBase === 'lendario') size = randInt(1500, 3000);
     }
+    
     return { ...base, size };
   }
 
-  function showResultPopup(peixe, tamanho){
+  // --- POPUP VISUAL ---
+  function showResultPopup(peixe, tamanho, isRecord = false){
     const p=document.createElement('div');
     p.className='result-popup';
-    p.style.opacity="0";
-    p.style.transform="scale(0.6) translateY(20px)";
-    p.style.transition="opacity .25s ease, transform .25s ease";
-    p.style.display="flex";
-    p.style.alignItems="center";
-    p.style.gap="8px";
+    
+    if(peixe.raridadeBase === 'lendario') p.classList.add('species-legendary');
+    if(peixe.raridadeBase === 'unico') p.style.color = '#ff79c6';
 
+    p.style.opacity="0";
+    p.style.transform="translate(-50%, -20px) scale(0.8)"; 
+    
+    // Monta o HTML do popup
     p.innerHTML = `
-      <img src="${peixe.img}" style="width:45px;height:45px;border-radius:6px;">
+      <img src="${peixe.img}" style="width:45px;height:45px;border-radius:6px; object-fit:contain;">
       <div>
         <div style="font-size:15px;">${peixe.nome}</div>
-        ${tamanho ? `<div style="font-size:13px;color:#ccc">${tamanho}cm</div>` : ''}
+        ${tamanho ? `<div style="font-size:13px;opacity:0.7">${tamanho}cm</div>` : ''}
+        ${peixe.isUnique ? `<div style="font-size:11px;color:#ffb86c">ITEM ÚNICO!</div>` : ''}
+        ${isRecord ? `<div style="font-size:11px;color:#50fa7b;font-weight:bold">NOVO RECORDE! 🏆</div>` : ''}
       </div>
     `;
 
@@ -59,14 +89,14 @@
 
     requestAnimationFrame(()=>{
       p.style.opacity="1";
-      p.style.transform="scale(1) translateY(0)";
+      p.style.transform="translate(-50%, 0) scale(1)"; 
     });
 
     setTimeout(()=>{
       p.style.opacity="0";
-      p.style.transform="scale(0.8) translateY(-15px)";
+      p.style.transform="translate(-50%, -20px) scale(0.8)";
       setTimeout(()=>p.remove(),300);
-    }, 3000);
+    }, 3500);
   }
 
   function buildOverlay(){
@@ -96,9 +126,6 @@
     if(sessionActive) return;
     sessionActive = true;
 
-    // [SOM] som quando clica 2x e inicia a pescaria
-    // playSound("start_fishing");
-
     const peixe = generatePeixe();
     const overlay = buildOverlay();
     root.appendChild(overlay);
@@ -110,31 +137,78 @@
     const hint   = overlay.querySelector('#hint');
     const cancel = overlay.querySelector('#cancelBtn');
 
-    cancel.onclick = endSession;
+    cancel.onclick = () => {
+      sessionActive = false;
+      endSession();
+    };
 
     status.textContent = 'Casting...';
     hint.textContent   = 'Aguardando fisgada (3s)';
 
     setTimeout(()=>{
-      emote.textContent = '❗';
-      status.textContent = peixe.nome;
-
-      if(peixe.raridadeBase === 'lendario'){
-        // [SOM] som especial pra peixe lendário
-        // playSound("legendary_hook");
-      }
-
-      // [SOM] som quando o peixe fisga
-      // playSound("fish_hooked");
+      if(!sessionActive) return;
 
       area.classList.add('show');
+      emote.textContent = '❗';
+      status.textContent = 'Fisgou!';
       hint.textContent = 'Fish hooked!';
 
       runPhases(area, label, peixe).then(ok=>{
-        showResultPopup(
-          ok ? peixe : {nome:'O peixe escapou...', img:'img/escape.png'},
-          ok ? peixe.size : null
-        );
+        if(!sessionActive) return;
+
+        if(ok){
+            let isRecord = false;
+
+            // --- [NOVO] CHECAGEM DE ITENS ESPECIAIS ---
+            if(peixe.isUnique) {
+               console.log("PEGOU PRESILHA!"); 
+               // gameData.minhasCoisas.presilha = true;
+            }
+
+            if(peixe.raridadeBase === 'lendario') {
+               console.log("PEGOU LENDÁRIO!");
+               // gameData.minhasCoisas.peixeLendario = true;
+            }
+            // ------------------------------------------
+
+
+            if(window.gameData && window.gameData.fishing){
+                const gd = window.gameData.fishing;
+
+                const novoPeixe = { 
+                    nome: peixe.nome, 
+                    raridade: peixe.raridadeBase, 
+                    tamanho: peixe.size,
+                    data: new Date().toISOString()
+                };
+                gd.inventory = [...gd.inventory, novoPeixe];
+
+                if(peixe.isUnique){
+                    gd.uniqueItems['Star Hair Clip'] = true;
+                }
+
+                if(gd.stats) {
+                    gd.stats.totalCatches++;
+                    if(peixe.raridadeBase === 'lendario') gd.stats.legendaryCount++;
+                }
+
+                // --- [CORRIGIDO] LÓGICA DO MAIOR PEIXE ---
+                // Só conta recorde se tiver tamanho E NÃO FOR LENDÁRIO
+                if(peixe.size !== null && peixe.raridadeBase !== 'lendario'){
+                    if(!gd.biggestFish) gd.biggestFish = { size: 0, name: "None" };
+
+                    if(peixe.size > gd.biggestFish.size){
+                        gd.biggestFish = { name: peixe.nome, size: peixe.size };
+                        isRecord = true;
+                    }
+                }
+            }
+
+            showResultPopup(peixe, peixe.size, isRecord);
+        } else {
+            showResultPopup({nome:'Escapou...', img:'img/escape.png', raridadeBase:'comum'}, null);
+        }
+        
         endSession();
       });
 
@@ -146,26 +220,23 @@
     }
   }
 
+  // --- MECÂNICA (Tap, Hold, Spin) ---
   function runPhases(area, label, peixe){
     return new Promise((resolve)=>{
 
       const size = peixe.size ?? 100;
-      let sizeFactor = size / 2000;
-      sizeFactor = Math.max(0.1, sizeFactor);
+      let difficulty = Math.max(0.1, size / 2000);
 
-      let rarityFactor = 1;
-      if(peixe.raridadeBase === 'raro') rarityFactor = 1.3;
-      if(peixe.raridadeBase === 'lendario') rarityFactor = 2.2;
-
-      const difficulty = sizeFactor * rarityFactor;
+      if(peixe.raridadeBase === 'lendario') difficulty = 2.5;
+      if(peixe.raridadeBase === 'unico') difficulty = 2.0;
 
       const PHASES=['tap','hold','spin'];
       let cur=0;
 
       const tapTarget = Math.floor(4 + 12 * difficulty);
-      const holdTargetSec = Math.floor(2 + 6 * difficulty);
-      const spinTargetDeg = Math.floor(800 + 5000 * difficulty);
-      const phaseLimit = 5500;
+      const holdTargetSec = Math.floor(2 + 5 * difficulty);
+      const spinTargetDeg = Math.floor(720 + 3000 * difficulty);
+      const phaseLimit = 6000;
 
       let tapCount = 0;
       let holdAccum = 0;
@@ -182,14 +253,7 @@
 
       area.addEventListener('pointerdown', () => {
         holding = true;
-
-        // [SOM] toque leve ao começar o gesto
-        // playSound("touch_down");
-
-        if (PHASES[cur] === 'tap') {
-          tapCount++;
-        }
-
+        if (PHASES[cur] === 'tap') tapCount++;
         if (PHASES[cur] === 'hold') {
           holdStart = performance.now();
           holdLocked = false;
@@ -200,9 +264,6 @@
         holding = false;
         holdStart = 0;
         holdLocked = false;
-
-        // [SOM] toque ao soltar (opcional)
-        // playSound("touch_up");
       });
 
       area.addEventListener('pointermove', e=>{
@@ -211,60 +272,49 @@
         const r = area.getBoundingClientRect();
         const cx = r.left + r.width/2;
         const cy = r.top + r.height/2;
-
         const x = e.clientX - cx;
         const y = e.clientY - cy;
 
+        const dist = Math.sqrt(x*x + y*y);
+        if(dist < 20) return; 
+
         const angle = Math.atan2(y,x) * 180 / Math.PI;
 
-        if(lastAngle === null) {
-          lastAngle = angle;
-        }
-
+        if(lastAngle === null) lastAngle = angle;
         let diff = angle - lastAngle;
+        
         if(diff > 180) diff -= 360;
         if(diff < -180) diff += 360;
 
-        if (PHASES[cur] === 'spin') {
-          // [SOM] som contínuo ou tic-tic durante spin
-          // playSound("spin_tick");
+        spinAccum += diff;
+        
+        // --- [NOVO] SOM DO GIRO AQUI ---
+        // Se girou mais que 5 graus (pra evitar tocar parado)
+        if(Math.abs(diff) > 5) {
+             // Como esse evento dispara MUITO rápido, cuidado.
+             // O ideal é tocar um som curto tipo 'catraca'.
+             if(typeof tocarEfeito === 'function') {
+                 // tocarEfeito(); 
+             }
         }
-
-        spinAccum += Math.abs(diff);
+        // -------------------------------
+        
         lastAngle = angle;
       });
 
       function nextPhase(){
-        // [SOM] som ao completar cada fase
-        // playSound("phase_complete");
-
         cur++;
-        tapCount=0;
-        holdAccum=0;
-        spinAccum=0;
-        holding=false;
-        holdStart=0;
-        holdLocked = false;
-        lastAngle=null;
-        phaseElapsed=0;
+        tapCount=0; holdAccum=0; spinAccum=0;
+        holding=false; holdStart=0; holdLocked = false;
+        lastAngle=null; phaseElapsed=0;
 
         if(cur >= PHASES.length){
-          // [SOM] som de sucesso ao capturar peixe
-          // playSound("fish_caught");
-
           return resolve(true);
         }
-
-        // [SOM] som ao iniciar nova fase
-        // playSound("phase_start");
-
         run();
       }
 
       function fail(){
-        // [SOM] som quando o peixe escapa
-        // playSound("fish_escape");
-
         cancelAnimationFrame(raf);
         resolve(false);
       }
@@ -275,6 +325,8 @@
         raf = requestAnimationFrame(loop);
 
         function loop(){
+          if(!sessionActive) return;
+
           const now = performance.now();
           const dt = now - lastTime;
           lastTime = now;
@@ -288,30 +340,20 @@
 
           if(phase === 'hold'){
             label.textContent = `Hold (${holdAccum.toFixed(1)}s/${holdTargetSec}s)`;
-
             if(holding && holdStart){
               const pressDuration = now - holdStart;
-
               if(!holdLocked){
-                if(pressDuration >= HOLD_DELAY_MS){
-                  holdLocked = true;
-
-                  // [SOM] som quando o hold "engata"
-                  // playSound("hold_engage");
-                }
+                if(pressDuration >= HOLD_DELAY_MS) holdLocked = true;
               }
-
-              if(holdLocked){
-                holdAccum += dt/1000;
-              }
+              if(holdLocked) holdAccum += dt/1000;
             }
-
             if(holdAccum >= holdTargetSec) return nextPhase();
           }
 
           if(phase === 'spin'){
-            label.textContent = `Spin (${Math.round(spinAccum)}°/${spinTargetDeg}°)`;
-            if(spinAccum >= spinTargetDeg) return nextPhase();
+            const currentSpin = Math.abs(spinAccum);
+            label.textContent = `Spin (${Math.round(currentSpin)}°/${spinTargetDeg}°)`;
+            if(currentSpin >= spinTargetDeg) return nextPhase();
           }
 
           if(phaseElapsed >= phaseLimit){
@@ -338,10 +380,6 @@
     } else {
       clearTimeout(dblTimer);
       clicks = 0;
-
-      // [SOM] som do double-click antes de iniciar
-      // playSound("rod_double_click");
-
       startSession();
     }
   });

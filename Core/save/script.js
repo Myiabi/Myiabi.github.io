@@ -20,6 +20,21 @@ const defaultData = {
   },
   myoLiberado: false, // Define se o criador de personagem abre
 
+  // Adicione ou atualize isso dentro do defaultData
+  fishing: {
+    inventory: [],      // Histórico
+    uniqueItems: {},    // Para o Clip: { 'Star Hair Clip': false }
+    stats: {
+      totalCatches: 0,
+      legendaryCount: 0
+    },
+    // AQUI ESTÁ O NOVO CAMPO DO RECORDE:
+    biggestFish: {
+      name: "None",
+      size: 0
+    }
+  },
+
   // --- VARIÁVEIS VISUAIS GERAIS (SOL/LUA/PEDRA) ---
   visualState: {
     // Visuais globais e da caverna

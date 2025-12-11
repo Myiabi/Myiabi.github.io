@@ -80,9 +80,14 @@ window.personagens = {
           texto:
             "Estou sentindo uma presença inquieta nesse lugar... Será um dos espiritos guardiões?",
           expressao: "normal",
-          executar: function () {
-          mudarCenario(personagens.aiko, 'segunda');
-          },
+        },
+          {
+            texto:
+            "Você também está procurando por eles? Eu não consigo enxerga-lo... Se eu pelo menos tivesse a benção do templo. Você parece não possuir o poder ainda.",
+            expressao: "normal",
+            executar: function () {
+              mudarCenario(personagens.aiko, 'segunda');
+            },
         },
       ],
       estatua: [
@@ -333,7 +338,12 @@ window.personagens = {
         },
         {
           texto:
-            "Mas havia uma forma de conseguir a benção do templo... Orando para as estatuas das sacerdotizas antigas. Porém, elas só funcionam se estiverem na ordem correta, quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa! Mas tem um bilhete deixado pelo sacerdote antigo.",
+            "Mas havia uma forma de conseguir a benção do templo... Orando para as estatuas das sacerdotizas antigas. Porém, elas só funcionam se estiverem na ordem correta, quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa!",
+          expressao: "pensativo",
+        },
+        {
+          texto:
+          "Mas tem um bilhete deixado pelo sacerdote antigo perto das estátuas, se quiser tentar resolver fique a vontade.",
           expressao: "pensativo",
           aofechar: function () {
             gameData.visualState.estatuasON = true;
@@ -395,7 +405,7 @@ window.personagens = {
   },
 
   nodata: {
-    nome: "⠀⠀⠀⠀",
+    nome: "No data",
     lado: "Esquerdo",
     fonte: "'Wild Words', sans-serif",
     expressoes: {
@@ -404,7 +414,7 @@ window.personagens = {
     },
     falas: {
       inicio: [
-        { texto: "Se vir meu marido e minhas crianças por aí, dê um Oi. Eles são díficeis mas são interessantes.", expressao: "pensativo" },
+        { texto: "Se vir meu marido e minhas crianças por aí, dê um Oi. Eles são díficeis mas são interessantes.", expressao: "normal" },
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -622,7 +632,7 @@ window.personagens = {
           expressao: "normal",
 
            texto:
-            "[Foque a 'Lupa' no guardião da Lua invisível para impedir que ele cresça, se ele crescer ao máximo você perderá. Aguente o tempo suficiente para acalma-lo.]",
+            "[Ataque o Wendigo com movimentos de corte com o cursor/touch. Alguns ataques fazem ele cancelar o cast. Risque um circulo ao redor dos inimigos para dar dano em area (menos dano, mas bom pra cancelar cast.)]",
           aofechar: function () {
             ConfirmModal.ask("Fight?", () => {
               window.location.href = "/scripts/wendigo_fight/index.html";

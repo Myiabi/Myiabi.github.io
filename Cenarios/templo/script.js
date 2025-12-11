@@ -190,8 +190,11 @@ function checkOrder() {
     isSolved = true;
     gameData.visualState.minigame2 = true;
     gameData.visualState.wendigoAparece = true;
+    
+    
     disablePuzzle();
-    setTimeout(closeModal, 500); 
+    setTimeout(closeModal, 3000); 
+    dialogo.abrir(personagens.aiko, 'estatuaWon');
   }
 }
 
