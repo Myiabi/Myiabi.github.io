@@ -121,6 +121,28 @@ window.personagens = {
       ],
     },
   },
+
+  cobra3: {
+    nome: "Sirius",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        {
+          texto:
+            "Didn't thought here was so cold. I should had trusted on my books",
+            aofechar: function () {
+            gameData.visualState.siriusVisivel = true;
+          },
+        },
+      ],
+    },
+  },
+
   lily: {
     nome: "Lily",
     lado: "esquerda",

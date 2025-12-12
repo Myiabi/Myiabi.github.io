@@ -106,6 +106,7 @@ function aplicarMudancaVisual(prop, value) {
   const estatua = document.getElementById("btn-open");
   
   // --- COBRINHAS ---- ///
+  const cobra3 = document.getElementById("cobra3"); 
   const cobra4 = document.getElementById("cobra4"); 
   const cobra5 = document.getElementById("cobra5"); 
   const box = document.getElementById("box");
@@ -157,6 +158,10 @@ function aplicarMudancaVisual(prop, value) {
     case "capellaVisivel":
       if (capella) capella.style.display = value ? "block" : "none";
       if (cobra5) cobra5.style.display = value ? "none" : "block";
+      break;
+    case "siriusVisivel":
+      if (sirius) sirius.style.display = value ? "block" : "none";
+      if (cobra3) cobra3.style.display = value ? "none" : "block";
       break;
     case "boxSumiu":
       if (box) {
