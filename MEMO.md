@@ -16,7 +16,7 @@
 
 - Achar bebês cobras {
     1 - ~~Invisivel (Usar Lua)~~
-    2 - Congelado (usar Sol)
+    2 - ~~Congelado (usar Sol)~~
     3 - ~~Dentro de um Baú no shop (Clicar 7x)~~
     4 - ~~Aparece no Bar aleatóriamente~~
     5 - ~~Preso com Wendigo~~
@@ -30,19 +30,19 @@
 - ~~Estátuas com disable e persistencia~~
 - ~~Falas da Felicia no Bar~~
 -~~ Reposicionar o cobrinha aleatorio~~
-- Gatilho da quest do bar
-- Vara com link pro minigame
-- Buraco de gelo com persistencia e link
+- ~~Gatilho da quest do bar~~
+- ~~Vara com link pro minigame~~
+- ~~Buraco de gelo com persistencia e link~~
 
-- Postes de fogo com ativação de falas 
 - ~~Persistencia do wendigo~~
-- Falas dos peixes do fundo do mar
 - ~~Ajeitar portrait da Maid~~
 - ~~popup dos lugares ao abrir a pagina~~
 - ~~desabilitar rock~~
 - ~~desabilitar incubadora~~
 - ~~Verificar back em historico de navegador~~
+- Postes de fogo com ativação de falas 
 - Conferir os Globals
+- Falas dos peixes do fundo do mar
 
 
 
@@ -92,10 +92,12 @@
 - ~~Corrigir nome do drop Forest pra não confundir~~
 -~~ Ajeitar Portraits tortos~~
 - ~~Colocar peixes no Lago~~
-- Ajeitar pescaria com itens novos e revisar codigo
 - ~~Revisar Wendigo Fight~~
-- Revisar achievments.
 -~~ Cobrinhas não somem de verdade???~~
+
+- ~~Ajeitar pescaria com itens novos e revisar codigo~~
+- Revisar e escolher achievments.
+
 
 
 

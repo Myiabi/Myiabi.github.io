@@ -7,9 +7,10 @@ const Sons = {
     predio: new Audio("/assets/sounds/trilhas/predio.mp3")
   },
   efeitos: {
-    vitoria: "/assets/sounds/efeitos/tuturu_1.mp3",
-    click: "/assets/sounds/efeitos/tuturu_1.mp3",
+    win: "/assets/sounds/efeitos/win.wav",
+    click: "/assets/sounds/efeitos/click.wav",
     whoosh: "/assets/sounds/efeitos/whooshfogo.mp3",
+    padlock: "/assets/sounds/efeitos/gear.wav",
     
     // --- ADICIONE SEUS SONS DE LOOP AQUI EMBAIXO ---
     // Exemplo:

@@ -29,14 +29,15 @@ boxEl.addEventListener("pointerdown", (e) => {
   clickTimer = setTimeout(() => clicks = 0, 1000);
 
   if (clicks >= 7) {
-    // 1. Efeito visual imediato na Box (já configurado no seu CSS)
-    boxEl.classList.add("hidden");
+
+      tocarEfeito("win");
+      // 1. Efeito visual imediato na Box (já configurado no seu CSS)
+      boxEl.classList.add("hidden");
 
     // 2. ATUALIZAÇÃO ATÔMICA (Tudo de uma vez)
     // O JS define que "já aconteceu". O CSS que lute pra mostrar o delay.
     window.gameData.visualState.boxSumiu = true; 
-/*     window.gameData.visualState.kofongoVisivel = true; // Salva JÁ
- */    
+ 
     // FIM. Sem setTimeout, sem risco de perder save.
   }
 });
@@ -178,6 +179,8 @@ function abrirLockGame() {
         slot.onclick = () => {
             if (slot.blocked) return;
 
+            tocarEfeito("click");
+
             slot.blocked = true;
             setTimeout(() => (slot.blocked = false), 200);
 
@@ -207,7 +210,7 @@ function abrirLockGame() {
     // VITÓRIA
     // =====================================================
     function win() {
-        tocarEfeito("whoosh")
+        tocarEfeito("padlock")
         gameData.visualState.minigame1 = true
         mudarCenario(personagens.myopic, 'segunda');
 
