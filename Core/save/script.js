@@ -316,6 +316,16 @@ function aplicarMudancaVisual(prop, value) {
       if (vara) vara.style.display = value ? "block" : "none";
       break;
 
+    case "buracoON":
+      
+      break;
+
+    case "lendario":
+      break;
+
+
+
+
   }
 }
 

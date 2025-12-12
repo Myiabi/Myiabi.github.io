@@ -530,12 +530,23 @@ window.personagens = {
       normal: "url('/assets/img/7-06-half.png')",
     },
     falas: {
-      inicio: [{ texto: "Como está lotado hoje!!!", expressao: "normal" }],
-      segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+      inicio: [
+        { texto: "Como está lotado hoje!!!", expressao: "normal" }
+      ],
+      presilha: [
+        { texto: "Você pescou uma presilha no lago?", expressao: "normal" },
         {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
+          texto: "Na verdade... eu moro lá Com muitos outros peixes, provavelmente essa presilha é de algum deles. Se você quiser eu te dou permissão para entrar",
+          expressao: "normal",
+        },
+        {
+          texto: "[Tente mergulhar no buraco de pesca (!?)]",
+          expressao: "normal",
+          executar: function() {
+       
+        gameData.visualState.presilha = true;
+        
+}
         },
       ],
     },

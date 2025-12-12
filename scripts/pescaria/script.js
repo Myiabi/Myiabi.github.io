@@ -35,8 +35,8 @@
     const jaPegouClip = gameData && gameData.fishing && gameData.fishing.uniqueItems['Star Hair Clip'];
     const jaPegouLendario = gameData && gameData.fishing && gameData.fishing.stats && gameData.fishing.stats.legendaryCount > 0;
 
-    if(r > 0.95 && !jaPegouClip) return ESPECIES.find(e => e.nome === 'Star Hair Clip');
-    if(r > 0.90 && r <= 0.95 && !jaPegouLendario) return ESPECIES.find(e => e.nome === 'Legendary Fish');
+    if(r > 0.15 && !jaPegouClip) return ESPECIES.find(e => e.nome === 'Star Hair Clip');
+    if(r > 0.10 && r <= 0.95 && !jaPegouLendario) return ESPECIES.find(e => e.nome === 'Legendary Fish');
 
     const comuns = ESPECIES.filter(e => e.raridadeBase === 'comum');
     return comuns[Math.floor(Math.random() * comuns.length)];
@@ -52,25 +52,45 @@
       } else if(base.raridadeBase === 'lendario') {
          size = randInt(2500, DEBUG_CONFIG.maxSize);
       } else {
-         // --- AJUSTE DE DIFICULDADE AQUI ---
          const roll = Math.random();
-         
-         if(roll < 0.80) {
-            // 80% Comum (Pequeno/Médio)
-            size = randInt(30, 1000);
-         } else if (roll < 0.95) {
-            // 15% Grande (1m - 2m)
-            size = randInt(1001, 2000);
-         } else if (roll < 0.99) {
-            // 4% Gigante (2m - 2.8m)
-            size = randInt(2001, 2800);
-         } else {
-            // 1% MONSTRO (2.8m - 3m)
-            size = randInt(2801, DEBUG_CONFIG.maxSize);
-         }
+         if(roll < 0.80) size = randInt(30, 1000);
+         else if (roll < 0.95) size = randInt(1001, 2000);
+         else if (roll < 0.99) size = randInt(2001, 2800);
+         else size = randInt(2801, DEBUG_CONFIG.maxSize);
       }
     }
     return { ...base, size };
+  }
+
+  // --- HELPER: GERA SEQUENCIA INTELIGENTE ---
+  function generateSmartSequence(fishSize) {
+      // 1. Tamanho da sequencia baseado no peixe (Min 3, Max ~9)
+      const baseLength = 3;
+      // Ajuste o divisor (400) se quiser sequencias maiores ou menores
+      let length = Math.floor(baseLength + ((fishSize || 50) / 400));
+      if (length > 9) length = 9; // Teto maximo
+
+      const actions = ['tap', 'hold', 'spin'];
+      let seq = [];
+      let lastAction = '';
+
+      // Gera passos (menos o último)
+      for (let i = 0; i < length - 1; i++) {
+          let available = [...actions];
+
+          // Regra 1: Remove anterior (não repete)
+          if (lastAction) available = available.filter(a => a !== lastAction);
+          
+          // Regra 2: Penúltimo não pode ser spin (pq o último será)
+          if (i === length - 2) available = available.filter(a => a !== 'spin');
+
+          const next = available[Math.floor(Math.random() * available.length)];
+          seq.push(next);
+          lastAction = next;
+      }
+      // Regra 3: Finaliza com Spin
+      seq.push('spin');
+      return seq;
   }
 
   // --- POPUP ---
@@ -89,8 +109,8 @@
       <div>
         <div style="font-size:15px;">${peixe.nome}</div>
         ${tamanho ? `<div style="font-size:13px;opacity:0.7">${tamanho}cm</div>` : ''}
-        ${peixe.isUnique ? `<div style="font-size:11px;color:#ffb86c">ITEM ÚNICO!</div>` : ''}
-        ${isRecord ? `<div style="font-size:11px;color:#50fa7b;font-weight:bold">NOVO RECORDE! 🏆</div>` : ''}
+        ${peixe.isUnique ? `<div style="font-size:11px;color:#ffb86c">UNIQUE ITEM!</div>` : ''}
+        ${isRecord ? `<div style="font-size:11px;color:#50fa7b;font-weight:bold">NEW RECORD! 🏆</div>` : ''}
       </div>
     `;
 
@@ -124,8 +144,6 @@
         </div>
 
         <div class="hint" id="hint"></div>
-
-        <button class="cancel-btn" id="cancelBtn">Cancelar</button>
       </div>
     `;
     return o;
@@ -144,44 +162,47 @@
     const area   = overlay.querySelector('#actionArea');
     const label  = overlay.querySelector('#gestureLabel');
     const hint   = overlay.querySelector('#hint');
-    const cancel = overlay.querySelector('#cancelBtn');
-
-    cancel.onclick = () => {
-      sessionActive = false;
-      endSession();
-    };
 
     status.textContent = 'Casting...';
-    hint.textContent   = 'Aguardando fisgada (3s)';
+    hint.textContent   = 'Waiting...';
 
     setTimeout(()=>{
       if(!sessionActive) return;
 
       area.classList.add('show');
       emote.textContent = '❗';
-      status.textContent = 'Hooked!';
-      hint.textContent = 'Fish hooked!';
+      status.textContent = 'HOOKED!';
+      hint.textContent = 'Fish on!';
 
       runPhases(area, label, peixe).then(ok=>{
         if(!sessionActive) return;
 
         if(ok){
             let isRecord = false;
-
-            // --- ESPECIAIS ---
+            // Efeitos de Vitória
+            // Se for Item ÚNICO (Star Hair Clip)
             if(peixe.isUnique) {
-               console.log("PEGOU PRESILHA!"); 
-               // >>> SUAS VARIAVEIS AQUI <<<
-            }
-            if(peixe.raridadeBase === 'lendario') {
-               console.log("PEGOU LENDÁRIO!");
-               // >>> SUAS VARIAVEIS AQUI <<<
+                if(typeof tocarEfeito === 'function') tocarEfeito("win4");
+                
+                // >>> ATIVA SUA VARIÁVEL AQUI <<<
+                window.gameData.presilha = true; 
+                mudarCenario(personagens.maid, 'presilha');
+                
+              }
+              
+              // Se for LENDÁRIO
+              if(peixe.raridadeBase === 'lendario') {
+                if(typeof tocarEfeito === 'function') tocarEfeito("win4");
+                
+                // >>> ATIVA SUA VARIÁVEL AQUI <<<
+                window.gameData.lendario = true;
+                mudarCenario(personagens.cat, 'lendario');
+
             }
 
             // --- SAVE ---
             if(window.gameData && window.gameData.fishing){
                 const gd = window.gameData.fishing;
-
                 const novoPeixe = { 
                     nome: peixe.nome, 
                     raridade: peixe.raridadeBase, 
@@ -203,6 +224,7 @@
                         gd.biggestFish = { name: peixe.nome, size: peixe.size };
                         window.RECORDE_ATUAL_PESO = peixe.size; 
                         isRecord = true;
+                        if(typeof tocarEfeito === 'function') tocarEfeito("win");
                     } else {
                         window.RECORDE_ATUAL_PESO = gd.biggestFish.size;
                     }
@@ -210,7 +232,7 @@
             }
             showResultPopup(peixe, peixe.size, isRecord);
         } else {
-            showResultPopup({nome:'Escapou...', img:'img/escape.png', raridadeBase:'comum'}, null);
+            showResultPopup({nome:'Escaped...', img:'', raridadeBase:'comum'}, null);
         }
         endSession();
       });
@@ -223,22 +245,39 @@
     }
   }
 
-  // --- MECÂNICA ---
+  // --- MECÂNICA DINÂMICA (BOSS FIGHT) ---
+  // --- MECÂNICA DINÂMICA (BOSS FIGHT) ---
   function runPhases(area, label, peixe){
     return new Promise((resolve)=>{
+
+      // 1. CRIA O AUDIO ESPECÍFICO DO SPIN (Coloque o caminho certo aqui)
+      // Se não tiver som ainda, deixe comentado pra não dar erro
+      const spinAudio = new Audio('/assets/sounds/efeitos/reel.mp3'); 
+      spinAudio.loop = true;
+
+      // Helper pra matar o som imediatamente
+      function stopSpinSound() {
+          if(!spinAudio.paused) {
+              spinAudio.pause();
+              spinAudio.currentTime = 0;
+          }
+      }
 
       const size = peixe.size ?? 100;
       let sizeFactor = size / DEBUG_CONFIG.maxSize; 
       sizeFactor = Math.max(0.1, sizeFactor);
       if(peixe.raridadeBase === 'unico') sizeFactor = 0.7;
 
-      const PHASES=['tap','hold','spin'];
+      const PHASES = generateSmartSequence(size);
+      
       let cur=0;
+      let difficultyMod = 1.0;
+      if (peixe.raridadeBase === 'lendario' || size > 2000) difficultyMod = 0.8; 
 
-      const tapTarget = Math.floor(4 + (20 * sizeFactor));
-      const holdTargetSec = Math.floor(2 + (6 * sizeFactor));
-      const spinTargetDeg = Math.floor(720 + (1800 * sizeFactor));
-      const phaseLimit = 5000 + (5000 * sizeFactor);
+      const tapTarget = Math.floor((4 + (15 * sizeFactor)) * difficultyMod);
+      const holdTargetSec = Math.floor((2 + (4 * sizeFactor)) * difficultyMod);
+      const spinTargetDeg = Math.floor((360 + (1080 * sizeFactor)) * difficultyMod);
+      const phaseLimit = 6000 + (5000 * sizeFactor);
 
       let tapCount = 0;
       let holdAccum = 0;
@@ -252,6 +291,9 @@
       let raf = null;
       let phaseElapsed = 0;
       let lastTime = 0;
+      
+      // Controle pra saber se o som já começou naquela fase
+      let soundStarted = false;
 
       area.addEventListener('pointerdown', () => {
         holding = true;
@@ -294,21 +336,19 @@
         }
 
         spinAccum += diff;
-        
-        if(Math.abs(diff) > 5) {
-             if(typeof tocarEfeito === 'function') {
-                 // tocarEfeito(); 
-             }
-        }
+        // REMOVI O SOM DAQUI (Era isso que causava o inferno)
         
         lastAngle = angle;
       });
 
       function nextPhase(){
+        stopSpinSound(); // <--- PARA O SOM ASSIM QUE MUDAR DE FASE
+
         cur++;
         tapCount=0; holdAccum=0; spinAccum=0;
         holding=false; holdStart=0; holdLocked = false;
         lastAngle=null; phaseElapsed=0;
+        soundStarted = false; // Reseta controle do som
 
         if(cur >= PHASES.length){
           return resolve(true);
@@ -317,17 +357,28 @@
       }
 
       function fail(){
+        stopSpinSound(); // <--- PARA O SOM SE PERDER
         cancelAnimationFrame(raf);
         resolve(false);
       }
 
       function run(){
         const phase = PHASES[cur];
+        
+        // TOCA O SOM DO SPIN (Uma vez só quando entra na fase)
+        if (phase === 'spin' && !soundStarted) {
+             spinAudio.play().catch(e => console.log("Interação necessária pro audio"));
+             soundStarted = true;
+        }
+
         lastTime = performance.now();
         raf = requestAnimationFrame(loop);
 
         function loop(){
-          if(!sessionActive) return;
+          if(!sessionActive) {
+              stopSpinSound(); // Garante que para se fechar o jogo
+              return;
+          }
 
           const now = performance.now();
           const dt = now - lastTime;

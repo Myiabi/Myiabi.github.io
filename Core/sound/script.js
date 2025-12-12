@@ -8,6 +8,9 @@ const Sons = {
   },
   efeitos: {
     win: "/assets/sounds/efeitos/win.wav",
+    win2: "/assets/sounds/efeitos/win2.wav",
+    win3: "/assets/sounds/efeitos/win3.wav",
+    win4: "/assets/sounds/efeitos/win4.wav",
     click: "/assets/sounds/efeitos/click.wav",
     whoosh: "/assets/sounds/efeitos/whooshfogo.mp3",
     padlock: "/assets/sounds/efeitos/gear.wav",
@@ -15,11 +18,9 @@ const Sons = {
     swoosh: "/assets/sounds/efeitos/swoosh.mp3",
     wind: "/assets/sounds/efeitos/wind.mp3",
     fire: "/assets/sounds/efeitos/fire.wav",
-    
-    // --- ADICIONE SEUS SONS DE LOOP AQUI EMBAIXO ---
-    // Exemplo:
-    // magia: "/assets/sounds/efeitos/magia_loop.mp3",
-    // fritando: "/assets/sounds/efeitos/fritando.mp3"
+    fireSpell: "/assets/sounds/efeitos/fire_spell.wav",
+    reel: "/assets/sounds/efeitos/reel.mp3",
+  
   },
   trilhaAtual: null,
   loopsAtivos: {} // Armazena os sons contínuos que estão tocando

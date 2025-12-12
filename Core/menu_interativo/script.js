@@ -710,7 +710,7 @@ window.startMinigameLogic = function () {
 
   addSunTarget(document.querySelector("#iceBlock"), {
     action: "hide", // <--- AQUI: "hide" para sumir
-    delayMs: 305, // Tempo do delay
+    delayMs: 3500, // Tempo do delay
     soundLoop: "fire", 
 
     onComplete: function(elemento) {
@@ -759,70 +759,70 @@ window.startMinigameLogic = function () {
   addSunTarget(document.querySelector("#poste1"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste2"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste3"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste4"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste5"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste6"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste7"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste8"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste9"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 
   addSunTarget(document.querySelector("#poste10"), {
     action: "swap",
     newImage: "/assets/img/Pole-turned-on.png",
-    sound: "whoosh",
+    sound: "fire",
     delayMs: 350,
   });
 };

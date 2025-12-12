@@ -43,19 +43,20 @@
 
 /* MODAL (Vidro) */
 .fishing-modal {
-  /* Largura relativa à tela */
-  width: 90%; 
-  /* Limita pra não ficar gigante em PC, mas ainda usa % se quiser */
-  max-width: 400px; 
+  width: 95%; /* Aumentei de 90% pra 95% */
+  
+  /* O PULO DO GATO: Aumentei o limite de 400px para 600px. 
+     Isso vai deixar ele crescer mais na tela do jogo. */
+  max-width: 600px; 
   
   background: linear-gradient(180deg, rgba(31, 31, 42, 0.9), rgba(30, 30, 40, 0.95));
   border-radius: 16px;
-  padding: 5%; /* Padding em % do tamanho do modal */
+  padding: 5%; 
   border: 1px solid rgba(255, 255, 255, 0.04);
   box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Gap fixo fica melhor, mas se quiser % avisa */
+  gap: 15px;
   align-items: center;
 }
 
@@ -65,8 +66,8 @@
 .status { font-weight: 800; color: var(--text); font-size: 18px; }
 
 .action-area {
-  width: 85%; /* Estava 65%, agora ocupa quase o modal todo */
-  aspect-ratio: 1 / 1; /* Mantém redonda */
+  width: 95%; /* Aumentei de 85% pra 95% pra ocupar quase o modal todo */
+  aspect-ratio: 1 / 1; 
   
   border-radius: 50%;
   background: radial-gradient(circle at 25% 25%, rgba(139, 233, 253, 0.06), rgba(189, 147, 249, 0.03) 35%, transparent 60%);

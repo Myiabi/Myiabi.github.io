@@ -13,9 +13,7 @@ console.log("O usuário aceitou!");
 });    
 
 executar: function() {
-       
-        gameData.visualState.minigame2 = false;
-        
+        gameData.visualState.minigame2 = true;
 }
 
 mudarCenario(personagens.felicia, 'estatua');
