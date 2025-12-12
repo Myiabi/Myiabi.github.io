@@ -11,6 +11,10 @@ const Sons = {
     click: "/assets/sounds/efeitos/click.wav",
     whoosh: "/assets/sounds/efeitos/whooshfogo.mp3",
     padlock: "/assets/sounds/efeitos/gear.wav",
+    reveal: "/assets/sounds/efeitos/reveal.mp3",
+    swoosh: "/assets/sounds/efeitos/swoosh.mp3",
+    wind: "/assets/sounds/efeitos/wind.mp3",
+    fire: "/assets/sounds/efeitos/fire.wav",
     
     // --- ADICIONE SEUS SONS DE LOOP AQUI EMBAIXO ---
     // Exemplo:

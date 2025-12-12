@@ -110,6 +110,7 @@ function aplicarMudancaVisual(prop, value) {
   const cobra4 = document.getElementById("cobra4"); 
   const cobra5 = document.getElementById("cobra5"); 
   const box = document.getElementById("box");
+  const pollux = document.getElementById("pollux");
   const rigelon = document.getElementById("rigelon");
   const kofongo = document.getElementById("kofongo");
   const sirius = document.getElementById("sirius")
@@ -124,6 +125,7 @@ function aplicarMudancaVisual(prop, value) {
   const elWrapper = document.getElementById("incubadora-wrapper");
   const rock = document.getElementById("rock");
   const cobra1 = document.getElementById("cobra1"); 
+  const cobra2 = document.getElementById("cobra2"); 
   const wendigo = document.getElementById("wendigo");
   
   // Notas da Caverna
@@ -148,8 +150,22 @@ function aplicarMudancaVisual(prop, value) {
     // ==================================
     // 1. VISUAIS ORIGINAIS
     // ==================================
+
+    case "polluxVisivel":
+      if (pollux) pollux.style.display = value ? "block" : "none";
+      if (cobra1) cobra1.style.display = value ? "none" : "block";
+    
+      break;
+
     case "rigelVisivel":
       if (rigelon) rigelon.style.display = value ? "block" : "none";
+      if (cobra2) cobra2.style.display = value ? "none" : "block";
+    
+      break;
+    case "rigelGhost":
+      
+      if (cobra2) cobra2.style.display = value ? "block" : "none";
+    
       break;
     case "kofongoVisivel":
       if (kofongo) kofongo.style.display = value ? "block" : "none";
@@ -263,6 +279,8 @@ function aplicarMudancaVisual(prop, value) {
           }
         }
       }
+            if (cobra1) cobra1.style.pointerEvents = value ? "auto" : "none";
+
       break;
 
     // --- Wendigo (Guardião) ---

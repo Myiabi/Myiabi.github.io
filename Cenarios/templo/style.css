@@ -61,7 +61,7 @@ body {
   left: 45%;
 }
 
-#cobra2 {
+#rigel {
   position: absolute;
   width: 20%;
   height: 30%;
@@ -69,7 +69,16 @@ body {
   left:74%;
 }
 
-#rigel {
+#cobra2 {
+  top: 44.2%;
+  left: 80.5%;
+  width: 7%;
+  height:16.4%;
+  display: none;
+
+}
+
+#rigelghost {
   width: 35%;
   height:55%;
   align-items: center;

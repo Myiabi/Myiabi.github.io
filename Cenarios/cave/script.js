@@ -88,17 +88,20 @@ function closeGame() {
 // 3. PUZZLE DA PEDRA
 // ======================================================
 
+// ======================================================
+// 3. PUZZLE DA PEDRA (Corrigido)
+// ======================================================
+
 function initRockPuzzle() {
   const rock = document.getElementById("rock");
-  const cobra = document.getElementById("cobra1");
 
-  if (!rock || !cobra) return;
+  // Removi a referência da cobra aqui. Agora o puzzle é independente.
+  if (!rock) return;
   
   // Se já está resolvido no global, nem inicia a lógica de arrastar
   if (window.gameData.visualState && window.gameData.visualState.pedraResolvida) {
       rock.classList.add("rock-locked");
-      rock.style.left = (rock.offsetLeft + rock.clientWidth * 0) + "px"; // Posição visual aproximada
-      cobra.style.display = "none";
+      rock.style.left = (rock.offsetLeft + rock.clientWidth * 0) + "px"; 
       return;
   }
 
@@ -159,14 +162,10 @@ function initRockPuzzle() {
     rock.style.transition = "none";
     rock.style.left = (originLeft + maxDistance) + "px";
     
-    // Efeito visual local imediato
-    cobra.classList.add("fade-out");
-
     // ATUALIZA O GLOBAL (O save.js vai capturar e salvar)
     setTimeout(() => {
       if (window.gameData) {
         window.gameData.visualState.pedraResolvida = true; 
-        window.gameData.visualState.polluxVisivel = true; // Libera Pollux se necessário
       }
     }, 500);
   }

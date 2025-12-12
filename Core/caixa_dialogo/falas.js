@@ -137,6 +137,7 @@ window.personagens = {
             "Didn't thought here was so cold. I should had trusted on my books",
             aofechar: function () {
             gameData.visualState.siriusVisivel = true;
+            tocarEfeito("swoosh")
           },
         },
       ],
@@ -449,6 +450,30 @@ window.personagens = {
     },
   },
 
+  cobra2: {
+    nome: "Rigel",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [  
+        {
+          texto:
+            "That's such an impressive artifact. Even my skills couldn't go against it.",
+            aofechar: function () {
+                
+              gameData.visualState.rigelVisivel = true;
+              tocarEfeito("swoosh")
+
+          },
+        },
+      ],
+    },
+  },
+
   // ------------ BAR -------------//
 
   barman: {
@@ -559,6 +584,7 @@ window.personagens = {
             aofechar: function () {
             gameData.visualState.capellaVisivel = true;
             gameData.npcApareceu = "sumiu";
+            tocarEfeito("swoosh")
           },
         },
       ],
@@ -653,6 +679,7 @@ window.personagens = {
             "Minha cauda coçou e não consegui ficar imovél. heh",
             aofechar: function () {
             gameData.visualState.kofongoVisivel = true;
+            tocarEfeito("swoosh")
           },
         },
       ],
@@ -724,6 +751,8 @@ window.personagens = {
           texto:
             "I want mom and dad!!",
             aofechar: function () {
+              gameData.visualState.polluxVisivel = true;
+              tocarEfeito("swoosh")
             
           },
         },

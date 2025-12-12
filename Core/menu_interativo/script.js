@@ -683,15 +683,15 @@ window.startMinigameLogic = function () {
 
   addTarget(document.querySelector("#rigel"), {
     delay: 2000,
-    sound: "whoosh",
+    sound: "reveal",
     // 🐍 LÓGICA DE EXECUÇÃO AO FINAL DO EFEITO DA LUA
     onComplete: function (elemento) {
-      window.gameData.visualState.rigelVisivel = true;
+      window.gameData.visualState.rigelGhost = true;
     },
   });
   addTarget(document.querySelector("#mintghost"), {
     delay: 2000,
-    sound: "whoosh",
+    sound: "reveal",
     onComplete: function (elemento) {
       window.gameData.visualState.mintVisivel = true;
     },

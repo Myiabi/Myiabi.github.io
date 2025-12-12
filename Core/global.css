@@ -302,3 +302,31 @@ nav a {
     backface-visibility: hidden;
     will-change: opacity; /* Opcional: avisa o navegador que vai mudar */
 }
+
+
+/* Modo Portrait Proíbido */
+
+@media (orientation: portrait) {
+  body::after {
+    content: "Please rotate your device to play!";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Largura total da tela */
+    height: 100vh; /* Altura total da tela (Isso corrige o alinhamento) */
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;     /* Centraliza Verticalmente */
+    justify-content: center; /* Centraliza Horizontalmente */
+    z-index: 99999;
+    font-size: 1.5rem;
+    text-align: center;
+    pointer-events: all; /* Garante que bloqueie toques no jogo */
+  }
+  
+  /* Opcional: Trava a rolagem enquanto estiver com o aviso */
+  body {
+    overflow: hidden;
+  }
+}

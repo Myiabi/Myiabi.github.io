@@ -62,3 +62,6 @@ document.getElementById("btn-back").addEventListener("pointerdown", (e) => {
   }
 });
 
+
+// Modo Portrait Proibido //
+

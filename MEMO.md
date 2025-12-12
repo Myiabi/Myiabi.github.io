@@ -97,6 +97,7 @@
 
 - ~~Ajeitar pescaria com itens novos e revisar codigo~~
 - Revisar e escolher achievments.
+- Falas menores no mobile.
 
 
 
