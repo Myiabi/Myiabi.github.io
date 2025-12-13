@@ -401,7 +401,7 @@ if (!achievementsContainer) {
   rotateAch();
 }
 
-const audioVitoria = new Audio("/assets/sounds/efeitos/whooshfogo.mp3");
+const audioVitoria = new Audio("/assets/sounds/efeitos/steam.mp3");
 
 function showAchievement({ title, desc, iconUrl }) {
   const ach = document.createElement("div");

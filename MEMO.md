@@ -42,8 +42,11 @@
 - ~~Verificar back em historico de navegador~~
 - Postes de fogo com ativação de falas 
 - Conferir os Globals
-- Falas dos peixes do fundo do mar
+- Falas dos peixes do fundo do 
 
+- talvez logar com outro git eu consiga usar o copilot de volta.
+- Criar intro
+- Criar imagem de fim
 
 
 }
@@ -98,13 +101,15 @@
 - ~~Ajeitar pescaria com itens novos e revisar codigo~~
 - Revisar e escolher achievments.
 - Falas menores no mobile.
-
+- Som dos achievments n toca
 
 
 
 # Corrigir com Copilot Github
 
-- 
+- Variaveis
+- Bugs 
+- Globals
 
 
 # Ideias
@@ -124,6 +129,12 @@
 - ~~Criar puzzle de empurrar pedra e revelar o Pollux.~~
 - Tela final com pedidos de Patreon e Buy me a Coffee
 - Quest do fundo do lago é sobre desenhar simbolos nas bolhas.
+
+- achievments {
+    - Achar as 6 cobrinhas
+    - Vencer Last Boss
+    - Achar o Mint
+}
 
 # Aprender
 

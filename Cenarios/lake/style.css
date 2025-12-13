@@ -47,24 +47,28 @@ body, html {
   width: 18%;;
   top: 0%;
   left: 0%;
+  opacity: 0.6;
 }
 
 #paddlefish  {
   width: 17%;;
   top: 48%;
   left: 17%;
+  opacity: 0.6;
 }
 
 #spanish  {
   width: 18%;;
   top:45%;
   left:50%;
+  opacity: 0.6;
 }
 
 #wholphin  {
   width: 18%;;
   top: 46%;
   left: 80%;
+  opacity: 0.6;
 }
 
 

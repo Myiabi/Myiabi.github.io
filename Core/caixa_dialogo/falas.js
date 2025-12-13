@@ -211,6 +211,9 @@ window.personagens = {
           expressao: "normal",
         },
       ],
+      lendario: [
+        { texto: "Você consegue me entender agora? Myau", expressao: "normal" },
+      ],
     },
   },
 
@@ -632,6 +635,14 @@ window.personagens = {
           expressao: "pensativo",
         },
       ],
+
+      final: [
+        { texto: "Não desista ainda!", expressao: "furioso" },
+        {
+          texto: "Nós conseguimos acender os postes uma única vez! Aproveite. Não deixe tudo congelar",
+          expressao: "furioso",
+        },
+      ],
     },
   },
 
@@ -745,6 +756,10 @@ window.personagens = {
           expressao: "normal",
         },
       ],
+
+      final: [
+        { texto: "Estive analisando ele por um tempo. Cuidado com os olhos agora! Destrua a barreira dos olhos e finalize-o!!!", expressao: "normal" },
+      ],
     },
   },
 
@@ -766,6 +781,78 @@ window.personagens = {
               tocarEfeito("swoosh")
             
           },
+        },
+      ],
+    },
+  },
+
+  cory: {
+    nome: "Cory",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        {
+          texto:
+            "I want mom and dad!!",
+        },
+      ],
+    },
+  },
+
+  spanish: {
+    nome: "Spanish",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        {
+          texto:
+            "I want mom and dad!!",
+        },
+      ],
+    },
+  },
+
+  paddlefish: {
+    nome: "Paddlefish",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        {
+          texto:
+            "I want mom and dad!!",
+        },
+      ],
+    },
+  },
+
+  wholphin: {
+    nome: "Wholphin",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        {
+          texto:
+            "I want mom and dad!!",
         },
       ],
     },
@@ -870,3 +957,19 @@ document.getElementById("aiko")?.addEventListener("pointerdown", () => {
 document.getElementById("wendigo")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.wendigo);
 });
+
+// lake //
+
+document.getElementById("cory")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.cory);
+});
+document.getElementById("spanish")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.spanish);
+});
+document.getElementById("paddlefish")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.paddlefish);
+});
+document.getElementById("wholphin")?.addEventListener("pointerdown", () => {
+  dialogo.abrir(personagens.wholphin);
+});
+

@@ -46,7 +46,6 @@ body {
   top: 50%;
   left: 40%;
   z-index: 500;
-  display: none;
 }
 #cobra3 {
   position: absolute;
@@ -55,6 +54,7 @@ body {
   top: 70%;
   left: 43%;
   z-index: 501;
+  display: none;
 
 }
 #iceBlock {
@@ -64,4 +64,5 @@ body {
   top: 50%;
   left: 40%;
   z-index: 510;
+  display: none;
 }

@@ -263,7 +263,7 @@ function checkAllPlaced(gameId) {
     const btn = document.querySelector(`[data-modal="game${gameId}"]`);
     if (btn) { btn.classList.add("completed"); btn.onclick = null; }
 
-    tocarEfeito("whoosh")
+    tocarEfeito("bell")
     mudarCenario(personagens.assistant, 'segunda');
     mudarCenario(personagens.barman, 'mesaWin');
     mudarCenario(personagens.assistant, 'mesaWin');

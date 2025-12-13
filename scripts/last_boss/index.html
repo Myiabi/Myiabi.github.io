@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Batalha Final - O Imperador de Gelo</title>
+  <title>Final Battle - The Ice Emperor</title>
   <style>
     /* =========================================
        STYLE.CSS (SEU GLOBAL)
@@ -145,9 +145,6 @@
       0%, 100% { transform: translate(-50%, -50%) rotate(0.5deg); filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)); }
       50% { transform: translate(-50%, -60%) rotate(-0.5deg); filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); }
     }
-    .drag-clone-float {
-      /* Animation logic handled in JS for sync, mostly removed here to avoid conflict */
-    }
 
     /* =========================================
        BOSS.CSS (ESPECÍFICO DA BATALHA)
@@ -203,58 +200,75 @@
 
     /* === CONFIGURAÇÃO DE POSIÇÃO === */
 
-    /* --- GRUPO ESQUERDO (Mão + Algema) --- */
     #wrapper-left {
-        top: 30%;    /* Posição Vertical na tela */
-        left: 26%;    /* Posição Horizontal (Esquerda) */
-        width: 25vw; /* Tamanho total da área */
-        height: 25vw;
+  
+        top: 50%;
+        left: 50%;
+
+  
+        margin-top: -6vh;
+        margin-left: -37vh;
+
+        width: 25vh;
+        height: 25vh;
+
     }
 
-    /* Ajuste Fino: Imagem da MÃO Esquerda */
     #hand-left { 
-        width: 18%; 
-        height: 18%;
-        margin: auto; /* Centraliza no wrapper-left */
+        width: 40%; 
+        height: 40%;
+        margin: auto; 
     }
 
-    /* Ajuste Fino: ALGEMA Esquerda */
     #cuff-left {
         position: absolute;
-        top: 18%;
-        right: 15%;
-        width: 50%;
-        height: 50%;
-
+        top: 1%;
+        right: -5%;
+        width: 70%;
+        height: 70%;
     }
 
-    /* --- GRUPO DIREITO (Mão + Algema) --- */
     #wrapper-right {
-        top: 29%;    /* Posição Vertical na tela */
-        right: 27.9%;   /* Posição Horizontal (Direita) */
-        width: 25vw; /* Tamanho total da área */
-        height: 25vw;
+        top: 50%;
+        left: 50%;
+
+        margin-top: -7vh;
+        margin-left: 8vh;
+
+        width: 25vh;
+        height: 25vh;
+
     }
 
-    /* Ajuste Fino: Imagem da MÃO Direita */
     #hand-right {
-        width: 18%;
-        height: 18%;
-        margin: auto; /* Centraliza no wrapper-right */
+        width: 40%; 
+        height: 40%;
+        margin: auto; 
+
     }
 
-    /* Ajuste Fino: ALGEMA Direita */
     #cuff-right {
         position: absolute;
-        top: 18%;
+        top: 1.8%;
         right: 35%;
-        width: 50%;
-        height: 50%;
+        width: 70%;
+        height: 70%;
 
     }
-    
-    /* ========================================= */
 
+
+    .hand-img {
+        width: 100%;
+        filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+        transition: filter 0.3s;
+    }
+
+    .cuff-img {
+        width: 60%;
+        height: auto;
+        pointer-events: none;
+        opacity: 1; 
+    }
     /* Imagens genéricas */
     .hand-img {
         width: 100%;
@@ -263,7 +277,7 @@
     }
 
     .cuff-img {
-        width:35%;
+        width:50%;
         height: auto;
         pointer-events: none;
         opacity: 1; /* Visível, mas controlada pela camada .layer.top (clip-path) */
@@ -301,7 +315,7 @@
         animation: cuff-regeneration 0.6s ease-in-out 3; 
     }
 
-    /* Barras de Cast */
+    /* Barras de Cast (Geral) */
     .cast-bar-container {
         width: 20%;
         height: 0.6vh;
@@ -316,6 +330,13 @@
         margin-bottom: 0;
         overflow: hidden;
         z-index: 30;
+    }
+
+    /* AJUSTE SOLICITADO: Aumentar barra de cast das mãos */
+    .hand-wrapper .cast-bar-container {
+        width: 80%; /* Aumentado de 20% para 80% */
+        height: 1vh; /* Um pouco mais grossa para visibilidade */
+        top: 70%; /* Ajuste leve na posição */
     }
 
     .cast-bar-fill {
@@ -425,20 +446,15 @@
         animation: shake 0.5s;
     }
     
-    /* POSICIONAMENTO DOS 13 POSTES */
-    #poste-1 { top: 85vh; left: 15vw; width: 4vw; }
-    #poste-2 { top: 85vh; left: 20vw; width: 4vw; }
-    #poste-3 { top: 85vh; left: 25vw; width: 4vw; }
-    #poste-4 { top: 85vh; left: 30vw; width: 4vw; }
-    #poste-5 { top: 85vh; left: 35vw; width: 4vw; }
-    #poste-6 { top: 85vh; left: 40vw; width: 4vw; }
-    #poste-7 { top: 85vh; left: 45vw; width: 4vw; }
-    #poste-8 { top: 85vh; left: 50vw; width: 4vw; }
-    #poste-9 { top: 85vh; left: 55vw; width: 4vw; }
-    #poste-10 { top: 85vh; left: 60vw; width: 4vw; }
-    #poste-11 { top: 85vh; left: 65vw; width: 4vw; }
-    #poste-12 { top: 85vh; left: 70vw; width: 4vw; }
-    #poste-13 { top: 85vh; left: 75vw; width: 4vw; }
+    /* POSICIONAMENTO DOS 8 POSTES (Centralizado) */
+    #poste-1 { top: 85vh; left: 30vw; width: 4vw; }
+    #poste-2 { top: 85vh; left: 35vw; width: 4vw; }
+    #poste-3 { top: 85vh; left: 40vw; width: 4vw; }
+    #poste-4 { top: 85vh; left: 45vw; width: 4vw; }
+    #poste-5 { top: 85vh; left: 50vw; width: 4vw; }
+    #poste-6 { top: 85vh; left: 55vw; width: 4vw; }
+    #poste-7 { top: 85vh; left: 60vw; width: 4vw; }
+    #poste-8 { top: 85vh; left: 65vw; width: 4vw; }
 
     /* MENSAGEM FLUTUANTE */
     .floating-text {
@@ -459,7 +475,8 @@
 
     #game-message {
         position: fixed;
-        top: 20%;
+        /* ALTERADO: De 20% para 10% para subir como título */
+        top: 10%;
         left: 50%;
         transform: translate(-50%, -50%);
         font-size: 5vw;
@@ -477,7 +494,6 @@
 </head>
 <body oncontextmenu="return false;">
 
-  <!-- UI: Vida do Jogador (13 Postes) -->
   <div id="player-hp-container">
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-1" style="position: absolute; width: 3vw; height: 6vw;">
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-2" style="position: absolute; width: 3vw; height: 6vw;">
@@ -487,51 +503,36 @@
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-6" style="position: absolute; width: 3vw; height: 6vw;">
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-7" style="position: absolute; width: 3vw; height: 6vw;">
     <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-8" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-9" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-10" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-11" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-12" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-13" style="position: absolute; width: 3vw; height: 6vw;">
   </div>
 
-  <!-- UI: Mensagens de Sistema -->
   <div id="game-message"></div>
 
-  <!-- ARENA DO BOSS -->
   <div id="boss-arena">
     
-    <!-- CORPO DO BOSS -->
     <img src="/assets/img/Villain.png" id="boss-body" alt="Boss Body" draggable="false">
 
-    <!-- ÁREA DOS OLHOS (FASE 2) -->
-    <!-- NOTA: eye-glow está dentro de layer top -->
     <div class="container mapa" id="boss-eyes-container">
       <div class="layer bottom"></div>
       <div class="layer top">
         <div class="eye-glow"></div> 
       </div>
     </div>
-    <!-- Barra de Cast dos Olhos -->
     <div class="cast-bar-container" id="cast-eyes">
       <div class="cast-bar-fill"></div>
     </div>
-    <!-- Barra de Regen dos Olhos -->
     <div class="cast-bar-container" id="regen-eyes">
       <div class="cast-bar-fill"></div>
     </div>
 
-    <!-- MÃO ESQUERDA -->
     <div class="hand-wrapper left-hand" id="wrapper-left">
       <div class="cast-bar-container">
         <div class="cast-bar-fill" id="fill-left"></div>
       </div>
       
-      <!-- Mão Esquerda -->
       <div class="boss-hand-target" id="hand-left">
         <img src="/assets/img/Villain-hand-left.png" class="hand-img" draggable="false">
       </div>
 
-      <!-- Cuff Esquerda -->
       <div class="container mapa cuff-target" id="cuff-left">
         <div class="layer bottom"></div>
         <div class="layer top">
@@ -540,18 +541,15 @@
       </div>
     </div>
 
-    <!-- MÃO DIREITA -->
     <div class="hand-wrapper right-hand" id="wrapper-right">
       <div class="cast-bar-container">
         <div class="cast-bar-fill" id="fill-right"></div>
       </div>
 
-      <!-- Mão Direita -->
       <div class="boss-hand-target" id="hand-right">
         <img src="/assets/img/Villain-hand-right.png" class="hand-img" draggable="false">
       </div>
 
-      <!-- Cuff Direita -->
       <div class="container mapa cuff-target" id="cuff-right">
         <div class="layer bottom"></div>
         <div class="layer top">
@@ -564,11 +562,17 @@
 
   <script>
     window.gameData = { visualState: {} };
+    let inCutscene = false; // VARIAVEL: BLOQUEIA INPUTS
+    
+    // Pequena garantia para função esperar, caso não exista global
+    if (typeof esperar === 'undefined') {
+        window.esperar = (ms) => new Promise(r => setTimeout(r, ms));
+    }
 
     // ==========================================================
     // SCRIPT.JS (LOADER) - Drag & Drop System
     // ==========================================================
-    console.log("script.js carregado!");
+    console.log("script.js loaded!");
 
     const menu = document.createElement("div");
     menu.id = "menu-secundario";
@@ -578,13 +582,13 @@
       {
         id: "item-lupa",
         func: "revelar",
-        nome: "Lua",
+        nome: "Moon", /* TRADUZIDO */
         img: "/assets/img/Droplet-Moon.png", 
       },
       {
         id: "item-fogo",
         func: "sol",
-        nome: "Sol",
+        nome: "Sun", /* TRADUZIDO */
         img: "/assets/img/Droplet-Sun.png", 
       },
     ];
@@ -834,6 +838,8 @@
     }
 
     function onPointerDown(e) {
+      if (inCutscene) return; // BLOQUEIA CLIQUE NA CENA
+
       const target = e.target.closest(".menu-item");
       if (!target) return;
       e.preventDefault();
@@ -924,6 +930,66 @@
     document.addEventListener("pointerup", onPointerUp, { passive: false });
 
     // ==========================================================
+    // SEU CÓDIGO DA CENA DRAMÁTICA
+    // ==========================================================
+    async function cenaTutorial() {
+      // Garante que o sistema global existe
+      if (typeof dialogo !== 'undefined') {
+        await dialogo.abrirAsync({ nome: "Narrador", texto: "Tudo congelou...." });
+
+        // PAUSA DRAMATICA DE 2.5 SEGUNDOS
+        await esperar(2500);
+
+        // O código espera a fala terminar para ir para a próxima linha
+        if (typeof personagens !== 'undefined') {
+            await dialogo.abrirAsync(personagens.wayway, 'final');
+            // Fala do Wendigo em seguida
+            await dialogo.abrirAsync(personagens.wendigo, 'final');
+        } else {
+             console.warn("Objeto 'personagens' não encontrado!");
+        }
+      } else {
+          console.warn("Sistema de dialogo não carregado!");
+          // Fallback se não tiver diálogo carregado, espera 2s e continua
+          await esperar(2000);
+      }
+      
+      console.log('Cena finalizada!');
+    }
+
+    // Função Trigger para controlar a cena
+    async function startDramaticScene() {
+        inCutscene = true; // Bloqueia interação
+        
+        // APAGA OS POSTES DRAMATICAMENTE (SEQUENCIAL)
+        // Itera sobre cada poste para apagar um por um
+        for (let i = 0; i < els.postes.length; i++) {
+             const p = els.postes[i];
+             
+             // Só apaga se já não estiver apagado
+             if (!p.classList.contains('poste-apagado')) {
+                p.src = "/assets/img/Pole-turned-off.png"; 
+                p.classList.add('poste-apagado');
+                
+                // ===============================================
+                // COLOQUE SUA FUNÇÃO DE SOM AQUI (EX: POOF!)
+                // if(window.playSound) window.playSound('poof');
+                // ===============================================
+                
+                await esperar(150); // Delay curto entre cada apagada (efeito cascata)
+             }
+        }
+
+        // Executa seu código
+        await cenaTutorial();
+
+        // Restaura e começa fase 2
+        inCutscene = false;
+        iniciarFase2();
+    }
+
+
+    // ==========================================================
     // BOSS.JS - LÓGICA DO CHEFÃO
     // ==========================================================
     const BOSS_CONFIG = {
@@ -932,7 +998,7 @@
         castSpeedHand: 0.105, 
         castSpeedEye: 0.105,  
         regenSpeedEye: 0.04,   
-        totalPostes: 13       
+        totalPostes: 8     
     };
 
     const gameState = {
@@ -947,7 +1013,7 @@
         phase: 1, 
         eyesStunned: false,
         necromancyMode: false, 
-        postesVivos: 13,
+        postesVivos: 8,
         gameOver: false
     };
 
@@ -987,7 +1053,13 @@
             }
             // Vitória Fase 1
             if (gameState.hpLeftHand <= 0 && gameState.hpRightHand <= 0) {
-                iniciarFase2();
+                // ALTERADO: Pausa e transição dramática
+                gameState.phase = 'transition'; // Trava o loop
+                
+                // Espera 2 segundos antes de começar o show (pausinha pedida)
+                setTimeout(() => {
+                    startDramaticScene();
+                }, 2000);
             }
         } 
         else if (gameState.phase === 2) {
@@ -1124,6 +1196,9 @@
     }
 
     function apagarPoste(el) {
+
+        tocarEfeito("ice")
+
         el.src = "/assets/img/Pole-turned-off.png"; 
         el.classList.add('poste-apagado');
         el.classList.add('shake');
@@ -1189,6 +1264,8 @@
             return; 
         }
 
+        tocarEfeito("fire")
+
         if (side === "left") gameState.isLeftCuffActive = true;
         else gameState.isRightCuffActive = true;
 
@@ -1253,6 +1330,8 @@
         cuffEl.style.display = 'flex'; 
         topLayer.style.display = 'flex'; 
         topLayer.style.clipPath = "circle(0% at 0 0)";
+
+        tocarEfeito("barrier")
         
         if (side === "left") gameState.isLeftCuffActive = true;
         else gameState.isRightCuffActive = true;
@@ -1266,8 +1345,15 @@
     }
 
     function iniciarFase2() {
+        // Reacende os postes para a fase 2 (já que apagamos visualmente)
+        els.postes.forEach(p => {
+             p.src = "/assets/img/Pole-turned-on.png"; 
+             p.classList.remove('poste-apagado');
+        });
+        
         gameState.phase = 2;
-        mostrarMensagem("FASE 2: OLHOS!", "red");
+        /* TRADUZIDO */
+        mostrarMensagem("PHASE 2: EYES!", "red"); 
         
         document.getElementById('boss-body').src = "/assets/img/Villain2.png";
 
@@ -1307,8 +1393,9 @@
             gameOver(true); 
         } else {
             let msg = "";
-            if (!handsDead) msg = "Destrua as Mãos!";
-            else if (!gameState.eyesStunned) msg = "Quebre o Escudo dos Olhos!";
+            /* TRADUZIDO */
+            if (!handsDead) msg = "Destroy the Hands!";
+            else if (!gameState.eyesStunned) msg = "Break the Eye Shield!";
             showFloatingText(els.eyesContainer, msg, "gray");
         }
     }
@@ -1331,6 +1418,8 @@
 
     function awakenEyes() {
         gameState.eyesStunned = false;
+
+        tocarEfeito("barrier")
         
         document.getElementById('boss-body').src = "/assets/img/Villain2.png";
 
@@ -1367,10 +1456,11 @@
         overlay.style.justifyContent = 'center';
         overlay.style.zIndex = 9999;
         
+        /* TRADUZIDO */
         if (vitoria) {
-            overlay.innerHTML = "<h1>BOSS DERROTADO!</h1><p>A cidade está salva.</p>";
+            overlay.innerHTML = "<h1>BOSS DEFEATED!</h1><p>The city is saved.</p>";
         } else {
-            overlay.innerHTML = "<h1>VOCÊ PERDEU...</h1><p>O gelo consumiu tudo.</p><button onclick='location.reload()' style='padding:1rem; margin-top:1rem; cursor:pointer;'>Tentar Novamente</button>";
+            overlay.innerHTML = "<h1>YOU LOST...</h1><p>The ice has consumed everything.</p><button onclick='location.reload()' style='padding:1rem; margin-top:1rem; cursor:pointer;'>Try Again</button>";
         }
         document.body.appendChild(overlay);
     }
@@ -1385,5 +1475,7 @@
     init();
 
   </script>
+
+  <script src="/loader.js"></script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 const TOTAL_NUM_FLAKES = 380;
-const SNOW_SYMBOLS = ["•", "❅", "❆", "❄"];
+const SNOW_SYMBOLS = ["•"]; 
 
 const LAYERS = [
-    { layer: 1, sizeMin: 18, sizeMax: 34, speedFactor: 0.25, swayAmpMin: 2, swayAmpMax: 6, opacity: 1, blur: 0, colorVariationMin: 245, colorVariationMax: 255, symbols: ["•","❆"], zIndex: 6 },
-    { layer: 2, sizeMin: 14, sizeMax: 26, speedFactor: 0.22, swayAmpMin: 1, swayAmpMax: 5, opacity: 0.95, blur: 0, colorVariationMin: 240, colorVariationMax: 255, symbols: ["•","❅"], zIndex: 5 },
+    { layer: 1, sizeMin: 18, sizeMax: 34, speedFactor: 0.25, swayAmpMin: 2, swayAmpMax: 6, opacity: 1, blur: 0, colorVariationMin: 245, colorVariationMax: 255, symbols: ["•"], zIndex: 6 },
+    { layer: 2, sizeMin: 14, sizeMax: 26, speedFactor: 0.22, swayAmpMin: 1, swayAmpMax: 5, opacity: 0.95, blur: 0, colorVariationMin: 240, colorVariationMax: 255, symbols: ["•"], zIndex: 5 },
     { layer: 3, sizeMin: 12, sizeMax: 20, speedFactor: 0.18, swayAmpMin: 0, swayAmpMax: 4, opacity: 0.9, blur: 0, colorVariationMin: 235, colorVariationMax: 250, symbols: ["•"], zIndex: 4 },
     { layer: 4, sizeMin: 10, sizeMax: 16, speedFactor: 0.12, swayAmpMin: 0, swayAmpMax: 3, opacity: 0.8, blur: 0, colorVariationMin: 220, colorVariationMax: 240, symbols: ["•"], zIndex: 3 },
     { layer: 5, sizeMin: 8, sizeMax: 14, speedFactor: 0.08, swayAmpMin: 0, swayAmpMax: 2, opacity: 0.65, blur: 0, colorVariationMin: 210, colorVariationMax: 230, symbols: ["•"], zIndex: 2 },
@@ -39,12 +39,11 @@ class SnowLayer {
 		this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 	}
 
-	// CHÃO ONDULADO – AGORA MAIS BAIXO
 	initializeSnowPiles() {
 		this.snowPileHeights = [];
 		this.NUM_SEGMENTS = Math.ceil(this.width / this.SEGMENT_WIDTH);
 
-		const base = this.height - 80; // ← CHÃO MAIS BAIXO
+		const base = this.height - 80;
 
 		for (let j = 0; j < this.NUM_SEGMENTS; j++) {
 			if (j === 0) {
@@ -87,7 +86,7 @@ class SnowLayer {
 
 	createSnowflake() {
 		const p = this.layerProps;
-		const symbol = p.symbols[(Math.random() * p.symbols.length) | 0];
+		const symbol = "•"; 
 		const size = Math.random() * (p.sizeMax - p.sizeMin) + p.sizeMin;
 
 		const fallSpeed = size * p.speedFactor + Math.random() * 0.6;
@@ -149,16 +148,20 @@ class SnowLayer {
 
 		for (let i = 0; i < flakes.length; i++) {
 			const f = flakes[i];
+			
 			const swayX = Math.sin(f.swayOffset) * f.swayAmplitude;
 
 			f.rotation += f.rotationSpeed;
 
 			ctx.save();
+			// Movimento suavizado pelo vento mais fraco
 			ctx.translate(f.x + swayX + wSpeed * (0.5 + f.size / 40), f.y);
-			ctx.rotate(f.rotation);
-			ctx.font = `${f.size}px sans-serif`;
+			
 			ctx.fillStyle = f.color;
-			ctx.fillText(f.symbol, 0, 0);
+			ctx.beginPath();
+			ctx.arc(0, 0, f.size * 0.2, 0, Math.PI * 2); 
+			ctx.fill();
+			
 			ctx.restore();
 
 			f.y += f.fallSpeed;
@@ -167,9 +170,8 @@ class SnowLayer {
 
 			const groundHeight = this.getSnowPileHeight(f.x);
 
-			// ❄️ Neve toca o chão → dissolve → renasce (sem acumular)
 			if (f.y >= groundHeight - f.size) {
-				f.y -= 8; // efeito visual do toque
+				f.y -= 8;
 				f.opacity = 0;
 
 				setTimeout(() => {
@@ -191,14 +193,17 @@ class SnowLayer {
 	}
 }
 
+// --- AQUI ESTÁ A MUDANÇA DO VENTO ---
 let wind = {
 	direction: 1,
-	speed: 8 // vento forte
+	speed: 3.5 // Reduzi de 8 para 3.5 (Bem mais leve)
 };
 
 setInterval(() => {
-	wind.speed = 6 + Math.random() * 4;
+    // Agora varia entre 2 e 4.5 (antes era entre 6 e 10)
+	wind.speed = 2 + Math.random() * 2.5;
 }, 3000);
+// ------------------------------------
 
 const snowLayers = LAYERS.map(layer => new SnowLayer(`snow-canvas-${layer.layer}`, layer));
 
@@ -212,7 +217,7 @@ function animate() {
 }
 animate();
 
-const STAR_SYMBOLS = ["✦"]; // estrela preenchida — mantém o visual atual
+const STAR_SYMBOLS = ["✦"]; 
 
 function createStarSky() {
     const canvas = document.getElementById("star-canvas");
@@ -234,12 +239,12 @@ function createStarSky() {
 
         const starCount = 350;
 
-        const maxHeight = height * 0.70; // ⭐ limite vertical — só até 70%
+        const maxHeight = height * 0.70; 
 
         for (let i = 0; i < starCount; i++) {
 
             const x = Math.random() * width;
-            const y = Math.random() * maxHeight; // ⭐ agora sempre dentro dos 70% superiores
+            const y = Math.random() * maxHeight; 
 
             const size = Math.random() * 5 + 5;
             const opacity = Math.random() * 0.7 + 0.3;
@@ -250,10 +255,7 @@ function createStarSky() {
             ctx.font = `${size}px serif`;
             ctx.globalAlpha = opacity;
             ctx.fillStyle = "rgba(255,255,255,1)";
-
-            ctx.shadowBlur = size * 1.5;
-            ctx.shadowColor = "rgba(255,255,255,0.9)";
-
+            
             ctx.fillText(symbol, x, y);
             ctx.restore();
         }
@@ -268,9 +270,6 @@ function createStarSky() {
         const y = height * 0.18;
 
         ctx.save();
-        ctx.shadowBlur = 40;
-        ctx.shadowColor = "rgba(255,255,220,0.6)";
-
         ctx.beginPath();
         ctx.arc(x, y, moonSize, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(255,255,240,0.9)";

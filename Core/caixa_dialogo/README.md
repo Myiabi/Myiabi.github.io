@@ -51,22 +51,18 @@ dialogo.abrir(personagens.aiko, 'introducao', () => {
 ```js
 
 async function cenaTutorial() {
+
+  await dialogo.abrirAsync({ nome: "Narrador", texto: "Tudo congelou...." });
+
   // O código espera a fala terminar para ir para a próxima linha
-  await dialogo.abrirAsync(personagens.aiko, 'introducao');
-  
-  // Você pode colocar ações no meio
-  console.log("Aiko terminou, agora entra o narrador...");
-  
-  await dialogo.abrirAsync({ nome: "Narrador", texto: "Um vento frio percorre o laboratório..." });
-  
+  await dialogo.abrirAsync(personagens.wayway, 'final');
+    
   // Espera de tempo simples (com tela liberada)
   await esperar(1000);
   
-  await dialogo.abrirAsync(personagens.czar, 'inicio');
+  await dialogo.abrirAsync(personagens.wendigo, 'final');
   
-  // Exemplo com atraso no final (espera 2s após fechar)
-  await dialogo.abrirAsync(personagens.nana, 'final', 2000);
-  
+
   console.log('Cena finalizada!');
 }
 

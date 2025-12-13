@@ -243,11 +243,11 @@ class Enemy {
 
       // 🔊 ADICIONE O SOM DE ATAQUE AQUI
       if(this.isMinion) {
-         // Exemplo: new Audio('assets/sfx/minion-attack.mp3').play();
+         tocarEfeito("fire")
          console.log("🔊 Som Minion Atacou");
       } else {
          // Exemplo: new Audio('assets/sfx/boss-attack.mp3').play();
-         console.log("🔊 Som Boss Atacou");
+         tocarEfeito("whoosh")
       }
     }
   }
@@ -650,6 +650,7 @@ function buildHeartsUI(){
 
 // ======== Boss Defeat / Victory Logic ========
 function onBossDefeated() {
+  tocarEfeito("win2")
   console.log("✅ Boss derrotado");
   unlockAchievement('itemMoeda');
   gameData.visualState.solON = true
@@ -660,7 +661,7 @@ function onBossDefeated() {
   window.location.replace("/cenarios/cave/index.html");
 
   // 🔊 ADICIONE SOM DE VITÓRIA AQUI
-  // new Audio('assets/sfx/victory.mp3').play();
+
 }
 
 const originalDie = Enemy.prototype.die;

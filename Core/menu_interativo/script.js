@@ -710,8 +710,8 @@ window.startMinigameLogic = function () {
 
   addSunTarget(document.querySelector("#iceBlock"), {
     action: "hide", // <--- AQUI: "hide" para sumir
-    delayMs: 3500, // Tempo do delay
-    soundLoop: "fire", 
+    delayMs: 5000, // Tempo do delay
+    soundLoop: "melt", 
 
     onComplete: function(elemento) {
       console.log("Gelo derretido! Rodando código extra...");
@@ -730,8 +730,8 @@ window.startMinigameLogic = function () {
 
   addSunTarget(document.querySelector("#fakehole"), {
     action: "hide", // <--- AQUI: "hide" para sumir
-    delayMs: 305, // Tempo do delay
-    soundLoop: "fire", 
+    delayMs: 5000, // Tempo do delay
+    soundLoop: "melt", 
 
     onComplete: function(elemento) {
       console.log("Gelo derretido! Rodando código extra...");
