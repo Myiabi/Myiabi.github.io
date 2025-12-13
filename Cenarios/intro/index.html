@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro Visual Novel - Sequência Final</title>
+    <!-- Seus estilos globais -->
+    <link rel="stylesheet" href="/core/global.css">
+    
+    <!-- IMPORTANTE: Certifique-se de importar seus scripts de diálogo e personagens AQUI ou no final do body -->
+    <!-- <script src="/core/dialogo.js"></script> -->
+    <!-- <script src="/dados/personagens.js"></script> -->
+
+    <style>
+        /* Reset básico */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            background-color: #111;
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        .npc {
+            height: 28%; 
+            position: absolute;
+        }
+
+        #nana { width: 10%; top: 50%; left: 25%; }
+        #nodata { width: 9.5%; top: 50%; left: 62%; }
+        #aiko { position: absolute; width: 10%; top: 65%; left: 45%; }
+
+        /* --- CONTEÚDO DO JOGO (CENA 2) --- */
+        #game-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            
+            background: url('/assets/img/BG_Temple.png') no-repeat center center;
+            background-size: cover;
+            
+            opacity: 0;
+            /* Começa em 6.5s, dura 2s => Termina em 8.5s */
+            animation: gameContentReveal 2s ease forwards 6.5s; 
+        }
+
+        /* --- INTRO OVERLAY --- */
+        #game-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            pointer-events: none;
+        }
+
+        .intro-bg-1 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/assets/img/BG_Base.png') no-repeat center center;
+            background-size: cover;
+            z-index: 1; 
+            animation: fullRevealZoom 7s ease-out forwards;
+        }
+
+        .cinematic-bar {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 12vh;
+            background: black;
+            z-index: 20;
+            transition: transform 0.8s ease-out;
+        }
+        .bar-top { top: 0; animation: slideDown 0.8s ease-out forwards; }
+        .bar-bottom { bottom: 0; animation: slideUp 0.8s ease-out forwards; }
+
+        .game-title {
+            position: relative;
+            z-index: 30;
+            font-family: 'Georgia', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            letter-spacing: 6px; 
+            color: #f0f0f0;
+            text-transform: uppercase;
+            text-shadow: 0 4px 20px rgba(0,0,0,1);
+            opacity: 0;
+            animation: titleReveal 3s ease-out 2.5s forwards;
+            will-change: transform, opacity;
+        }
+
+        .intro-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 10;
+            opacity: 0;
+            animation: fadeInOverlay 2s ease 1s forwards;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes fullRevealZoom { 0% { transform: scale(2.5); } 100% { transform: scale(1.0); } }
+        @keyframes titleReveal { 0% { opacity: 0; transform: translateY(20px); filter: blur(10px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0px); } }
+        @keyframes gameContentReveal { to { opacity: 1; } }
+        @keyframes fadeInOverlay { to { opacity: 1; } }
+        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes fadeOutIntro { to { opacity: 0; visibility: hidden; } }
+
+        .replay-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 200;
+            padding: 8px 16px;
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            cursor: pointer;
+            font-family: monospace;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .replay-btn:hover { opacity: 1; }
+
+    </style>
+</head>
+<body>
+
+    <!-- CENA 2: O JOGO REAL -->
+    <div id="game-content">
+        <img class="npc" id="nana" src="/assets/img/NPC_nan.png" draggable="false">
+        <img class="npc" id="nodata" src="/assets/img/NPC_nodata.png" draggable="false"> 
+        <img class="npc" id="aiko" src="/assets/img/NPC_Leader.png" draggable="false"> 
+    </div>
+
+    <!-- INTRO OVERLAY (CENA 1) -->
+    <div id="game-intro">
+        <div class="intro-bg-1"></div>
+        <div class="intro-overlay"></div>
+        <div class="cinematic-bar bar-top"></div>
+        <div class="cinematic-bar bar-bottom"></div>
+        <h1 class="game-title">COLD MEMORIES</h1>
+    </div>
+
+    <button class="replay-btn" onclick="replayIntro()">Replay Intro</button>
+
+    <script>
+        // --- SEU SCRIPT (EXATAMENTE COMO VOCÊ MANDOU) ---
+        // Nota: Removemos a chamada direta cenaIntro() do final para controlar o timing
+        
+        async function cenaIntro() {
+            // Assumindo que 'dialogo', 'personagens' e 'esperar' já existem no seu ambiente
+            
+            await dialogo.abrirAsync({ nome: "", texto: "..." });
+
+            // O código espera a fala terminar para ir para a próxima linha
+            await dialogo.abrirAsync(personagens.aiko, 'intro');
+            
+            // Espera de tempo simples (com tela liberada)
+            await esperar(300);
+            
+            await dialogo.abrirAsync(personagens.nana, 'intro');
+            // Espera de tempo simples (com tela liberada)
+            await esperar(300);
+            
+            await dialogo.abrirAsync(personagens.nodata, 'intro');
+
+            await esperar(300);
+            
+            await dialogo.abrirAsync(personagens.aiko, 'intro2');
+
+            await esperar(300);
+            
+            await dialogo.abrirAsync(personagens.nana, 'intro2');
+
+            await esperar(300);
+            
+            await dialogo.abrirAsync(personagens.nodata, 'intro2');
+
+            await esperar(300);
+            
+            await dialogo.abrirAsync(personagens.aiko, 'intro3');
+            
+
+            console.log('Cena finalizada!');
+            location.href = "/cenarios/templo/index.html";
+        }
+
+
+        // --- LÓGICA DE CONTROLE DA INTRO ---
+        let scriptTimeoutId = null;
+
+        function startIntroSequence() {
+            const intro = document.getElementById('game-intro');
+            const gameContent = document.getElementById('game-content');
+            
+            // Reseta a opacidade do jogo para testar o replay direito
+            if(gameContent) {
+                gameContent.style.opacity = '0';
+                gameContent.style.animation = 'none';
+                gameContent.offsetHeight; /* trigger reflow */
+                gameContent.style.animation = 'gameContentReveal 2s ease forwards 6.5s';
+            }
+            
+            if (intro) {
+                // 1. ANIMAÇÃO VISUAL: Intro roda e some aos 9s (7.5s + 1.5s fade)
+                setTimeout(() => {
+                    intro.style.animation = "fadeOutIntro 1.5s forwards";
+                    
+                    // Remove do DOM
+                    setTimeout(() => {
+                        if(intro.parentNode) intro.parentNode.removeChild(intro);
+                    }, 1500); 
+
+                }, 7500); 
+
+                // 2. DISPARO DO SCRIPT (TIMING EXATO)
+                // O jogo termina de aparecer aos 8.5s.
+                // Você quer 2s depois disso -> 10.5s (10500ms).
+                scriptTimeoutId = setTimeout(() => {
+                    // Chama a sua função async
+                    cenaIntro().catch(err => console.error("Erro ao rodar script (verifique imports):", err));
+                }, 10500);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", startIntroSequence);
+
+        function replayIntro() {
+            // Limpa o script pendente se clicar rápido
+            if(scriptTimeoutId) clearTimeout(scriptTimeoutId);
+
+            const oldIntro = document.getElementById('game-intro');
+            if(oldIntro) oldIntro.remove();
+
+            const introHTML = `
+                <div id="game-intro">
+                    <div class="intro-bg-1"></div>
+                    <div class="intro-overlay"></div>
+                    <div class="cinematic-bar bar-top"></div>
+                    <div class="cinematic-bar bar-bottom"></div>
+                    <h1 class="game-title">COLD MEMORIES</h1>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', introHTML);
+            startIntroSequence();
+        }
+    </script>
+
+    <script src="/loader.js"></script>
+</body>
+</html>

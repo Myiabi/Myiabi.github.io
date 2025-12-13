@@ -742,7 +742,7 @@ window.startMinigameLogic = function () {
 
   addSunTarget(document.querySelector("#fakehole"), {
     action: "hide",
-    delayMs: 5000,
+    delayMs: 3000,
     soundLoop: "melt",
     onComplete: function(elemento) {
       // Exemplo de mudança de cenário

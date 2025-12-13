@@ -103,7 +103,7 @@
 - ~~Ajeitar pescaria com itens novos e revisar codigo~~
 - Revisar e escolher achievments.
 - Falas menores no mobile.
-- Som dos achievments n toca
+- ~~Som dos achievments n toca~~
 - ~~Petala da Lily~~
 
 

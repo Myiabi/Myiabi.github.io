@@ -69,3 +69,45 @@ async function cenaTutorial() {
 cenaTutorial();
 
 
+---
+
+
+async function cenaIntro() {
+
+  await dialogo.abrirAsync({ nome: "", texto: "..." });
+
+  // O código espera a fala terminar para ir para a próxima linha
+  await dialogo.abrirAsync(personagens.aiko, 'intro');
+    
+  // Espera de tempo simples (com tela liberada)
+  await esperar(200);
+  
+  await dialogo.abrirAsync(personagens.nana, 'intro');
+  // Espera de tempo simples (com tela liberada)
+  await esperar(200);
+  
+  await dialogo.abrirAsync(personagens.nodata, 'intro');
+
+  await esperar(200);
+  
+  await dialogo.abrirAsync(personagens.aiko, 'intro2');
+
+  await esperar(200);
+  
+  await dialogo.abrirAsync(personagens.nana, 'intro2');
+
+  await esperar(200);
+  
+  await dialogo.abrirAsync(personagens.nodata, 'intro2');
+
+  await esperar(200);
+  
+  await dialogo.abrirAsync(personagens.aiko, 'intro3');
+  
+
+  console.log('Cena finalizada!');
+  location.href = "/cenarios/templo/index.html";
+}
+
+cenaIntro();
+

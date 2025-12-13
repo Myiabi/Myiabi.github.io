@@ -137,6 +137,7 @@ window.personagens = {
             "Didn't thought here was so cold. I should had trusted on my books",
             aofechar: function () {
             gameData.visualState.siriusVisivel = true;
+            mudarCenario(personagens.marin, 'sirius');
             tocarEfeito("swoosh")
           },
         },
@@ -444,6 +445,48 @@ window.personagens = {
           expressao: "normal",
         },
       ],
+
+      intro: [
+        {
+          texto:
+            "Seja bem-vindo! Que bom que você veio. A viagem foi muito cansativa? Bem, sinto muito a nossa pressa, mas esse problema precisa ser resolvido urgentemente.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Você deve ter ouvido que essa era uma cidade muito agradável de se estar... mas como pode perceber estamos numa friagem épica. E é por isso que solicitamos sua ajuda.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Em nossa companhia temos duas presenças ilustres, elas estão preocupadas com a situação. Elas podem explicar o que vem acontecendo. Mas por favor, cuidado com a forma como se dirige a elas! São duas Rainhas!.",
+          expressao: "normal",
+        },
+      ],
+      intro2: [
+        {
+          texto:
+            "Os dois guardiões que protegiam essa cidade... eles moravam aqui no templo. Mas nos últimos dias eles ficaram muito inquietos... Até que um dia eles sumiram.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "O poder deles era essencial. Basicamente a criação dessa cidade se deve a eles. O que será que eles sentiram?",
+          expressao: "normal",
+        },
+      ],
+      intro3: [
+        {
+          texto:
+            "Naturalmente, você será recompensado. Mas por favor... proteja as vidas dessa cidade",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Você já pode começar sua investigação.",
+          expressao: "normal",
+        },
+      ],
     },
   },
 
@@ -466,6 +509,13 @@ window.personagens = {
           expressao: "pensativo",
         },
       ],
+      intro: [
+        { texto: "Não tem necessidade de ser tão formal, por favor. Afinal, nós que estamos em dívida pela sua visita.", expressao: "sorrindo" },
+      ],
+      intro2: [
+        { texto: "Precisamos encontrar eles! Ou até o fim da noite, todos nessa cidade irão congelar!", expressao: "normal" },
+        { texto: "Esse é o real motivo que nós duas viemos aqui, vamos tentar adiar ao máximo o congelamento até você encontrar os guardiões.", expressao: "normal" },
+      ],
     },
   },
 
@@ -482,10 +532,21 @@ window.personagens = {
         { texto: "Se vir meu marido e minhas crianças por aí, dê um Oi. Eles são díficeis mas são interessantes.", expressao: "normal" },
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Impressionante. Apesar de serem apenas crianças, eles tem um talento precoce, e você conseguiu localiza-los tão rápido.", expressao: "normal" },
+
+      ],
+      intro: [
+        { texto: "Concordo. Mas vamos direto ao ponto.", expressao: "normal" },
         {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
+          texto: "Essa cidade vai colapsar. Sendo mais especifica, ela está congelando.",
+          expressao: "normal",
+        },
+      ],
+      intro2: [
+        { texto: "Então é isso. Contamos com você", expressao: "normal" },
+        {
+          texto: "Estaremos aqui se precisar saber alguma coisa.",
+          expressao: "normal",
         },
       ],
     },
@@ -507,6 +568,7 @@ window.personagens = {
             aofechar: function () {
                 
               gameData.visualState.rigelVisivel = true;
+              mudarCenario(personagens.marin, 'rigel');
               tocarEfeito("swoosh")
 
           },
@@ -639,6 +701,7 @@ window.personagens = {
             "Couldn't resist the sweet scent of the food here! Everything seems so yummy!♥",
             aofechar: function () {
             gameData.visualState.capellaVisivel = true;
+            mudarCenario(personagens.marin, 'capella');
             gameData.npcApareceu = "sumiu";
             tocarEfeito("swoosh")
           },
@@ -743,6 +806,7 @@ window.personagens = {
             "Minha cauda coçou e não consegui ficar imovél. heh",
             aofechar: function () {
             gameData.visualState.kofongoVisivel = true;
+            mudarCenario(personagens.marin, 'kofongo');
             tocarEfeito("swoosh")
           },
         },
@@ -820,6 +884,7 @@ window.personagens = {
             "I want mom and dad!!",
             aofechar: function () {
               gameData.visualState.polluxVisivel = true;
+              mudarCenario(personagens.marin, 'pollux');
               tocarEfeito("swoosh")
             
           },
@@ -843,6 +908,7 @@ window.personagens = {
             ".... [hides on his own tail and run away]",
             aofechar: function () {
               gameData.visualState.aldebaranVisivel = true;
+              mudarCenario(personagens.marin, 'kofongo');
               tocarEfeito("swoosh")
             
           },
@@ -850,6 +916,8 @@ window.personagens = {
       ],
     },
   },
+
+  // lake // 
 
   cory: {
     nome: "Cory",
@@ -866,7 +934,7 @@ window.personagens = {
             "Não é todo dia que recebemos visitantes.",
         },
       ],
-      inicio: [
+      segunda: [
         {
           texto:
             "Essas aguas estão ficando tão frias, quando isso vai passar?",
@@ -914,7 +982,7 @@ window.personagens = {
             "Já tentei espocar essas bolhas, mas elas sempre nascem de novo, não consegui liberar a criança.",
         },
       ],
-      inicio: [
+        segunda: [
         {
           texto:
             "Padrões nas bolhas? nunca pensaria nisso! Você ´um gênio.",
@@ -938,7 +1006,7 @@ window.personagens = {
             "Hahahaha! Quer que eu mate o caranguejo pra você? Mas não garanto a segurança do garoto.",
         },
       ],
-      inicio: [
+        segunda: [
         {
           texto:
             "Odeio quem resolve as coisas na inteligência",

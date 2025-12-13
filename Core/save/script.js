@@ -140,6 +140,7 @@ function aplicarMudancaVisual(prop, value) {
     
   const mint = document.getElementById("mint");
   const vara = document.getElementById("rodButton");
+  const hole = document.getElementById("hole");
 
   switch (prop) {
     // ==================================
@@ -298,6 +299,10 @@ function aplicarMudancaVisual(prop, value) {
       
     case "varaON":
       if (vara) vara.style.pointerEvents = value ? "auto" : "none";
+      break;
+
+    case "presilha":
+      if (hole) hole.style.pointerEvents = value ? "auto" : "none";
       break;
 
     case "postesAcesos":

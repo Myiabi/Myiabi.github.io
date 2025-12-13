@@ -74,7 +74,8 @@ body {
 
 .text {
   white-space: pre-line;
-  font-size: clamp(1rem, 1.4rem, 3rem);
+  /* Mínimo 16px, Tenta ser 2.5% da largura da tela, Máximo 28px */
+  font-size: clamp(16px, 1.7vw, 28px); 
   font-weight: bold;
   min-height: 6vh;
 }

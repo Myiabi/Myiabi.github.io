@@ -77,9 +77,47 @@ body {
 
 #maid {
   width: 11%;
-  top: 45%;
+  top: 25%;
   left: 36%;
   z-index: 500;
+    transform-origin: bottom center;
+    /* Ajuste o tempo (6s) se ela estiver muito lenta ou rápida */
+    animation: servir-mesas 6s linear infinite;
+    will-change: transform;
+}
+
+@keyframes servir-mesas {
+    /* --- FASE 1: INDO PARA A ESQUERDA --- */
+    0% {
+        /* Começa no 0, olhando para a ESQUERDA */
+        transform: translateX(0) scaleX(-1); 
+    }
+    45% {
+        /* Anda 100px para a esquerda */
+        transform: translateX(-300px) scaleX(-1);
+    }
+
+    /* --- FASE 2: A VIRADA --- */
+    49% {
+        /* Pausa dramática */
+        transform: translateX(-300px) scaleX(-1);
+    }
+    50% {
+        /* VIRA PARA A DIREITA */
+        transform: translateX(-300px) scaleX(1);
+    }
+
+    /* --- FASE 3: VOLTANDO PARA O PONTO ORIGINAL --- */
+    95% {
+        /* Volta ao 0, olhando para a direita */
+        transform: translateX(0) scaleX(1);
+    }
+
+    /* --- FASE 4: RESET --- */
+    100% {
+        /* Vira para a esquerda para recomeçar o loop */
+        transform: translateX(0) scaleX(-1);
+    }
 }
 
 #felicia2 {

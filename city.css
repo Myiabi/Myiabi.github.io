@@ -69,7 +69,33 @@ filter:
   top: 55%;
   left: 50%;
   display: none;
+transform-origin: bottom center;
+
+    /* cubic-bezier deixa o movimento com "peso" e rebote, não robótico */
+    animation: slime-bounce 3s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+    
+    will-change: transform;
 }
+
+@keyframes slime-bounce {
+    0%, 100% { 
+        /* Estado Normal */
+        transform: scale(1, 1); 
+    }
+    30% { 
+        /* Esmaga no chão (Mais larga e mais baixa) */
+        transform: scale(1.25, 0.75); 
+    }
+    45% { 
+        /* Rebote pra cima (Mais fina e mais alta) */
+        transform: scale(0.85, 1.15); 
+    }
+    60% { 
+        /* Estabilizando (Levemente achatada) */
+        transform: scale(1.05, 0.95); 
+    }
+}
+  
 #capella {
   width: 4%;
   top: 55%;
@@ -121,6 +147,39 @@ filter:
   width: 5%;
   top: 65%;
   left: 75%;
+    transform-origin: bottom center;
+    animation: patinar-real 5s linear infinite;
+    will-change: transform;
+}
+
+@keyframes patinar-real {
+    /* --- FASE 1: INDO PARA A DIREITA --- */
+    /* Se a imagem original olha pra esquerda, scaleX(-1) faz ela olhar pra direita */
+    0% {
+        transform: translateX(-50px) scaleX(-1); 
+    }
+    45% {
+        transform: translateX(50px) scaleX(-1);
+    }
+
+    /* --- FASE 2: A VIRADA --- */
+    49% {
+        transform: translateX(50px) scaleX(-1);
+    }
+    50% {
+        /* VIRA PARA A ESQUERDA (volta ao normal ou inverte, dependendo da imagem) */
+        transform: translateX(50px) scaleX(1);
+    }
+
+    /* --- FASE 3: VOLTANDO PARA A ESQUERDA --- */
+    95% {
+        transform: translateX(-50px) scaleX(1);
+    }
+
+    /* --- FASE 4: RESET --- */
+    100% {
+        transform: translateX(-50px) scaleX(-1);
+    }
 }
 
 #pine {
@@ -129,10 +188,45 @@ filter:
   left: 50%;
 }
 
+.telecinese {
+    /* O SEGREDO DA AURA EM PNG:
+       Uso dois drop-shadows: 
+       1. Um lilás (#d8b4fe) bem perto e definido.
+       2. Um roxo (#7e22ce) mais longe e esfumaçado pra dar profundidade. 
+    */
+    filter: drop-shadow(0 0 5px #d8b4fe) drop-shadow(0 0 15px #7e22ce);
+
+    /* Animação: 'alternate' faz ele ir e voltar suavemente */
+    animation: levitar 2.5s ease-in-out infinite alternate;
+    
+    /* Garante que a animação use a GPU pra não travar no celular */
+    will-change: transform; 
+}
+
+@keyframes levitar {
+    from {
+        /* Ponto inicial */
+        transform: translateY(0);
+    }
+    to {
+        /* Ponto final (sobe X pixels) */
+        /* Diferente da água, o movimento aqui é mais curto e "preso" */
+        transform: translateY(-10px); 
+    }
+}
+
  #day25 {
   width: 5%;
   top: 14%;
   left: 60%;
+  filter: drop-shadow(0 0 5px #d8b4fe) drop-shadow(0 0 15px #7e22ce);
+
+    /* --- Animação de Levitação (Telecinese) --- */
+    /* 2s é um tempo bom pra parecer controlado/poderoso, não boiando */
+    animation: levitar 8s ease-in-out infinite alternate;
+    
+    /* Otimização pro navegador não engasgar no celular */
+    will-change: transform;
 }
 
 #mint {
@@ -142,7 +236,20 @@ filter:
   left: 20%;
   object-fit: contain;
   display: none;
+  animation: 
+    fantasma-float 4s ease-in-out infinite,
+    fantasma-pulse 3s ease-in-out infinite;
+} 
 
+@keyframes fantasma-float {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(10px, -20px); } /* Movimento diagonal leve */
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes fantasma-pulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.9; }
 }
 
 #ghost {
@@ -165,8 +272,25 @@ filter:
   width: 5%;
   top: 0%;
   left: 25%;
+    /* O TRUQUE: Define o eixo de rotação bem na base da imagem (onde ela senta) */
+    transform-origin: bottom center;
+
+    /* Animação suave e infinita */
+    animation: cantarolar 2.5s ease-in-out infinite alternate;
+    
+    will-change: transform;
 }
 
+@keyframes cantarolar {
+    from {
+        /* Inclina levemente para a esquerda */
+        transform: rotate(-5deg);
+    }
+    to {
+        /* Inclina levemente para a direita */
+        transform: rotate(5deg);
+    }
+}
 #felicia {
   width: 5%;
   top: 80%;
@@ -269,6 +393,7 @@ filter:
   top: 61.5%;     
   left: 36.6%;
   z-index: 400;
+  pointer-events: none;
 }
 
 #fakehole {
@@ -294,3 +419,40 @@ filter:
 
 
 
+/* Container da neve que cobre a tela toda */
+#snow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 800; /* Fica na frente dos NPCs mas atrás de Menus/HUD */
+    pointer-events: none; /* OBRIGATÓRIO: Senão você não clica em nada */
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    background: #ffffff; /* Branco absoluto */
+    border-radius: 50%;
+    
+    /* AQUI ESTAVA O "ERRO": Antes estava opacity: 0.8. 
+       Agora vamos garantir que ela seja visível. */
+    opacity: 1; 
+
+    /* DICA DE OURO: Um leve brilho pra ela não parecer papel picado */
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+
+    will-change: transform;
+}
+
+/* Animação de cair com um leve balanço lateral */
+@keyframes snowfall {
+    0% {
+        transform: translateY(-10vh) translateX(0px);
+    }
+    100% {
+        transform: translateY(110vh) translateX(20px); /* Cai até sumir embaixo */
+    }
+}
