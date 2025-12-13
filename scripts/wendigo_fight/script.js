@@ -657,6 +657,7 @@ function onBossDefeated() {
   gameData.visualState.minigame4 = true;
   gameData.visualState.pedraLiberada = true;
   gameData.visualState.incLista = true;
+  mudarCenario(personagens.cat, 'segunda')
 
   window.location.replace("/cenarios/cave/index.html");
 

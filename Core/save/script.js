@@ -20,7 +20,7 @@ const defaultData = {
   },
   myoLiberado: false, // Define se o criador de personagem abre
 
-  // Adicione ou atualize isso dentro do defaultData
+  // Fishing System
   fishing: {
     inventory: [],      // Histórico
     uniqueItems: {},    // Para o Clip: { 'Star Hair Clip': false }
@@ -28,7 +28,6 @@ const defaultData = {
       totalCatches: 0,
       legendaryCount: 0
     },
-    // AQUI ESTÁ O NOVO CAMPO DO RECORDE:
     biggestFish: {
       name: "None",
       size: 0
@@ -134,17 +133,13 @@ function aplicarMudancaVisual(prop, value) {
   const noteJelly = document.getElementById("note-jelly");
 
   // mesas
-
-    const mesa1 = document.getElementById("table1");
-    const mesa2 = document.getElementById("table2");
-    const mesa3 = document.getElementById("table3");
-    const mesa4 = document.getElementById("table4");
+  const mesa1 = document.getElementById("table1");
+  const mesa2 = document.getElementById("table2");
+  const mesa3 = document.getElementById("table3");
+  const mesa4 = document.getElementById("table4");
     
-    const mint = document.getElementById("mint");
-    const vara = document.getElementById("rodButton");
-    
-
-
+  const mint = document.getElementById("mint");
+  const vara = document.getElementById("rodButton");
 
   switch (prop) {
     // ==================================
@@ -154,31 +149,32 @@ function aplicarMudancaVisual(prop, value) {
     case "polluxVisivel":
       if (pollux) pollux.style.display = value ? "block" : "none";
       if (cobra1) cobra1.style.display = value ? "none" : "block";
-    
       break;
 
     case "rigelVisivel":
       if (rigelon) rigelon.style.display = value ? "block" : "none";
       if (cobra2) cobra2.style.display = value ? "none" : "block";
-    
       break;
+
     case "rigelGhost":
-      
       if (cobra2) cobra2.style.display = value ? "block" : "none";
-    
       break;
+
     case "kofongoVisivel":
       if (kofongo) kofongo.style.display = value ? "block" : "none";
       if (cobra4) cobra4.style.display = value ? "none" : "block";
       break;
+
     case "capellaVisivel":
       if (capella) capella.style.display = value ? "block" : "none";
       if (cobra5) cobra5.style.display = value ? "none" : "block";
       break;
+
     case "siriusVisivel":
       if (sirius) sirius.style.display = value ? "block" : "none";
       if (cobra3) cobra3.style.display = value ? "none" : "block";
       break;
+
     case "boxSumiu":
       if (box) {
         box.style.display = value ? "none" : "block";
@@ -189,11 +185,11 @@ function aplicarMudancaVisual(prop, value) {
     case "luaON":
       if (menu_lua) {
         menu_lua.style.display = value ? "block" : "none";
-        // Lógica para mostrar container se Sol ou Lua estiverem ativos
         const solVisivel = menu_sol && getComputedStyle(menu_sol).display !== "none";
         if (container) container.style.display = (value || solVisivel) ? "flex" : "none";
       }
       break;
+
     case "solON":
       if (menu_sol) {
         menu_sol.style.display = value ? "block" : "none";
@@ -201,6 +197,7 @@ function aplicarMudancaVisual(prop, value) {
         if (container) container.style.display = (value || luaVisivel) ? "flex" : "none";
       }
       break;
+
     case "minigame1":
       if (cadeadoOFF) {
         cadeadoOFF.parentElement.style.pointerEvents = value ? "none" : "auto";
@@ -210,34 +207,28 @@ function aplicarMudancaVisual(prop, value) {
       break;
 
     case "minigame2":
-      // Verifica se estamos no templo (estátua existe)
       if (estatua) {
         estatua.style.pointerEvents = value ? "none" : "auto";
         estatua.style.cursor = value ? "default" : "pointer";
-
-        // AGORA SIM: Protegido dentro do IF.
-        // Só tenta mudar os personagens se estivermos no mapa certo.
-        // Adicionei uma checagem extra pra garantir que 'personagens' já carregou
         if (window.personagens) {
             if (personagens.aiko) mudarCenario(personagens.aiko, 'estatuaWon');
         }
       }
       break;
+
     case "minigame4":
-      
         if (window.personagens) {
             if (personagens.wendigo) mudarCenario(personagens.wendigo, 'segunda');
             if (personagens.lily) mudarCenario(personagens.lily, 'jardim');
-        
-      }
-
+        }
       break;
-      case "estatuasON":
+
+    case "estatuasON":
       if (estatua) {
         estatua.style.pointerEvents = value ? "auto" : "none";
         estatua.style.cursor = value ? "pointer" : "default";
-
       }  
+      break;
 
     // ==================================
     // 2. NOVOS VISUAIS (CAVERNA)
@@ -259,13 +250,10 @@ function aplicarMudancaVisual(prop, value) {
 
     // --- Estado da Incubadora / Myo ---
     case "myoLiberado":
-      // Se Myo nasceu, o cursor muda e podemos liberar interações extras
       if (elWrapper) {
           elWrapper.style.cursor = value ? "pointer" : "default";
       }
       break;
-
-
 
     // --- Puzzle da Pedra e Cobra ---
     case "pedraResolvida":
@@ -273,14 +261,12 @@ function aplicarMudancaVisual(prop, value) {
         if (rock) {
           rock.classList.add("rock-locked");
           rock.style.pointerEvents = "none";
-          // Força a posição final se o CSS ou JS local não pegou
           if (rock.style.left === "") {
              rock.style.transform = `translateX(8vw)`; 
           }
         }
       }
-            if (cobra1) cobra1.style.pointerEvents = value ? "auto" : "none";
-
+      if (cobra1) cobra1.style.pointerEvents = value ? "auto" : "none";
       break;
 
     // --- Wendigo (Guardião) ---
@@ -297,34 +283,30 @@ function aplicarMudancaVisual(prop, value) {
       break;
 
 
-      //mesas //
-
-      case "mesasON":
+      // mesas
+    case "mesasON":
       if (mesa1) mesa1.style.pointerEvents = value ? "auto" : "none";
       if (mesa2) mesa2.style.pointerEvents = value ? "auto" : "none";
       if (mesa3) mesa3.style.pointerEvents = value ? "auto" : "none";
       if (mesa4) mesa4.style.pointerEvents = value ? "auto" : "none";
       break;
 
-      // ghost //
-
+      // ghost
     case "mintVisivel":
       if (mint) mint.style.display = value ? "block" : "none";
       break;
       
-    case "varaOn":
-      if (vara) vara.style.display = value ? "block" : "none";
+    case "varaON":
+      if (vara) vara.style.pointerEvents = value ? "auto" : "none";
       break;
 
-    case "buracoON":
-      
-      break;
-
-    case "lendario":
-      break;
-
-
-
+    case "postesAcesos":
+    if (day25) {
+    // Se value for true: vai pra posição nova
+    // Se value for false: "" (string vazia) remove o estilo inline e o elemento volta pro lugar original do CSS
+    day25.style.top = value ? "83%" : ""; 
+    day25.style.left = value ? "45%" : ""; 
+  }      break;
 
   }
 }
@@ -378,21 +360,100 @@ function criarProxy(obj, caminho = []) {
 const loadedData = carregarJogo();
 let gameData = criarProxy(loadedData);
 
+
 // ---------------------------
-// 🏆 5. ACHIEVEMENTS
+// 🏆 5. ACHIEVEMENTS (VISUAL STEAM + FILA ANTI-ERRO)
 // ---------------------------
+
+// 1. INJEÇÃO DE CSS (Visual Steam)
+const styleSteam = document.createElement('style');
+styleSteam.innerHTML = `
+  .steam-achievement {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    background: #1b2838; /* Fundo escuro azulado */
+    color: #c7d5e0;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 0px; 
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    pointer-events: none; /* Permite clicar através do popup */
+  }
+  
+  .steam-achievement::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);
+    pointer-events: none;
+  }
+
+  .steam-icon {
+    width: 44px;
+    height: 44px;
+    margin-right: 12px;
+    flex-shrink: 0;
+    background: #000;
+    border: 1px solid #3d4d5d;
+  }
+  
+  .steam-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .steam-content {
+    flex-grow: 1;
+    z-index: 1;
+  }
+
+  .steam-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #66c0f4; /* Azul Steam */
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  .steam-desc {
+    font-size: 13px;
+    color: #e1e1e1;
+    line-height: 1.2;
+  }
+`;
+document.head.appendChild(styleSteam);
+
+// 2. CONTAINER
 let achievementsContainer = document.getElementById("achievements-container");
 if (!achievementsContainer) {
   achievementsContainer = document.createElement("div");
   achievementsContainer.id = "achievements-container";
   document.documentElement.appendChild(achievementsContainer);
+  
   Object.assign(achievementsContainer.style, {
-    position: "fixed", bottom: "1rem", right: "1rem", display: "flex", flexDirection: "column-reverse", gap: "0.5rem", zIndex: "9999999", pointerEvents: "none", transition: "transform 0.3s ease",
+    position: "fixed", 
+    bottom: "20px", 
+    right: "20px", 
+    display: "flex", 
+    flexDirection: "column-reverse", 
+    gap: "10px", 
+    zIndex: "9999999", 
+    pointerEvents: "none"
   });
-  // Rotação para mobile/landscape
+
   const rotateAch = () => {
     if (window.matchMedia("(orientation: portrait)").matches) {
-       achievementsContainer.style.transform = "rotate(-90deg) translate(-30vh, 75vw)";
+       achievementsContainer.style.transform = "rotate(-90deg) translate(-25vh, 70vw)";
+       achievementsContainer.style.transformOrigin = "bottom right";
     } else {
        achievementsContainer.style.transform = "none";
     }
@@ -401,21 +462,9 @@ if (!achievementsContainer) {
   rotateAch();
 }
 
+// 3. CONFIGURAÇÃO DE ÁUDIO E DADOS
 const audioVitoria = new Audio("/assets/sounds/efeitos/steam.mp3");
-
-function showAchievement({ title, desc, iconUrl }) {
-  const ach = document.createElement("div");
-  ach.className = "achievement";
-  ach.innerHTML = `<img src="${iconUrl}" style="width:48px;height:48px"><div style="color:white;font-family:sans-serif"><div style="font-weight:bold">${title}</div><div style="font-size:0.9em">${desc}</div></div>`;
-  Object.assign(ach.style, {
-    display: "flex", alignItems: "center", gap: "10px", background: "rgba(44, 47, 51, 0.95)", padding: "10px", borderRadius: "8px", boxShadow: "0 4px 10px rgba(0,0,0,0.5)", transform: "translateY(120%)", opacity: "0", transition: "all 0.4s ease", pointerEvents: "auto"
-  });
-  achievementsContainer.appendChild(ach);
-  audioVitoria.play().catch(()=>{});
-  
-  setTimeout(() => { ach.style.transform = "translateY(0)"; ach.style.opacity = "1"; }, 50);
-  setTimeout(() => { ach.style.transform = "translateY(120%)"; ach.style.opacity = "0"; setTimeout(()=>ach.remove(), 500); }, 3000);
-}
+audioVitoria.volume = 0.5;
 
 const secretAchievements = [
   { id: "itemMoeda", title: "Tesouro!", desc: "Você pegou a moeda!", iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png", unlocked: false, condition: (gs) => gs.itemMoeda },
@@ -423,35 +472,132 @@ const secretAchievements = [
   { id: "minigameWon", title: "Campeão!", desc: "Você venceu o minigame!", iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png", unlocked: false, condition: (gs) => gs.minigameWon },
 ];
 
+// --- 4. FILA DE ESPERA (COM TRAVA ANTI-DUPLO CLIQUE) ---
+const QUEUE_KEY = "steam_ach_queue";
+let isQueueProcessing = false; // <--- A TRAVA DE SEGURANÇA
+
+// Renderiza visualmente (Com verificação se já existe na tela)
+function renderAchievement(ach) {
+    // 1. BLINDAGEM VISUAL: Se esse achievement já estiver na tela, aborta.
+    if (document.querySelector(`.steam-achievement[data-id="${ach.id}"]`)) return;
+
+    const el = document.createElement("div");
+    el.className = "steam-achievement";
+    el.setAttribute("data-id", ach.id); // Marca o ID no HTML pra evitar duplicatas
+    
+    el.innerHTML = `
+      <div class="steam-icon"><img src="${ach.iconUrl}"></div>
+      <div class="steam-content">
+          <div class="steam-title">Achievement Unlocked</div>
+          <div class="steam-desc">${ach.desc}</div> 
+      </div>
+    `;
+    achievementsContainer.appendChild(el);
+    
+    // Tenta tocar som
+    audioVitoria.currentTime = 0;
+    audioVitoria.play().catch(()=>{}); 
+
+    // Animação Entrada/Saída
+    requestAnimationFrame(() => { el.style.transform = "translateY(0)"; el.style.opacity = "1"; });
+    setTimeout(() => { 
+        el.style.opacity = "0"; 
+        setTimeout(() => el.remove(), 500); 
+    }, 4000);
+}
+
+// Processa a fila
+function processQueue() {
+    // 2. BLINDAGEM LÓGICA: Se já tem um processo armado, NÃO arma outro.
+    if (isQueueProcessing) return;
+
+    // Verifica se tem algo na fila antes de travar
+    const queueJson = localStorage.getItem(QUEUE_KEY);
+    if (!queueJson) return;
+    const queue = JSON.parse(queueJson);
+    if (!Array.isArray(queue) || queue.length === 0) return;
+
+    // Ativa a trava
+    isQueueProcessing = true;
+
+    // "ARMADILHA": Aguarda interação
+    const trigger = () => {
+        // Remove gatilhos
+        document.removeEventListener('click', trigger, { capture: true });
+        document.removeEventListener('touchstart', trigger, { capture: true });
+        document.removeEventListener('keydown', trigger, { capture: true });
+
+        // Ler a fila DE NOVO (Fresh) para garantir que pegamos tudo atualizado
+        const freshQueue = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
+        
+        freshQueue.forEach(achId => {
+            const achData = secretAchievements.find(a => a.id === achId);
+            if (achData) renderAchievement(achData);
+        });
+
+        // Limpa a fila e solta a trava
+        localStorage.removeItem(QUEUE_KEY);
+        
+        // Pequeno delay para liberar a trava, evitando spam de clique muito rápido
+        setTimeout(() => { isQueueProcessing = false; }, 100);
+    };
+
+    // Adiciona gatilhos
+    document.addEventListener('click', trigger, { capture: true, once: true });
+    document.addEventListener('touchstart', trigger, { capture: true, once: true });
+    document.addEventListener('keydown', trigger, { capture: true, once: true });
+}
+
+// Função chamada pelo Proxy quando algo muda
 function checkAchievements(gs) {
+  let hasNew = false;
+  let queue = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
+
   secretAchievements.forEach((ach) => {
     const already = gs.unlockedAchievements?.[ach.id];
+    
+    // Se desbloqueou agora
     if (!ach.unlocked && !already && ach.condition(gs)) {
       ach.unlocked = true;
       gs.unlockedAchievements[ach.id] = true;
-      salvarJogo();
-      showAchievement(ach);
+      
+      // Adiciona na fila de espera (persiste mesmo se der refresh/redirect)
+      if (!queue.includes(ach.id)) {
+          queue.push(ach.id);
+          hasNew = true;
+      }
     }
   });
+
+  if (hasNew) {
+      salvarJogo();
+      localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+      
+      // Chama o processador imediatamente (caso o usuário continue na mesma página)
+      processQueue(); 
+  }
 }
 
 // ---------------------------
 // 🔁 6. SINCRONIZAÇÃO INICIAL (ON LOAD)
 // ---------------------------
 (function syncFromSave() {
-  // Sync Achievements
+  // Sync Achievements (Apenas estado interno)
   gameData.unlockedAchievements = gameData.unlockedAchievements || {};
   secretAchievements.forEach((ach) => { if (gameData.unlockedAchievements[ach.id]) ach.unlocked = true; });
 
-  // Sync Visual State Geral + Caverna
+  // Sync Visuais
   if (gameData.visualState) {
     Object.entries(gameData.visualState).forEach(([p, v]) => aplicarMudancaVisual(p, v));
   }
-  // Sync Incubadora
   if (gameData.incubadora) {
     Object.entries(gameData.incubadora).forEach(([p, v]) => aplicarMudancaVisual(p, v));
   }
   aplicarMudancaVisual("myoLiberado", gameData.myoLiberado);
+
+  // VERIFICA SE FICOU PENDÊNCIA DA PÁGINA ANTERIOR
+  processQueue();
+
 })();
 
 // ---------------------------

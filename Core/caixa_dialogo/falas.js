@@ -188,6 +188,22 @@ window.personagens = {
           expressao: "normal",
         },
       ],
+      jardim: [
+        {
+          texto:
+            "Hihihi agora posso limpar meu jardim.",
+          expressao: "normal",
+        },
+
+        {
+          texto:
+            "Se esse frio passar vou encher essa cidade de flores! :3",
+          expressao: "normal",
+          aofechar: function () {
+            
+          },
+        },
+      ],
     },
   },
   cat: {
@@ -211,8 +227,26 @@ window.personagens = {
           expressao: "normal",
         },
       ],
+      terceira: [
+        { texto: "O buraco de pesca está aberto! Como conseguiu? Agora posso voltar pensar e vender peixes! Como também matar minha fome.", expressao: "normal" },
+        {
+          texto:
+            "Como agradecimento você pode usar a vara que está ali do lado. Boa sorte pescando.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "[Clique 2x na caixa azul para iniciar a pescaria]",
+          expressao: "normal",
+          aofechar: function () {
+            gameData.visualState.varaON = true;
+          },
+          
+        },
+      ],
       lendario: [
-        { texto: "Você consegue me entender agora? Myau", expressao: "normal" },
+        { texto: "OMG! Você pegou o lendário do lago. Eu posso... come-lo? [Muita fome]", expressao: "normal" },
+        { texto: "Muito obrigado Nya!", expressao: "normal" },
       ],
     },
   },
@@ -241,12 +275,12 @@ window.personagens = {
           expressao: "normal",
         },
       ],
-      depoisDoTreinamento: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
-        },
+      segunda: [
+        { texto: "'Ele' está vindo... você está preparado?", expressao: "normal" },
+
+      ],
+      amigo: [
+        { texto: "(Ele sempre fala a mesma coisa, mas agradeço o esforço)", expressao: "normal" },
       ],
     },
   },
@@ -281,8 +315,12 @@ window.personagens = {
 
         {
           texto:
-            "Day-25 é meu melhor amigo, eu sei da situação dele, então eu me esforço para todo dia falar algo diferente.",
+            "Ah! Day-25 é meu melhor amigo, eu sei da situação dele, então eu me esforço para todo dia falar algo diferente.",
           expressao: "normal",
+          aofechar: function () {
+            dialogo.agendar(personagens.day25, 'amigo', 300);
+  },
+          
         },
         //code aqui//
       ],
@@ -511,7 +549,7 @@ window.personagens = {
         { texto: "[Observe os clientes para descobrir o que cada um pediu. Clique na mesa para iniciar e arraste as comidas certas para cada cliente.]",
           aofechar: function () {
             gameData.visualState.mesasON = true;
-            dialogo.agendar(personagens.barman, 'sus', 500);
+            dialogo.agendar(personagens.barman, 'sus', 300);
   },  
 },
       ],
@@ -551,6 +589,10 @@ window.personagens = {
         
 }
         },
+      ],
+      final: [
+        { texto: "Nós sereias somos dropzillas que não foram vendidos...", expressao: "normal" },
+        { texto: "Oh! Não estou reclamando nem triste. Nós vivemos felizes e fala sério, tive a oportunidade de aparecer num jogo, sou famosa!", expressao: "normal" }
       ],
     },
   },
@@ -786,6 +828,29 @@ window.personagens = {
     },
   },
 
+  cobra6: {
+    nome: "Aldebaran",
+    lado: "Esquerdo",
+    fonte: "'Wild Words', sans-serif",
+    expressoes: {
+      normal: "",
+      sorrindo: "",
+    },
+    falas: {
+      inicio: [
+        {
+          texto:
+            ".... [hides on his own tail and run away]",
+            aofechar: function () {
+              gameData.visualState.aldebaranVisivel = true;
+              tocarEfeito("swoosh")
+            
+          },
+        },
+      ],
+    },
+  },
+
   cory: {
     nome: "Cory",
     lado: "Esquerdo",
@@ -798,7 +863,13 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "I want mom and dad!!",
+            "Não é todo dia que recebemos visitantes.",
+        },
+      ],
+      inicio: [
+        {
+          texto:
+            "Essas aguas estão ficando tão frias, quando isso vai passar?",
         },
       ],
     },
@@ -816,7 +887,13 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "I want mom and dad!!",
+            "Coitadinho. O caranguejo prendeu ele.",
+        },
+      ],
+      segunda: [
+        {
+          texto:
+            "Vai bebêzinho, volte para sua mãe",
         },
       ],
     },
@@ -834,7 +911,13 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "I want mom and dad!!",
+            "Já tentei espocar essas bolhas, mas elas sempre nascem de novo, não consegui liberar a criança.",
+        },
+      ],
+      inicio: [
+        {
+          texto:
+            "Padrões nas bolhas? nunca pensaria nisso! Você ´um gênio.",
         },
       ],
     },
@@ -852,7 +935,13 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "I want mom and dad!!",
+            "Hahahaha! Quer que eu mate o caranguejo pra você? Mas não garanto a segurança do garoto.",
+        },
+      ],
+      inicio: [
+        {
+          texto:
+            "Odeio quem resolve as coisas na inteligência",
         },
       ],
     },

@@ -650,6 +650,29 @@ function onPointerUp(e) {
   }
 }
 
+// Lista com o ID de todos os 10 postes
+const listaPostes = [
+  "poste1", "poste2", "poste3", "poste4", "poste5", 
+  "poste6", "poste7", "poste8", "poste9", "poste10"
+];
+
+// Função que verifica se todos estão acesos
+function checarVitoriaPostes() {
+    // Verifica se TODOS os ids estão como true no gameData
+    const todosAcesos = listaPostes.every(id => 
+        window.gameData?.visualState?.[id] === true
+    );
+
+    if (todosAcesos) {
+        console.log("ALELUIA! Tudo aceso.");
+        
+        // --- COLOQUE SUA MUDANÇA AQUI ---
+        alert("Todos os postes foram acesos! O portão abriu (exemplo).");
+        // mudarCenario(personagens.cat, 'quarta_dimensao');
+        // --------------------------------
+    }
+}
+
 // ======================================================
 // D R A G (restante do código até o final do arquivo)
 // ======================================================
@@ -663,17 +686,16 @@ document.addEventListener("pointerup", onPointerUp, { passive: false });
 // 🚀 FUNÇÃO DE INICIALIZAÇÃO DE ASSETS (Chamada pelo Loader)
 // ==========================================================
 
-// Usamos a função startMinigameLogic, pois o seu loader.js tenta chamá-la
 window.startMinigameLogic = function () {
   console.log("Assets do minigame inicializados após o carregamento do save.");
 
-  // ==========================================================
-  // Registra ALVOS LUA (ANTIGO: addTarget chamadas)
-  // ==========================================================
+  // ----------------------------------------------------------
+  // LUA: Alvos
+  // ----------------------------------------------------------
   addTarget(document.querySelector(".capetinha"), {
     delay: 2000,
     sound: "woosh",
-    soundLoop: "magia", // <--- EXEMPLO: Nome igual ao que está em Sons.efeitos
+    soundLoop: "magia",
   });
 
   addTarget(document.querySelector(".rage"), {
@@ -684,11 +706,11 @@ window.startMinigameLogic = function () {
   addTarget(document.querySelector("#rigel"), {
     delay: 2000,
     sound: "reveal",
-    // 🐍 LÓGICA DE EXECUÇÃO AO FINAL DO EFEITO DA LUA
     onComplete: function (elemento) {
       window.gameData.visualState.rigelGhost = true;
     },
   });
+
   addTarget(document.querySelector("#mintghost"), {
     delay: 2000,
     sound: "reveal",
@@ -697,50 +719,37 @@ window.startMinigameLogic = function () {
     },
   });
 
-  // ==========================================================
-  // Sol (Postes e Outros Alvos) (ANTIGO: addSunTarget chamadas)
-  // ==========================================================
+  // ----------------------------------------------------------
+  // SOL: Outros Alvos
+  // ----------------------------------------------------------
   addSunTarget(document.querySelector(".gelo-alvo"), {
     action: "swap",
     newImage: "🙄",
     sound: "whoosh",
     delayMs: 3050,
-    soundLoop: "whoosh", // <--- EXEMPLO: Se tiver um som de gelo derretendo
+    soundLoop: "whoosh",
   });
 
   addSunTarget(document.querySelector("#iceBlock"), {
-    action: "hide", // <--- AQUI: "hide" para sumir
-    delayMs: 5000, // Tempo do delay
-    soundLoop: "melt", 
-
+    action: "hide",
+    delayMs: 5000,
+    soundLoop: "melt",
     onComplete: function(elemento) {
-      console.log("Gelo derretido! Rodando código extra...");
-      
-      // 1. Ativar variável global
-      window.geloDerreteu = true; 
-      
-      // 2. Chamar outra função se quiser
-      // liberarPassagem(); 
-      
-      // 3. Ou até dar um alert pra testar
-      // alert("O caminho está livre!");
-  }
-    
+      console.log("Gelo derretido!");
+      window.geloDerreteu = true;
+    }
   });
 
   addSunTarget(document.querySelector("#fakehole"), {
-    action: "hide", // <--- AQUI: "hide" para sumir
-    delayMs: 5000, // Tempo do delay
-    soundLoop: "melt", 
-
+    action: "hide",
+    delayMs: 5000,
+    soundLoop: "melt",
     onComplete: function(elemento) {
-      console.log("Gelo derretido! Rodando código extra...");
-      
-      // 1. Ativar variável global
-      window.geloDerreteu = true; 
-      
-  }
-    
+      // Exemplo de mudança de cenário
+      if (typeof mudarCenario === 'function') {
+          mudarCenario(personagens.cat, 'terceira');
+      }
+    }
   });
 
   addSunTarget(document.querySelector(".bola-alvo"), {
@@ -748,7 +757,6 @@ window.startMinigameLogic = function () {
     newImage: "",
     sound: "whoosh",
     delayMs: 350,
-    // 🔥 LÓGICA DE EXECUÇÃO AO FINAL DO EFEITO DO SOL
     onComplete: function (elemento) {
       console.log(elemento.id, "foi derretido!");
       alert("Bola derreteu! Postes liberados.");
@@ -756,73 +764,48 @@ window.startMinigameLogic = function () {
     },
   });
 
-  addSunTarget(document.querySelector("#poste1"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
+  // ----------------------------------------------------------
+  // SOL: Lógica dos 10 Postes (Refatorado)
+  // ----------------------------------------------------------
+  
+  // Lista com os IDs dos postes
+  const listaPostes = [
+    "poste1", "poste2", "poste3", "poste4", "poste5", 
+    "poste6", "poste7", "poste8", "poste9", "poste10"
+  ];
+
+  // Função interna para checar vitória
+  function checarVitoriaPostes() {
+    // Verifica se TODOS os postes estão true no visualState
+    const todosAcesos = listaPostes.every(id => 
+        window.gameData?.visualState?.[id] === true
+    );
+
+    if (todosAcesos) {
+        console.log("Todos os postes acesos!");
+        mudarCenario(personagens.day25, 'segunda');
+        mudarCenario(personagens.pine, 'segunda');
+        gameData.visualState.postesAcesos = true; 
+
+    }
+  }
+
+  // Cria os targets usando Loop (muito melhor que repetir 10x)
+  listaPostes.forEach(id => {
+    const el = document.querySelector("#" + id);
+    if (el) {
+        addSunTarget(el, {
+            action: "swap",
+            newImage: "/assets/img/Pole-turned-on.png",
+            sound: "fire",
+            delayMs: 350,
+            onComplete: function(elemento) {
+                // Ao acender um poste, verifica se completou o puzzle
+                checarVitoriaPostes();
+            }
+        });
+    }
   });
 
-  addSunTarget(document.querySelector("#poste2"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
-
-  addSunTarget(document.querySelector("#poste3"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
-
-  addSunTarget(document.querySelector("#poste4"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
-
-  addSunTarget(document.querySelector("#poste5"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
-
-  addSunTarget(document.querySelector("#poste6"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
-
-  addSunTarget(document.querySelector("#poste7"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
-
-  addSunTarget(document.querySelector("#poste8"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
-
-  addSunTarget(document.querySelector("#poste9"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
-
-  addSunTarget(document.querySelector("#poste10"), {
-    action: "swap",
-    newImage: "/assets/img/Pole-turned-on.png",
-    sound: "fire",
-    delayMs: 350,
-  });
 };
+

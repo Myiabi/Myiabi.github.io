@@ -26,6 +26,7 @@
   background: none;
   cursor: pointer;
   z-index: 1000;
+  pointer-events: none;
 }
 .rod-btn:active { transform: translateY(2px); }
 

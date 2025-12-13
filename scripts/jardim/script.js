@@ -238,8 +238,10 @@ function checkVictory() {
             // [2] LOCAL PARA TOCAR O SOM DE VITÓRIA FINAL E VARIAVEL
 
             if (typeof tocarEfeito === "function") {
-                tocarEfeito(); 
+                tocarEfeito("win3"); 
             }
+
+            mudarCenario(personagens.lily, 'final')
             
             jardim = true; // <--- VARIAVEL ATIVADA AQUI
             console.log("Variável jardim = true");

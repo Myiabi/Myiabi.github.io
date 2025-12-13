@@ -47,6 +47,8 @@
 - talvez logar com outro git eu consiga usar o copilot de volta.
 - Criar intro
 - Criar imagem de fim
+- Popup de premios
+
 
 
 }
@@ -102,6 +104,7 @@
 - Revisar e escolher achievments.
 - Falas menores no mobile.
 - Som dos achievments n toca
+- ~~Petala da Lily~~
 
 
 

@@ -42,34 +42,58 @@ body, html {
   height: 52%; 
   position: absolute;
 }
+@keyframes boiar {
+  0%, 100% {
+    transform: translateY(0); /* Posição original */
+  }
+  50% {
+    transform: translateY(-15px); /* Sobe 15px (ajuste conforme o gosto) */
+  }
+}
 
 #cory {
-  width: 18%;;
+  width: 18%;
   top: 0%;
   left: 0%;
   opacity: 0.6;
+  animation: boiar 7s ease-in-out infinite;
 }
 
 #paddlefish  {
-  width: 17%;;
+  width: 17%;
   top: 48%;
-  left: 17%;
+  left: 15%;
   opacity: 0.6;
+  animation: boiar 3s ease-in-out infinite;
 }
 
 #spanish  {
-  width: 18%;;
+  width: 18%;
   top:45%;
-  left:50%;
+  left: 65%;
   opacity: 0.6;
+  animation: boiar 6s ease-in-out infinite;
 }
 
 #wholphin  {
-  width: 18%;;
-  top: 46%;
+  width: 18%;
+  top: 10%;
   left: 80%;
   opacity: 0.6;
+  animation: boiar 7s ease-in-out infinite;
 }
+
+#cobra6  {
+  position: absolute;
+  width: 8%;
+  height: 20%;
+  top: 40%;
+  left: 45%;
+  opacity: 0.6;
+  pointer-events: none;
+  animation: boiar 2s ease-in-out infinite;
+}
+
 
 
 /* --- 2. O FUNDO (A cor escura que você aprovou) --- */

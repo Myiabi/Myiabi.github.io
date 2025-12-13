@@ -9,7 +9,6 @@ const scripts = [
   "/core/global.js",
   "/core/yesorno/script.js",
   "/core/menu_interativo/script.js",
-  "/core/achievements/script.js",
   "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
