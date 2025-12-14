@@ -199,8 +199,10 @@ function init() {
           const left = rect.left || 0;
           const width = rect.width || 0;
           const top = rect.top || 0;
-          emoteDiv.style.left = left + width / 2 - (emoteDiv.offsetWidth || 0) / 2 + offsetX + "px";
-          emoteDiv.style.top = top - (emoteDiv.offsetHeight || 0) + offsetY + "px";
+          emoteDiv.style.left =
+            left + width / 2 - (emoteDiv.offsetWidth || 0) / 2 + offsetX + "px";
+          emoteDiv.style.top =
+            top - (emoteDiv.offsetHeight || 0) + offsetY + "px";
           emoteDiv.style.opacity = 1;
           setTimeout(() => (emoteDiv.style.opacity = 0), duration);
         }, 10);
@@ -220,10 +222,16 @@ function init() {
 
         let cenarioAtual = null;
 
-        if (cenarioPreferido && personagem.falas && personagem.falas[cenarioPreferido]) {
+        if (
+          cenarioPreferido &&
+          personagem.falas &&
+          personagem.falas[cenarioPreferido]
+        ) {
           cenarioAtual = cenarioPreferido;
         } else {
-          const nomeKey = personagem.nome ? String(personagem.nome).toLowerCase() : null;
+          const nomeKey = personagem.nome
+            ? String(personagem.nome).toLowerCase()
+            : null;
           const salvo = nomeKey ? window.gameData?.dialogos?.[nomeKey] : null;
           if (salvo && personagem.falas && personagem.falas[salvo]) {
             cenarioAtual = salvo;
@@ -248,9 +256,9 @@ function init() {
       try {
         // Se a trava manual estava ativa, a gente limpa ela agora
         if (window.dialogo && window.dialogo._manterOverlay) {
-            window.dialogo._manterOverlay = false;
+          window.dialogo._manterOverlay = false;
         }
-        
+
         // Limpa opacidade forçada (caso estivesse travado)
         if (dialogBox) dialogBox.style.opacity = "";
         if (portrait) portrait.style.opacity = "";
@@ -261,7 +269,8 @@ function init() {
         atual = personagem;
         indiceFala = 0;
         nameTag && (nameTag.textContent = atual?.nome || "");
-        if (text) text.style.fontFamily = atual?.fonte || "'Wild Words', sans-serif";
+        if (text)
+          text.style.fontFamily = atual?.fonte || "'Wild Words', sans-serif";
 
         const pacote = getCenarioEFalas(personagem, cenario);
 
@@ -271,7 +280,10 @@ function init() {
             overlay && overlay.classList && overlay.classList.add("show");
             dialogBox && dialogBox.classList && dialogBox.classList.add("show");
           }, 10);
-          const fallbackText = typeof personagem?.texto === "string" ? personagem.texto : "(nada para dizer)";
+          const fallbackText =
+            typeof personagem?.texto === "string"
+              ? personagem.texto
+              : "(nada para dizer)";
           if (text) text.textContent = fallbackText;
           if (indicator) indicator.style && (indicator.style.display = "none");
           return;
@@ -279,9 +291,13 @@ function init() {
 
         const { cenarioAtual, falasAtuais } = pacote;
         const falaInicial = falasAtuais[0] || { texto: "(vazio)" };
-        
+
         if (typeof falaInicial.executar === "function") {
-            try { falaInicial.executar(); } catch(e) { console.error("Erro no executar:", e); }
+          try {
+            falaInicial.executar();
+          } catch (e) {
+            console.error("Erro no executar:", e);
+          }
         }
 
         const expressaoInicial = atual?.expressoes?.[falaInicial.expressao];
@@ -323,14 +339,37 @@ function init() {
       }
     }
 
+    // Proteção: bloqueia cliques no overlay durante transições
+    overlay &&
+      overlay.addEventListener &&
+      overlay.addEventListener(
+        "pointerdown",
+        (e) => {
+          // Se a trava está ativa, bloqueia QUALQUER interação
+          if (window.dialogo && window.dialogo._manterOverlay) {
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+          }
+        },
+        true
+      ); // 'true' = capture phase, pega antes de qualquer outro listener
+
     dialogBox &&
       dialogBox.addEventListener &&
       dialogBox.addEventListener("pointerdown", () => {
         try {
+          // Se a trava está ativa, ignora cliques
+          if (window.dialogo && window.dialogo._manterOverlay) return;
+
           if (!atual) return;
 
           const falasAtuais = atual.__falasAtuaisTemp || null;
-          if (!falasAtuais || !Array.isArray(falasAtuais) || falasAtuais.length === 0) {
+          if (
+            !falasAtuais ||
+            !Array.isArray(falasAtuais) ||
+            falasAtuais.length === 0
+          ) {
             fecharDialogo();
             return;
           }
@@ -346,55 +385,97 @@ function init() {
             const current = falasAtuais[indiceFala];
             if (text) text.textContent = String(current?.texto ?? "(vazio)");
             digitando = false;
-            if (indiceFala < falasAtuais.length - 1 && indicator) indicator.style && (indicator.style.display = "block");
+            if (indiceFala < falasAtuais.length - 1 && indicator)
+              indicator.style && (indicator.style.display = "block");
             return;
           }
 
           // 2. Se já terminou de digitar, processa a saída da fala atual.
           let manterOverlayAtivo = false;
           const falaAtualParaSair = falasAtuais[indiceFala];
-          
-          if (falaAtualParaSair && typeof falaAtualParaSair.aofechar === "function") {
-             try { 
-                 // Se o callback retornar TRUE, ativamos a proteção
-                 const retorno = falaAtualParaSair.aofechar(); 
-                 if (retorno === true) manterOverlayAtivo = true;
-             } catch (e) { console.error("Erro no aofechar:", e); }
+
+          if (
+            falaAtualParaSair &&
+            typeof falaAtualParaSair.aofechar === "function"
+          ) {
+            try {
+              // Reseta a flag antes de executar o callback
+              if (window.dialogo) window.dialogo._manterOverlay = false;
+
+              const retorno = falaAtualParaSair.aofechar();
+
+              // Verifica se o callback ativou _manterOverlay (ex: dialogo.agendar())
+              // OU se retornou true OU se é uma Promise
+              if (
+                (window.dialogo && window.dialogo._manterOverlay) ||
+                retorno === true ||
+                (retorno && typeof retorno.then === "function")
+              ) {
+                manterOverlayAtivo = true;
+
+                // Se for Promise, espera resolver e depois libera
+                if (retorno && typeof retorno.then === "function") {
+                  retorno
+                    .then(() => {
+                      // Só libera se ainda estiver travado por este callback
+                      if (window.dialogo && window.dialogo._manterOverlay) {
+                        window.dialogo._manterOverlay = false;
+                      }
+                    })
+                    .catch((e) => {
+                      console.error("Erro no aofechar async:", e);
+                      if (window.dialogo) window.dialogo._manterOverlay = false;
+                    });
+                }
+              }
+            } catch (e) {
+              console.error("Erro no aofechar:", e);
+              if (window.dialogo) window.dialogo._manterOverlay = false;
+            }
           }
 
           // 3. Verifica se tem próxima fala
           if (indiceFala < falasAtuais.length - 1) {
             indiceFala++;
-            if (indicator) indicator.style && (indicator.style.display = "none");
+            if (indicator)
+              indicator.style && (indicator.style.display = "none");
             const novaFala = falasAtuais[indiceFala] || { texto: "(vazio)" };
 
             if (typeof novaFala.executar === "function") {
-                try { novaFala.executar(); } catch(e) { console.error("Erro no executar:", e); }
+              try {
+                novaFala.executar();
+              } catch (e) {
+                console.error("Erro no executar:", e);
+              }
             }
 
             const novaExpressao = atual?.expressoes?.[novaFala.expressao];
-            if (text) text.style.fontFamily = novaFala.fonte || atual?.fonte || "'Wild Words', sans-serif";
-            
+            if (text)
+              text.style.fontFamily =
+                novaFala.fonte || atual?.fonte || "'Wild Words', sans-serif";
+
             if (novaExpressao && portrait) {
-               portrait.style.backgroundImage = novaExpressao;
-               if (!portrait.classList.contains("show")) {
-                   portrait.classList.add("show");
-               }
+              portrait.style.backgroundImage = novaExpressao;
+              if (!portrait.classList.contains("show")) {
+                portrait.classList.add("show");
+              }
             }
 
             digitarTexto(String(novaFala.texto ?? "(vazio)"), novaFala.emote);
           } else {
             // 4. FIM DO DIALOGO
             if (manterOverlayAtivo) {
-                // Ativa a proteção manualmente e esconde a caixa visualmente
-                window.dialogo.manterOverlay();
+              // Ativa a proteção manualmente e esconde a caixa visualmente
+              window.dialogo.manterOverlay();
             } else {
-                fecharDialogo();
+              fecharDialogo();
             }
           }
         } catch (e) {
           console.error("dialogBox pointerdown handler erro:", e);
-          try { fecharDialogo(); } catch (er) {}
+          try {
+            fecharDialogo();
+          } catch (er) {}
         }
       });
 
@@ -424,7 +505,8 @@ function init() {
               clearInterval(intervaloTexto);
               intervaloTexto = null;
               digitando = false;
-              if (indicator) indicator.style && (indicator.style.display = "block");
+              if (indicator)
+                indicator.style && (indicator.style.display = "block");
               return;
             }
             if (text) text.textContent += str[i];
@@ -433,14 +515,16 @@ function init() {
               clearInterval(intervaloTexto);
               intervaloTexto = null;
               digitando = false;
-              if (indicator) indicator.style && (indicator.style.display = "block");
+              if (indicator)
+                indicator.style && (indicator.style.display = "block");
             }
           } catch (e) {
             console.warn("digitarTexto inner erro:", e);
             clearInterval(intervaloTexto);
             intervaloTexto = null;
             digitando = false;
-            if (indicator) indicator.style && (indicator.style.display = "block");
+            if (indicator)
+              indicator.style && (indicator.style.display = "block");
           }
         }, 35);
       } catch (e) {
@@ -456,35 +540,35 @@ function init() {
 
         // --- TRAVA DE SEGURANÇA ---
         if (window.dialogo && window.dialogo._manterOverlay) {
-           // Força opacidade zero para sumir visualmente, mas o overlay fica
-           if (dialogBox) {
-               dialogBox.classList.remove("show");
-               dialogBox.style.opacity = "0"; 
-           }
-           if (portrait) {
-               portrait.classList.remove("show");
-               portrait.style.opacity = "0";
-           }
-           
-           digitando = false;
-           if (intervaloTexto) clearInterval(intervaloTexto);
-           return; // <--- Interrompe aqui.
+          // Força opacidade zero para sumir visualmente, mas o overlay fica
+          if (dialogBox) {
+            dialogBox.classList.remove("show");
+            dialogBox.style.opacity = "0";
+          }
+          if (portrait) {
+            portrait.classList.remove("show");
+            portrait.style.opacity = "0";
+          }
+
+          digitando = false;
+          if (intervaloTexto) clearInterval(intervaloTexto);
+          return; // <--- Interrompe aqui.
         }
         // --------------------------
 
         fechandoDialogo = true;
         if (intervaloTexto) clearInterval(intervaloTexto);
-        
+
         // Remove classes visuais
         overlay && overlay.classList && overlay.classList.remove("show");
         dialogBox && dialogBox.classList && dialogBox.classList.remove("show");
         portrait && portrait.classList && portrait.classList.remove("show");
-        
+
         setTimeout(() => {
           try {
             overlay && (overlay.style.display = "none");
             fechandoDialogo = false;
-            
+
             // Limpezas de variáveis
             if (atual) {
               try {
@@ -493,14 +577,18 @@ function init() {
               } catch (e) {}
             }
             if (fimDialogoCallback) {
-              try { fimDialogoCallback(); } catch (e) { console.warn("fimDialogoCallback erro:", e); }
+              try {
+                fimDialogoCallback();
+              } catch (e) {
+                console.warn("fimDialogoCallback erro:", e);
+              }
             }
             fimDialogoCallback = null;
           } catch (e) {
             console.warn("fecharDialogo timeout erro:", e);
           }
         }, 400);
-        
+
         atual = null;
         indiceFala = 0;
         digitando = false;
@@ -518,9 +606,15 @@ function init() {
         if (!personagem || !personagem.nome) return;
         window.gameData.dialogos[personagem.nome.toLowerCase()] = novoCenario;
         if (window.salvarJogo) {
-          try { window.salvarJogo(); } catch (e) { console.warn("salvarJogo erro:", e); }
+          try {
+            window.salvarJogo();
+          } catch (e) {
+            console.warn("salvarJogo erro:", e);
+          }
         }
-        console.log(`📖 ${personagem.nome} agora está no cenário: ${novoCenario}`);
+        console.log(
+          `📖 ${personagem.nome} agora está no cenário: ${novoCenario}`
+        );
       } catch (e) {
         console.warn("mudarCenario erro:", e);
       }
@@ -530,63 +624,123 @@ function init() {
     window.dialogo = {
       abrir: abrirDialogo,
       fechar: fecharDialogo,
-      
+
       // Ativa trava manual
-      manterOverlay: function() {
-          this._manterOverlay = true;
-          // Esconde visualmente na hora
-          const db = document.getElementById("dialogBox");
-          const pt = document.getElementById("portrait");
-          if(db) { db.classList.remove("show"); db.style.opacity = "0"; }
-          if(pt) { pt.classList.remove("show"); pt.style.opacity = "0"; }
-          
-          if (intervaloTexto) clearInterval(intervaloTexto);
-          digitando = false;
+      manterOverlay: function () {
+        this._manterOverlay = true;
+        // Esconde visualmente na hora
+        const db = document.getElementById("dialogBox");
+        const pt = document.getElementById("portrait");
+        if (db) {
+          db.classList.remove("show");
+          db.style.opacity = "0";
+        }
+        if (pt) {
+          pt.classList.remove("show");
+          pt.style.opacity = "0";
+        }
+
+        if (intervaloTexto) clearInterval(intervaloTexto);
+        digitando = false;
       },
-      
+
       // Destrava tudo e fecha
-      liberar: function() {
-          this._manterOverlay = false;
-          const db = document.getElementById("dialogBox");
-          const pt = document.getElementById("portrait");
-          if(db) db.style.opacity = "";
-          if(pt) pt.style.opacity = "";
-          fecharDialogo(); 
+      liberar: function () {
+        this._manterOverlay = false;
+        const db = document.getElementById("dialogBox");
+        const pt = document.getElementById("portrait");
+        if (db) db.style.opacity = "";
+        if (pt) pt.style.opacity = "";
+        fecharDialogo();
       },
 
       // Agendar atualizado para usar a lógica nova
-      agendar: function(personagem, cenario, tempoMs = 1000) {
-         this.manterOverlay(); // Trava
-         
-         setTimeout(() => {
-             // Quando o tempo acaba, destrava (internamente) e abre o próximo
-             this._manterOverlay = false;
-             const db = document.getElementById("dialogBox");
-             const pt = document.getElementById("portrait");
-             if(db) db.style.opacity = "";
-             if(pt) pt.style.opacity = "";
+      agendar: function (personagem, cenario, tempoMs = 1000) {
+        this.manterOverlay(); // Trava
 
-             abrirDialogo(personagem, null, cenario);
-         }, tempoMs);
+        setTimeout(() => {
+          // Quando o tempo acaba, destrava (internamente) e abre o próximo
+          this._manterOverlay = false;
+          const db = document.getElementById("dialogBox");
+          const pt = document.getElementById("portrait");
+          if (db) db.style.opacity = "";
+          if (pt) pt.style.opacity = "";
+
+          abrirDialogo(personagem, null, cenario);
+        }, tempoMs);
       },
 
       abrirAsync(personagem, cenario = null, delayAposMs = 0) {
         return new Promise((resolve) => {
-           abrirDialogo(personagem, () => {
-             if (delayAposMs > 0) {
-               setTimeout(resolve, delayAposMs);
-             } else {
-               resolve();
-             }
-           }, cenario);
+          abrirDialogo(
+            personagem,
+            () => {
+              // Proteção: trava overlay durante transição async
+              this._manterOverlay = true;
+              const db = document.getElementById("dialogBox");
+              const pt = document.getElementById("portrait");
+              const ov = document.getElementById("dialogOverlay");
+              if (db) {
+                db.classList.remove("show");
+                db.style.opacity = "0";
+              }
+              if (pt) {
+                pt.classList.remove("show");
+                pt.style.opacity = "0";
+              }
+              // Mantém overlay visível mas transparente para bloquear cliques
+              if (ov) {
+                ov.style.display = "flex";
+                ov.style.background = "transparent";
+              }
+
+              const liberarEResolver = () => {
+                this._manterOverlay = false;
+                if (db) db.style.opacity = "";
+                if (pt) pt.style.opacity = "";
+                if (ov) ov.style.background = "";
+                resolve();
+              };
+
+              if (delayAposMs > 0) {
+                setTimeout(liberarEResolver, delayAposMs);
+              } else {
+                // Pequeno delay para garantir que cliques rápidos não passem
+                setTimeout(liberarEResolver, 50);
+              }
+            },
+            cenario
+          );
         });
-      }
+      },
+
+      // Versão protegida do esperar para cutscenes
+      esperarProtegido(ms) {
+        return new Promise((resolve) => {
+          this._manterOverlay = true;
+          const ov = document.getElementById("dialogOverlay");
+          if (ov) {
+            ov.style.display = "flex";
+            ov.style.background = "transparent";
+          }
+
+          setTimeout(() => {
+            this._manterOverlay = false;
+            if (ov) ov.style.background = "";
+            resolve();
+          }, ms);
+        });
+      },
     };
 
     try {
-      if (btn) btn.addEventListener("pointerdown", () => abrirDialogo(personagens?.aiko));
-    } catch (e) { console.warn("btn listener erro:", e); }
-
+      if (btn)
+        btn.addEventListener("pointerdown", () =>
+          abrirDialogo(personagens?.aiko)
+        );
+    } catch (e) {
+      console.warn("btn listener erro:", e);
+    }
   } catch (e) {
     console.error("dialogo.init erro:", e);
   }

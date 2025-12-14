@@ -241,6 +241,59 @@ const sunTargets = [];
 const sunTimers = new WeakMap();
 const sunOptions = new WeakMap();
 
+// ======================================================
+// 🔥 CONTROLE DOS POSTES (1 a 10)
+// ======================================================
+const postesAcesos = {
+  poste1: false,
+  poste2: false,
+  poste3: false,
+  poste4: false,
+  poste5: false,
+  poste6: false,
+  poste7: false,
+  poste8: false,
+  poste9: false,
+  poste10: false,
+};
+
+// Função para marcar um poste como aceso
+function marcarPosteAceso(posteId) {
+  if (postesAcesos.hasOwnProperty(posteId)) {
+    postesAcesos[posteId] = true;
+    verificarTodosPostesAcesos();
+  }
+}
+
+// Verifica se TODOS os postes estão acesos
+function verificarTodosPostesAcesos() {
+  const todosAcesos = Object.values(postesAcesos).every(
+    (aceso) => aceso === true
+  );
+
+  if (todosAcesos) {
+    console.log("🔥 TODOS OS POSTES ESTÃO ACESOS! 🔥");
+    onTodosPostesAcesos();
+  }
+}
+
+// ======================================================
+// 🎯 ESPAÇO RESERVADO - QUANDO TODOS OS POSTES ACENDEREM
+// ======================================================
+function onTodosPostesAcesos() {
+  // ╔═══════════════════════════════════════════════════════════╗
+  // ║  COLOQUE AQUI O QUE VOCÊ QUISER QUE ACONTEÇA              ║
+  // ║  QUANDO TODOS OS 10 POSTES ESTIVEREM ACESOS!              ║
+  // ╚═══════════════════════════════════════════════════════════╝
+
+  // Exemplos:
+  window.gameData.visualState.postesAcesos = true;
+  mudarCenario(personagens.pine, 'segunda');
+  mudarCenario(personagens.day25, 'segunda');
+  mudarCenario(personagens.ballerina, 'segunda');
+  
+}
+
 // adicionar alvo (uses = número de vezes que pode ativar; padrão 1)
 function addSunTarget(el, options = {}) {
   if (!el) return;
@@ -711,37 +764,33 @@ window.startMinigameLogic = function () {
   addSunTarget(document.querySelector("#iceBlock"), {
     action: "hide", // <--- AQUI: "hide" para sumir
     delayMs: 5000, // Tempo do delay
-    soundLoop: "melt", 
+    soundLoop: "melt",
 
-    onComplete: function(elemento) {
+    onComplete: function (elemento) {
       console.log("Gelo derretido! Rodando código extra...");
-      
+
       // 1. Ativar variável global
-      window.geloDerreteu = true; 
-      
+      window.geloDerreteu = true;
+
       // 2. Chamar outra função se quiser
-      // liberarPassagem(); 
-      
+      // liberarPassagem();
+
       // 3. Ou até dar um alert pra testar
       // alert("O caminho está livre!");
-  }
-    
+    },
   });
 
   addSunTarget(document.querySelector("#fakehole"), {
     action: "hide", // <--- AQUI: "hide" para sumir
     delayMs: 1000, // Tempo do delay
-    soundLoop: "melt", 
+    soundLoop: "melt",
 
-    onComplete: function(elemento) {
+    onComplete: function (elemento) {
       console.log("Gelo derretido! Rodando código extra...");
-      
+
       // 1. Ativar variável global
-      mudarCenario(personagens.cat, 'terceira');
- 
-      
-  }
-    
+      mudarCenario(personagens.cat, "terceira");
+    },
   });
 
   addSunTarget(document.querySelector(".bola-alvo"), {
@@ -762,6 +811,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste1");
+    },
   });
 
   addSunTarget(document.querySelector("#poste2"), {
@@ -769,6 +821,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste2");
+    },
   });
 
   addSunTarget(document.querySelector("#poste3"), {
@@ -776,6 +831,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste3");
+    },
   });
 
   addSunTarget(document.querySelector("#poste4"), {
@@ -783,6 +841,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste4");
+    },
   });
 
   addSunTarget(document.querySelector("#poste5"), {
@@ -790,6 +851,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste5");
+    },
   });
 
   addSunTarget(document.querySelector("#poste6"), {
@@ -797,6 +861,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste6");
+    },
   });
 
   addSunTarget(document.querySelector("#poste7"), {
@@ -804,6 +871,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste7");
+    },
   });
 
   addSunTarget(document.querySelector("#poste8"), {
@@ -811,6 +881,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste8");
+    },
   });
 
   addSunTarget(document.querySelector("#poste9"), {
@@ -818,6 +891,9 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste9");
+    },
   });
 
   addSunTarget(document.querySelector("#poste10"), {
@@ -825,5 +901,8 @@ window.startMinigameLogic = function () {
     newImage: "/assets/img/Pole-turned-on.png",
     sound: "fire",
     delayMs: 350,
+    onComplete: function (el) {
+      marcarPosteAceso("poste10");
+    },
   });
 };

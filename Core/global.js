@@ -1,59 +1,79 @@
+// ========== BLOQUEIO DO BOTÃO BACK DO NAVEGADOR ==========
+// Faz o botão back do navegador ficar "preso" na mesma página
+(function () {
+  // Adiciona múltiplas entradas no histórico para garantir
+  history.pushState(null, "", location.href);
+  history.pushState(null, "", location.href);
+
+  // Listener que sempre empurra de volta
+  window.addEventListener("popstate", function (e) {
+    e.preventDefault();
+    history.pushState(null, "", location.href);
+  });
+
+  // Também bloqueia ao carregar a página (caso venha do cache)
+  window.addEventListener("pageshow", function (e) {
+    if (e.persisted) {
+      history.pushState(null, "", location.href);
+    }
+  });
+})();
+
 // Bloqueia Ctrl + Scroll
-window.addEventListener('wheel', e => {
-  if (e.ctrlKey) e.preventDefault();
-}, { passive: false });
+window.addEventListener(
+  "wheel",
+  (e) => {
+    if (e.ctrlKey) e.preventDefault();
+  },
+  { passive: false }
+);
 
 // Bloqueia Ctrl + + e Ctrl + -
-window.addEventListener('keydown', e => {
-  if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=')) {
+window.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && (e.key === "+" || e.key === "-" || e.key === "=")) {
     e.preventDefault();
   }
 });
 
-
 // Plugin. Precisa ser adicionado apenas uma vez
-(function($,sr){
-
+(function ($, sr) {
   // debouncing function from John Hann
   // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
   var debounce = function (func, threshold, execAsap) {
-      var timeout;
+    var timeout;
 
-      return function debounced () {
-          var obj = this, args = arguments;
-          function delayed () {
-              if (!execAsap)
-                  func.apply(obj, args);
-              timeout = null;
-          };
+    return function debounced() {
+      var obj = this,
+        args = arguments;
+      function delayed() {
+        if (!execAsap) func.apply(obj, args);
+        timeout = null;
+      }
 
-          if (timeout)
-              clearTimeout(timeout);
-          else if (execAsap)
-              func.apply(obj, args);
+      if (timeout) clearTimeout(timeout);
+      else if (execAsap) func.apply(obj, args);
 
-          timeout = setTimeout(delayed, threshold || 100);
-      };
-  }
-  // smartresize 
-  jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
-
-})(jQuery,'smartresize');
+      timeout = setTimeout(delayed, threshold || 100);
+    };
+  };
+  // smartresize
+  jQuery.fn[sr] = function (fn) {
+    return fn ? this.bind("resize", debounce(fn)) : this.trigger(sr);
+  };
+})(jQuery, "smartresize");
 
 // Uso do plugin smartresize com a solução de J. Bruni
-$(window).smartresize(function(){
+$(window).smartresize(function () {
   if (screen.height > screen.width) {
-    $('body').addClass('virado');
+    $("body").addClass("virado");
   } else {
-    $('body').removeClass('virado');
+    $("body").removeClass("virado");
   }
 });
 
 // desabilitar context
-          
-janela . addEventListener ( "contextmenu" , e => e . preventDefault ( ) ) ;  
 
-
+janela.addEventListener("contextmenu", (e) => e.preventDefault());
 
 document.getElementById("btn-back").addEventListener("pointerdown", (e) => {
   const destino = e.target.getAttribute("/city.html");
@@ -62,6 +82,4 @@ document.getElementById("btn-back").addEventListener("pointerdown", (e) => {
   }
 });
 
-
 // Modo Portrait Proibido //
-

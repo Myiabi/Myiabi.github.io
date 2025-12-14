@@ -342,7 +342,7 @@ window.personagens = {
           expressao: "normal",
         },
       ],
-      depoisDoTreinamento: [
+      segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
         {
           texto: "Mas ainda tenho um longo caminho pela frente.",

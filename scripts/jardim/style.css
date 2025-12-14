@@ -1,179 +1,472 @@
 /* ================= RESET E GERAL ================= */
 body {
-    margin: 0; padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    overflow: hidden; 
-    background-color: #333; 
-    user-select: none; /* Impede selecionar texto ou imagem sem querer */
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  overflow: hidden;
+  background-color: #333;
+  user-select: none; /* Impede selecionar texto ou imagem sem querer */
 }
 
 /* ================= MODAL ================= */
 .modal {
-    display: none; /* JS muda para flex */
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    justify-content: center; align-items: center;
+  display: none; /* JS muda para flex */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    position: relative;
-    width: 95%; max-width: 1000px;
-    background: #fff; padding: 10px; border-radius: 15px;
-    display: flex; flex-direction: column; gap: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  position: relative;
+  width: 95%;
+  max-width: 1000px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 /* ================= BOTÃO FECHAR ================= */
 .close-btn {
-    position: absolute; top: -15px; right: -15px;
-    background: #ff4444; color: white;
-    width: 35px; height: 35px;
-    text-align: center; line-height: 35px;
-    border-radius: 50%; cursor: pointer;
-    font-weight: bold; border: 2px solid white; z-index: 100;
-    transition: all 0.3s ease;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #ff4444;
+  color: white;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  border: 2px solid white;
+  z-index: 100;
+  transition: all 0.3s ease;
 }
 
 /* Estado travado (durante animação) */
 .close-btn.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-    filter: grayscale(1);
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(1);
 }
 
 /* ================= HUD (BARRA DE ITENS) ================= */
 .hud-bar {
-    display: flex; gap: 8px; padding: 10px;
-    background: #f4f4f4; border-radius: 50px;
-    justify-content: center; align-items: center;
-    flex-wrap: wrap; min-height: 60px;
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: #f4f4f4;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 60px;
 }
 
 .hud-item {
-    width: 50px; height: 50px;
-    background: #e0e0e0; border-radius: 50%; border: 2px solid #fff;
-    display: flex; justify-content: center; align-items: center;
-    transition: all 0.3s; position: relative;
+  width: 50px;
+  height: 50px;
+  background: #e0e0e0;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+  position: relative;
 }
 
 .hud-item img {
-    width: 65%; height: 65%; object-fit: contain;
-    /* Cores originais mas estilo 'pastel' (meio apagado) */
-    filter: grayscale(0%) opacity(0.5); 
-    transition: all 0.3s;
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+  /* Cores originais mas estilo 'pastel' (meio apagado) */
+  filter: grayscale(0%) opacity(0.5);
+  transition: all 0.3s;
 }
 
 /* Item Encontrado */
 .hud-item.found {
-    background: #4CAF50; transform: scale(1.15);
-    border-color: #4CAF50; box-shadow: 0 0 15px rgba(76, 175, 80, 0.6);
+  background: #4caf50;
+  transform: scale(1.15);
+  border-color: #4caf50;
+  box-shadow: 0 0 15px rgba(76, 175, 80, 0.6);
 }
 
-.hud-item.found img { 
-    filter: grayscale(0%) opacity(1); /* Acende totalmente */
+.hud-item.found img {
+  filter: grayscale(0%) opacity(1); /* Acende totalmente */
 }
 
 /* ================= ÁREA DO JOGO ================= */
 .game-container {
-    position: relative; width: 100%;
-    border-radius: 10px; overflow: hidden;
-    cursor: default; /* Garante cursor normal no jardim todo */
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: default; /* Garante cursor normal no jardim todo */
+}
+
+/* ================= BOTÃO DEBUG (REMOVER EM PRODUÇÃO) ================= */
+.debug-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+  padding: 8px 15px;
+  background: linear-gradient(135deg, #ff5555, #ff79c6);
+  color: white;
+  border: 2px solid white;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 85, 85, 0.4);
+  transition: all 0.2s;
+}
+.debug-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(255, 85, 85, 0.6);
 }
 
 .game-bg {
-    width: 100%; display: block;
-    user-select: none; pointer-events: none;
+  width: 100%;
+  display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
 /* ================= ITENS ESCONDIDOS ================= */
 .hidden-item {
-    position: absolute; z-index: 10;
-    /* cursor: pointer; REMOVIDO PARA DIFICULTAR */
-    cursor: default; /* O mouse não muda, o jogador tem que achar no olho */
-    display: flex; justify-content: center; align-items: center;
-    border: none; background: transparent;
+  position: absolute;
+  z-index: 10;
+  /* cursor: pointer; REMOVIDO PARA DIFICULTAR */
+  cursor: default; /* O mouse não muda, o jogador tem que achar no olho */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: transparent;
 }
 
 .hidden-item img {
-    width: 100%; height: 100%; object-fit: contain;
-    opacity: 0; /* Totalmente invisível */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0; /* Totalmente invisível */
 }
 
 /* Quando acha */
-.hidden-item.revealed { pointer-events: none; }
+.hidden-item.revealed {
+  pointer-events: none;
+}
 .hidden-item.revealed img {
-    opacity: 0 !important; visibility: hidden;
+  opacity: 0 !important;
+  visibility: hidden;
 }
 
 /* ================= CLONE VOADOR (ANIMAÇÃO) ================= */
 .flying-item {
-    position: fixed; z-index: 9999; pointer-events: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(2px);
-    border: 4px solid white;
-    box-shadow: 0 0 30px rgba(255,255,255,0.8);
-    display: flex; justify-content: center; align-items: center;
-    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(2px);
+  border: 4px solid white;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.flying-item img { width: 80%; height: 80%; object-fit: contain; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); }
+.flying-item img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
+}
 
 /* ================= LOADER (CIRCULO) ================= */
 .loader {
-    position: absolute; width: 70px; height: 70px;
-    pointer-events: none; display: none; z-index: 50;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  pointer-events: none;
+  display: none;
+  z-index: 50;
+  transform: translate(-50%, -50%);
 }
-.loader svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.circle-bg { fill: none; stroke: rgba(255,255,255,0.4); stroke-width: 3; }
-.circle { fill: none; stroke: #4CAF50; stroke-width: 4; stroke-linecap: round; transition: stroke-dasharray 0s linear; }
+.loader svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 3;
+}
+.circle {
+  fill: none;
+  stroke: #4caf50;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0s linear;
+}
 
 /* ================= FEEDBACK DE ERRO (X ANIMADO) ================= */
 .error-x {
-    position: absolute; width: 60px; height: 60px;
-    pointer-events: none; display: none; z-index: 50;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  display: none;
+  z-index: 50;
+  transform: translate(-50%, -50%);
 }
 
 /* Desenha o X com CSS */
-.error-x::before, .error-x::after {
-    content: ''; position: absolute;
-    width: 100%; height: 8px; background-color: #ff3333;
-    border-radius: 4px; top: 50%; left: 0;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+.error-x::before,
+.error-x::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 8px;
+  background-color: #ff3333;
+  border-radius: 4px;
+  top: 50%;
+  left: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-.error-x::before { transform: translateY(-50%) rotate(45deg); }
-.error-x::after { transform: translateY(-50%) rotate(-45deg); }
+.error-x::before {
+  transform: translateY(-50%) rotate(45deg);
+}
+.error-x::after {
+  transform: translateY(-50%) rotate(-45deg);
+}
 
 /* Animação do X */
 .error-x.animate {
-    display: block;
-    animation: errorPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  display: block;
+  animation: errorPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes errorPop {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-    70% { transform: translate(-50%, -50%) scale(0.9); }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
 }
 
 /* ================= RESPONSIVIDADE ================= */
-@media (max-width: 768px) { 
-    .modal-content { width: 100%; height: 100%; border-radius: 0; padding: 5px; } 
-    .hud-item { width: 40px; height: 40px; } 
+@media (max-width: 768px) {
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    padding: 5px;
+  }
+  .hud-item {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 /* ================= POSICIONAMENTO FINAL (COORDENADAS) ================= */
-#item-1 { top: 14.8%; left: 21.2%; width: 4%; height: 8%; border-radius: 20%; }
-#item-2 { top: 0%; left: 54.6%; width: 7%; height: 12%; border-radius: 20%; }
-#item-3 { top: 18.5%; left: 80.9%; width: 7%; height: 8%; border-radius: 40%; }
-#item-4 { top: 29%; left: 77.9%; width: 4.4%; height: 5%; border-radius: 50%; }
-#item-5 { top: 25%; left: 54.2%; width: 4%; height: 7%; border-radius: 50%; }
-#item-6 { top: 52.7%; left: 14%; width: 4.5%; height: 10%; border-radius: 30%; }
-#item-7 { top: 58.5%; left: 35.4%; width: 4%; height: 7.3%; border-radius: 50%; transform: rotate(20deg);}
-#item-8 { top: 68.1%; left: 48.05%; width: 3.8%; height: 13.1%; border-radius: 20%; }
-#item-9 { top: 63.4%; left: 68%; width: 3.7%; height: 14%; border-radius: 50% 50% 20% 20%; }
-#item-10 { top: 71%; left: 13.6%; width: 7%; height: 15%; border-radius: 20%; }
-#item-11 { top: 88.5%; left: 41.8%; width: 3%; height: 10%; border-radius: 20%; }
-#item-12 { top: 86%; left: 6.4%; width: 6%; height: 5.7%; border-radius: 50%; } 
+#item-1 {
+  top: 14.8%;
+  left: 21.2%;
+  width: 4%;
+  height: 8%;
+  border-radius: 20%;
+}
+#item-2 {
+  top: 0%;
+  left: 54.6%;
+  width: 7%;
+  height: 12%;
+  border-radius: 20%;
+}
+#item-3 {
+  top: 18.5%;
+  left: 80.9%;
+  width: 7%;
+  height: 8%;
+  border-radius: 40%;
+}
+#item-4 {
+  top: 29%;
+  left: 77.9%;
+  width: 4.4%;
+  height: 5%;
+  border-radius: 50%;
+}
+#item-5 {
+  top: 25%;
+  left: 54.2%;
+  width: 4%;
+  height: 7%;
+  border-radius: 50%;
+}
+#item-6 {
+  top: 52.7%;
+  left: 14%;
+  width: 4.5%;
+  height: 10%;
+  border-radius: 30%;
+}
+#item-7 {
+  top: 58.5%;
+  left: 35.4%;
+  width: 4%;
+  height: 7.3%;
+  border-radius: 50%;
+  transform: rotate(20deg);
+}
+#item-8 {
+  top: 68.1%;
+  left: 48.05%;
+  width: 3.8%;
+  height: 13.1%;
+  border-radius: 20%;
+}
+#item-9 {
+  top: 63.4%;
+  left: 68%;
+  width: 3.7%;
+  height: 14%;
+  border-radius: 50% 50% 20% 20%;
+}
+#item-10 {
+  top: 71%;
+  left: 13.6%;
+  width: 7%;
+  height: 15%;
+  border-radius: 20%;
+}
+#item-11 {
+  top: 88.5%;
+  left: 41.8%;
+  width: 3%;
+  height: 10%;
+  border-radius: 20%;
+}
+#item-12 {
+  top: 86%;
+  left: 6.4%;
+  width: 6%;
+  height: 5.7%;
+  border-radius: 50%;
+}
+
+/* ================= POPUP DE VITÓRIA ================= */
+.win-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+
+  width: auto;
+  min-width: 280px;
+  max-width: 90%;
+
+  padding: 25px 40px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(31, 31, 42, 0.95),
+    rgba(20, 20, 30, 0.98)
+  );
+  border-radius: 20px;
+  border: 2px solid rgba(255, 184, 108, 0.3);
+  box-shadow: 0 0 60px rgba(255, 184, 108, 0.3), 0 20px 60px rgba(2, 6, 23, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+
+  font-family: "Segoe UI", sans-serif;
+  color: #f8f8f2;
+  z-index: 10000;
+
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.win-popup.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.win-popup.hide {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+.win-popup-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.05);
+  border: 3px solid rgba(255, 184, 108, 0.5);
+  box-shadow: 0 0 30px rgba(255, 184, 108, 0.4);
+  animation: popupGlow 2s ease-in-out infinite;
+}
+
+.win-popup-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffb86c;
+  text-shadow: 0 2px 10px rgba(255, 184, 108, 0.5);
+  margin: 0;
+}
+
+.win-popup-subtitle {
+  font-size: 14px;
+  color: #50fa7b;
+  font-weight: 600;
+  margin: 0;
+}
+
+.win-popup-desc {
+  font-size: 13px;
+  color: #6272a4;
+  text-align: center;
+  margin: 0;
+}
+
+@keyframes popupGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 30px rgba(255, 184, 108, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(255, 184, 108, 0.7);
+  }
+}

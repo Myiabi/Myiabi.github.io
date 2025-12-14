@@ -1,65 +1,128 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Find It Out - Jardim</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/core/yesorno/style.css">
-</head>
-<body>
-
-<button onclick="perguntarAntesDeAbrir()" style="padding: 20px; margin: 50px;">ABRIR JARDIM</button>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/core/yesorno/style.css" />
+  </head>
+  <body>
+    <button
+      onclick="perguntarAntesDeAbrir()"
+      style="padding: 20px; margin: 50px"
+    >
+      ABRIR JARDIM
+    </button>
 
     <div id="gameModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeGame()">&times;</span>
-            
-            <div class="hud-bar" id="hudItems">
-                <div class="hud-item" data-target="item-1"><img src="/assets/img/Lily-garden-item1.png"></div>
-                <div class="hud-item" data-target="item-2"><img src="/assets/img/Lily-garden-item2.png"></div>
-                <div class="hud-item" data-target="item-3"><img src="/assets/img/Lily-garden-item3.png"></div>
-                <div class="hud-item" data-target="item-4"><img src="/assets/img/Lily-garden-item4.png"></div>
-                <div class="hud-item" data-target="item-5"><img src="/assets/img/Lily-garden-item5.png"></div>
-                <div class="hud-item" data-target="item-6"><img src="/assets/img/Lily-garden-item6.png"></div>
-                <div class="hud-item" data-target="item-7"><img src="/assets/img/Lily-garden-item7.png"></div>
-                <div class="hud-item" data-target="item-8"><img src="/assets/img/Lily-garden-item8.png"></div>
-                <div class="hud-item" data-target="item-9"><img src="/assets/img/Lily-garden-item9.png"></div>
-                <div class="hud-item" data-target="item-10"><img src="/assets/img/Lily-garden-item10.png"></div>
-                <div class="hud-item" data-target="item-11"><img src="/assets/img/Lily-garden-item11.png"></div>
-                <div class="hud-item" data-target="item-12"><img src="/assets/img/Lily-garden-item12.png"></div>
-            </div>
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeGame()">&times;</span>
 
-            <div class="game-container" id="gameContainer">
-                
-                <img src="/assets/img/Lily-garden.png" class="game-bg" alt="Jardim">
-
-                <div class="hidden-item" id="item-1"><img src="/assets/img/Lily-garden-item1.png"></div>
-                <div class="hidden-item" id="item-2"><img src="/assets/img/Lily-garden-item2.png"></div>
-                <div class="hidden-item" id="item-3"><img src="/assets/img/Lily-garden-item3.png"></div>
-                <div class="hidden-item" id="item-4"><img src="/assets/img/Lily-garden-item4.png"></div>
-                <div class="hidden-item" id="item-5"><img src="/assets/img/Lily-garden-item5.png"></div>
-                <div class="hidden-item" id="item-6"><img src="/assets/img/Lily-garden-item6.png"></div>
-                <div class="hidden-item" id="item-7"><img src="/assets/img/Lily-garden-item7.png"></div>
-                <div class="hidden-item" id="item-8"><img src="/assets/img/Lily-garden-item8.png"></div>
-                <div class="hidden-item" id="item-9"><img src="/assets/img/Lily-garden-item9.png"></div>
-                <div class="hidden-item" id="item-10"><img src="/assets/img/Lily-garden-item10.png"></div>
-                <div class="hidden-item" id="item-11"><img src="/assets/img/Lily-garden-item11.png"></div>
-                <div class="hidden-item" id="item-12"><img src="/assets/img/Lily-garden-item12.png"></div>
-
-                <div id="cursorLoader" class="loader">
-                    <svg viewBox="0 0 36 36">
-                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                        <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    </svg>
-                </div>
-                <div id="errorMarker" class="error-x"></div>
-            </div>
+        <div class="hud-bar" id="hudItems">
+          <div class="hud-item" data-target="item-1">
+            <img src="/assets/img/Lily-garden-item1.png" />
+          </div>
+          <div class="hud-item" data-target="item-2">
+            <img src="/assets/img/Lily-garden-item2.png" />
+          </div>
+          <div class="hud-item" data-target="item-3">
+            <img src="/assets/img/Lily-garden-item3.png" />
+          </div>
+          <div class="hud-item" data-target="item-4">
+            <img src="/assets/img/Lily-garden-item4.png" />
+          </div>
+          <div class="hud-item" data-target="item-5">
+            <img src="/assets/img/Lily-garden-item5.png" />
+          </div>
+          <div class="hud-item" data-target="item-6">
+            <img src="/assets/img/Lily-garden-item6.png" />
+          </div>
+          <div class="hud-item" data-target="item-7">
+            <img src="/assets/img/Lily-garden-item7.png" />
+          </div>
+          <div class="hud-item" data-target="item-8">
+            <img src="/assets/img/Lily-garden-item8.png" />
+          </div>
+          <div class="hud-item" data-target="item-9">
+            <img src="/assets/img/Lily-garden-item9.png" />
+          </div>
+          <div class="hud-item" data-target="item-10">
+            <img src="/assets/img/Lily-garden-item10.png" />
+          </div>
+          <div class="hud-item" data-target="item-11">
+            <img src="/assets/img/Lily-garden-item11.png" />
+          </div>
+          <div class="hud-item" data-target="item-12">
+            <img src="/assets/img/Lily-garden-item12.png" />
+          </div>
         </div>
+
+        <div class="game-container" id="gameContainer">
+          <!-- BOTÃO DEBUG - REMOVER EM PRODUÇÃO -->
+          <button id="debugWinBtn" class="debug-btn" onclick="debugWin()">
+            🏆 WIN
+          </button>
+
+          <img src="/assets/img/Lily-garden.png" class="game-bg" alt="Jardim" />
+
+          <div class="hidden-item" id="item-1">
+            <img src="/assets/img/Lily-garden-item1.png" />
+          </div>
+          <div class="hidden-item" id="item-2">
+            <img src="/assets/img/Lily-garden-item2.png" />
+          </div>
+          <div class="hidden-item" id="item-3">
+            <img src="/assets/img/Lily-garden-item3.png" />
+          </div>
+          <div class="hidden-item" id="item-4">
+            <img src="/assets/img/Lily-garden-item4.png" />
+          </div>
+          <div class="hidden-item" id="item-5">
+            <img src="/assets/img/Lily-garden-item5.png" />
+          </div>
+          <div class="hidden-item" id="item-6">
+            <img src="/assets/img/Lily-garden-item6.png" />
+          </div>
+          <div class="hidden-item" id="item-7">
+            <img src="/assets/img/Lily-garden-item7.png" />
+          </div>
+          <div class="hidden-item" id="item-8">
+            <img src="/assets/img/Lily-garden-item8.png" />
+          </div>
+          <div class="hidden-item" id="item-9">
+            <img src="/assets/img/Lily-garden-item9.png" />
+          </div>
+          <div class="hidden-item" id="item-10">
+            <img src="/assets/img/Lily-garden-item10.png" />
+          </div>
+          <div class="hidden-item" id="item-11">
+            <img src="/assets/img/Lily-garden-item11.png" />
+          </div>
+          <div class="hidden-item" id="item-12">
+            <img src="/assets/img/Lily-garden-item12.png" />
+          </div>
+
+          <div id="cursorLoader" class="loader">
+            <svg viewBox="0 0 36 36">
+              <path
+                class="circle-bg"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path
+                class="circle"
+                stroke-dasharray="0, 100"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+            </svg>
+          </div>
+          <div id="errorMarker" class="error-x"></div>
+        </div>
+      </div>
     </div>
 
     <script src="/core/save/script.js"></script>
     <script src="/core/yesorno/script.js"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

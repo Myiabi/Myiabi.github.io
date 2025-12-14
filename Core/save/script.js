@@ -22,16 +22,16 @@ const defaultData = {
 
   // Fishing System
   fishing: {
-    inventory: [],      // Histórico
-    uniqueItems: {},    // Para o Clip: { 'Star Hair Clip': false }
+    inventory: [], // Histórico
+    uniqueItems: {}, // Para o Clip: { 'Star Hair Clip': false }
     stats: {
       totalCatches: 0,
-      legendaryCount: 0
+      legendaryCount: 0,
     },
     biggestFish: {
       name: "None",
-      size: 0
-    }
+      size: 0,
+    },
   },
 
   // --- VARIÁVEIS VISUAIS GERAIS (SOL/LUA/PEDRA) ---
@@ -45,7 +45,6 @@ const defaultData = {
     puzzleBubbles_jelly: false,
     puzzleBubbles_heart: false,
     puzzleBubbles_complete: false,
-    
   },
 
   jardimCompleto: false,
@@ -53,10 +52,8 @@ const defaultData = {
   customCharacter: null, // Onde o JSON do boneco final será salvo
   unlockedAchievements: {},
 
-
   npcApareceu: false,
 };
-
 
 const SAVE_KEY = "meuSaveDoJogo";
 
@@ -78,10 +75,16 @@ function carregarJogo() {
       const parsed = JSON.parse(data);
       // Merge seguro para garantir que propriedades novas existam em saves velhos
       const merged = Object.assign({}, defaultData, parsed);
-      
-      merged.incubadora = { ...defaultData.incubadora, ...(parsed.incubadora || {}) };
-      merged.visualState = { ...defaultData.visualState, ...(parsed.visualState || {}) };
-      
+
+      merged.incubadora = {
+        ...defaultData.incubadora,
+        ...(parsed.incubadora || {}),
+      };
+      merged.visualState = {
+        ...defaultData.visualState,
+        ...(parsed.visualState || {}),
+      };
+
       return merged;
     } catch (e) {
       console.error("Erro load:", e);
@@ -100,7 +103,6 @@ function apagarSave() {
 // 👁️ 3. SISTEMA VISUAL UNIFICADO (O CÉREBRO VISUAL)
 // ---------------------------
 function aplicarMudancaVisual(prop, value) {
-  
   // --- ELEMENTOS GERAIS (Jardim/Menu) ---
   const menu_lua = document.getElementById("item-lupa");
   const menu_sol = document.getElementById("item-fogo");
@@ -108,20 +110,19 @@ function aplicarMudancaVisual(prop, value) {
   const cadeadoOFF = document.getElementById("locker");
   const myopic = document.getElementById("myopic");
   const estatua = document.getElementById("btn-open");
-  
+
   // --- COBRINHAS ---- ///
-  const cobra3 = document.getElementById("cobra3"); 
-  const cobra4 = document.getElementById("cobra4"); 
-  const cobra5 = document.getElementById("cobra5"); 
-  const cobra6 = document.getElementById("cobra6"); 
+  const cobra3 = document.getElementById("cobra3");
+  const cobra4 = document.getElementById("cobra4");
+  const cobra5 = document.getElementById("cobra5");
+  const cobra6 = document.getElementById("cobra6");
   const box = document.getElementById("box");
   const pollux = document.getElementById("pollux");
   const rigelon = document.getElementById("rigelon");
   const kofongo = document.getElementById("kofongo");
-  const sirius = document.getElementById("sirius")
-  const capella = document.getElementById("capella")
-  const aldebaran = document.getElementById("aldebaran")
-  
+  const sirius = document.getElementById("sirius");
+  const capella = document.getElementById("capella");
+  const aldebaran = document.getElementById("aldebaran");
 
   // --- ELEMENTOS ESPECÍFICOS DA CAVERNA ---
   const elMateria = document.getElementById("inc-materia");
@@ -129,10 +130,10 @@ function aplicarMudancaVisual(prop, value) {
   const elBase = document.getElementById("openCreatorBtn");
   const elWrapper = document.getElementById("incubadora-wrapper");
   const rock = document.getElementById("rock");
-  const cobra1 = document.getElementById("cobra1"); 
-  const cobra2 = document.getElementById("cobra2"); 
+  const cobra1 = document.getElementById("cobra1");
+  const cobra2 = document.getElementById("cobra2");
   const wendigo = document.getElementById("wendigo");
-  
+
   // Notas da Caverna
   const noteMateria = document.getElementById("note-materia");
   const noteRainha = document.getElementById("note-rainha");
@@ -143,10 +144,13 @@ function aplicarMudancaVisual(prop, value) {
   const mesa2 = document.getElementById("table2");
   const mesa3 = document.getElementById("table3");
   const mesa4 = document.getElementById("table4");
-    
+
   const mint = document.getElementById("mint");
   const vara = document.getElementById("rodButton");
   const hole = document.getElementById("hole");
+
+  // --- CITY ---
+  const day25 = document.getElementById("day25");
 
   switch (prop) {
     // ==================================
@@ -185,27 +189,50 @@ function aplicarMudancaVisual(prop, value) {
       if (aldebaran) aldebaran.style.display = value ? "block" : "none";
       if (cobra6) cobra6.style.display = value ? "none" : "block";
       break;
+  }
 
+  // Verifica se TODOS os 7 personagens estão visíveis
+  const todosVisiveis =
+    gameData.visualState?.polluxVisivel &&
+    gameData.visualState?.rigelVisivel &&
+    gameData.visualState?.kofongoVisivel &&
+    gameData.visualState?.capellaVisivel &&
+    gameData.visualState?.siriusVisivel &&
+    gameData.visualState?.aldebaranVisivel;
+
+  if (todosVisiveis) {
+    // ============================================
+    // 🎉 TODOS OS 7 PERSONAGENS ESTÃO VISÍVEIS!
+    // Adicione aqui o que você quiser:
+    
+    
+  }
+
+  switch (prop) {
     case "boxSumiu":
       if (box) {
         box.style.display = value ? "none" : "block";
         if (value) box.classList.add("hidden");
       }
       break;
-      
+
     case "luaON":
       if (menu_lua) {
         menu_lua.style.display = value ? "block" : "none";
-        const solVisivel = menu_sol && getComputedStyle(menu_sol).display !== "none";
-        if (container) container.style.display = (value || solVisivel) ? "flex" : "none";
+        const solVisivel =
+          menu_sol && getComputedStyle(menu_sol).display !== "none";
+        if (container)
+          container.style.display = value || solVisivel ? "flex" : "none";
       }
       break;
 
     case "solON":
       if (menu_sol) {
         menu_sol.style.display = value ? "block" : "none";
-        const luaVisivel = menu_lua && getComputedStyle(menu_lua).display !== "none";
-        if (container) container.style.display = (value || luaVisivel) ? "flex" : "none";
+        const luaVisivel =
+          menu_lua && getComputedStyle(menu_lua).display !== "none";
+        if (container)
+          container.style.display = value || luaVisivel ? "flex" : "none";
       }
       break;
 
@@ -214,7 +241,10 @@ function aplicarMudancaVisual(prop, value) {
         cadeadoOFF.parentElement.style.pointerEvents = value ? "none" : "auto";
         cadeadoOFF.parentElement.style.cursor = value ? "default" : "pointer";
       }
-      if (myopic) myopic.src = value ? "/assets/img/NPC_Myopic2.png" : "/assets/img/NPC_Myopic1.png";
+      if (myopic)
+        myopic.src = value
+          ? "/assets/img/NPC_Myopic2.png"
+          : "/assets/img/NPC_Myopic1.png";
       break;
 
     case "minigame2":
@@ -222,47 +252,59 @@ function aplicarMudancaVisual(prop, value) {
         estatua.style.pointerEvents = value ? "none" : "auto";
         estatua.style.cursor = value ? "default" : "pointer";
         if (window.personagens) {
-            if (personagens.aiko) mudarCenario(personagens.aiko, 'estatuaWon');
+          if (personagens.aiko) mudarCenario(personagens.aiko, "estatuaWon");
         }
       }
       break;
 
     case "minigame4":
-        if (window.personagens) {
-            if (personagens.wendigo) mudarCenario(personagens.wendigo, 'segunda');
-            if (personagens.lily) mudarCenario(personagens.lily, 'jardim');
-        }
+      if (window.personagens) {
+        if (personagens.wendigo) mudarCenario(personagens.wendigo, "segunda");
+        if (personagens.lily) mudarCenario(personagens.lily, "jardim");
+      }
       break;
 
     case "estatuasON":
       if (estatua) {
         estatua.style.pointerEvents = value ? "auto" : "none";
         estatua.style.cursor = value ? "pointer" : "default";
-      }  
+      }
       break;
 
     // ==================================
     // 2. NOVOS VISUAIS (CAVERNA)
     // ==================================
-    
+
     // --- Itens da Incubadora ---
     case "hasMateria":
       if (elMateria) elMateria.style.display = value ? "block" : "none";
-      if (noteMateria) value ? noteMateria.classList.add("checked") : noteMateria.classList.remove("checked");
+      if (noteMateria)
+        value
+          ? noteMateria.classList.add("checked")
+          : noteMateria.classList.remove("checked");
       break;
     case "hasRainha":
       if (elRainha) elRainha.style.display = value ? "block" : "none";
-      if (noteRainha) value ? noteRainha.classList.add("checked") : noteRainha.classList.remove("checked");
+      if (noteRainha)
+        value
+          ? noteRainha.classList.add("checked")
+          : noteRainha.classList.remove("checked");
       break;
     case "hasJelly":
-      if (elBase) elBase.src = value ? "/assets/img/Incubator-stage-only-honey.png" : "/assets/img/Incubator-stage0.png";
-      if (noteJelly) value ? noteJelly.classList.add("checked") : noteJelly.classList.remove("checked");
+      if (elBase)
+        elBase.src = value
+          ? "/assets/img/Incubator-stage-only-honey.png"
+          : "/assets/img/Incubator-stage0.png";
+      if (noteJelly)
+        value
+          ? noteJelly.classList.add("checked")
+          : noteJelly.classList.remove("checked");
       break;
 
     // --- Estado da Incubadora / Myo ---
     case "myoLiberado":
       if (elWrapper) {
-          elWrapper.style.cursor = value ? "pointer" : "default";
+        elWrapper.style.cursor = value ? "pointer" : "default";
       }
       break;
 
@@ -273,7 +315,7 @@ function aplicarMudancaVisual(prop, value) {
           rock.classList.add("rock-locked");
           rock.style.pointerEvents = "none";
           if (rock.style.left === "") {
-             rock.style.transform = `translateX(8vw)`; 
+            rock.style.transform = `translateX(8vw)`;
           }
         }
       }
@@ -293,8 +335,7 @@ function aplicarMudancaVisual(prop, value) {
       if (elWrapper) elWrapper.style.pointerEvents = value ? "auto" : "none";
       break;
 
-
-      // mesas
+    // mesas
     case "mesasON":
       if (mesa1) mesa1.style.pointerEvents = value ? "auto" : "none";
       if (mesa2) mesa2.style.pointerEvents = value ? "auto" : "none";
@@ -302,11 +343,11 @@ function aplicarMudancaVisual(prop, value) {
       if (mesa4) mesa4.style.pointerEvents = value ? "auto" : "none";
       break;
 
-      // ghost
+    // ghost
     case "mintVisivel":
       if (mint) mint.style.display = value ? "block" : "none";
       break;
-      
+
     case "varaON":
       if (vara) vara.style.pointerEvents = value ? "auto" : "none";
       break;
@@ -320,48 +361,56 @@ function aplicarMudancaVisual(prop, value) {
       break;
 
     case "postesAcesos":
-    if (day25) {
-    // Se value for true: vai pra posição nova
-    // Se value for false: "" (string vazia) remove o estilo inline e o elemento volta pro lugar original do CSS
-    day25.style.top = value ? "83%" : ""; 
-    day25.style.left = value ? "45%" : ""; 
-  }      break;
+      if (day25) {
+        // Se value for true: vai pra posição nova
+        // Se value for false: "" (string vazia) remove o estilo inline e o elemento volta pro lugar original do CSS
+        day25.style.top = value ? "83%" : "";
+        day25.style.left = value ? "45%" : "";
+      }
+      break;
 
-  // --- PUZZLE DAS BOLHAS ---
+    // --- PUZZLE DAS BOLHAS ---
     case "puzzleBubbles_hour":
     case "puzzleBubbles_jelly":
     case "puzzleBubbles_heart":
       // O nome da propriedade é "puzzleBubbles_hour", mas o ID do elemento é "hour"
       // Vamos pegar o sufixo (hour, jelly, heart)
-      const idElemento = prop.split("_")[1]; 
+      const idElemento = prop.split("_")[1];
       const elPuzzle = document.getElementById(idElemento);
-      
+
       if (elPuzzle && value) {
-         // Aplica o brilho permanente
-         elPuzzle.classList.add('glow-effect'); 
-         elPuzzle.style.filter = "drop-shadow(0 0 15px white) brightness(2)";
-         elPuzzle.style.opacity = "1";
+        // Aplica o brilho permanente
+        elPuzzle.classList.add("glow-effect");
+        elPuzzle.style.filter = "drop-shadow(0 0 15px white) brightness(2)";
+        elPuzzle.style.opacity = "1";
       }
       break;
 
     case "puzzleBubbles_complete":
       // Se completou, esconde tudo
-      const pGrid = document.getElementById('grid-wrapper') || document.getElementById('grid-container');
-      const pCrab = document.getElementById('crab');
-      const pHour = document.getElementById('hour');
-      const pJelly = document.getElementById('jelly');
-      const pHeart = document.getElementById('heart');
-      
+      const pGrid =
+        document.getElementById("grid-wrapper") ||
+        document.getElementById("grid-container");
+      const pCrab = document.getElementById("crab");
+      const pHour = document.getElementById("hour");
+      const pJelly = document.getElementById("jelly");
+      const pHeart = document.getElementById("heart");
+
       if (value) {
-         if(pGrid) pGrid.style.display = 'none';
-         // Remove o bonde todo caso o jogador recarregue a página
-         if(pCrab) pCrab.style.display = 'none';
-         if(pHour) pHour.style.display = 'none';
-         if(pJelly) pJelly.style.display = 'none';
-         if(pHeart) pHeart.style.display = 'none';
+        // Só aplica display:none se o elemento NÃO estiver animando
+        // Elementos com classe 'animating-out' estão em fade/queda e não devem ser escondidos bruscamente
+        if (pGrid && !pGrid.classList.contains("animating-out"))
+          pGrid.style.display = "none";
+        if (pCrab && !pCrab.classList.contains("animating-out"))
+          pCrab.style.display = "none";
+        if (pHour && !pHour.classList.contains("animating-out"))
+          pHour.style.display = "none";
+        if (pJelly && !pJelly.classList.contains("animating-out"))
+          pJelly.style.display = "none";
+        if (pHeart && !pHeart.classList.contains("animating-out"))
+          pHeart.style.display = "none";
       }
       break;
-
   }
 }
 
@@ -374,9 +423,10 @@ function criarProxy(obj, caminho = []) {
       if (target[prop] === value) return true;
 
       const fullPath = [...caminho, prop];
-      
+
       // Define valor (Recursivo)
-      target[prop] = (value && typeof value === "object" && !Array.isArray(value))
+      target[prop] =
+        value && typeof value === "object" && !Array.isArray(value)
           ? criarProxy(value, fullPath)
           : value;
 
@@ -390,11 +440,9 @@ function criarProxy(obj, caminho = []) {
       // Detecta onde foi a mudança para chamar o visualizador
       if (fullPath[0] === "visualState") {
         aplicarMudancaVisual(prop, value);
-      }
-      else if (fullPath[0] === "incubadora") {
+      } else if (fullPath[0] === "incubadora") {
         aplicarMudancaVisual(prop, value);
-      }
-      else if (prop === "myoLiberado") {
+      } else if (prop === "myoLiberado") {
         aplicarMudancaVisual(prop, value);
       }
 
@@ -414,13 +462,12 @@ function criarProxy(obj, caminho = []) {
 const loadedData = carregarJogo();
 let gameData = criarProxy(loadedData);
 
-
 // ---------------------------
 // 🏆 5. ACHIEVEMENTS (VISUAL STEAM + FILA ANTI-ERRO)
 // ---------------------------
 
 // 1. INJEÇÃO DE CSS (Visual Steam)
-const styleSteam = document.createElement('style');
+const styleSteam = document.createElement("style");
 styleSteam.innerHTML = `
   .steam-achievement {
     display: flex;
@@ -492,24 +539,25 @@ if (!achievementsContainer) {
   achievementsContainer = document.createElement("div");
   achievementsContainer.id = "achievements-container";
   document.documentElement.appendChild(achievementsContainer);
-  
+
   Object.assign(achievementsContainer.style, {
-    position: "fixed", 
-    bottom: "20px", 
-    right: "20px", 
-    display: "flex", 
-    flexDirection: "column-reverse", 
-    gap: "10px", 
-    zIndex: "9999999", 
-    pointerEvents: "none"
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    display: "flex",
+    flexDirection: "column-reverse",
+    gap: "10px",
+    zIndex: "9999999",
+    pointerEvents: "none",
   });
 
   const rotateAch = () => {
     if (window.matchMedia("(orientation: portrait)").matches) {
-       achievementsContainer.style.transform = "rotate(-90deg) translate(-25vh, 70vw)";
-       achievementsContainer.style.transformOrigin = "bottom right";
+      achievementsContainer.style.transform =
+        "rotate(-90deg) translate(-25vh, 70vw)";
+      achievementsContainer.style.transformOrigin = "bottom right";
     } else {
-       achievementsContainer.style.transform = "none";
+      achievementsContainer.style.transform = "none";
     }
   };
   window.addEventListener("resize", rotateAch);
@@ -521,9 +569,30 @@ const audioVitoria = new Audio("/assets/sounds/efeitos/steam.mp3");
 audioVitoria.volume = 0.5;
 
 const secretAchievements = [
-  { id: "itemMoeda", title: "Tesouro!", desc: "Você pegou a moeda!", iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png", unlocked: false, condition: (gs) => gs.itemMoeda },
-  { id: "salaSecreta", title: "Segredo Revelado!", desc: "Você descobriu a sala secreta!", iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png", unlocked: false, condition: (gs) => gs.salaSecreta },
-  { id: "minigameWon", title: "Campeão!", desc: "Você venceu o minigame!", iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png", unlocked: false, condition: (gs) => gs.minigameWon },
+  {
+    id: "itemMoeda",
+    title: "Tesouro!",
+    desc: "Você pegou a moeda!",
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    unlocked: false,
+    condition: (gs) => gs.itemMoeda,
+  },
+  {
+    id: "salaSecreta",
+    title: "Segredo Revelado!",
+    desc: "Você descobriu a sala secreta!",
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    unlocked: false,
+    condition: (gs) => gs.salaSecreta,
+  },
+  {
+    id: "minigameWon",
+    title: "Campeão!",
+    desc: "Você venceu o minigame!",
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    unlocked: false,
+    condition: (gs) => gs.minigameWon,
+  },
 ];
 
 // --- 4. FILA DE ESPERA (COM TRAVA ANTI-DUPLO CLIQUE) ---
@@ -532,74 +601,82 @@ let isQueueProcessing = false; // <--- A TRAVA DE SEGURANÇA
 
 // Renderiza visualmente (Com verificação se já existe na tela)
 function renderAchievement(ach) {
-    // 1. BLINDAGEM VISUAL: Se esse achievement já estiver na tela, aborta.
-    if (document.querySelector(`.steam-achievement[data-id="${ach.id}"]`)) return;
+  // 1. BLINDAGEM VISUAL: Se esse achievement já estiver na tela, aborta.
+  if (document.querySelector(`.steam-achievement[data-id="${ach.id}"]`)) return;
 
-    const el = document.createElement("div");
-    el.className = "steam-achievement";
-    el.setAttribute("data-id", ach.id); // Marca o ID no HTML pra evitar duplicatas
-    
-    el.innerHTML = `
+  const el = document.createElement("div");
+  el.className = "steam-achievement";
+  el.setAttribute("data-id", ach.id); // Marca o ID no HTML pra evitar duplicatas
+
+  el.innerHTML = `
       <div class="steam-icon"><img src="${ach.iconUrl}"></div>
       <div class="steam-content">
           <div class="steam-title">Achievement Unlocked</div>
           <div class="steam-desc">${ach.desc}</div> 
       </div>
     `;
-    achievementsContainer.appendChild(el);
-    
-    // Tenta tocar som
-    audioVitoria.currentTime = 0;
-    audioVitoria.play().catch(()=>{}); 
+  achievementsContainer.appendChild(el);
 
-    // Animação Entrada/Saída
-    requestAnimationFrame(() => { el.style.transform = "translateY(0)"; el.style.opacity = "1"; });
-    setTimeout(() => { 
-        el.style.opacity = "0"; 
-        setTimeout(() => el.remove(), 500); 
-    }, 4000);
+  // Tenta tocar som
+  audioVitoria.currentTime = 0;
+  audioVitoria.play().catch(() => {});
+
+  // Animação Entrada/Saída
+  requestAnimationFrame(() => {
+    el.style.transform = "translateY(0)";
+    el.style.opacity = "1";
+  });
+  setTimeout(() => {
+    el.style.opacity = "0";
+    setTimeout(() => el.remove(), 500);
+  }, 4000);
 }
 
 // Processa a fila
 function processQueue() {
-    // 2. BLINDAGEM LÓGICA: Se já tem um processo armado, NÃO arma outro.
-    if (isQueueProcessing) return;
+  // 2. BLINDAGEM LÓGICA: Se já tem um processo armado, NÃO arma outro.
+  if (isQueueProcessing) return;
 
-    // Verifica se tem algo na fila antes de travar
-    const queueJson = localStorage.getItem(QUEUE_KEY);
-    if (!queueJson) return;
-    const queue = JSON.parse(queueJson);
-    if (!Array.isArray(queue) || queue.length === 0) return;
+  // Verifica se tem algo na fila antes de travar
+  const queueJson = localStorage.getItem(QUEUE_KEY);
+  if (!queueJson) return;
+  const queue = JSON.parse(queueJson);
+  if (!Array.isArray(queue) || queue.length === 0) return;
 
-    // Ativa a trava
-    isQueueProcessing = true;
+  // Ativa a trava
+  isQueueProcessing = true;
 
-    // "ARMADILHA": Aguarda interação
-    const trigger = () => {
-        // Remove gatilhos
-        document.removeEventListener('click', trigger, { capture: true });
-        document.removeEventListener('touchstart', trigger, { capture: true });
-        document.removeEventListener('keydown', trigger, { capture: true });
+  // "ARMADILHA": Aguarda interação
+  const trigger = () => {
+    // Remove gatilhos
+    document.removeEventListener("click", trigger, { capture: true });
+    document.removeEventListener("touchstart", trigger, { capture: true });
+    document.removeEventListener("keydown", trigger, { capture: true });
 
-        // Ler a fila DE NOVO (Fresh) para garantir que pegamos tudo atualizado
-        const freshQueue = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
-        
-        freshQueue.forEach(achId => {
-            const achData = secretAchievements.find(a => a.id === achId);
-            if (achData) renderAchievement(achData);
-        });
+    // Ler a fila DE NOVO (Fresh) para garantir que pegamos tudo atualizado
+    const freshQueue = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
 
-        // Limpa a fila e solta a trava
-        localStorage.removeItem(QUEUE_KEY);
-        
-        // Pequeno delay para liberar a trava, evitando spam de clique muito rápido
-        setTimeout(() => { isQueueProcessing = false; }, 100);
-    };
+    freshQueue.forEach((achId) => {
+      const achData = secretAchievements.find((a) => a.id === achId);
+      if (achData) renderAchievement(achData);
+    });
 
-    // Adiciona gatilhos
-    document.addEventListener('click', trigger, { capture: true, once: true });
-    document.addEventListener('touchstart', trigger, { capture: true, once: true });
-    document.addEventListener('keydown', trigger, { capture: true, once: true });
+    // Limpa a fila e solta a trava
+    localStorage.removeItem(QUEUE_KEY);
+
+    // Pequeno delay para liberar a trava, evitando spam de clique muito rápido
+    setTimeout(() => {
+      isQueueProcessing = false;
+    }, 100);
+  };
+
+  // Adiciona gatilhos
+  document.addEventListener("click", trigger, { capture: true, once: true });
+  document.addEventListener("touchstart", trigger, {
+    capture: true,
+    once: true,
+  });
+  document.addEventListener("keydown", trigger, { capture: true, once: true });
 }
 
 // Função chamada pelo Proxy quando algo muda
@@ -609,26 +686,26 @@ function checkAchievements(gs) {
 
   secretAchievements.forEach((ach) => {
     const already = gs.unlockedAchievements?.[ach.id];
-    
+
     // Se desbloqueou agora
     if (!ach.unlocked && !already && ach.condition(gs)) {
       ach.unlocked = true;
       gs.unlockedAchievements[ach.id] = true;
-      
+
       // Adiciona na fila de espera (persiste mesmo se der refresh/redirect)
       if (!queue.includes(ach.id)) {
-          queue.push(ach.id);
-          hasNew = true;
+        queue.push(ach.id);
+        hasNew = true;
       }
     }
   });
 
   if (hasNew) {
-      salvarJogo();
-      localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
-      
-      // Chama o processador imediatamente (caso o usuário continue na mesma página)
-      processQueue(); 
+    salvarJogo();
+    localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+
+    // Chama o processador imediatamente (caso o usuário continue na mesma página)
+    processQueue();
   }
 }
 
@@ -638,20 +715,25 @@ function checkAchievements(gs) {
 (function syncFromSave() {
   // Sync Achievements (Apenas estado interno)
   gameData.unlockedAchievements = gameData.unlockedAchievements || {};
-  secretAchievements.forEach((ach) => { if (gameData.unlockedAchievements[ach.id]) ach.unlocked = true; });
+  secretAchievements.forEach((ach) => {
+    if (gameData.unlockedAchievements[ach.id]) ach.unlocked = true;
+  });
 
   // Sync Visuais
   if (gameData.visualState) {
-    Object.entries(gameData.visualState).forEach(([p, v]) => aplicarMudancaVisual(p, v));
+    Object.entries(gameData.visualState).forEach(([p, v]) =>
+      aplicarMudancaVisual(p, v)
+    );
   }
   if (gameData.incubadora) {
-    Object.entries(gameData.incubadora).forEach(([p, v]) => aplicarMudancaVisual(p, v));
+    Object.entries(gameData.incubadora).forEach(([p, v]) =>
+      aplicarMudancaVisual(p, v)
+    );
   }
   aplicarMudancaVisual("myoLiberado", gameData.myoLiberado);
 
   // VERIFICA SE FICOU PENDÊNCIA DA PÁGINA ANTERIOR
   processQueue();
-
 })();
 
 // ---------------------------
@@ -660,12 +742,14 @@ function checkAchievements(gs) {
 window.gameData = gameData;
 window.salvarJogo = salvarJogo;
 window.apagarSave = apagarSave;
-window.unlockAchievement = (flag) => { gameData[flag] = true; };
+window.unlockAchievement = (flag) => {
+  gameData[flag] = true;
+};
 
 // Debug helper
-window.debugCave = function() {
-    console.log("🔓 Desbloqueando caverna para testes...");
-    gameData.incubadora.hasJelly = true;
-    gameData.incubadora.hasMateria = true;
-    gameData.incubadora.hasRainha = true;
+window.debugCave = function () {
+  console.log("🔓 Desbloqueando caverna para testes...");
+  gameData.incubadora.hasJelly = true;
+  gameData.incubadora.hasMateria = true;
+  gameData.incubadora.hasRainha = true;
 };
