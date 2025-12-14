@@ -39,7 +39,12 @@ const defaultData = {
     // Visuais globais e da caverna
     pedraResolvida: false,
     polluxVisivel: false,
-    incubadoraLiberada: false
+    incubadoraLiberada: false,
+
+    puzzleBubbles_hour: false,
+    puzzleBubbles_jelly: false,
+    puzzleBubbles_heart: false,
+    puzzleBubbles_complete: false,
     
   },
 
@@ -108,6 +113,7 @@ function aplicarMudancaVisual(prop, value) {
   const cobra3 = document.getElementById("cobra3"); 
   const cobra4 = document.getElementById("cobra4"); 
   const cobra5 = document.getElementById("cobra5"); 
+  const cobra6 = document.getElementById("cobra6"); 
   const box = document.getElementById("box");
   const pollux = document.getElementById("pollux");
   const rigelon = document.getElementById("rigelon");
@@ -174,6 +180,10 @@ function aplicarMudancaVisual(prop, value) {
     case "siriusVisivel":
       if (sirius) sirius.style.display = value ? "block" : "none";
       if (cobra3) cobra3.style.display = value ? "none" : "block";
+      break;
+    case "aldebaranVisivel":
+      if (aldebaran) aldebaran.style.display = value ? "block" : "none";
+      if (cobra6) cobra6.style.display = value ? "none" : "block";
       break;
 
     case "boxSumiu":
@@ -305,6 +315,10 @@ function aplicarMudancaVisual(prop, value) {
       if (hole) hole.style.pointerEvents = value ? "auto" : "none";
       break;
 
+    case "crabWin":
+      if (cobra6) cobra6.style.pointerEvents = value ? "auto" : "none";
+      break;
+
     case "postesAcesos":
     if (day25) {
     // Se value for true: vai pra posição nova
@@ -312,6 +326,41 @@ function aplicarMudancaVisual(prop, value) {
     day25.style.top = value ? "83%" : ""; 
     day25.style.left = value ? "45%" : ""; 
   }      break;
+
+  // --- PUZZLE DAS BOLHAS ---
+    case "puzzleBubbles_hour":
+    case "puzzleBubbles_jelly":
+    case "puzzleBubbles_heart":
+      // O nome da propriedade é "puzzleBubbles_hour", mas o ID do elemento é "hour"
+      // Vamos pegar o sufixo (hour, jelly, heart)
+      const idElemento = prop.split("_")[1]; 
+      const elPuzzle = document.getElementById(idElemento);
+      
+      if (elPuzzle && value) {
+         // Aplica o brilho permanente
+         elPuzzle.classList.add('glow-effect'); 
+         elPuzzle.style.filter = "drop-shadow(0 0 15px white) brightness(2)";
+         elPuzzle.style.opacity = "1";
+      }
+      break;
+
+    case "puzzleBubbles_complete":
+      // Se completou, esconde tudo
+      const pGrid = document.getElementById('grid-wrapper') || document.getElementById('grid-container');
+      const pCrab = document.getElementById('crab');
+      const pHour = document.getElementById('hour');
+      const pJelly = document.getElementById('jelly');
+      const pHeart = document.getElementById('heart');
+      
+      if (value) {
+         if(pGrid) pGrid.style.display = 'none';
+         // Remove o bonde todo caso o jogador recarregue a página
+         if(pCrab) pCrab.style.display = 'none';
+         if(pHour) pHour.style.display = 'none';
+         if(pJelly) pJelly.style.display = 'none';
+         if(pHeart) pHeart.style.display = 'none';
+      }
+      break;
 
   }
 }

@@ -189,7 +189,7 @@ window.personagens = {
           expressao: "normal",
         },
       ],
-      jardim: [
+      jardimWin: [
         {
           texto:
             "Hihihi agora posso limpar meu jardim.",
@@ -908,7 +908,7 @@ window.personagens = {
             ".... [hides on his own tail and run away]",
             aofechar: function () {
               gameData.visualState.aldebaranVisivel = true;
-              mudarCenario(personagens.marin, 'kofongo');
+              mudarCenario(personagens.marin, 'aldebaran');
               tocarEfeito("swoosh")
             
           },

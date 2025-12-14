@@ -251,10 +251,9 @@ function checkVictory() {
                 gameData.jardimCompleto = true;
                 
                 // Se quiser achievement, descomente:
-                // if (typeof unlockAchievement === "function") unlockAchievement('minigameWon');
+                window.gameData.incubadora.hasJelly = true;
             }
-
-            alert("PARABÉNS! VOCÊ COMPLETOU O JARDIM!");
+            
             closeGame(); // Fecha o modal ao vencer
 
         }, 1000);

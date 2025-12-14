@@ -94,6 +94,43 @@ body, html {
   animation: boiar 2s ease-in-out infinite;
 }
 
+#crab  {
+  position: absolute;
+  width: 30%;
+  height: 50%;
+  top: 51%;
+  left: 34%;
+  pointer-events: none;
+  animation: boiar 2s ease-in-out infinite;
+}
+#heart  {
+  position: absolute;
+  width:6%;
+  height: 8%;
+  top: 70%;
+  left:45.8%;
+  pointer-events: none;
+  animation: boiar 2s ease-in-out infinite;
+}
+#jelly  {
+  position: absolute;
+  width:3%;
+  height: 6%;
+  top: 89%;
+  left: 39%;
+  pointer-events: none;
+  animation: boiar 2s ease-in-out infinite;
+}
+#hour  {
+  position: absolute;
+  width:3%;
+  height: 6%;
+  top: 90%;
+  left:55.5%;
+  pointer-events: none;
+  animation: boiar 2s ease-in-out infinite;
+}
+
 
 
 /* --- 2. O FUNDO (A cor escura que você aprovou) --- */
@@ -239,3 +276,60 @@ body, html {
 .bubble:nth-child(18) { width: 8px; height: 8px; left: 95%; animation-duration: 13s; animation-delay: 2s; --sway: 25px; }
 .bubble:nth-child(19) { width: 5px; height: 5px; left: 30%; animation-duration: 19s; animation-delay: 6s; }
 .bubble:nth-child(20) { width: 13px; height: 13px; left: 58%; animation-duration: 12s; animation-delay: 7s; }
+
+.bubble-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none; /* O clique vai na div pai (.cell) */
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); /* Sombra leve na bolha */
+}
+
+.cell {
+    touch-action: none;
+    transition: opacity 0.2s ease; /* Transição suave para fallback */
+}
+
+/* Animação de brilho para os IDs externos */
+.glow-effect {
+    filter: drop-shadow(0 0 10px rgb(255, 255, 255)) brightness(1.5);
+    transition: all 0.5s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 colunas iguais */
+  grid-template-rows: repeat(7, 1fr);    /* 7 linhas iguais */
+  gap: 4px; /* O gap-1 do tailwind é aprox 4px */
+  padding: 8px; /* p-2 do tailwind */
+  position: relative;
+  user-select: none;
+}
+
+/* Garante que as células ocupem tudo */
+.cell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

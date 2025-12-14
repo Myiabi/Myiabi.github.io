@@ -12,7 +12,7 @@
 - ~~Pesquisar particulas de efeitos para Paralax, descobri que existe uma propriedade chamada pointer-events: none, que permita   clicar no elemento abaixo da div, ajuda a colocar efeitos por cima de tudo.~~
 - ~~Posts de calor~~
 - ~~Seria interessante pesquisar diversas fontes~~
-- Pegar trilhas sonoras e efeitos.
+- ~~Pegar trilhas sonoras e efeitos.~~
 
 - Achar bebês cobras {
     1 - ~~Invisivel (Usar Lua)~~
@@ -20,7 +20,7 @@
     3 - ~~Dentro de um Baú no shop (Clicar 7x)~~
     4 - ~~Aparece no Bar aleatóriamente~~
     5 - ~~Preso com Wendigo~~
-    6 - Quest no fundo do lago
+    6 - ~~Quest no fundo do ~~lago~~
 
 - ~~Posteres do mercado~~
 
@@ -40,14 +40,17 @@
 - ~~desabilitar rock~~
 - ~~desabilitar incubadora~~
 - ~~Verificar back em historico de navegador~~
-- Postes de fogo com ativação de falas 
+- ~~Postes de fogo com ativação de falas ~~
 - Conferir os Globals
-- Falas dos peixes do fundo do 
+- ~~Falas~~ dos peixes do fundo do ~~
 
 - talvez logar com outro git eu consiga usar o copilot de volta.
-- Criar intro
+-~~ Criar intro~~
 - Criar imagem de fim
 - Popup de premios
+- Intro só ativa uma vez
+- Wendigo ativa uma vez
+- Jogo sempre abre na City
 
 
 
@@ -101,8 +104,8 @@
 -~~ Cobrinhas não somem de verdade???~~
 
 - ~~Ajeitar pescaria com itens novos e revisar codigo~~
-- Revisar e escolher achievments.
-- Falas menores no mobile.
+- ~~Revisar e escolher achievments.~~
+- ~~Falas menores no mobile.~~
 - ~~Som dos achievments n toca~~
 - ~~Petala da Lily~~
 
@@ -131,7 +134,7 @@
 - ~~Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos.~~
 - ~~Criar puzzle de empurrar pedra e revelar o Pollux.~~
 - Tela final com pedidos de Patreon e Buy me a Coffee
-- Quest do fundo do lago é sobre desenhar simbolos nas bolhas.
+- ~~Quest do fundo do lago é sobre desenhar simbolos nas bolhas.~~
 
 - achievments {
     - Achar as 6 cobrinhas
