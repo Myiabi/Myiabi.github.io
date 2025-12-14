@@ -1,191 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Final Battle - The Ice Emperor</title>
-  <style>
-    /* =========================================
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Final Battle - The Ice Emperor</title>
+    <style>
+      /* =========================================
        STYLE.CSS (SEU GLOBAL)
        ========================================= */
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    html,body{
-      height:100%;
-      width:100%;
-      color:#fff;
-      font-family:'Segoe UI',sans-serif;
-      touch-action: none;
-      user-select: none;
-      -webkit-user-drag: none;
-      overflow: hidden;
-      background-color: #1a1a1a; /* Fundo escuro da batalha */
-    }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        color: #fff;
+        font-family: "Segoe UI", sans-serif;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        overflow: hidden;
+        background-color: #1a1a1a; /* Fundo escuro da batalha */
+      }
 
-    /* MENU LATERAL */
-    #menu-secundario{
-      position:fixed;
-      left: 2vw;
-      top: 50%;
-      transform: translateY(-50%);
-      display:flex;
-      flex-direction:column;
-      gap: 2vh;
-      padding: 1vw;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 2vw;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      z-index:2000;
-    }
+      /* MENU LATERAL */
+      #menu-secundario {
+        position: fixed;
+        left: 2vw;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+        padding: 1vw;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 2vw;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+      }
 
-    .menu-item {
-      width: 5vw;
-      height: 5vw;
-      padding: 0;
-      border-radius: 0;
-      background: transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s;
-      font-size: 3vw; 
-    }
+      .menu-item {
+        width: 5vw;
+        height: 5vw;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s;
+        font-size: 3vw;
+      }
 
-    .menu-item:active {
-      transform: scale(0.9);
-    }
+      .menu-item:active {
+        transform: scale(0.9);
+      }
 
-    .menu-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      pointer-events: none;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
-    }
+      .menu-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        pointer-events: none;
+        filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+      }
 
-    /* LUPA (LUA) */
-    .loupe {
-      position: fixed;
-      width: 15vw;
-      height: 15vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(135, 206, 250, 0.15) 50%, rgba(0, 0, 0, 0) 70%);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 
-        inset 0 0 15px rgba(255, 255, 255, 0.4),
-        0 0 10px rgba(0, 0, 0, 0.2);
-      transform: translate(-50%, -50%);
-      display:none;
-      pointer-events:none;
-      z-index:1000;
-    }
+      /* LUPA (LUA) */
+      .loupe {
+        position: fixed;
+        width: 15vw;
+        height: 15vw;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(135, 206, 250, 0.15) 50%,
+          rgba(0, 0, 0, 0) 70%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4),
+          0 0 10px rgba(0, 0, 0, 0.2);
+        transform: translate(-50%, -50%);
+        display: none;
+        pointer-events: none;
+        z-index: 1000;
+      }
 
-    /* MAPAS GERAIS */
-    .container.mapa{
-      position:absolute;
-      overflow:hidden;
-      background: transparent;
-    }
-    
-    .layer{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    
-    .layer.top{
-      z-index:2;
-      clip-path:circle(0 at 0 0); /* ESCONDE O CONTEÚDO POR PADRÃO */
-      pointer-events:none;
-      background: transparent; 
-    }
+      /* MAPAS GERAIS */
+      .container.mapa {
+        position: absolute;
+        overflow: hidden;
+        background: transparent;
+      }
 
-    /* FOGO AURA */
-    .fogo-aura {
-      width: 3vw;
-      height: 3vw;
-      background: radial-gradient(circle, rgba(255,120,0,0.45) 0%, rgba(255,60,0,0.30) 40%, rgba(255,0,0,0.18) 70%, rgba(0,0,0,0) 90%);
-      animation: pulsoFogo 1.4s infinite ease-in-out;
-      filter: blur(0.5vw);
-      border-radius: 50%;
-      pointer-events: none;
-      position: fixed;
-      transform: translate(-50%, -50%);
-      z-index: 1499;
-    }
-    .fogo-aura::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 10%;
-      background: radial-gradient(circle, rgba(255, 140, 0, 0.7) 0%, rgba(255, 60, 0, 0.5) 50%, rgba(255, 0, 0, 0) 80%);
-      filter: blur(1.2vw);
-      animation: fogoGlow 1.2s infinite ease-in-out;
-    }
-    @keyframes fogoPulse {
-      0%   { transform: translate(-50%, -50%) scale(1); }
-      50%  { transform: translate(-50%, -50%) scale(1.35); }
-      100% { transform: translate(-50%, -50%) scale(1); }
-    }
-    @keyframes fogoGlow {
-      0%   { opacity: 0.6; filter: blur(0.9vw); }
-      50%  { opacity: 1;   filter: blur(1.5vw); }
-      100% { opacity: 0.6; filter: blur(0.9vw); }
-    }
-    @keyframes fly-animation {
-      0%, 100% { transform: translate(-50%, -50%) rotate(0.5deg); filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)); }
-      50% { transform: translate(-50%, -60%) rotate(-0.5deg); filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); }
-    }
+      .layer {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-    /* =========================================
+      .layer.top {
+        z-index: 2;
+        clip-path: circle(0 at 0 0); /* ESCONDE O CONTEÚDO POR PADRÃO */
+        pointer-events: none;
+        background: transparent;
+      }
+
+      /* FOGO AURA */
+      .fogo-aura {
+        width: 3vw;
+        height: 3vw;
+        background: radial-gradient(
+          circle,
+          rgba(255, 120, 0, 0.45) 0%,
+          rgba(255, 60, 0, 0.3) 40%,
+          rgba(255, 0, 0, 0.18) 70%,
+          rgba(0, 0, 0, 0) 90%
+        );
+        animation: pulsoFogo 1.4s infinite ease-in-out;
+        filter: blur(0.5vw);
+        border-radius: 50%;
+        pointer-events: none;
+        position: fixed;
+        transform: translate(-50%, -50%);
+        z-index: 1499;
+      }
+      .fogo-aura::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 10%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 140, 0, 0.7) 0%,
+          rgba(255, 60, 0, 0.5) 50%,
+          rgba(255, 0, 0, 0) 80%
+        );
+        filter: blur(1.2vw);
+        animation: fogoGlow 1.2s infinite ease-in-out;
+      }
+      @keyframes fogoPulse {
+        0% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.35);
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      @keyframes fogoGlow {
+        0% {
+          opacity: 0.6;
+          filter: blur(0.9vw);
+        }
+        50% {
+          opacity: 1;
+          filter: blur(1.5vw);
+        }
+        100% {
+          opacity: 0.6;
+          filter: blur(0.9vw);
+        }
+      }
+      @keyframes fly-animation {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) rotate(0.5deg);
+          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+        }
+        50% {
+          transform: translate(-50%, -60%) rotate(-0.5deg);
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+      }
+
+      /* =========================================
        BOSS.CSS (ESPECÍFICO DA BATALHA)
        ========================================= */
-    
-    #boss-arena {
+
+      /* ANIMAÇÃO DE ENTRADA DO BOSS (Estilo Freeza descendo) */
+      @keyframes bossDescend {
+        0% {
+          transform: translate(-50%, -150%);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%);
+          opacity: 1;
+        }
+      }
+
+      #boss-arena {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -150%); /* Começa fora da tela (acima) */
         width: 100vw;
         height: 100vh;
         pointer-events: none;
-    }
+        opacity: 0;
+      }
 
-    /* Animação de flutuação universal do Boss (4s, 1.5vh) */
-    @keyframes floatBoss { 
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-1.5vh); } 
-    }
+      #boss-arena.entering {
+        animation: bossDescend 6s ease-out forwards;
+      }
 
-    /* O Corpo do Boss */
-    #boss-body {
+      #boss-arena.entered {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+
+      /* Animação de flutuação universal do Boss (4s, 1.5vh) */
+      @keyframes floatBoss {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-1.5vh);
+        }
+      }
+
+      /* O Corpo do Boss */
+      #boss-body {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        height: 80vh; 
+        height: 80vh;
         width: auto;
         z-index: 1;
         opacity: 0.9;
-        animation: floatBody 4s ease-in-out infinite; 
-    }
-    
-    @keyframes floatBody { 
-        0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-        50% { transform: translate(-50%, -50%) translateY(-1.5vh); }
-    }
+        animation: floatBody 4s ease-in-out infinite;
+      }
 
-    /* Wrappers das Mãos */
-    .hand-wrapper {
+      @keyframes floatBody {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) translateY(0);
+        }
+        50% {
+          transform: translate(-50%, -50%) translateY(-1.5vh);
+        }
+      }
+
+      /* Wrappers das Mãos */
+      .hand-wrapper {
         position: absolute;
         display: flex;
         flex-direction: column;
@@ -195,40 +271,37 @@
         pointer-events: auto;
         transition: opacity 0.5s;
         /* Mesma animação do corpo para garantir sincronia */
-        animation: floatBoss 4s ease-in-out infinite; 
-    }
+        animation: floatBoss 4s ease-in-out infinite;
+      }
 
-    /* === CONFIGURAÇÃO DE POSIÇÃO === */
+      /* === CONFIGURAÇÃO DE POSIÇÃO === */
 
-    #wrapper-left {
-  
+      #wrapper-left {
         top: 50%;
         left: 50%;
 
-  
         margin-top: -6vh;
         margin-left: -37vh;
 
         width: 25vh;
         height: 25vh;
+      }
 
-    }
-
-    #hand-left { 
-        width: 40%; 
+      #hand-left {
+        width: 40%;
         height: 40%;
-        margin: auto; 
-    }
+        margin: auto;
+      }
 
-    #cuff-left {
+      #cuff-left {
         position: absolute;
         top: 1%;
         right: -5%;
         width: 70%;
         height: 70%;
-    }
+      }
 
-    #wrapper-right {
+      #wrapper-right {
         top: 50%;
         left: 50%;
 
@@ -237,86 +310,89 @@
 
         width: 25vh;
         height: 25vh;
+      }
 
-    }
-
-    #hand-right {
-        width: 40%; 
+      #hand-right {
+        width: 40%;
         height: 40%;
-        margin: auto; 
+        margin: auto;
+      }
 
-    }
-
-    #cuff-right {
+      #cuff-right {
         position: absolute;
         top: 1.8%;
         right: 35%;
         width: 70%;
         height: 70%;
+      }
 
-    }
-
-
-    .hand-img {
+      .hand-img {
         width: 100%;
         filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
         transition: filter 0.3s;
-    }
+      }
 
-    .cuff-img {
+      .cuff-img {
         width: 60%;
         height: auto;
         pointer-events: none;
-        opacity: 1; 
-    }
-    /* Imagens genéricas */
-    .hand-img {
+        opacity: 1;
+      }
+      /* Imagens genéricas */
+      .hand-img {
         width: 100%;
         filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
         transition: filter 0.3s;
-    }
+      }
 
-    .cuff-img {
-        width:50%;
+      .cuff-img {
+        width: 50%;
         height: auto;
         pointer-events: none;
         opacity: 1; /* Visível, mas controlada pela camada .layer.top (clip-path) */
-    }
+      }
 
-    /* Alvo da Lua (Cuffs) */
-    .cuff-target {
+      /* Alvo da Lua (Cuffs) */
+      .cuff-target {
         position: absolute !important;
         z-index: 20;
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+      }
 
-    /* Alvo do Sol (Mão) */
-    .boss-hand-target {
+      /* Alvo do Sol (Mão) */
+      .boss-hand-target {
         position: relative;
         z-index: 5;
-    }
+      }
 
-    /* Dano */
-    .hand-damaged {
-        filter: sepia(1) saturate(1000%) hue-rotate(-50deg) drop-shadow(0 0 15px red) !important;
+      /* Dano */
+      .hand-damaged {
+        filter: sepia(1) saturate(1000%) hue-rotate(-50deg)
+          drop-shadow(0 0 15px red) !important;
         transform: scale(0.95);
-    }
+      }
 
-    /* === EFEITO DE REGENERAÇÃO AZUL (BRILHO) === */
-    @keyframes cuff-regeneration {
-        0% { filter: drop-shadow(0 0 0px #00FFFF); }
-        50% { filter: drop-shadow(0 0 15px #00FFFF) drop-shadow(0 0 5px #0000FF); }
-        100% { filter: drop-shadow(0 0 0px #00FFFF); }
-    }
+      /* === EFEITO DE REGENERAÇÃO AZUL (BRILHO) === */
+      @keyframes cuff-regeneration {
+        0% {
+          filter: drop-shadow(0 0 0px #00ffff);
+        }
+        50% {
+          filter: drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 5px #0000ff);
+        }
+        100% {
+          filter: drop-shadow(0 0 0px #00ffff);
+        }
+      }
 
-    .hand-img.regenerating-glow {
-        animation: cuff-regeneration 0.6s ease-in-out 3; 
-    }
+      .hand-img.regenerating-glow {
+        animation: cuff-regeneration 0.6s ease-in-out 3;
+      }
 
-    /* Barras de Cast (Geral) */
-    .cast-bar-container {
+      /* Barras de Cast (Geral) */
+      .cast-bar-container {
         width: 20%;
         height: 0.6vh;
         background: rgba(0, 20, 40, 0.6);
@@ -330,25 +406,25 @@
         margin-bottom: 0;
         overflow: hidden;
         z-index: 30;
-    }
+      }
 
-    /* AJUSTE SOLICITADO: Aumentar barra de cast das mãos */
-    .hand-wrapper .cast-bar-container {
+      /* AJUSTE SOLICITADO: Aumentar barra de cast das mãos */
+      .hand-wrapper .cast-bar-container {
         width: 80%; /* Aumentado de 20% para 80% */
         height: 1vh; /* Um pouco mais grossa para visibilidade */
         top: 70%; /* Ajuste leve na posição */
-    }
+      }
 
-    .cast-bar-fill {
+      .cast-bar-fill {
         width: 0%;
         height: 100%;
         background: linear-gradient(90deg, #ffffff, #00ffff, #0077be);
         box-shadow: 0 0 8px #00ffff;
         transition: width 0.1s linear;
-    }
+      }
 
-    /* FASE 2: OLHOS */
-    #boss-eyes-container {
+      /* FASE 2: OLHOS */
+      #boss-eyes-container {
         position: absolute;
         top: 30%;
         left: 50%;
@@ -357,29 +433,44 @@
         height: 6vw;
         z-index: 15;
         display: none;
-    }
+      }
 
-    .eye-glow {
+      .eye-glow {
         width: 100%;
         height: 100%;
-        background: radial-gradient(circle, rgba(0,255,255,0.9) 0%, rgba(0,0,0,0) 70%);
+        background: radial-gradient(
+          circle,
+          rgba(0, 255, 255, 0.9) 0%,
+          rgba(0, 0, 0, 0) 70%
+        );
         animation: pulseEye 0.2s infinite alternate;
         border-radius: 50%;
-    }
-    @keyframes pulseEye { from { opacity: 0.6; transform: scale(1); } to { opacity: 1; transform: scale(1.1); } }
+      }
+      @keyframes pulseEye {
+        from {
+          opacity: 0.6;
+          transform: scale(1);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+      }
 
-    #cast-eyes {
+      #cast-eyes {
         top: 10%;
         left: 50%;
         transform: translateX(-50%);
         width: 20vw;
         display: none;
         z-index: 20;
-    }
-    #cast-eyes .cast-bar-fill { background: linear-gradient(90deg, #ff00cc, #333399); }
+      }
+      #cast-eyes .cast-bar-fill {
+        background: linear-gradient(90deg, #ff00cc, #333399);
+      }
 
-    /* BARRA DE REGEN DOS OLHOS */
-    #regen-eyes {
+      /* BARRA DE REGEN DOS OLHOS */
+      #regen-eyes {
         top: 10%;
         left: 50%;
         transform: translateX(-50%);
@@ -387,9 +478,9 @@
         display: none;
         z-index: 20;
         border-color: #ffd700;
-    }
-    
-    #regen-eyes::before {
+      }
+
+      #regen-eyes::before {
         content: "REGEN";
         position: absolute;
         top: -2.5vh;
@@ -399,15 +490,15 @@
         font-weight: bold;
         font-size: 1.5vh;
         text-shadow: 0 0 5px #000;
-    }
+      }
 
-    #regen-eyes .cast-bar-fill {
+      #regen-eyes .cast-bar-fill {
         background: linear-gradient(90deg, #fff, #ffd700, #ff8c00);
         box-shadow: 0 0 8px #ffd700;
-    }
+      }
 
-    /* UI JOGADOR */
-    #player-hp-container {
+      /* UI JOGADOR */
+      #player-hp-container {
         position: fixed;
         top: 0;
         left: 0;
@@ -415,49 +506,103 @@
         height: 100%;
         pointer-events: none;
         z-index: 100;
-    }
+      }
 
-    .poste-vida {
+      .poste-vida {
         object-fit: contain;
         transition: filter 0.3s;
         pointer-events: none;
-        filter: drop-shadow(0 0 5px rgba(255,100,0,0.5));
-    }
+        filter: drop-shadow(0 0 5px rgba(255, 100, 0, 0.5));
+      }
 
-    .poste-apagado {
+      .poste-apagado {
         filter: grayscale(1) brightness(0.3);
-    }
+      }
 
-    @keyframes shake {
-        0% { transform: translate(1px, 1px) rotate(0deg); }
-        10% { transform: translate(-1px, -2px) rotate(-1deg); }
-        20% { transform: translate(-3px, 0px) rotate(1deg); }
-        30% { transform: translate(3px, 2px) rotate(0deg); }
-        40% { transform: translate(1px, -1px) rotate(1deg); }
-        50% { transform: translate(-1px, 2px) rotate(-1deg); }
-        60% { transform: translate(-3px, 1px) rotate(0deg); }
-        70% { transform: translate(3px, 1px) rotate(-1deg); }
-        80% { transform: translate(-1px, -1px) rotate(1deg); }
-        90% { transform: translate(1px, 2px) rotate(0deg); }
-        100% { transform: translate(1px, -2px) rotate(-1deg); }
-    }
-    
-    .shake {
+      @keyframes shake {
+        0% {
+          transform: translate(1px, 1px) rotate(0deg);
+        }
+        10% {
+          transform: translate(-1px, -2px) rotate(-1deg);
+        }
+        20% {
+          transform: translate(-3px, 0px) rotate(1deg);
+        }
+        30% {
+          transform: translate(3px, 2px) rotate(0deg);
+        }
+        40% {
+          transform: translate(1px, -1px) rotate(1deg);
+        }
+        50% {
+          transform: translate(-1px, 2px) rotate(-1deg);
+        }
+        60% {
+          transform: translate(-3px, 1px) rotate(0deg);
+        }
+        70% {
+          transform: translate(3px, 1px) rotate(-1deg);
+        }
+        80% {
+          transform: translate(-1px, -1px) rotate(1deg);
+        }
+        90% {
+          transform: translate(1px, 2px) rotate(0deg);
+        }
+        100% {
+          transform: translate(1px, -2px) rotate(-1deg);
+        }
+      }
+
+      .shake {
         animation: shake 0.5s;
-    }
-    
-    /* POSICIONAMENTO DOS 8 POSTES (Centralizado) */
-    #poste-1 { top: 85vh; left: 30vw; width: 4vw; }
-    #poste-2 { top: 85vh; left: 35vw; width: 4vw; }
-    #poste-3 { top: 85vh; left: 40vw; width: 4vw; }
-    #poste-4 { top: 85vh; left: 45vw; width: 4vw; }
-    #poste-5 { top: 85vh; left: 50vw; width: 4vw; }
-    #poste-6 { top: 85vh; left: 55vw; width: 4vw; }
-    #poste-7 { top: 85vh; left: 60vw; width: 4vw; }
-    #poste-8 { top: 85vh; left: 65vw; width: 4vw; }
+      }
 
-    /* MENSAGEM FLUTUANTE */
-    .floating-text {
+      /* POSICIONAMENTO DOS 8 POSTES (Centralizado) */
+      #poste-1 {
+        top: 85vh;
+        left: 30vw;
+        width: 4vw;
+      }
+      #poste-2 {
+        top: 85vh;
+        left: 35vw;
+        width: 4vw;
+      }
+      #poste-3 {
+        top: 85vh;
+        left: 40vw;
+        width: 4vw;
+      }
+      #poste-4 {
+        top: 85vh;
+        left: 45vw;
+        width: 4vw;
+      }
+      #poste-5 {
+        top: 85vh;
+        left: 50vw;
+        width: 4vw;
+      }
+      #poste-6 {
+        top: 85vh;
+        left: 55vw;
+        width: 4vw;
+      }
+      #poste-7 {
+        top: 85vh;
+        left: 60vw;
+        width: 4vw;
+      }
+      #poste-8 {
+        top: 85vh;
+        left: 65vw;
+        width: 4vw;
+      }
+
+      /* MENSAGEM FLUTUANTE */
+      .floating-text {
         position: fixed;
         font-weight: bold;
         text-shadow: 0 0 5px #000;
@@ -466,14 +611,20 @@
         white-space: nowrap;
         font-size: 1.5vw;
         animation: floatUp 2s ease-out forwards;
-    }
+      }
 
-    @keyframes floatUp {
-        0% { transform: translate(-50%, 0); opacity: 1; }
-        100% { transform: translate(-50%, -50px); opacity: 0; }
-    }
+      @keyframes floatUp {
+        0% {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50px);
+          opacity: 0;
+        }
+      }
 
-    #game-message {
+      #game-message {
         position: fixed;
         /* ALTERADO: De 20% para 10% para subir como título */
         top: 10%;
@@ -488,496 +639,618 @@
         text-align: center;
         display: none;
         white-space: nowrap;
-    }
-
-  </style>
-</head>
-<body oncontextmenu="return false;">
-
-  <div id="player-hp-container">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-1" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-2" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-3" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-4" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-5" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-6" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-7" style="position: absolute; width: 3vw; height: 6vw;">
-    <img src="/assets/img/Pole-turned-on.png" class="poste-vida" id="poste-8" style="position: absolute; width: 3vw; height: 6vw;">
-  </div>
-
-  <div id="game-message"></div>
-
-  <div id="boss-arena">
-    
-    <img src="/assets/img/Villain.png" id="boss-body" alt="Boss Body" draggable="false">
-
-    <div class="container mapa" id="boss-eyes-container">
-      <div class="layer bottom"></div>
-      <div class="layer top">
-        <div class="eye-glow"></div> 
-      </div>
+      }
+    </style>
+  </head>
+  <body oncontextmenu="return false;">
+    <div id="player-hp-container">
+      <img
+        src="/assets/img/Pole-turned-on.png"
+        class="poste-vida"
+        id="poste-1"
+        style="position: absolute; width: 3vw; height: 6vw"
+      />
+      <img
+        src="/assets/img/Pole-turned-on.png"
+        class="poste-vida"
+        id="poste-2"
+        style="position: absolute; width: 3vw; height: 6vw"
+      />
+      <img
+        src="/assets/img/Pole-turned-on.png"
+        class="poste-vida"
+        id="poste-3"
+        style="position: absolute; width: 3vw; height: 6vw"
+      />
+      <img
+        src="/assets/img/Pole-turned-on.png"
+        class="poste-vida"
+        id="poste-4"
+        style="position: absolute; width: 3vw; height: 6vw"
+      />
+      <img
+        src="/assets/img/Pole-turned-on.png"
+        class="poste-vida"
+        id="poste-5"
+        style="position: absolute; width: 3vw; height: 6vw"
+      />
+      <img
+        src="/assets/img/Pole-turned-on.png"
+        class="poste-vida"
+        id="poste-6"
+        style="position: absolute; width: 3vw; height: 6vw"
+      />
+      <img
+        src="/assets/img/Pole-turned-on.png"
+        class="poste-vida"
+        id="poste-7"
+        style="position: absolute; width: 3vw; height: 6vw"
+      />
+      <img
+        src="/assets/img/Pole-turned-on.png"
+        class="poste-vida"
+        id="poste-8"
+        style="position: absolute; width: 3vw; height: 6vw"
+      />
     </div>
-    <div class="cast-bar-container" id="cast-eyes">
-      <div class="cast-bar-fill"></div>
-    </div>
-    <div class="cast-bar-container" id="regen-eyes">
-      <div class="cast-bar-fill"></div>
-    </div>
 
-    <div class="hand-wrapper left-hand" id="wrapper-left">
-      <div class="cast-bar-container">
-        <div class="cast-bar-fill" id="fill-left"></div>
-      </div>
-      
-      <div class="boss-hand-target" id="hand-left">
-        <img src="/assets/img/Villain-hand-left.png" class="hand-img" draggable="false">
-      </div>
+    <div id="game-message"></div>
 
-      <div class="container mapa cuff-target" id="cuff-left">
+    <div id="boss-arena">
+      <img
+        src="/assets/img/Villain.png"
+        id="boss-body"
+        alt="Boss Body"
+        draggable="false"
+      />
+
+      <div class="container mapa" id="boss-eyes-container">
         <div class="layer bottom"></div>
         <div class="layer top">
-          <img src="/assets/img/Villain-fairycuffs-left.png" class="cuff-img" draggable="false">
+          <div class="eye-glow"></div>
+        </div>
+      </div>
+      <div class="cast-bar-container" id="cast-eyes">
+        <div class="cast-bar-fill"></div>
+      </div>
+      <div class="cast-bar-container" id="regen-eyes">
+        <div class="cast-bar-fill"></div>
+      </div>
+
+      <div class="hand-wrapper left-hand" id="wrapper-left">
+        <div class="cast-bar-container">
+          <div class="cast-bar-fill" id="fill-left"></div>
+        </div>
+
+        <div class="boss-hand-target" id="hand-left">
+          <img
+            src="/assets/img/Villain-hand-left.png"
+            class="hand-img"
+            draggable="false"
+          />
+        </div>
+
+        <div class="container mapa cuff-target" id="cuff-left">
+          <div class="layer bottom"></div>
+          <div class="layer top">
+            <img
+              src="/assets/img/Villain-fairycuffs-left.png"
+              class="cuff-img"
+              draggable="false"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="hand-wrapper right-hand" id="wrapper-right">
+        <div class="cast-bar-container">
+          <div class="cast-bar-fill" id="fill-right"></div>
+        </div>
+
+        <div class="boss-hand-target" id="hand-right">
+          <img
+            src="/assets/img/Villain-hand-right.png"
+            class="hand-img"
+            draggable="false"
+          />
+        </div>
+
+        <div class="container mapa cuff-target" id="cuff-right">
+          <div class="layer bottom"></div>
+          <div class="layer top">
+            <img
+              src="/assets/img/Villain-fairycuffs-right.png"
+              class="cuff-img"
+              draggable="false"
+            />
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="hand-wrapper right-hand" id="wrapper-right">
-      <div class="cast-bar-container">
-        <div class="cast-bar-fill" id="fill-right"></div>
-      </div>
+    <script>
+      window.gameData = { visualState: {} };
+      let inCutscene = false; // VARIAVEL: BLOQUEIA INPUTS
 
-      <div class="boss-hand-target" id="hand-right">
-        <img src="/assets/img/Villain-hand-right.png" class="hand-img" draggable="false">
-      </div>
+      // Pequena garantia para função esperar, caso não exista global
+      if (typeof esperar === "undefined") {
+        window.esperar = (ms) => new Promise((r) => setTimeout(r, ms));
+      }
 
-      <div class="container mapa cuff-target" id="cuff-right">
-        <div class="layer bottom"></div>
-        <div class="layer top">
-          <img src="/assets/img/Villain-fairycuffs-right.png" class="cuff-img" draggable="false">
-        </div>
-      </div>
-    </div>
+      // ==========================================================
+      // SCRIPT.JS (LOADER) - Drag & Drop System
+      // ==========================================================
+      console.log("script.js loaded!");
 
-  </div>
+      const menu = document.createElement("div");
+      menu.id = "menu-secundario";
+      document.body.appendChild(menu);
 
-  <script>
-    window.gameData = { visualState: {} };
-    let inCutscene = false; // VARIAVEL: BLOQUEIA INPUTS
-    
-    // Pequena garantia para função esperar, caso não exista global
-    if (typeof esperar === 'undefined') {
-        window.esperar = (ms) => new Promise(r => setTimeout(r, ms));
-    }
+      const itens = [
+        {
+          id: "item-lupa",
+          func: "revelar",
+          nome: "Moon" /* TRADUZIDO */,
+          img: "/assets/img/Droplet-Moon.png",
+        },
+        {
+          id: "item-fogo",
+          func: "sol",
+          nome: "Sun" /* TRADUZIDO */,
+          img: "/assets/img/Droplet-Sun.png",
+        },
+      ];
 
-    // ==========================================================
-    // SCRIPT.JS (LOADER) - Drag & Drop System
-    // ==========================================================
-    console.log("script.js loaded!");
+      itens.forEach((it) => {
+        const div = document.createElement("div");
+        div.className = "menu-item";
+        div.id = it.id;
+        div.innerHTML = `<img src="${it.img}" draggable="false">`;
+        div.style.touchAction = "none";
+        menu.appendChild(div);
+      });
 
-    const menu = document.createElement("div");
-    menu.id = "menu-secundario";
-    document.body.appendChild(menu);
+      const loupe = document.createElement("div");
+      loupe.className = "loupe";
+      loupe.style.pointerEvents = "none";
+      loupe.style.display = "none";
+      loupe.style.position = "fixed";
+      loupe.style.zIndex = "1600";
+      document.body.appendChild(loupe);
 
-    const itens = [
-      {
-        id: "item-lupa",
-        func: "revelar",
-        nome: "Moon", /* TRADUZIDO */
-        img: "/assets/img/Droplet-Moon.png", 
-      },
-      {
-        id: "item-fogo",
-        func: "sol",
-        nome: "Sun", /* TRADUZIDO */
-        img: "/assets/img/Droplet-Sun.png", 
-      },
-    ];
+      const containers = Array.from(document.querySelectorAll(".mapa"));
+      const topLayers = containers.map((c) => c.querySelector(".layer.top"));
 
-    itens.forEach((it) => {
-      const div = document.createElement("div");
-      div.className = "menu-item";
-      div.id = it.id;
-      div.innerHTML = `<img src="${it.img}" draggable="false">`;
-      div.style.touchAction = "none";
-      menu.appendChild(div);
-    });
+      let isDragging = false;
+      let pendingDrag = false;
+      let pendingItem = null;
+      let currentItem = null;
+      let dragClone = null;
+      let auraFogo = null;
 
-    const loupe = document.createElement("div");
-    loupe.className = "loupe";
-    loupe.style.pointerEvents = "none";
-    loupe.style.display = "none";
-    loupe.style.position = "fixed";
-    loupe.style.zIndex = "1600";
-    document.body.appendChild(loupe);
+      const RADIUS = 7.6;
+      const START_THRESHOLD_VW = 0.5;
+      let startX = 0,
+        startY = 0;
 
-    const containers = Array.from(document.querySelectorAll(".mapa"));
-    const topLayers = containers.map((c) => c.querySelector(".layer.top"));
+      function vwToPx(vw) {
+        return window.innerWidth * (vw / 100);
+      }
+      function getXY(e) {
+        if (e.touches?.length)
+          return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        return { x: e.clientX, y: e.clientY };
+      }
 
-    let isDragging = false;
-    let pendingDrag = false;
-    let pendingItem = null;
-    let currentItem = null;
-    let dragClone = null;
-    let auraFogo = null;
+      function setClip(x, y, topLayer, r = RADIUS) {
+        if (!topLayer) return;
+        const rect = topLayer.getBoundingClientRect();
+        const xp = ((x - rect.left) / rect.width) * 100;
+        const yp = ((y - rect.top) / rect.height) * 100;
+        const clip = `circle(${r}vw at ${xp}% ${yp}%)`;
+        topLayer.style.clipPath = clip;
+        topLayer.style.webkitClipPath = clip;
+      }
 
-    const RADIUS = 7.6;
-    const START_THRESHOLD_VW = 0.5;
-    let startX = 0, startY = 0;
-
-    function vwToPx(vw) { return window.innerWidth * (vw / 100); }
-    function getXY(e) {
-      if (e.touches?.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      return { x: e.clientX, y: e.clientY };
-    }
-
-    function setClip(x, y, topLayer, r = RADIUS) {
-      if (!topLayer) return;
-      const rect = topLayer.getBoundingClientRect();
-      const xp = ((x - rect.left) / rect.width) * 100;
-      const yp = ((y - rect.top) / rect.height) * 100;
-      const clip = `circle(${r}vw at ${xp}% ${yp}%)`;
-      topLayer.style.clipPath = clip;
-      topLayer.style.webkitClipPath = clip;
-    }
-
-    function clearClipAll() {
-      topLayers.forEach((t) => {
-        if(t) {
+      function clearClipAll() {
+        topLayers.forEach((t) => {
+          if (t) {
             t.style.clipPath = "circle(0% at 0 0)";
             t.style.webkitClipPath = "circle(0% at 0 0)";
-        }
-      });
-    }
+          }
+        });
+      }
 
-    function showLoupe() { loupe.style.display = "block"; }
-    function hideLoupe() { loupe.style.display = "none"; clearClipAll(); }
+      function showLoupe() {
+        loupe.style.display = "block";
+      }
+      function hideLoupe() {
+        loupe.style.display = "none";
+        clearClipAll();
+      }
 
-    const targets = [];
-    const revealTimers = new WeakMap();
+      const targets = [];
+      const revealTimers = new WeakMap();
 
-    function addTarget(el, options = {}) {
-      if (!el) return;
-      targets.push({ el, options });
-    }
+      function addTarget(el, options = {}) {
+        if (!el) return;
+        targets.push({ el, options });
+      }
 
-    function checkReveal(x, y) {
-      const LUPA_RAIO_PX = vwToPx(2.5); 
-      
-      targets.forEach((target) => {
-        const mapa = target.el;
-        if (!mapa) return;
-        if (window.getComputedStyle(mapa).display === 'none') return;
+      function checkReveal(x, y) {
+        const LUPA_RAIO_PX = vwToPx(2.5);
 
-        let alvoInterno = mapa.querySelector('.cuff-img');
-        if (!alvoInterno) {
-            alvoInterno = mapa.querySelector('.eye-glow'); 
-        }
-        if (!alvoInterno) return;
-        
-        const rect = alvoInterno.getBoundingClientRect(); 
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const dx = x - centerX;
-        const dy = y - centerY;
-        const distancia = Math.sqrt(dx*dx + dy*dy);
-        
-        const MARGEM_CONTATO_PX = 10; 
-        const distanciaMinima = LUPA_RAIO_PX + MARGEM_CONTATO_PX;
+        targets.forEach((target) => {
+          const mapa = target.el;
+          if (!mapa) return;
+          if (window.getComputedStyle(mapa).display === "none") return;
 
-        if (distancia < distanciaMinima) {
-          if (!revealTimers.has(mapa)) { 
-            const timer = setTimeout(() => {
-              if (mapa) {
-                const layerTop = mapa.querySelector(".layer.top");
-                if (layerTop) layerTop.style.display = "none"; // ESCONDE O CONTEÚDO (Imagem Algema ou Brilho Olho)
-                
-                if (target.options.onComplete && typeof target.options.onComplete === 'function') {
-                    target.options.onComplete(mapa); 
+          let alvoInterno = mapa.querySelector(".cuff-img");
+          if (!alvoInterno) {
+            alvoInterno = mapa.querySelector(".eye-glow");
+          }
+          if (!alvoInterno) return;
+
+          const rect = alvoInterno.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const dx = x - centerX;
+          const dy = y - centerY;
+          const distancia = Math.sqrt(dx * dx + dy * dy);
+
+          const MARGEM_CONTATO_PX = 10;
+          const distanciaMinima = LUPA_RAIO_PX + MARGEM_CONTATO_PX;
+
+          if (distancia < distanciaMinima) {
+            if (!revealTimers.has(mapa)) {
+              const timer = setTimeout(() => {
+                if (mapa) {
+                  const layerTop = mapa.querySelector(".layer.top");
+                  if (layerTop) layerTop.style.display = "none"; // ESCONDE O CONTEÚDO (Imagem Algema ou Brilho Olho)
+
+                  if (
+                    target.options.onComplete &&
+                    typeof target.options.onComplete === "function"
+                  ) {
+                    target.options.onComplete(mapa);
+                  }
+
+                  // ESCONDE O CONTAINER APENAS SE FOR ALGEMA (Para Olhos, o container precisa existir pro Sol)
+                  if (mapa.id !== "boss-eyes-container") {
+                    mapa.style.display = "none";
+                  }
                 }
-                
-                // ESCONDE O CONTAINER APENAS SE FOR ALGEMA (Para Olhos, o container precisa existir pro Sol)
-                if (mapa.id !== 'boss-eyes-container') {
-                    mapa.style.display = "none"; 
-                }
-              }
+                revealTimers.delete(mapa);
+              }, target.options?.delay ?? 2000);
+              revealTimers.set(mapa, timer);
+            }
+          } else {
+            if (revealTimers.has(mapa)) {
+              clearTimeout(revealTimers.get(mapa));
               revealTimers.delete(mapa);
-            }, target.options?.delay ?? 2000);
-            revealTimers.set(mapa, timer);
-          }
-        } else {
-          if (revealTimers.has(mapa)) {
-            clearTimeout(revealTimers.get(mapa));
-            revealTimers.delete(mapa);
-          }
-        }
-      });
-    }
-
-    const sunTargets = [];
-    const sunTimers = new WeakMap();
-    const sunOptions = new WeakMap();
-
-    function addSunTarget(el, options = {}) {
-      if (!el) return;
-      const opt = Object.assign({ action: "hide", delayMs: 350, uses: 1 }, options);
-      sunOptions.set(el, opt);
-      const exists = sunTargets.find(t => t.el === el);
-      if (!exists) sunTargets.push({ el, disabled: false, uses: options.uses || 999 }); 
-    }
-
-    function checkSun(x, y) {
-      sunTargets.forEach((target) => {
-        if (target.disabled) return;
-        const el = target.el;
-        if (!document.body.contains(el)) { target.disabled = true; return; }
-        if(el.offsetParent === null) return;
-
-        const rect = el.getBoundingClientRect();
-        const opt = sunOptions.get(el);
-        if (!opt) return;
-
-        const inside = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-
-        if (inside) {
-          if (!sunTimers.has(el)) {
-            const timer = setTimeout(() => {
-              if (opt.action === "hide") {
-                el.style.display = "none";
-              }
-
-              if (opt.onComplete && typeof opt.onComplete === 'function') {
-                  opt.onComplete(el);
-              }
-
-              if (opt.uses === 999) {
-                  // Infinito
-              } else if (typeof opt.uses === "number") {
-                opt.uses = opt.uses - 1;
-                if (opt.uses <= 0) {
-                  target.disabled = true;
-                  sunOptions.delete(target.el);
-                } else {
-                  sunOptions.set(target.el, opt);
-                }
-              }
-              sunTimers.delete(el);
-            }, opt.delayMs);
-            sunTimers.set(el, timer);
-          }
-        } else {
-          if (sunTimers.has(el)) {
-            clearTimeout(sunTimers.get(el));
-            sunTimers.delete(el);
-          }
-        }
-      });
-    }
-
-    function criarAuraFogo() {
-      auraFogo = document.createElement("div");
-      auraFogo.className = "fogo-aura";
-      auraFogo.style.position = "fixed";
-      auraFogo.style.width = "10vw";
-      auraFogo.style.height = "10vw";
-      auraFogo.style.pointerEvents = "none";
-      auraFogo.style.transform = "translate(-50%, -50%)";
-      auraFogo.style.zIndex = "1499";
-      auraFogo.style.display = "none";
-      document.body.appendChild(auraFogo);
-    }
-    criarAuraFogo();
-
-    function returnToMenu(clone, menuItem) {
-      if (!menuItem) { clone.remove(); return; } 
-      clone.classList.remove("drag-clone-float");
-      const r = menuItem.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      clone.style.transition = "all .8s cubic-bezier(.25,1,.5,1)";
-      clone.style.left = (cx / window.innerWidth) * 100 + "vw";
-      clone.style.top = (cy / window.innerHeight) * 100 + "vh";
-      clone.addEventListener("transitionend", () => {
-          clone.remove();
-          menuItem.style.visibility = "visible";
-        }, { once: true });
-    }
-
-    function startRealDrag(item, x, y) {
-      isDragging = true;
-      currentItem = item;
-      const el = document.getElementById(item.id);
-      if (el) el.style.visibility = "hidden";
-
-      dragClone = document.createElement("div");
-      dragClone.className = "menu-item drag-clone-float";
-      dragClone.style.backgroundImage = `url('${item.img}')`;
-      dragClone.style.backgroundSize = "80%";
-      dragClone.style.backgroundPosition = "center";
-      dragClone.style.backgroundRepeat = "no-repeat";
-      dragClone.style.backgroundColor = "rgba(255,255,255,0.2)";
-      dragClone.style.position = "fixed";
-      dragClone.style.opacity = "0.9";
-      dragClone.style.pointerEvents = "none";
-      dragClone.style.zIndex = "1500";
-      dragClone.style.width = "5vw";
-      dragClone.style.height = "5vw";
-      dragClone.style.borderRadius = "50%";
-      dragClone.style.transform = "translate(-50%,-50%)";
-      dragClone.style.left = (x / window.innerWidth) * 100 + "vw";
-      dragClone.style.top = (y / window.innerHeight) * 100 + "vh";
-      document.body.appendChild(dragClone); 
-
-      if (item.func === "sol") {
-        auraFogo.style.display = "block";
-        auraFogo.style.left = dragClone.style.left;
-        auraFogo.style.top = dragClone.style.top;
-      }
-      if (item.func === "revelar") {
-        showLoupe();
-      }
-    }
-
-    function onPointerDown(e) {
-      if (inCutscene) return; // BLOQUEIA CLIQUE NA CENA
-
-      const target = e.target.closest(".menu-item");
-      if (!target) return;
-      e.preventDefault();
-      if (isDragging) return;
-      pendingDrag = true;
-      pendingItem = itens.find((i) => i.id === target.id);
-      const c = getXY(e);
-      startX = c.x;
-      startY = c.y;
-    }
-
-    function onPointerMove(e) {
-      if (!pendingDrag && !isDragging) return;
-      const { x, y } = getXY(e);
-      if (pendingDrag && !isDragging) {
-        const dx = Math.abs(x - startX);
-        const dy = Math.abs(y - startY);
-        const thresh = vwToPx(START_THRESHOLD_VW);
-        if (dx + dy >= thresh) {
-          startRealDrag(pendingItem, x, y);
-          pendingDrag = false;
-          pendingItem = null;
-        } else return;
-      }
-      if (isDragging && dragClone) {
-        // CORREÇÃO: Aplicar o movimento da mão no dragClone enquanto arrasta
-        const currentYOffset = Math.sin(performance.now() / 4000 * Math.PI) * vwToPx(1.5) / window.innerHeight * 100; 
-        
-        dragClone.style.left = (x / window.innerWidth) * 100 + "vw";
-        // Ajustar a posição Y para incluir a flutuação
-        dragClone.style.top = ((y / window.innerHeight) * 100) + currentYOffset + "vh";
-        
-        if (currentItem?.func === "sol") {
-          auraFogo.style.left = dragClone.style.left;
-          auraFogo.style.top = dragClone.style.top;
-        } 
-        if (currentItem && currentItem.func === "revelar") {
-          loupe.style.left = dragClone.style.left;
-          loupe.style.top = dragClone.style.top;
-          let insideMap = false;
-          let activeIndex = null;
-          for (let i = 0; i < containers.length; i++) {
-            if(window.getComputedStyle(containers[i]).display === 'none') continue;
-            const rect = containers[i].getBoundingClientRect();
-            if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-              insideMap = true;
-              activeIndex = i;
-              break;
             }
           }
-          if (insideMap) { setClip(x, y, topLayers[activeIndex]); } else { clearClipAll(); }
-          checkReveal(x, y);
-        }
-        if (currentItem && currentItem.func === "sol") { checkSun(x, y); }
+        });
       }
-    }
 
-    function onPointerUp(e) {
-      if (!pendingDrag && !isDragging) return;
-      const { x, y } = getXY(e);
-      const menuItem = currentItem ? document.getElementById(currentItem.id) : null;
+      const sunTargets = [];
+      const sunTimers = new WeakMap();
+      const sunOptions = new WeakMap();
 
-      if (pendingDrag) { pendingDrag = false; pendingItem = null; return; }
-      if (isDragging) {
-        isDragging = false;
-        hideLoupe(); 
+      function addSunTarget(el, options = {}) {
+        if (!el) return;
+        const opt = Object.assign(
+          { action: "hide", delayMs: 350, uses: 1 },
+          options
+        );
+        sunOptions.set(el, opt);
+        const exists = sunTargets.find((t) => t.el === el);
+        if (!exists)
+          sunTargets.push({ el, disabled: false, uses: options.uses || 999 });
+      }
+
+      function checkSun(x, y) {
+        sunTargets.forEach((target) => {
+          if (target.disabled) return;
+          const el = target.el;
+          if (!document.body.contains(el)) {
+            target.disabled = true;
+            return;
+          }
+          if (el.offsetParent === null) return;
+
+          const rect = el.getBoundingClientRect();
+          const opt = sunOptions.get(el);
+          if (!opt) return;
+
+          const inside =
+            x >= rect.left &&
+            x <= rect.right &&
+            y >= rect.top &&
+            y <= rect.bottom;
+
+          if (inside) {
+            if (!sunTimers.has(el)) {
+              const timer = setTimeout(() => {
+                if (opt.action === "hide") {
+                  el.style.display = "none";
+                }
+
+                if (opt.onComplete && typeof opt.onComplete === "function") {
+                  opt.onComplete(el);
+                }
+
+                if (opt.uses === 999) {
+                  // Infinito
+                } else if (typeof opt.uses === "number") {
+                  opt.uses = opt.uses - 1;
+                  if (opt.uses <= 0) {
+                    target.disabled = true;
+                    sunOptions.delete(target.el);
+                  } else {
+                    sunOptions.set(target.el, opt);
+                  }
+                }
+                sunTimers.delete(el);
+              }, opt.delayMs);
+              sunTimers.set(el, timer);
+            }
+          } else {
+            if (sunTimers.has(el)) {
+              clearTimeout(sunTimers.get(el));
+              sunTimers.delete(el);
+            }
+          }
+        });
+      }
+
+      function criarAuraFogo() {
+        auraFogo = document.createElement("div");
+        auraFogo.className = "fogo-aura";
+        auraFogo.style.position = "fixed";
+        auraFogo.style.width = "10vw";
+        auraFogo.style.height = "10vw";
+        auraFogo.style.pointerEvents = "none";
+        auraFogo.style.transform = "translate(-50%, -50%)";
+        auraFogo.style.zIndex = "1499";
         auraFogo.style.display = "none";
-        
-        targets.forEach((t) => {
-          if (revealTimers.has(t.el)) { clearTimeout(revealTimers.get(t.el)); revealTimers.delete(t.el); }
-        });
-        sunTargets.forEach((t) => {
-          if (sunTimers.has(t.el)) { clearTimeout(sunTimers.get(t.el)); sunTimers.delete(t.el); }
-        });
-
-        if (dragClone) {
-          // Remover a classe de flutuação para que o clone retorne suavemente
-          dragClone.classList.remove("drag-clone-float");
-          returnToMenu(dragClone, menuItem);
-          dragClone = null;
-        }
-        currentItem = null;
+        document.body.appendChild(auraFogo);
       }
-    }
+      criarAuraFogo();
 
-    document.addEventListener("pointerdown", onPointerDown, { passive: false });
-    document.addEventListener("pointermove", onPointerMove, { passive: false });
-    document.addEventListener("pointerup", onPointerUp, { passive: false });
-
-    // ==========================================================
-    // SEU CÓDIGO DA CENA DRAMÁTICA
-    // ==========================================================
-    async function cenaTutorial() {
-      // Garante que o sistema global existe
-      if (typeof dialogo !== 'undefined') {
-        await dialogo.abrirAsync({ nome: "Narrador", texto: "Tudo congelou...." });
-
-        // PAUSA DRAMATICA DE 2.5 SEGUNDOS
-        await esperar(2500);
-
-        // O código espera a fala terminar para ir para a próxima linha
-        if (typeof personagens !== 'undefined') {
-            await dialogo.abrirAsync(personagens.wayway, 'final');
-            // Fala do Wendigo em seguida
-            await dialogo.abrirAsync(personagens.wendigo, 'final');
-        } else {
-             console.warn("Objeto 'personagens' não encontrado!");
+      function returnToMenu(clone, menuItem) {
+        if (!menuItem) {
+          clone.remove();
+          return;
         }
-      } else {
+        clone.classList.remove("drag-clone-float");
+        const r = menuItem.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        clone.style.transition = "all .8s cubic-bezier(.25,1,.5,1)";
+        clone.style.left = (cx / window.innerWidth) * 100 + "vw";
+        clone.style.top = (cy / window.innerHeight) * 100 + "vh";
+        clone.addEventListener(
+          "transitionend",
+          () => {
+            clone.remove();
+            menuItem.style.visibility = "visible";
+          },
+          { once: true }
+        );
+      }
+
+      function startRealDrag(item, x, y) {
+        isDragging = true;
+        currentItem = item;
+        const el = document.getElementById(item.id);
+        if (el) el.style.visibility = "hidden";
+
+        dragClone = document.createElement("div");
+        dragClone.className = "menu-item drag-clone-float";
+        dragClone.style.backgroundImage = `url('${item.img}')`;
+        dragClone.style.backgroundSize = "80%";
+        dragClone.style.backgroundPosition = "center";
+        dragClone.style.backgroundRepeat = "no-repeat";
+        dragClone.style.backgroundColor = "rgba(255,255,255,0.2)";
+        dragClone.style.position = "fixed";
+        dragClone.style.opacity = "0.9";
+        dragClone.style.pointerEvents = "none";
+        dragClone.style.zIndex = "1500";
+        dragClone.style.width = "5vw";
+        dragClone.style.height = "5vw";
+        dragClone.style.borderRadius = "50%";
+        dragClone.style.transform = "translate(-50%,-50%)";
+        dragClone.style.left = (x / window.innerWidth) * 100 + "vw";
+        dragClone.style.top = (y / window.innerHeight) * 100 + "vh";
+        document.body.appendChild(dragClone);
+
+        if (item.func === "sol") {
+          auraFogo.style.display = "block";
+          auraFogo.style.left = dragClone.style.left;
+          auraFogo.style.top = dragClone.style.top;
+        }
+        if (item.func === "revelar") {
+          showLoupe();
+        }
+      }
+
+      function onPointerDown(e) {
+        if (inCutscene) return; // BLOQUEIA CLIQUE NA CENA
+
+        const target = e.target.closest(".menu-item");
+        if (!target) return;
+        e.preventDefault();
+        if (isDragging) return;
+        pendingDrag = true;
+        pendingItem = itens.find((i) => i.id === target.id);
+        const c = getXY(e);
+        startX = c.x;
+        startY = c.y;
+      }
+
+      function onPointerMove(e) {
+        if (!pendingDrag && !isDragging) return;
+        const { x, y } = getXY(e);
+        if (pendingDrag && !isDragging) {
+          const dx = Math.abs(x - startX);
+          const dy = Math.abs(y - startY);
+          const thresh = vwToPx(START_THRESHOLD_VW);
+          if (dx + dy >= thresh) {
+            startRealDrag(pendingItem, x, y);
+            pendingDrag = false;
+            pendingItem = null;
+          } else return;
+        }
+        if (isDragging && dragClone) {
+          // CORREÇÃO: Aplicar o movimento da mão no dragClone enquanto arrasta
+          const currentYOffset =
+            ((Math.sin((performance.now() / 4000) * Math.PI) * vwToPx(1.5)) /
+              window.innerHeight) *
+            100;
+
+          dragClone.style.left = (x / window.innerWidth) * 100 + "vw";
+          // Ajustar a posição Y para incluir a flutuação
+          dragClone.style.top =
+            (y / window.innerHeight) * 100 + currentYOffset + "vh";
+
+          if (currentItem?.func === "sol") {
+            auraFogo.style.left = dragClone.style.left;
+            auraFogo.style.top = dragClone.style.top;
+          }
+          if (currentItem && currentItem.func === "revelar") {
+            loupe.style.left = dragClone.style.left;
+            loupe.style.top = dragClone.style.top;
+            let insideMap = false;
+            let activeIndex = null;
+            for (let i = 0; i < containers.length; i++) {
+              if (window.getComputedStyle(containers[i]).display === "none")
+                continue;
+              const rect = containers[i].getBoundingClientRect();
+              if (
+                x >= rect.left &&
+                x <= rect.right &&
+                y >= rect.top &&
+                y <= rect.bottom
+              ) {
+                insideMap = true;
+                activeIndex = i;
+                break;
+              }
+            }
+            if (insideMap) {
+              setClip(x, y, topLayers[activeIndex]);
+            } else {
+              clearClipAll();
+            }
+            checkReveal(x, y);
+          }
+          if (currentItem && currentItem.func === "sol") {
+            checkSun(x, y);
+          }
+        }
+      }
+
+      function onPointerUp(e) {
+        if (!pendingDrag && !isDragging) return;
+        const { x, y } = getXY(e);
+        const menuItem = currentItem
+          ? document.getElementById(currentItem.id)
+          : null;
+
+        if (pendingDrag) {
+          pendingDrag = false;
+          pendingItem = null;
+          return;
+        }
+        if (isDragging) {
+          isDragging = false;
+          hideLoupe();
+          auraFogo.style.display = "none";
+
+          targets.forEach((t) => {
+            if (revealTimers.has(t.el)) {
+              clearTimeout(revealTimers.get(t.el));
+              revealTimers.delete(t.el);
+            }
+          });
+          sunTargets.forEach((t) => {
+            if (sunTimers.has(t.el)) {
+              clearTimeout(sunTimers.get(t.el));
+              sunTimers.delete(t.el);
+            }
+          });
+
+          if (dragClone) {
+            // Remover a classe de flutuação para que o clone retorne suavemente
+            dragClone.classList.remove("drag-clone-float");
+            returnToMenu(dragClone, menuItem);
+            dragClone = null;
+          }
+          currentItem = null;
+        }
+      }
+
+      document.addEventListener("pointerdown", onPointerDown, {
+        passive: false,
+      });
+      document.addEventListener("pointermove", onPointerMove, {
+        passive: false,
+      });
+      document.addEventListener("pointerup", onPointerUp, { passive: false });
+
+      // ==========================================================
+      // SEU CÓDIGO DA CENA DRAMÁTICA
+      // ==========================================================
+      async function cenaTutorial() {
+        // Garante que o sistema global existe
+        if (typeof dialogo !== "undefined") {
+          await dialogo.abrirAsync({
+            nome: "Narrador",
+            texto: "Tudo congelou....",
+          });
+
+          // PAUSA DRAMATICA DE 2.5 SEGUNDOS
+          await esperar(2500);
+
+          // O código espera a fala terminar para ir para a próxima linha
+          if (typeof personagens !== "undefined") {
+            await dialogo.abrirAsync(personagens.wayway, "final");
+            // Fala do Wendigo em seguida
+            await dialogo.abrirAsync(personagens.wendigo, "final");
+          } else {
+            console.warn("Objeto 'personagens' não encontrado!");
+          }
+        } else {
           console.warn("Sistema de dialogo não carregado!");
           // Fallback se não tiver diálogo carregado, espera 2s e continua
           await esperar(2000);
-      }
-      
-      console.log('Cena finalizada!');
-    }
+        }
 
-    // Função Trigger para controlar a cena
-    async function startDramaticScene() {
+        console.log("Cena finalizada!");
+      }
+
+      // Função Trigger para controlar a cena
+      async function startDramaticScene() {
         inCutscene = true; // Bloqueia interação
-        
+
         // APAGA OS POSTES DRAMATICAMENTE (SEQUENCIAL)
         // Itera sobre cada poste para apagar um por um
         for (let i = 0; i < els.postes.length; i++) {
-             const p = els.postes[i];
-             
-             // Só apaga se já não estiver apagado
-             if (!p.classList.contains('poste-apagado')) {
-                p.src = "/assets/img/Pole-turned-off.png"; 
-                p.classList.add('poste-apagado');
-                
-                // ===============================================
-                // COLOQUE SUA FUNÇÃO DE SOM AQUI (EX: POOF!)
-                // if(window.playSound) window.playSound('poof');
-                // ===============================================
-                
-                await esperar(150); // Delay curto entre cada apagada (efeito cascata)
-             }
+          const p = els.postes[i];
+
+          // Só apaga se já não estiver apagado
+          if (!p.classList.contains("poste-apagado")) {
+            p.src = "/assets/img/Pole-turned-off.png";
+            p.classList.add("poste-apagado");
+
+            // ===============================================
+            // COLOQUE SUA FUNÇÃO DE SOM AQUI (EX: POOF!)
+            // if(window.playSound) window.playSound('poof');
+            // ===============================================
+
+            await esperar(150); // Delay curto entre cada apagada (efeito cascata)
+          }
         }
 
         // Executa seu código
@@ -986,22 +1259,21 @@
         // Restaura e começa fase 2
         inCutscene = false;
         iniciarFase2();
-    }
+      }
 
-
-    // ==========================================================
-    // BOSS.JS - LÓGICA DO CHEFÃO
-    // ==========================================================
-    const BOSS_CONFIG = {
+      // ==========================================================
+      // BOSS.JS - LÓGICA DO CHEFÃO
+      // ==========================================================
+      const BOSS_CONFIG = {
         cuffRegenTime: 2000,
-        handMaxHits: 1,      
-        castSpeedHand: 0.105, 
-        castSpeedEye: 0.105,  
-        regenSpeedEye: 0.04,   
-        totalPostes: 8     
-    };
+        handMaxHits: 1,
+        castSpeedHand: 0.105,
+        castSpeedEye: 0.105,
+        regenSpeedEye: 0.04,
+        totalPostes: 8,
+      };
 
-    const gameState = {
+      const gameState = {
         hpLeftHand: BOSS_CONFIG.handMaxHits,
         hpRightHand: BOSS_CONFIG.handMaxHits,
         isLeftCuffActive: true,
@@ -1010,472 +1282,546 @@
         castRight: 0,
         castEyes: 0,
         eyesRegen: 0,
-        phase: 1, 
+        phase: 1,
         eyesStunned: false,
-        necromancyMode: false, 
+        necromancyMode: false,
         postesVivos: 8,
-        gameOver: false
-    };
+        gameOver: false,
+      };
 
-    const els = {
-        leftWrapper: document.getElementById('wrapper-left'),
-        rightWrapper: document.getElementById('wrapper-right'),
-        leftCuff: document.getElementById('cuff-left'),
-        rightCuff: document.getElementById('cuff-right'),
-        leftHandImg: document.querySelector('#hand-left img'),
-        rightHandImg: document.querySelector('#hand-right img'),
-        fillLeft: document.getElementById('fill-left'),
-        fillRight: document.getElementById('fill-right'),
-        eyesContainer: document.getElementById('boss-eyes-container'),
-        eyesCastBar: document.getElementById('cast-eyes'),
-        eyesFill: document.querySelector('#cast-eyes .cast-bar-fill'),
-        eyesRegenBar: document.getElementById('regen-eyes'),
-        eyesRegenFill: document.querySelector('#regen-eyes .cast-bar-fill'),
-        msg: document.getElementById('game-message'),
-        postes: Array.from(document.querySelectorAll('.poste-vida'))
-    };
+      const els = {
+        leftWrapper: document.getElementById("wrapper-left"),
+        rightWrapper: document.getElementById("wrapper-right"),
+        leftCuff: document.getElementById("cuff-left"),
+        rightCuff: document.getElementById("cuff-right"),
+        leftHandImg: document.querySelector("#hand-left img"),
+        rightHandImg: document.querySelector("#hand-right img"),
+        fillLeft: document.getElementById("fill-left"),
+        fillRight: document.getElementById("fill-right"),
+        eyesContainer: document.getElementById("boss-eyes-container"),
+        eyesCastBar: document.getElementById("cast-eyes"),
+        eyesFill: document.querySelector("#cast-eyes .cast-bar-fill"),
+        eyesRegenBar: document.getElementById("regen-eyes"),
+        eyesRegenFill: document.querySelector("#regen-eyes .cast-bar-fill"),
+        msg: document.getElementById("game-message"),
+        postes: Array.from(document.querySelectorAll(".poste-vida")),
+      };
 
-    function gameLoop() {
+      function gameLoop() {
         if (gameState.gameOver) return;
 
         if (gameState.phase === 1) {
-            // Mão Esquerda
-            if (gameState.hpLeftHand > 0) {
-                gameState.castLeft += BOSS_CONFIG.castSpeedHand;
-                if (gameState.castLeft >= 100) { dispararMagia("left"); gameState.castLeft = 0; }
-                els.fillLeft.style.width = gameState.castLeft + "%";
+          // Mão Esquerda
+          if (gameState.hpLeftHand > 0) {
+            gameState.castLeft += BOSS_CONFIG.castSpeedHand;
+            if (gameState.castLeft >= 100) {
+              dispararMagia("left");
+              gameState.castLeft = 0;
             }
-            // Mão Direita
-            if (gameState.hpRightHand > 0) {
-                gameState.castRight += BOSS_CONFIG.castSpeedHand;
-                if (gameState.castRight >= 100) { dispararMagia("right"); gameState.castRight = 0; }
-                els.fillRight.style.width = gameState.castRight + "%";
+            els.fillLeft.style.width = gameState.castLeft + "%";
+          }
+          // Mão Direita
+          if (gameState.hpRightHand > 0) {
+            gameState.castRight += BOSS_CONFIG.castSpeedHand;
+            if (gameState.castRight >= 100) {
+              dispararMagia("right");
+              gameState.castRight = 0;
             }
-            // Vitória Fase 1
-            if (gameState.hpLeftHand <= 0 && gameState.hpRightHand <= 0) {
-                // ALTERADO: Pausa e transição dramática
-                gameState.phase = 'transition'; // Trava o loop
-                
-                // Espera 2 segundos antes de começar o show (pausinha pedida)
-                setTimeout(() => {
-                    startDramaticScene();
-                }, 2000);
-            }
-        } 
-        else if (gameState.phase === 2) {
-            
-            // CONTAGEM DE MÃOS VIVAS
-            const handsAliveCount = (gameState.hpLeftHand > 0 ? 1 : 0) + (gameState.hpRightHand > 0 ? 1 : 0);
+            els.fillRight.style.width = gameState.castRight + "%";
+          }
+          // Vitória Fase 1
+          if (gameState.hpLeftHand <= 0 && gameState.hpRightHand <= 0) {
+            // ALTERADO: Pausa e transição dramática
+            gameState.phase = "transition"; // Trava o loop
 
-            // Mãos atacam independentemente se estiverem vivas
-            if (gameState.hpLeftHand > 0) {
-                gameState.castLeft += BOSS_CONFIG.castSpeedHand;
-                if (gameState.castLeft >= 100) { dispararMagia("left"); gameState.castLeft = 0; }
-                els.fillLeft.style.width = gameState.castLeft + "%";
+            // Espera 2 segundos antes de começar o show (pausinha pedida)
+            setTimeout(() => {
+              startDramaticScene();
+            }, 2000);
+          }
+        } else if (gameState.phase === 2) {
+          // CONTAGEM DE MÃOS VIVAS
+          const handsAliveCount =
+            (gameState.hpLeftHand > 0 ? 1 : 0) +
+            (gameState.hpRightHand > 0 ? 1 : 0);
+
+          // Mãos atacam independentemente se estiverem vivas
+          if (gameState.hpLeftHand > 0) {
+            gameState.castLeft += BOSS_CONFIG.castSpeedHand;
+            if (gameState.castLeft >= 100) {
+              dispararMagia("left");
+              gameState.castLeft = 0;
             }
-            if (gameState.hpRightHand > 0) {
-                gameState.castRight += BOSS_CONFIG.castSpeedHand;
-                if (gameState.castRight >= 100) { dispararMagia("right"); gameState.castRight = 0; }
-                els.fillRight.style.width = gameState.castRight + "%";
+            els.fillLeft.style.width = gameState.castLeft + "%";
+          }
+          if (gameState.hpRightHand > 0) {
+            gameState.castRight += BOSS_CONFIG.castSpeedHand;
+            if (gameState.castRight >= 100) {
+              dispararMagia("right");
+              gameState.castRight = 0;
             }
+            els.fillRight.style.width = gameState.castRight + "%";
+          }
 
-            // ============================================================
-            // LÓGICA DE ESTADO: MODO NECROMANCIA
-            // ============================================================
-            
-            // Ativa o modo SOMENTE se as duas mãos morrerem
-            if (handsAliveCount === 0) {
-                gameState.necromancyMode = true;
+          // ============================================================
+          // LÓGICA DE ESTADO: MODO NECROMANCIA
+          // ============================================================
+
+          // Ativa o modo SOMENTE se as duas mãos morrerem
+          if (handsAliveCount === 0) {
+            gameState.necromancyMode = true;
+          }
+          // Desativa o modo SOMENTE se as duas mãos estiverem vivas
+          if (handsAliveCount === 2) {
+            gameState.necromancyMode = false;
+          }
+
+          // ============================================================
+          // HIERARQUIA DE COMPORTAMENTO
+          // ============================================================
+
+          // 1. MODO NECROMANCIA (Prioridade Total para Reviver)
+          if (gameState.necromancyMode) {
+            // CORREÇÃO: Sempre mostra a barra verde (cast eyes) no modo Necromancia
+            els.eyesCastBar.style.display = "block";
+            els.eyesRegenBar.style.display = "none";
+
+            // BARRA VERDE (Necromancia) - Foca em reviver
+            els.eyesFill.style.background =
+              "linear-gradient(90deg, #ccffcc, #00ff00, #006600)";
+            gameState.castEyes += BOSS_CONFIG.castSpeedEye;
+
+            if (gameState.castEyes >= 100) {
+              reviveOneHand();
+              gameState.castEyes = 0;
             }
-            // Desativa o modo SOMENTE se as duas mãos estiverem vivas
-            if (handsAliveCount === 2) {
-                gameState.necromancyMode = false;
+            els.eyesFill.style.width = gameState.castEyes + "%";
+
+            // Se estiver stunado, o player ainda pode bater, mas o Boss está ocupado revivendo
+            // A regeneração do escudo é ignorada aqui, foco é nas mãos.
+          }
+
+          // 2. MODO NORMAL (Com pelo menos 1 mão viva E fora do modo Necromancia)
+          else {
+            // Prioridade A: Regenerar Escudo se estiver Stunado
+            if (gameState.eyesStunned) {
+              // BARRA AMARELA
+              els.eyesCastBar.style.display = "none";
+              els.eyesRegenBar.style.display = "block";
+
+              gameState.eyesRegen += BOSS_CONFIG.regenSpeedEye;
+              els.eyesRegenFill.style.width = gameState.eyesRegen + "%";
+
+              if (gameState.eyesRegen >= 100) {
+                awakenEyes();
+              }
             }
-
-            // ============================================================
-            // HIERARQUIA DE COMPORTAMENTO
-            // ============================================================
-
-            // 1. MODO NECROMANCIA (Prioridade Total para Reviver)
-            if (gameState.necromancyMode) {
-                
-                // CORREÇÃO: Sempre mostra a barra verde (cast eyes) no modo Necromancia
-                els.eyesCastBar.style.display = 'block';
-                els.eyesRegenBar.style.display = 'none';
-
-                // BARRA VERDE (Necromancia) - Foca em reviver
-                els.eyesFill.style.background = 'linear-gradient(90deg, #ccffcc, #00ff00, #006600)';
-                gameState.castEyes += BOSS_CONFIG.castSpeedEye;
-                
-                if (gameState.castEyes >= 100) {
-                    reviveOneHand(); 
-                    gameState.castEyes = 0;
-                }
-                els.eyesFill.style.width = gameState.castEyes + "%";
-
-                // Se estiver stunado, o player ainda pode bater, mas o Boss está ocupado revivendo
-                // A regeneração do escudo é ignorada aqui, foco é nas mãos.
-            }
-
-            // 2. MODO NORMAL (Com pelo menos 1 mão viva E fora do modo Necromancia)
+            // Prioridade B: Atacar
             else {
-                // Prioridade A: Regenerar Escudo se estiver Stunado
-                if (gameState.eyesStunned) {
-                    // BARRA AMARELA
-                    els.eyesCastBar.style.display = 'none';
-                    els.eyesRegenBar.style.display = 'block';
+              // BARRA ROXA
+              els.eyesCastBar.style.display = "block";
+              els.eyesRegenBar.style.display = "none";
 
-                    gameState.eyesRegen += BOSS_CONFIG.regenSpeedEye;
-                    els.eyesRegenFill.style.width = gameState.eyesRegen + "%";
-                    
-                    if (gameState.eyesRegen >= 100) {
-                        awakenEyes();
-                    }
-                }
-                // Prioridade B: Atacar
-                else {
-                    // BARRA ROXA
-                    els.eyesCastBar.style.display = 'block';
-                    els.eyesRegenBar.style.display = 'none';
+              els.eyesFill.style.background =
+                "linear-gradient(90deg, #ff00cc, #333399)";
+              gameState.castEyes += BOSS_CONFIG.castSpeedEye;
 
-                    els.eyesFill.style.background = 'linear-gradient(90deg, #ff00cc, #333399)';
-                    gameState.castEyes += BOSS_CONFIG.castSpeedEye;
-                    
-                    if (gameState.castEyes >= 100) {
-                        dispararMagia("eyes");
-                        gameState.castEyes = 0;
-                    }
-                    els.eyesFill.style.width = gameState.castEyes + "%";
-                }
+              if (gameState.castEyes >= 100) {
+                dispararMagia("eyes");
+                gameState.castEyes = 0;
+              }
+              els.eyesFill.style.width = gameState.castEyes + "%";
             }
+          }
         }
         requestAnimationFrame(gameLoop);
-    }
+      }
 
-    function reviveOneHand() {
+      function reviveOneHand() {
         let deadHands = [];
         if (gameState.hpLeftHand <= 0) deadHands.push("left");
         if (gameState.hpRightHand <= 0) deadHands.push("right");
 
         if (deadHands.length > 0) {
-            const side = deadHands[Math.floor(Math.random() * deadHands.length)];
-            
-            if (side === "left") {
-                gameState.hpLeftHand = BOSS_CONFIG.handMaxHits;
-                // CORREÇÃO: Usar opacity para não resetar animação CSS
-                els.leftWrapper.style.opacity = '1';
-                els.leftWrapper.style.pointerEvents = 'auto';
-                
-                gameState.castLeft = 0;
-                els.fillLeft.style.width = "0%";
-            } else {
-                gameState.hpRightHand = BOSS_CONFIG.handMaxHits;
-                // CORREÇÃO: Usar opacity para não resetar animação CSS
-                els.rightWrapper.style.opacity = '1';
-                els.rightWrapper.style.pointerEvents = 'auto';
+          const side = deadHands[Math.floor(Math.random() * deadHands.length)];
 
-                gameState.castRight = 0;
-                els.fillRight.style.width = "0%";
-            }
-            regenerarCuff(side);
-            showFloatingText(els.eyesContainer, "Revive!", "#00ff00");
+          if (side === "left") {
+            gameState.hpLeftHand = BOSS_CONFIG.handMaxHits;
+            // CORREÇÃO: Usar opacity para não resetar animação CSS
+            els.leftWrapper.style.opacity = "1";
+            els.leftWrapper.style.pointerEvents = "auto";
+
+            gameState.castLeft = 0;
+            els.fillLeft.style.width = "0%";
+          } else {
+            gameState.hpRightHand = BOSS_CONFIG.handMaxHits;
+            // CORREÇÃO: Usar opacity para não resetar animação CSS
+            els.rightWrapper.style.opacity = "1";
+            els.rightWrapper.style.pointerEvents = "auto";
+
+            gameState.castRight = 0;
+            els.fillRight.style.width = "0%";
+          }
+          regenerarCuff(side);
+          showFloatingText(els.eyesContainer, "Revive!", "#00ff00");
         }
-    }
+      }
 
-    function dispararMagia(origem) {
-        const postesAcesos = els.postes.filter(p => !p.classList.contains('poste-apagado'));
+      function dispararMagia(origem) {
+        const postesAcesos = els.postes.filter(
+          (p) => !p.classList.contains("poste-apagado")
+        );
         if (postesAcesos.length > 0) {
-            let dano = (origem === "eyes") ? 2 : 1; 
+          let dano = origem === "eyes" ? 2 : 1;
 
-            for(let i = 0; i < dano && postesAcesos.length > 0; i++) {
-                const randomIndex = Math.floor(Math.random() * postesAcesos.length);
-                const alvo = postesAcesos.splice(randomIndex, 1)[0]; 
-                if (alvo) { apagarPoste(alvo); }
+          for (let i = 0; i < dano && postesAcesos.length > 0; i++) {
+            const randomIndex = Math.floor(Math.random() * postesAcesos.length);
+            const alvo = postesAcesos.splice(randomIndex, 1)[0];
+            if (alvo) {
+              apagarPoste(alvo);
             }
+          }
         }
-    }
+      }
 
-    function apagarPoste(el) {
+      function apagarPoste(el) {
+        tocarEfeito("ice");
 
-        tocarEfeito("ice")
-
-        el.src = "/assets/img/Pole-turned-off.png"; 
-        el.classList.add('poste-apagado');
-        el.classList.add('shake');
-        setTimeout(() => { el.classList.remove('shake'); }, 500);
+        el.src = "/assets/img/Pole-turned-off.png";
+        el.classList.add("poste-apagado");
+        el.classList.add("shake");
+        setTimeout(() => {
+          el.classList.remove("shake");
+        }, 500);
 
         addSunTarget(el, {
-            action: "none", 
-            uses: 999, 
-            delayMs: 500,
-            onComplete: (e) => {
-                e.src = "/assets/img/Pole-turned-on.png"; 
-                e.classList.remove('poste-apagado');
-                gameState.postesVivos++;
-            }
+          action: "none",
+          uses: 999,
+          delayMs: 500,
+          onComplete: (e) => {
+            e.src = "/assets/img/Pole-turned-on.png";
+            e.classList.remove("poste-apagado");
+            gameState.postesVivos++;
+          },
         });
         gameState.postesVivos--;
         // if (gameState.postesVivos <= 0) gameOver(false);
-    }
+      }
 
-    function setupTargetsMao(side) {
+      function setupTargetsMao(side) {
         const cuffEl = side === "left" ? els.leftCuff : els.rightCuff;
-        const handEl = side === "left" ? document.getElementById('hand-left') : document.getElementById('hand-right');
+        const handEl =
+          side === "left"
+            ? document.getElementById("hand-left")
+            : document.getElementById("hand-right");
 
         addTarget(cuffEl, {
-            delay: 500, // Ajustado para 500ms (Debug)
-            onComplete: () => { onCuffBroken(side); }
+          delay: 500, // Ajustado para 500ms (Debug)
+          onComplete: () => {
+            onCuffBroken(side);
+          },
         });
 
         addSunTarget(handEl, {
-            action: "none", 
-            uses: 999,
-            delayMs: 500,
-            onComplete: (el) => { tentarDarDano(side, el); }
+          action: "none",
+          uses: 999,
+          delayMs: 500,
+          onComplete: (el) => {
+            tentarDarDano(side, el);
+          },
         });
-    }
+      }
 
-    function showFloatingText(element, text, color) {
+      function showFloatingText(element, text, color) {
         const rect = element.getBoundingClientRect();
-        const floating = document.createElement('div');
-        floating.className = 'floating-text';
+        const floating = document.createElement("div");
+        floating.className = "floating-text";
         floating.innerText = text;
-        floating.style.color = color || '#fff';
-        floating.style.left = (rect.left + rect.width / 2) + 'px';
-        floating.style.top = (rect.top + rect.height / 4) + 'px'; 
-        floating.style.transform = 'translate(-50%, -100%)';
+        floating.style.color = color || "#fff";
+        floating.style.left = rect.left + rect.width / 2 + "px";
+        floating.style.top = rect.top + rect.height / 4 + "px";
+        floating.style.transform = "translate(-50%, -100%)";
         document.body.appendChild(floating);
-        setTimeout(() => { floating.remove(); }, 2000);
-    }
+        setTimeout(() => {
+          floating.remove();
+        }, 2000);
+      }
 
-    function onCuffBroken(side) {
+      function onCuffBroken(side) {
         if (side === "left") gameState.isLeftCuffActive = false;
         else gameState.isRightCuffActive = false;
         const wrapper = side === "left" ? els.leftWrapper : els.rightWrapper;
         showFloatingText(wrapper, "Vulnerable!", "gold");
-    }
+      }
 
-    function tentarDarDano(side, handEl) {
-        const isProtected = side === "left" ? gameState.isLeftCuffActive : gameState.isRightCuffActive;
+      function tentarDarDano(side, handEl) {
+        const isProtected =
+          side === "left"
+            ? gameState.isLeftCuffActive
+            : gameState.isRightCuffActive;
         const wrapper = side === "left" ? els.leftWrapper : els.rightWrapper;
 
         if (isProtected) {
-            showFloatingText(wrapper, "Shield Active!", "gray");
-            return; 
+          showFloatingText(wrapper, "Shield Active!", "gray");
+          return;
         }
 
-        tocarEfeito("fire")
+        tocarEfeito("fire");
 
         if (side === "left") gameState.isLeftCuffActive = true;
         else gameState.isRightCuffActive = true;
 
         if (side === "left") {
-            gameState.hpLeftHand--;
-            gameState.castLeft = 0;
-            els.fillLeft.style.width = "0%";
+          gameState.hpLeftHand--;
+          gameState.castLeft = 0;
+          els.fillLeft.style.width = "0%";
         } else {
-            gameState.hpRightHand--;
-            gameState.castRight = 0;
-            els.fillRight.style.width = "0%";
+          gameState.hpRightHand--;
+          gameState.castRight = 0;
+          els.fillRight.style.width = "0%";
         }
 
-        const img = handEl.querySelector('img');
-        img.classList.add('hand-damaged');
-        setTimeout(() => img.classList.remove('hand-damaged'), 500);
+        const img = handEl.querySelector("img");
+        img.classList.add("hand-damaged");
+        setTimeout(() => img.classList.remove("hand-damaged"), 500);
 
         showFloatingText(wrapper, "Hit!", "orange");
 
-        const hp = side === "left" ? gameState.hpLeftHand : gameState.hpRightHand;
-        
+        const hp =
+          side === "left" ? gameState.hpLeftHand : gameState.hpRightHand;
+
         if (hp <= 0) {
-            // CORREÇÃO: Usar opacity 0 para esconder sem parar a animação
-            if (side === "left") {
-                els.leftWrapper.style.opacity = '0';
-                els.leftWrapper.style.pointerEvents = 'none';
-            } else {
-                els.rightWrapper.style.opacity = '0';
-                els.rightWrapper.style.pointerEvents = 'none';
+          // CORREÇÃO: Usar opacity 0 para esconder sem parar a animação
+          if (side === "left") {
+            els.leftWrapper.style.opacity = "0";
+            els.leftWrapper.style.pointerEvents = "none";
+          } else {
+            els.rightWrapper.style.opacity = "0";
+            els.rightWrapper.style.pointerEvents = "none";
+          }
+
+          // FORCE RESET LOGIC (só para garantir o estado Necromancy logo no ato da morte da segunda mão)
+          if (gameState.phase === 2) {
+            const otherHandHp =
+              side === "left" ? gameState.hpRightHand : gameState.hpLeftHand;
+
+            // Se ambas morreram
+            if (otherHandHp <= 0) {
+              showFloatingText(els.eyesContainer, "NECROMANCY!", "#00ff00");
+
+              // Força acordar o boss (repor escudo) se ele estiver stunado
+              if (gameState.eyesStunned) {
+                awakenEyes();
+                showFloatingText(els.eyesContainer, "SHIELD RESTORED!", "cyan");
+              }
+              // Reseta barra verde para o começo
+              gameState.castEyes = 0;
+              els.eyesFill.style.width = "0%";
             }
-
-            // FORCE RESET LOGIC (só para garantir o estado Necromancy logo no ato da morte da segunda mão)
-            if (gameState.phase === 2) {
-                const otherHandHp = (side === "left") ? gameState.hpRightHand : gameState.hpLeftHand;
-                
-                // Se ambas morreram
-                if (otherHandHp <= 0) {
-                     showFloatingText(els.eyesContainer, "NECROMANCY!", "#00ff00");
-
-                     // Força acordar o boss (repor escudo) se ele estiver stunado
-                     if (gameState.eyesStunned) {
-                         awakenEyes(); 
-                         showFloatingText(els.eyesContainer, "SHIELD RESTORED!", "cyan");
-                     }
-                     // Reseta barra verde para o começo
-                     gameState.castEyes = 0;
-                     els.eyesFill.style.width = "0%";
-                }
-            }
-
+          }
         } else {
-            setTimeout(() => regenerarCuff(side), 1500); 
+          setTimeout(() => regenerarCuff(side), 1500);
         }
-    }
+      }
 
-    function regenerarCuff(side) {
+      function regenerarCuff(side) {
         const cuffEl = side === "left" ? els.leftCuff : els.rightCuff;
-        const topLayer = cuffEl.querySelector('.layer.top');
-        const handImg = side === "left" ? els.leftHandImg : els.rightHandImg; 
-        const wrapper = side === "left" ? els.leftWrapper : els.rightWrapper; 
+        const topLayer = cuffEl.querySelector(".layer.top");
+        const handImg = side === "left" ? els.leftHandImg : els.rightHandImg;
+        const wrapper = side === "left" ? els.leftWrapper : els.rightWrapper;
 
-        cuffEl.style.display = 'flex'; 
-        topLayer.style.display = 'flex'; 
+        cuffEl.style.display = "flex";
+        topLayer.style.display = "flex";
         topLayer.style.clipPath = "circle(0% at 0 0)";
 
-        tocarEfeito("barrier")
-        
+        tocarEfeito("barrier");
+
         if (side === "left") gameState.isLeftCuffActive = true;
         else gameState.isRightCuffActive = true;
-        
+
         showFloatingText(wrapper, "Shield Up", "cyan");
 
         if (handImg) {
-            handImg.classList.add('regenerating-glow');
-            setTimeout(() => { handImg.classList.remove('regenerating-glow'); }, 1800); 
+          handImg.classList.add("regenerating-glow");
+          setTimeout(() => {
+            handImg.classList.remove("regenerating-glow");
+          }, 1800);
         }
-    }
+      }
 
-    function iniciarFase2() {
+      function iniciarFase2() {
         // Reacende os postes para a fase 2 (já que apagamos visualmente)
-        els.postes.forEach(p => {
-             p.src = "/assets/img/Pole-turned-on.png"; 
-             p.classList.remove('poste-apagado');
+        els.postes.forEach((p) => {
+          p.src = "/assets/img/Pole-turned-on.png";
+          p.classList.remove("poste-apagado");
         });
-        
+
         gameState.phase = 2;
         /* TRADUZIDO */
-        mostrarMensagem("PHASE 2: EYES!", "red"); 
-        
-        document.getElementById('boss-body').src = "/assets/img/Villain2.png";
+        mostrarMensagem("PHASE 2: EYES!", "red");
 
-        els.eyesContainer.style.display = 'block';
-        els.eyesCastBar.style.display = 'block';
+        document.getElementById("boss-body").src = "/assets/img/Villain2.png";
+
+        els.eyesContainer.style.display = "block";
+        els.eyesCastBar.style.display = "block";
 
         gameState.hpLeftHand = BOSS_CONFIG.handMaxHits;
         gameState.hpRightHand = BOSS_CONFIG.handMaxHits;
-        
+
         // CORREÇÃO: Resetar opacidade e pointer-events em vez de display
-        els.leftWrapper.style.opacity = '1';
-        els.leftWrapper.style.pointerEvents = 'auto';
-        els.rightWrapper.style.opacity = '1';
-        els.rightWrapper.style.pointerEvents = 'auto';
-        
+        els.leftWrapper.style.opacity = "1";
+        els.leftWrapper.style.pointerEvents = "auto";
+        els.rightWrapper.style.opacity = "1";
+        els.rightWrapper.style.pointerEvents = "auto";
+
         regenerarCuff("left");
         regenerarCuff("right");
 
         addTarget(els.eyesContainer, {
-            delay: 3000,
-            onComplete: () => { stunEyes(); }
+          delay: 3000,
+          onComplete: () => {
+            stunEyes();
+          },
         });
 
         addSunTarget(els.eyesContainer, {
-            action: "none", 
-            uses: 999, 
-            delayMs: 100,
-            onComplete: (el) => { checkFinalBlow(); }
+          action: "none",
+          uses: 999,
+          delayMs: 100,
+          onComplete: (el) => {
+            checkFinalBlow();
+          },
         });
-    }
+      }
 
-    function checkFinalBlow() {
-        const handsDead = (gameState.hpLeftHand <= 0) && (gameState.hpRightHand <= 0);
-        
+      function checkFinalBlow() {
+        const handsDead =
+          gameState.hpLeftHand <= 0 && gameState.hpRightHand <= 0;
+
         // Verifica se ambas as mãos morreram E se os olhos estão sem escudo
         if (handsDead && gameState.eyesStunned) {
-            gameOver(true); 
+          gameOver(true);
         } else {
-            let msg = "";
-            /* TRADUZIDO */
-            if (!handsDead) msg = "Destroy the Hands!";
-            else if (!gameState.eyesStunned) msg = "Break the Eye Shield!";
-            showFloatingText(els.eyesContainer, msg, "gray");
+          let msg = "";
+          /* TRADUZIDO */
+          if (!handsDead) msg = "Destroy the Hands!";
+          else if (!gameState.eyesStunned) msg = "Break the Eye Shield!";
+          showFloatingText(els.eyesContainer, msg, "gray");
         }
-    }
+      }
 
-    function stunEyes() {
+      function stunEyes() {
         gameState.eyesStunned = true;
-        gameState.eyesRegen = 0; 
-        
-        document.getElementById('boss-body').src = "/assets/img/Villain.png"; 
+        gameState.eyesRegen = 0;
+
+        document.getElementById("boss-body").src = "/assets/img/Villain.png";
 
         showFloatingText(els.eyesContainer, "Stunned!", "gold");
-        
+
         // CORREÇÃO: Não esconder o Container, apenas o Brilho/Escudo
         // Isso mantém o elemento "físico" para receber o Sol
-        els.eyesContainer.querySelector('.eye-glow').style.display = 'none';
-        
-        els.eyesCastBar.style.display = 'none';
-        els.eyesRegenBar.style.display = 'block';
-    }
+        els.eyesContainer.querySelector(".eye-glow").style.display = "none";
 
-    function awakenEyes() {
+        els.eyesCastBar.style.display = "none";
+        els.eyesRegenBar.style.display = "block";
+      }
+
+      function awakenEyes() {
         gameState.eyesStunned = false;
 
-        tocarEfeito("barrier")
-        
-        document.getElementById('boss-body').src = "/assets/img/Villain2.png";
+        tocarEfeito("barrier");
+
+        document.getElementById("boss-body").src = "/assets/img/Villain2.png";
 
         showFloatingText(els.eyesContainer, "Awake!", "red");
 
         // CORREÇÃO: Traz de volta o brilho
-        els.eyesContainer.querySelector('.eye-glow').style.display = 'block';
-        
-        els.eyesContainer.querySelector('.layer.top').style.display = 'flex'; 
-        els.eyesCastBar.style.display = 'block';
-        els.eyesRegenBar.style.display = 'none';
-        
+        els.eyesContainer.querySelector(".eye-glow").style.display = "block";
+
+        els.eyesContainer.querySelector(".layer.top").style.display = "flex";
+        els.eyesCastBar.style.display = "block";
+        els.eyesRegenBar.style.display = "none";
+
         gameState.castEyes = 0;
         els.eyesFill.style.width = "0%";
-    }
+      }
 
-    function mostrarMensagem(texto, cor) {
+      function mostrarMensagem(texto, cor) {
         els.msg.innerText = texto;
         els.msg.style.color = cor;
-        els.msg.style.display = 'block';
-        setTimeout(() => { els.msg.style.display = 'none'; }, 1500);
-    }
+        els.msg.style.display = "block";
+        setTimeout(() => {
+          els.msg.style.display = "none";
+        }, 1500);
+      }
 
-    function gameOver(vitoria) {
+      async function gameOver(vitoria) {
         gameState.gameOver = true;
-        const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
+
+        // DELAY ANTES DE MOSTRAR A TELA FINAL (3 segundos)
+        if (vitoria) {
+          mostrarMensagem("...", "white");
+          await esperar(3000);
+        }
+
+        const overlay = document.createElement("div");
+        overlay.style.position = "fixed";
         overlay.style.inset = 0;
-        overlay.style.background = 'rgba(0,0,0,0.9)';
-        overlay.style.color = '#fff';
-        overlay.style.display = 'flex';
-        overlay.style.flexDirection = 'column';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
+        overlay.style.background = "rgba(0,0,0,0.9)";
+        overlay.style.color = "#fff";
+        overlay.style.display = "flex";
+        overlay.style.flexDirection = "column";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
         overlay.style.zIndex = 9999;
-        
+        overlay.style.opacity = "0";
+        overlay.style.transition = "opacity 1s ease";
+
         /* TRADUZIDO */
         if (vitoria) {
-            overlay.innerHTML = "<h1>BOSS DEFEATED!</h1><p>The city is saved.</p>";
+          overlay.innerHTML =
+            "<h1>BOSS DEFEATED!</h1><p>The city is saved.</p>";
         } else {
-            overlay.innerHTML = "<h1>YOU LOST...</h1><p>The ice has consumed everything.</p><button onclick='location.reload()' style='padding:1rem; margin-top:1rem; cursor:pointer;'>Try Again</button>";
+          overlay.innerHTML =
+            "<h1>YOU LOST...</h1><p>The ice has consumed everything.</p><button onclick='location.reload()' style='padding:1rem; margin-top:1rem; cursor:pointer;'>Try Again</button>";
         }
         document.body.appendChild(overlay);
-    }
 
-    function init() {
+        // Fade in suave
+        requestAnimationFrame(() => {
+          overlay.style.opacity = "1";
+        });
+      }
+
+      function init() {
         console.log("BOSS BATTLE START!");
-        setupTargetsMao("left");
-        setupTargetsMao("right");
-        requestAnimationFrame(gameLoop);
-    }
-    
-    init();
 
-  </script>
+        const arena = document.getElementById("boss-arena");
 
-  <script src="/loader.js"></script>
-</body>
+        // Inicia a animação de entrada do Boss
+        arena.classList.add("entering");
+
+        // Espera a animação terminar antes de começar a batalha
+        arena.addEventListener(
+          "animationend",
+          () => {
+            arena.classList.remove("entering");
+            arena.classList.add("entered");
+
+            // Agora sim, configura os alvos e inicia o game loop
+            setupTargetsMao("left");
+            setupTargetsMao("right");
+            requestAnimationFrame(gameLoop);
+
+            console.log("Boss has arrived! Battle begins!");
+          },
+          { once: true }
+        );
+      }
+
+      init();
+    </script>
+
+    <script src="/loader.js"></script>
+  </body>
 </html>

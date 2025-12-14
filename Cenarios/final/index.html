@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Game Over</title>
+    <link rel="stylesheet" href="/core/global.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+      :root {
+        --bg: radial-gradient(
+          circle at 20% 20%,
+          #122033 0,
+          #0b1624 35%,
+          #040a14 70%
+        );
+        --panel: rgba(255, 255, 255, 0.06);
+        --border: rgba(255, 255, 255, 0.12);
+        --text: #eaf3ff;
+        --muted: #9fb4cc;
+        --accent: #5de4c7;
+        --accent-2: #7aa2f7;
+        --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        --blur: blur(14px);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 18px;
+        overflow-x: hidden;
+      }
+
+      .page {
+        width: min(900px, 100%);
+        backdrop-filter: var(--blur);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.02)
+        );
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 28px 26px 24px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page::before {
+        content: "";
+        position: absolute;
+        inset: -40% -30% auto auto;
+        height: 220px;
+        width: 220px;
+        background: radial-gradient(
+          circle,
+          rgba(122, 162, 247, 0.35),
+          rgba(122, 162, 247, 0)
+        );
+        filter: blur(20px);
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      .page::after {
+        content: "";
+        position: absolute;
+        inset: auto auto -30% -20%;
+        height: 260px;
+        width: 260px;
+        background: radial-gradient(
+          circle,
+          rgba(93, 228, 199, 0.3),
+          rgba(93, 228, 199, 0)
+        );
+        filter: blur(24px);
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 0 4px 18px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(32px, 6vw, 42px);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+
+      .content-row {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+      }
+
+      .left-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .right-col {
+        flex-shrink: 0;
+      }
+
+      .fish-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+      }
+
+      .fish-card-title {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 0 0 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .fish-content {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .fish-img-wrapper {
+        width: 70px;
+        height: 70px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+      }
+
+      .fish-img-wrapper img {
+        width: 55px;
+        height: 55px;
+        object-fit: contain;
+      }
+
+      .stat-title {
+        font-size: 14px;
+        margin: 0 0 4px;
+      }
+      .stat-label {
+        color: var(--muted);
+        font-size: 11px;
+        margin: 0 0 2px;
+      }
+      .stat-value {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .placeholder {
+        color: var(--muted);
+        text-align: center;
+        padding: 12px 10px;
+        border: 1px dashed var(--border);
+        border-radius: 10px;
+        width: 100%;
+        font-size: 13px;
+      }
+
+      #myo-canvas {
+        width: 280px;
+        aspect-ratio: 500 / 800;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: linear-gradient(
+          180deg,
+          rgba(122, 162, 247, 0.14),
+          rgba(0, 0, 0, 0.2)
+        );
+        border: 1px solid var(--border);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+      }
+
+      .support-block {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        padding: 20px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .support-text {
+        margin: 0;
+        color: var(--text);
+        line-height: 1.6;
+        font-size: 15px;
+        flex: 1;
+      }
+
+      .support-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.06);
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        font-size: 11px;
+        flex-shrink: 0;
+      }
+
+      .social-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .social-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        transition: transform 0.12s ease, border-color 0.12s ease;
+      }
+
+      .social-btn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(255, 255, 255, 0.25);
+      }
+      .social-icon {
+        font-size: 14px;
+      }
+
+      .action-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+      }
+
+      .action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 18px;
+        border-radius: 12px;
+        border: none;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #04101c;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+        box-shadow: 0 6px 20px rgba(93, 228, 199, 0.3);
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(93, 228, 199, 0.4);
+      }
+
+      .action-btn:active {
+        transform: translateY(0);
+      }
+
+      .action-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .action-btn.secondary {
+        background: rgba(88, 101, 242, 0.9);
+        color: #fff;
+        box-shadow: 0 6px 20px rgba(88, 101, 242, 0.3);
+      }
+
+      .action-btn.secondary:hover {
+        box-shadow: 0 8px 25px rgba(88, 101, 242, 0.4);
+      }
+
+      @media (max-width: 700px) {
+        .content-row {
+          flex-direction: column-reverse;
+        }
+        #myo-canvas {
+          width: 100%;
+          max-width: 260px;
+          margin: 0 auto;
+        }
+        .support-block {
+          flex-direction: column;
+          text-align: center;
+        }
+        .social-row {
+          justify-content: center;
+        }
+        .action-row {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- Área visível na tela -->
+      <div class="header">
+        <h1>GAME OVER</h1>
+      </div>
+
+      <div class="content-row">
+        <div class="left-col">
+          <div class="fish-card">
+            <p class="fish-card-title">Biggest Fish Caught</p>
+            <div id="fish-content">
+              <div class="placeholder">Loading record...</div>
+            </div>
+          </div>
+
+          <div class="support-block">
+            <p class="support-text">
+              Thanks for playing!!!! If you enjoyed it, consider following
+              Myiabi on social media, joining her Discord server, and if you'd
+              like, subscribing on Patreon/Ko-fi to help the artist have a great
+              holiday season 🎄
+            </p>
+            <div class="support-img">Image</div>
+          </div>
+        </div>
+
+        <div class="right-col">
+          <div id="myo-canvas" style="position: relative">
+            <div class="placeholder" id="myo-placeholder">
+              No character saved yet.
+            </div>
+            <button
+              id="btn-download-myo"
+              title="Download MYO"
+              style="
+                position: absolute;
+                bottom: 8px;
+                right: 8px;
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                background: rgba(0, 0, 0, 0.4);
+                color: #eaf3ff;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0.6;
+                transition: opacity 0.2s;
+              "
+            >
+              📥
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Área capturada na imagem (oculta) - só MYO -->
+      <div id="capture-area" style="position: absolute; left: -9999px; top: 0">
+        <div
+          id="myo-canvas-capture"
+          style="
+            width: 260px;
+            aspect-ratio: 500/800;
+            background: linear-gradient(180deg, #122033, #0b1624);
+            border-radius: 16px;
+            padding: 12px;
+          "
+        ></div>
+      </div>
+
+      <!-- Links sociais (fora da captura) -->
+      <div class="social-row">
+        <a class="social-btn" href="#" target="_blank" rel="noreferrer">
+          <span class="social-icon">💬</span> Discord
+        </a>
+        <a class="social-btn" href="#" target="_blank" rel="noreferrer">
+          <span class="social-icon">🎨</span> Toyhouse
+        </a>
+        <a class="social-btn" href="#" target="_blank" rel="noreferrer">
+          <span class="social-icon">☕</span> Ko-fi
+        </a>
+        <a class="social-btn" href="#" target="_blank" rel="noreferrer">
+          <span class="social-icon">❤️</span> Patreon
+        </a>
+      </div>
+    </div>
+
+    <script>
+      // === MAPA DE IMAGENS DE PEIXE (espelha o minigame de pesca) ===
+      const FISH_SPRITES = {
+        Catfish: "/assets/img/Fish-catfish.png",
+        Carp: "/assets/img/Fish-Carp.png",
+        "Rainbow Trout": "/assets/img/Fish-Rainbow-trout.png",
+        "Pond Smelt": "/assets/img/Fish-pond-smelt.png",
+        "Legendary Fish": "/assets/img/Fish-Legendary.png",
+        "Star Hair Clip": "/assets/img/Star-hairpin.png",
+      };
+
+      const CHAR_BASE_PATH = "/assets/img/MYO/";
+      const charConfig = {
+        body: { filename: "BASE" },
+        eyes: {},
+        eyebrows: {},
+        mouth: {},
+        hairStyle: {},
+        hairColor: {
+          options: [
+            "Black",
+            "Blue",
+            "Brown",
+            "Green",
+            "Pink",
+            "Purple",
+            "Red",
+            "White",
+            "Yellow",
+          ],
+        },
+        horns: {},
+        claws: {},
+        marks: {},
+        tail: {},
+        cloth: {},
+        accessory: {},
+      };
+
+      function capitalize(s) {
+        return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+      }
+
+      function createCharacterElement(data, width = "260px", comAura = true) {
+        const container = document.createElement("div");
+        container.style.width = width;
+        container.style.height = "auto";
+        container.style.aspectRatio = "500 / 800";
+        container.style.position = "relative";
+        container.style.display = "inline-block";
+        if (comAura)
+          container.style.filter =
+            "drop-shadow(0 0 6px rgba(122,162,247,0.35))";
+
+        Object.keys(data || {}).forEach((key) => {
+          if (key === "hairColor") return;
+          const currentVal = data[key];
+          if (!currentVal || currentVal === 0) return;
+          const img = document.createElement("img");
+          img.style.position = "absolute";
+          img.style.top = "0";
+          img.style.left = "0";
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.objectFit = "contain";
+          let zIndex = 20;
+          if (key === "body") zIndex = 0;
+          else if (key === "eyes") zIndex = 25;
+          else if (key === "cloth") zIndex = 35;
+          else if (key === "hairStyle") zIndex = 45;
+          else if (key === "horns") zIndex = 50;
+          else if (key === "accessory")
+            zIndex = currentVal === 2 || currentVal === 4 ? 55 : 49;
+          img.style.zIndex = zIndex;
+
+          if (key === "hairStyle") {
+            const colorIndex = data["hairColor"] || 0;
+            const colorName = charConfig.hairColor.options[colorIndex];
+            img.src = `${CHAR_BASE_PATH}Hair${currentVal}-${colorName}.png`;
+          } else {
+            const itemConfig = charConfig[key];
+            const filePrefix =
+              itemConfig && itemConfig.filename
+                ? itemConfig.filename
+                : capitalize(key);
+            img.src = `${CHAR_BASE_PATH}${filePrefix}-${currentVal}.png`;
+          }
+          container.appendChild(img);
+        });
+        return container;
+      }
+
+      function getRecordFish() {
+        const gd = window.gameData && window.gameData.fishing;
+        const liveRecord =
+          typeof window.RECORDE_ATUAL_PESO === "number"
+            ? window.RECORDE_ATUAL_PESO
+            : 0;
+
+        let best = null;
+        if (gd && gd.biggestFish && gd.biggestFish.size) {
+          best = { name: gd.biggestFish.name, size: gd.biggestFish.size };
+        }
+
+        if (!best && gd && Array.isArray(gd.inventory) && gd.inventory.length) {
+          const sorted = [...gd.inventory].sort(
+            (a, b) => (b.tamanho || b.size || 0) - (a.tamanho || a.size || 0)
+          );
+          const top = sorted[0];
+          best = {
+            name: top.nome || top.name,
+            size: top.tamanho || top.size || 0,
+          };
+        }
+
+        if (liveRecord > (best ? best.size : 0)) {
+          best = best || { name: "Mystery Fish" };
+          best.size = liveRecord;
+        }
+
+        if (!best || (!best.size && !best.name)) return null;
+        best.img = FISH_SPRITES[best.name] || FISH_SPRITES["Legendary Fish"];
+        return best;
+      }
+
+      function renderFishCard() {
+        const wrapper = document.getElementById("fish-content");
+        if (!wrapper) return;
+        wrapper.innerHTML = "";
+        const fish = getRecordFish();
+        if (!fish) {
+          wrapper.innerHTML =
+            '<div class="placeholder">No fish recorded yet.</div>';
+          return;
+        }
+
+        const content = document.createElement("div");
+        content.className = "fish-content";
+
+        const imgBox = document.createElement("div");
+        imgBox.className = "fish-img-wrapper";
+        const img = document.createElement("img");
+        img.src = fish.img;
+        img.alt = fish.name || "Fish";
+        imgBox.appendChild(img);
+
+        const textBox = document.createElement("div");
+        const title = document.createElement("p");
+        title.className = "stat-title";
+        title.textContent = fish.name || "Fish";
+
+        const label = document.createElement("p");
+        label.className = "stat-label";
+        label.textContent = "Size";
+
+        const value = document.createElement("div");
+        value.className = "stat-value";
+        value.textContent = fish.size ? `${fish.size} cm` : "--";
+
+        textBox.append(title, label, value);
+        content.append(imgBox, textBox);
+        wrapper.appendChild(content);
+      }
+
+      function renderMyo() {
+        const canvas = document.getElementById("myo-canvas");
+        const canvasCapture = document.getElementById("myo-canvas-capture");
+        const placeholder = document.getElementById("myo-placeholder");
+        if (!canvas) return;
+        canvas.innerHTML = "";
+        if (canvasCapture) canvasCapture.innerHTML = "";
+
+        const myo = window.gameData && window.gameData.customCharacter;
+        if (!myo || !myo.traits) {
+          if (placeholder) canvas.appendChild(placeholder);
+          return;
+        }
+
+        const element = createCharacterElement(myo.traits, "100%", true);
+        canvas.appendChild(element);
+
+        // Renderiza também na área de captura
+        if (canvasCapture) {
+          const elementCapture = createCharacterElement(
+            myo.traits,
+            "100%",
+            true
+          );
+          canvasCapture.appendChild(elementCapture);
+        }
+      }
+
+      // === CAPTURA DE IMAGEM ===
+      async function captureImage() {
+        const captureArea = document.getElementById("capture-area");
+        if (!captureArea || typeof html2canvas === "undefined") return null;
+
+        try {
+          const canvas = await html2canvas(captureArea, {
+            backgroundColor: "#0b1624",
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true,
+          });
+          return canvas.toDataURL("image/png");
+        } catch (err) {
+          console.error("Error capturing image:", err);
+          return null;
+        }
+      }
+
+      async function downloadMyo() {
+        const btn = document.getElementById("btn-download-myo");
+        btn.style.opacity = "0.3";
+        btn.disabled = true;
+
+        const imageURL = await captureImage();
+        if (imageURL) {
+          const a = document.createElement("a");
+          a.href = imageURL;
+          a.download = "MYO.png";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+
+        btn.style.opacity = "0.6";
+        btn.disabled = false;
+      }
+
+      function startRender(attempt = 0) {
+        const ready = window.gameData !== undefined;
+        if (!ready && attempt < 30) {
+          return setTimeout(() => startRender(attempt + 1), 200);
+        }
+        renderFishCard();
+        renderMyo();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        startRender();
+        document
+          .getElementById("btn-download-myo")
+          .addEventListener("click", downloadMyo);
+
+        // Hover effect no botão
+        const btn = document.getElementById("btn-download-myo");
+        btn.addEventListener("mouseenter", () => (btn.style.opacity = "1"));
+        btn.addEventListener("mouseleave", () => (btn.style.opacity = "0.6"));
+      });
+    </script>
+  </body>
+</html>

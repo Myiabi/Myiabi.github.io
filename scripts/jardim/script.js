@@ -275,7 +275,7 @@ function checkVictory() {
 
       // >>> POPUP DE VITÓRIA <<<
       showWinPopup(
-        "/assets/img/jardim-win.png", // <-- COLOQUE SUA IMAGEM AQUI
+        "/assets/img/Honey.png", // <-- COLOQUE SUA IMAGEM AQUI
         "Jardim Completo!",
         "VOCÊ CONSEGUIU! 🎉",
         "Todos os itens foram encontrados!"

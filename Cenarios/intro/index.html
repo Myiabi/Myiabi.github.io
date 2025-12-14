@@ -67,17 +67,18 @@
         z-index: 1;
       }
 
-      #nana {
+      #nanai {
         width: 10%;
         top: 50%;
         left: 25%;
+
       }
-      #nodata {
+      #nodatai {
         width: 9.5%;
         top: 50%;
         left: 62%;
       }
-      #aiko {
+      #aikoi {
         position: absolute;
         width: 10%;
         top: 65%;
@@ -144,7 +145,7 @@
         justify-content: center;
         align-items: center;
         background: black;
-        pointer-events: none;
+        pointer-events: auto;
       }
 
       /* --- ELEMENTOS DA INTRO (Atualizado para IMG tag) --- */
@@ -312,19 +313,19 @@
       <!-- NPCs -->
       <img
         class="npc"
-        id="nana"
+        id="nanai"
         src="/assets/img/NPC_nan.png"
         draggable="false"
       />
       <img
         class="npc"
-        id="nodata"
+        id="nodatai"
         src="/assets/img/NPC_nodata.png"
         draggable="false"
       />
       <img
         class="npc"
-        id="aiko"
+        id="aikoi"
         src="/assets/img/NPC_Leader.png"
         draggable="false"
       />
@@ -402,6 +403,10 @@
 
           intro.classList.add("running");
 
+          if (gameContent) {
+            gameContent.style.pointerEvents = "none";
+          }
+
           // --- TIMER 1: Sumir com a intro ---
           setTimeout(() => {
             intro.style.animation = "fadeOutIntro 1.5s forwards";
@@ -413,6 +418,9 @@
             setTimeout(() => {
               intro.classList.remove("running");
               if (intro.parentNode) intro.parentNode.removeChild(intro);
+              if (gameContent) {
+                gameContent.style.pointerEvents = "";
+              }
             }, 1500);
           }, 7500);
 

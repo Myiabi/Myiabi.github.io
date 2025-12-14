@@ -698,7 +698,11 @@ function init() {
                 this._manterOverlay = false;
                 if (db) db.style.opacity = "";
                 if (pt) pt.style.opacity = "";
-                if (ov) ov.style.background = "";
+                if (ov) {
+                  ov.style.background = "";
+                  ov.style.display = "none"; // ESCONDE O OVERLAY COMPLETAMENTE
+                  ov.classList.remove("show");
+                }
                 resolve();
               };
 

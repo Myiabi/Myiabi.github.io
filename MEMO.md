@@ -41,17 +41,15 @@
 - ~~desabilitar incubadora~~
 - ~~Verificar back em historico de navegador~~
 - ~~Postes de fogo com ativação de falas ~~
-- Conferir os Globals
 - ~~Falas~~ dos peixes do fundo do ~~
 
 - ~~talvez logar com outro git eu consiga usar o copilot de volta.~~
 -~~ Criar intro~~
-- Criar imagem de fim
-- Popup de premios
 - ~~Intro~~ só ativa uma ~~vez~~
 - ~~Wendigo ativa uma vez~~
 - ~~Jogo sempre abre na City~~
 
+- Criar imagem de fim
 
 
 }
