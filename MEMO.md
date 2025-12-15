@@ -5,14 +5,14 @@
 - Gwenan dá uma Queen's Power's se você falar com ela após vencer Wendigo
 - ~~Se vencer Lily, muda a fala dela pra ultima.~~
 - ~~Procurar um gatilho pra felicia ir pro bar e aparecer a ultima cobra. (é o Rigel)~~
-- Quando vencer o bar {
-    - Mudar a fala do Waiter
-    - Mudar a fala do Barman
-    - Trocar café por Shake.
-}
-- Achievement no Mint
-- Achievement no Gato
-- Achivement no Last Boss
+- ~~Quando vencer o bar {~~
+    - ~~Mudar a fala do Waiter~~
+    - ~~Mudar a fala do Barman~~
+    - ~~Trocar café por Shake.~~
+}~~~~
+- ~~Achievement no Mint~~
+- ~~Achievement no Gato~~
+- ~~Achivement no Last Boss~~
 
 - Mudar fala do Wendingo quando os 3 materiais forem coletados
 - Mudar fala do Myopic depois de abrir o baú
@@ -21,10 +21,7 @@
 - Remover opção sem boca do Myo
 - Myo não aparece no FINAL
 
-- Link das redes sociais
-
-- Sol Queimando mais lento
-- Lua revelando mais lento
+- ~~Link das redes sociais~~
 
 Ajustes de mecanica:
 
@@ -32,10 +29,6 @@ Ajustes de mecanica:
 - Aumentar HP do Wendigo e testar.
 - Aumentar tempo do moon
 - Ajeitar os hits do Ice Emperor.
-
-Sons: 
-
-- Som 
 
 
 
@@ -86,7 +79,7 @@ Sons:
 
 - ~~talvez logar com outro git eu consiga usar o copilot de volta.~~
 -~~ Criar intro~~
-- ~~Intro~~ só ativa uma ~~vez~~
+- ~~Intro só ativa uma~~
 - ~~Wendigo ativa uma vez~~
 - ~~Jogo sempre abre na City~~
 

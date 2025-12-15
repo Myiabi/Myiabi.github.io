@@ -81,13 +81,13 @@ window.personagens = {
             "Estou sentindo uma presença inquieta nesse lugar... Será um dos espiritos guardiões?",
           expressao: "normal",
         },
-          {
-            texto:
+        {
+          texto:
             "Você também está procurando por eles? Eu não consigo enxerga-lo... Se eu pelo menos tivesse a benção do templo. Você parece não possuir o poder ainda.",
-            expressao: "normal",
-            executar: function () {
-              mudarCenario(personagens.aiko, 'segunda');
-            },
+          expressao: "normal",
+          executar: function () {
+            mudarCenario(personagens.aiko, "segunda");
+          },
         },
       ],
       estatua: [
@@ -116,7 +116,6 @@ window.personagens = {
         {
           texto: "Você conseguiu! Ele parece tão calmo agora... ",
           expressao: "normal",
-          
         },
       ],
     },
@@ -135,10 +134,10 @@ window.personagens = {
         {
           texto:
             "Didn't thought here was so cold. I should had trusted on my books",
-            aofechar: function () {
+          aofechar: function () {
             gameData.visualState.siriusVisivel = true;
-            mudarCenario(personagens.marin, 'sirius');
-            tocarEfeito("swoosh")
+            mudarCenario(personagens.marin, "sirius");
+            tocarEfeito("swoosh");
           },
         },
       ],
@@ -178,11 +177,12 @@ window.personagens = {
           expressao: "normal",
         },
         {
-          texto: "[Localize os itens em destaque no jardim, pressione em cima de onde você acha que ele está. Colete todos para vencer.]",
+          texto:
+            "[Localize os itens em destaque no jardim, pressione em cima de onde você acha que ele está. Colete todos para vencer.]",
           aofechar: function () {
             ConfirmModal.ask("Ir para o Jardim?", () => {
               // Em vez de mudar de site, chamamos a função que abre o modal
-              openGame(); 
+              openGame();
               console.log("O usuário aceitou e o modal abriu!");
             });
           },
@@ -200,9 +200,7 @@ window.personagens = {
           texto:
             "Estou feliz! Se esse frio passar vou encher essa cidade de flores! :3",
           expressao: "normal",
-          aofechar: function () {
-            
-          },
+          aofechar: function () {},
         },
       ],
     },
@@ -229,25 +227,37 @@ window.personagens = {
         },
       ],
       terceira: [
-        { texto: "O buraco de pesca está aberto! Como conseguiu? Agora posso voltar pensar e vender peixes! Como também matar minha fome.", expressao: "normal" },
+        {
+          texto:
+            "O buraco de pesca está aberto! Como conseguiu? Agora posso voltar pensar e vender peixes! Como também matar minha fome.",
+          expressao: "normal",
+        },
         {
           texto:
             "Como agradecimento você pode usar a vara que está ali do lado. Boa sorte pescando.",
           expressao: "normal",
         },
         {
-          texto:
-            "[Clique 2x na caixa azul para iniciar a pescaria]",
+          texto: "[Clique 2x na caixa azul para iniciar a pescaria]",
           expressao: "normal",
           aofechar: function () {
             gameData.visualState.varaON = true;
           },
-          
         },
       ],
       lendario: [
-        { texto: "OMG! Você pegou o lendário do lago. Eu posso... come-lo? [Muita fome]", expressao: "normal" },
-        { texto: "Muito obrigado Nya!", expressao: "normal" },
+        {
+          texto:
+            "OMG! Você pegou o lendário do lago. Eu posso... come-lo? [Muita fome]",
+          expressao: "normal",
+        },
+        {
+          texto: "Muito obrigado Nya!",
+          expressao: "normal",
+          aofechar: function () {
+            gameData.cat = true; // Libera achievement de alimentar o gato
+          },
+        },
       ],
     },
   },
@@ -277,11 +287,16 @@ window.personagens = {
         },
       ],
       segunda: [
-        { texto: "'Ele' está vindo... você está preparado?", expressao: "normal" },
-
+        {
+          texto: "'Ele' está vindo... você está preparado?",
+          expressao: "normal",
+        },
       ],
       amigo: [
-        { texto: "(Ele sempre fala a mesma coisa, mas agradeço o esforço)", expressao: "normal" },
+        {
+          texto: "(Ele sempre fala a mesma coisa, mas agradeço o esforço)",
+          expressao: "normal",
+        },
       ],
     },
   },
@@ -304,8 +319,6 @@ window.personagens = {
           texto:
             "Até os postes de fogo não se aguentam mais acesos, qualquer fogo normal apaga no primeiro vento.",
           expressao: "normal",
-          
-
         },
       ],
       segunda: [
@@ -319,9 +332,8 @@ window.personagens = {
             "Ah! Day-25 é meu melhor amigo, eu sei da situação dele, então eu me esforço para todo dia falar algo diferente.",
           expressao: "normal",
           aofechar: function () {
-            dialogo.agendar(personagens.day25, 'amigo', 300);
-  },
-          
+            dialogo.agendar(personagens.day25, "amigo", 300);
+          },
         },
         //code aqui//
       ],
@@ -343,7 +355,11 @@ window.personagens = {
         },
       ],
       segunda: [
-        { texto: "O calor também não é tão ruim assim. Você quer patinar também?", expressao: "normal" },
+        {
+          texto:
+            "O calor também não é tão ruim assim. Você quer patinar também?",
+          expressao: "normal",
+        },
       ],
     },
   },
@@ -357,7 +373,11 @@ window.personagens = {
     },
     falas: {
       inicio: [
-        { texto: "Fui revelado! Mas... Não era como que eu estivesse me escondendo.", expressao: "normal" },
+        {
+          texto:
+            "Fui revelado! Mas... Não era como que eu estivesse me escondendo.",
+          expressao: "normal",
+        },
         { texto: "Eu juro", expressao: "normal" },
       ],
       revelado: [
@@ -405,7 +425,7 @@ window.personagens = {
         },
         {
           texto:
-          "Mas quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa! Tem um bilhete deixado pelo sacerdote antigo perto das estátuas, se quiser tentar resolver fique a vontade.",
+            "Mas quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa! Tem um bilhete deixado pelo sacerdote antigo perto das estátuas, se quiser tentar resolver fique a vontade.",
           expressao: "pensativo",
           aofechar: function () {
             gameData.visualState.estatuasON = true;
@@ -415,8 +435,7 @@ window.personagens = {
 
       estatuaWon: [
         {
-          texto:
-            "Vejo que conseguiu a benção das sacerdotizas! Incrivel!",
+          texto: "Vejo que conseguiu a benção das sacerdotizas! Incrivel!",
           expressao: "normal",
         },
         {
@@ -424,7 +443,7 @@ window.personagens = {
             "Agora você conseguirá enfrentar batalhas mais dificeis, por tempo limitado, mas é o suficiente.",
           expressao: "normal",
           executar: function () {
-            mudarCenario(personagens.felicia, 'estatua');
+            mudarCenario(personagens.felicia, "estatua");
           },
         },
         {
@@ -436,8 +455,7 @@ window.personagens = {
 
       luaMenu: [
         {
-          texto:
-            "YAY!",
+          texto: "YAY!",
           expressao: "normal",
         },
       ],
@@ -478,8 +496,7 @@ window.personagens = {
           expressao: "normal",
         },
         {
-          texto:
-            "Você já pode começar sua investigação.",
+          texto: "Você já pode começar sua investigação.",
           expressao: "normal",
         },
       ],
@@ -496,7 +513,11 @@ window.personagens = {
     },
     falas: {
       inicio: [
-        { texto: "Visite a loja do Wayway perto do templo. Ele é muito prestativo. Se precisar alguma coisa com certeza ele terá.", expressao: "sorrindo" },
+        {
+          texto:
+            "Visite a loja do Wayway perto do templo. Ele é muito prestativo. Se precisar alguma coisa com certeza ele terá.",
+          expressao: "sorrindo",
+        },
       ],
       segunda: [
         { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
@@ -506,11 +527,23 @@ window.personagens = {
         },
       ],
       intro: [
-        { texto: "Não tem necessidade de ser tão formal, por favor. Afinal, nós que estamos em dívida pela sua visita.", expressao: "sorrindo" },
+        {
+          texto:
+            "Não tem necessidade de ser tão formal, por favor. Afinal, nós que estamos em dívida pela sua visita.",
+          expressao: "sorrindo",
+        },
       ],
       intro2: [
-        { texto: "Precisamos encontrar eles! Ou até o fim da noite, todos nessa cidade irão congelar!", expressao: "normal" },
-        { texto: "Esse é o real motivo que nós duas viemos aqui, vamos tentar adiar ao máximo o congelamento até você encontrar os guardiões.", expressao: "normal" },
+        {
+          texto:
+            "Precisamos encontrar eles! Ou até o fim da noite, todos nessa cidade irão congelar!",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Esse é o real motivo que nós duas viemos aqui, vamos tentar adiar ao máximo o congelamento até você encontrar os guardiões.",
+          expressao: "normal",
+        },
       ],
     },
   },
@@ -525,27 +558,33 @@ window.personagens = {
     },
     falas: {
       inicio: [
-        { texto: "Se vir meu marido e minhas crianças por aí, dê um Oi. Eles são díficeis mas são interessantes.", expressao: "normal" },
+        {
+          texto:
+            "Se vir meu marido e minhas crianças por aí, dê um Oi. Eles são díficeis mas são interessantes.",
+          expressao: "normal",
+        },
       ],
       segunda: [
-        { texto: "Impressionante. Apesar de serem apenas crianças, eles tem um talento precoce, e você conseguiu localiza-los tão rápido.", expressao: "normal" },
-        { texto: "Aqui, você pode ficar com isso como reconhecimento.", expressao: "normal", 
-           aofechar: function () {
-                
-              /* gameData.visualState.rigelVisivel = true;
+        {
+          texto:
+            "Impressionante. Apesar de serem apenas crianças, eles tem um talento precoce, e você conseguiu localiza-los tão rápido.",
+          expressao: "normal",
+        },
+        {
+          texto: "Aqui, você pode ficar com isso como reconhecimento.",
+          expressao: "normal",
+          aofechar: function () {
+            /* gameData.visualState.rigelVisivel = true;
               mudarCenario(personagens.marin, 'rigel');
               tocarEfeito("swoosh") */
-
           },
-
         },
-        
-
       ],
       intro: [
         { texto: "Concordo. Mas vamos direto ao ponto.", expressao: "normal" },
         {
-          texto: "Essa cidade vai colapsar. Sendo mais especifica, ela está congelando.",
+          texto:
+            "Essa cidade vai colapsar. Sendo mais especifica, ela está congelando.",
           expressao: "normal",
         },
       ],
@@ -568,16 +607,14 @@ window.personagens = {
       sorrindo: "",
     },
     falas: {
-      inicio: [  
+      inicio: [
         {
           texto:
             "That's such an impressive artifact. Even my skills couldn't go against it.",
-            aofechar: function () {
-                
-              gameData.visualState.rigelVisivel = true;
-              mudarCenario(personagens.marin, 'rigel');
-              tocarEfeito("swoosh")
-
+          aofechar: function () {
+            gameData.visualState.rigelVisivel = true;
+            mudarCenario(personagens.marin, "rigel");
+            tocarEfeito("swoosh");
           },
         },
       ],
@@ -596,9 +633,24 @@ window.personagens = {
     falas: {
       primeira: [
         { texto: "Quer um drink?", expressao: "normal" },
+        {
+          texto:
+            "Nos últimos dias estavamos com baixa movimentação. Criamos um ambiente com clima agradável e comidas quentes para conseguir tirar as pessoas de casa. Você pode ficar por aqui o tempo que desejar.",
+          expressao: "normal",
+        },
       ],
-      sus: [
-        { texto: "...", expressao: "normal" },
+      sus: [{ texto: "...", expressao: "normal" }],
+      final: [
+        {
+          texto:
+            "Eu vi que você ajudou hoje no bar. Poucos sabem, mas o calor que emana das pessoas também aquece a cidade.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Espero que isso ajuda no que estar por vir. Boa sorte. [Ele te serve um drink que ao tomar você se sente aquecido]",
+          expressao: "normal",
+        },
       ],
     },
   },
@@ -613,20 +665,34 @@ window.personagens = {
     falas: {
       inicio: [
         { texto: "E agora. O que eu faço...? ", expressao: "normal" },
-        { texto: "Tem tanta gente hoje que misturei todas as comandas, não sei quem pediu o que! Se o chefe descobrir estarei frito.", expressao: "normal" },
-        { texto: "Que tal prestar atenção nos clientes e descobrir quem pediu cada prato?", expressao: "normal" },
-        { texto: "[Observe os clientes para descobrir o que cada um pediu. Clique na mesa para iniciar e arraste as comidas certas para cada cliente.]",
+        {
+          texto:
+            "Tem tanta gente hoje que misturei todas as comandas, não sei quem pediu o que! Se o chefe descobrir estarei frito.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Que tal prestar atenção nos clientes e descobrir quem pediu cada prato?",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "[Observe os clientes para descobrir o que cada um pediu. Clique na mesa para iniciar e arraste as comidas certas para cada cliente.]",
           aofechar: function () {
             gameData.visualState.mesasON = true;
-            dialogo.agendar(personagens.barman, 'sus', 300);
-  },  
-},
+            dialogo.agendar(personagens.barman, "sus", 300);
+          },
+        },
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
         {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
+          texto:
+            "Ufa!!! Você é muito bom nisso! Não deixe o chefe descobrir que você me ajudou hein.",
+          expressao: "normal",
+          aofechar: function () {
+            gameData.visualState.mesasON = true;
+            dialogo.agendar(personagens.maid, "finish", 300);
+          },
         },
       ],
     },
@@ -640,28 +706,39 @@ window.personagens = {
       normal: "url('/assets/img/7-06-half.png')",
     },
     falas: {
-      inicio: [
-        { texto: "Como está lotado hoje!!!", expressao: "normal" }
+      inicio: [{ texto: "Como está lotado hoje!!!", expressao: "normal" }],
+
+      finish: [
+        {
+          texto: "Hey! Você acabou de fazer o meu trabalho?",
+          expressao: "normal",
+        },
       ],
       presilha: [
         { texto: "Você pescou uma presilha no lago?", expressao: "normal" },
         {
-          texto: "Na verdade... eu moro lá Com muitos outros peixes, provavelmente essa presilha é de algum deles. Se você quiser eu te dou permissão para entrar",
+          texto:
+            "Na verdade... eu moro lá Com muitos outros peixes, provavelmente essa presilha é de algum deles. Se você quiser eu te dou permissão para entrar",
           expressao: "normal",
         },
         {
           texto: "[Tente mergulhar no buraco de pesca (!?)]",
           expressao: "normal",
-          executar: function() {
-       
-        gameData.visualState.presilha = true;
-        
-}
+          executar: function () {
+            gameData.visualState.presilha = true;
+          },
         },
       ],
       final: [
-        { texto: "Nós sereias somos dropzillas que não foram vendidos...", expressao: "normal" },
-        { texto: "Oh! Não estou reclamando nem triste. Nós vivemos felizes e fala sério, tive a oportunidade de aparecer num jogo, sou famosa!", expressao: "normal" }
+        {
+          texto: "Nós sereias somos dropzillas que não foram vendidos...",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Oh! Não estou reclamando nem triste. Nós vivemos felizes e fala sério, tive a oportunidade de aparecer num jogo, sou famosa!",
+          expressao: "normal",
+        },
       ],
     },
   },
@@ -706,11 +783,11 @@ window.personagens = {
         {
           texto:
             "Couldn't resist the sweet scent of the food here! Everything seems so yummy!♥",
-            aofechar: function () {
+          aofechar: function () {
             gameData.visualState.capellaVisivel = true;
-            mudarCenario(personagens.marin, 'capella');
+            mudarCenario(personagens.marin, "capella");
             gameData.npcApareceu = "sumiu";
-            tocarEfeito("swoosh")
+            tocarEfeito("swoosh");
           },
         },
       ],
@@ -751,7 +828,8 @@ window.personagens = {
       final: [
         { texto: "Não desista ainda!", expressao: "furioso" },
         {
-          texto: "Nós conseguimos acender os postes uma única vez! Aproveite. Não deixe tudo congelar",
+          texto:
+            "Nós conseguimos acender os postes uma única vez! Aproveite. Não deixe tudo congelar",
           expressao: "furioso",
         },
       ],
@@ -805,24 +883,21 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto:
-            "Tehee~ Você me achou.",
+          texto: "Tehee~ Você me achou.",
         },
         {
-          texto:
-            "Minha cauda coçou e não consegui ficar imovél. heh",
-            aofechar: function () {
+          texto: "Minha cauda coçou e não consegui ficar imovél. heh",
+          aofechar: function () {
             gameData.visualState.kofongoVisivel = true;
-            mudarCenario(personagens.marin, 'kofongo');
-            tocarEfeito("swoosh")
+            mudarCenario(personagens.marin, "kofongo");
+            tocarEfeito("swoosh");
           },
         },
       ],
     },
   },
 
-
-   // CAVE // 
+  // CAVE //
   wendigo: {
     nome: "Wendigo Warrior",
     lado: "Esquerdo",
@@ -833,8 +908,7 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto:
-            "Você não é permitido aqui! Saia!",
+          texto: "Você não é permitido aqui! Saia!",
           expressao: "normal",
         },
         {
@@ -843,11 +917,10 @@ window.personagens = {
           expressao: "normal",
         },
         {
-          texto:
-            "Não diga que eu não avisei! Lute comigo!",
+          texto: "Não diga que eu não avisei! Lute comigo!",
           expressao: "normal",
 
-           texto:
+          texto:
             "[Ataque o Wendigo com movimentos de corte com o cursor/touch. Alguns ataques fazem ele cancelar o cast. Risque um circulo ao redor dos inimigos para dar dano em area (menos dano, mas bom pra cancelar cast.)]",
           aofechar: function () {
             ConfirmModal.ask("Fight?", () => {
@@ -855,13 +928,17 @@ window.personagens = {
               console.log("O usuário aceitou!");
             });
           },
-          
         },
       ],
       segunda: [
-        { texto: "Você me venceu.... talvez se for você... você consiga impedir ele...", expressao: "normal" },
         {
-          texto: "O guardião do sol quer ir com você, eu estava pensando em fazer um exercíto para proteger essas terras, mas talvez você seja a melhor escolha.",
+          texto:
+            "Você me venceu.... talvez se for você... você consiga impedir ele...",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "O guardião do sol quer ir com você, eu estava pensando em fazer um exercíto para proteger essas terras, mas talvez você seja a melhor escolha.",
           expressao: "normal",
         },
         {
@@ -871,7 +948,11 @@ window.personagens = {
       ],
 
       final: [
-        { texto: "Estive analisando ele por um tempo. Cuidado com os olhos agora! Destrua a barreira dos olhos e finalize-o!!!", expressao: "normal" },
+        {
+          texto:
+            "Estive analisando ele por um tempo. Cuidado com os olhos agora! Destrua a barreira dos olhos e finalize-o!!!",
+          expressao: "normal",
+        },
       ],
     },
   },
@@ -887,13 +968,11 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto:
-            "I want mom and dad!!",
-            aofechar: function () {
-              gameData.visualState.polluxVisivel = true;
-              mudarCenario(personagens.marin, 'pollux');
-              tocarEfeito("swoosh")
-            
+          texto: "I want mom and dad!!",
+          aofechar: function () {
+            gameData.visualState.polluxVisivel = true;
+            mudarCenario(personagens.marin, "pollux");
+            tocarEfeito("swoosh");
           },
         },
       ],
@@ -911,20 +990,18 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto:
-            ".... [hides on his own tail and run away]",
-            aofechar: function () {
-              gameData.visualState.aldebaranVisivel = true;
-              mudarCenario(personagens.marin, 'aldebaran');
-              tocarEfeito("swoosh")
-            
+          texto: ".... [hides on his own tail and run away]",
+          aofechar: function () {
+            gameData.visualState.aldebaranVisivel = true;
+            mudarCenario(personagens.marin, "aldebaran");
+            tocarEfeito("swoosh");
           },
         },
       ],
     },
   },
 
-  // lake // 
+  // lake //
 
   cory: {
     nome: "Cory",
@@ -937,14 +1014,12 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto:
-            "Não é todo dia que recebemos visitantes.",
+          texto: "Não é todo dia que recebemos visitantes.",
         },
       ],
       segunda: [
         {
-          texto:
-            "Essas aguas estão ficando tão frias, quando isso vai passar?",
+          texto: "Essas aguas estão ficando tão frias, quando isso vai passar?",
         },
       ],
     },
@@ -961,14 +1036,12 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto:
-            "Coitadinho. O caranguejo prendeu ele.",
+          texto: "Coitadinho. O caranguejo prendeu ele.",
         },
       ],
       segunda: [
         {
-          texto:
-            "Vai bebêzinho, volte para sua mãe",
+          texto: "Vai bebêzinho, volte para sua mãe",
         },
       ],
     },
@@ -989,10 +1062,9 @@ window.personagens = {
             "Já tentei espocar essas bolhas, mas elas sempre nascem de novo, não consegui liberar a criança.",
         },
       ],
-        segunda: [
+      segunda: [
         {
-          texto:
-            "Padrões nas bolhas? nunca pensaria nisso! Você ´um gênio.",
+          texto: "Padrões nas bolhas? nunca pensaria nisso! Você ´um gênio.",
         },
       ],
     },
@@ -1013,18 +1085,14 @@ window.personagens = {
             "Hahahaha! Quer que eu mate o caranguejo pra você? Mas não garanto a segurança do garoto.",
         },
       ],
-        segunda: [
+      segunda: [
         {
-          texto:
-            "Odeio quem resolve as coisas na inteligência",
+          texto: "Odeio quem resolve as coisas na inteligência",
         },
       ],
     },
   },
-  
 };
-
-
 
 //city//
 // O símbolo '?' abaixo faz o código ignorar o elemento se ele não existir na página atual.
@@ -1081,7 +1149,7 @@ document.getElementById("felicia2")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.felicia2);
 });
 
-// Cobrinhas // 
+// Cobrinhas //
 
 document.getElementById("cobra1")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.cobra1);
@@ -1136,4 +1204,3 @@ document.getElementById("paddlefish")?.addEventListener("pointerdown", () => {
 document.getElementById("wholphin")?.addEventListener("pointerdown", () => {
   dialogo.abrir(personagens.wholphin);
 });
-

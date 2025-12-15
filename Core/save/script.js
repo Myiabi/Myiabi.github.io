@@ -53,6 +53,10 @@ const defaultData = {
   unlockedAchievements: {},
 
   npcApareceu: false,
+  mint: false,
+  cat: false,
+  emperor: false,
+  snakes: false,
 };
 
 const SAVE_KEY = "meuSaveDoJogo";
@@ -151,12 +155,11 @@ function aplicarMudancaVisual(prop, value) {
 
   // --- CITY ---
   const day25 = document.getElementById("day25");
-  
+
   //--- FOREST ---- //
   const felicia = document.getElementById("felicia");
   const feliciabar = document.getElementById("felicia2");
   const ice = document.getElementById("iceBlock");
-  
 
   switch (prop) {
     // ==================================
@@ -214,8 +217,7 @@ function aplicarMudancaVisual(prop, value) {
     // ============================================
     // 🎉 TODOS OS 7 PERSONAGENS ESTÃO VISÍVEIS!
     // Adicione aqui o que você quiser:
-    
-    
+    gameData.snakes = true; // Marca achievement de todas as cobrinhas
   }
 
   switch (prop) {
@@ -580,28 +582,36 @@ audioVitoria.volume = 0.5;
 
 const secretAchievements = [
   {
-    id: "itemMoeda",
-    title: "Tesouro!",
-    desc: "Você pegou a moeda!",
+    id: "lastBoss",
+    title: "Zere o jogo",
+    desc: "Você derrotou o Imperador do Gelo",
     iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
     unlocked: false,
-    condition: (gs) => gs.itemMoeda,
+    condition: (gs) => gs.emperor,
   },
   {
-    id: "salaSecreta",
-    title: "Segredo Revelado!",
-    desc: "Você descobriu a sala secreta!",
+    id: "gatoLendario",
+    title: "Morto de fome",
+    desc: "Alimente o gato com o peixe lendário",
     iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
     unlocked: false,
-    condition: (gs) => gs.salaSecreta,
+    condition: (gs) => gs.cat,
   },
   {
-    id: "minigameWon",
-    title: "Campeão!",
-    desc: "Você venceu o minigame!",
+    id: "mintRevelado",
+    title: "Achou!",
+    desc: "Revele o fantasma de gelo",
     iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
     unlocked: false,
-    condition: (gs) => gs.minigameWon,
+    condition: (gs) => gs.mint,
+  },
+  {
+    id: "allCobrinhas",
+    title: "Hide and Seek",
+    desc: "Você encontrou todas as cobrinhas escondidas",
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    unlocked: false,
+    condition: (gs) => gs.snakes,
   },
 ];
 

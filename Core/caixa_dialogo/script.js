@@ -383,7 +383,7 @@ function init() {
           if (digitando) {
             if (intervaloTexto) clearInterval(intervaloTexto);
             const current = falasAtuais[indiceFala];
-            if (text) text.textContent = String(current?.texto ?? "(vazio)");
+            if (text) text.innerHTML = String(current?.texto ?? "(vazio)");
             digitando = false;
             if (indiceFala < falasAtuais.length - 1 && indicator)
               indicator.style && (indicator.style.display = "block");
@@ -479,29 +479,93 @@ function init() {
         }
       });
 
+    // Parser simples para extrair texto visível e mapear posições para tags HTML
+    function parseFormatacao(str) {
+      // Tags suportadas: <b>, <strong>, <i>, <em>, <u>, <s>, <mark>, <span ...>
+      const tagRegex = /<\/?(?:b|strong|i|em|u|s|mark|span)[^>]*>/gi;
+      const resultado = [];
+      let textoLimpo = "";
+      let posicaoTexto = 0;
+      let ultimoIndex = 0;
+      let match;
+
+      while ((match = tagRegex.exec(str)) !== null) {
+        // Adiciona texto antes da tag
+        const textoAntes = str.slice(ultimoIndex, match.index);
+        textoLimpo += textoAntes;
+        posicaoTexto += textoAntes.length;
+
+        // Registra a tag na posição atual do texto visível
+        resultado.push({ posicao: posicaoTexto, tag: match[0] });
+        ultimoIndex = match.index + match[0].length;
+      }
+
+      // Adiciona texto restante
+      textoLimpo += str.slice(ultimoIndex);
+
+      return { textoLimpo, tags: resultado };
+    }
+
+    function construirHTMLAteIndice(textoLimpo, tags, indice) {
+      let html = "";
+      let tagIndex = 0;
+
+      for (let i = 0; i <= indice && i < textoLimpo.length; i++) {
+        // Insere todas as tags que devem aparecer nesta posição
+        while (tagIndex < tags.length && tags[tagIndex].posicao === i) {
+          html += tags[tagIndex].tag;
+          tagIndex++;
+        }
+        html += escapeHTML(textoLimpo[i]);
+      }
+
+      // Insere tags que vêm após o último caractere (tags de fechamento no final)
+      while (tagIndex < tags.length && tags[tagIndex].posicao <= indice + 1) {
+        html += tags[tagIndex].tag;
+        tagIndex++;
+      }
+
+      return html;
+    }
+
+    function escapeHTML(char) {
+      const map = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      };
+      return map[char] || char;
+    }
+
     function digitarTexto(str, emote = null) {
       try {
         if (intervaloTexto) clearInterval(intervaloTexto);
         digitando = true;
         if (indicator) indicator.style && (indicator.style.display = "none");
-        if (text) text.textContent = "";
+        if (text) text.innerHTML = "";
         if (emote) showEmote(emote, 1500);
         if (typeof str !== "string") {
-          if (text) text.textContent = String(str ?? "(vazio)");
+          if (text) text.innerHTML = String(str ?? "(vazio)");
           digitando = false;
           if (indicator) indicator.style && (indicator.style.display = "block");
           return;
         }
+
+        // Parse do texto para suportar formatação HTML
+        const { textoLimpo, tags } = parseFormatacao(str);
+
         let i = 0;
-        if (str.length === 0) {
-          if (text) text.textContent = "";
+        if (textoLimpo.length === 0) {
+          if (text) text.innerHTML = "";
           digitando = false;
           if (indicator) indicator.style && (indicator.style.display = "block");
           return;
         }
         intervaloTexto = setInterval(() => {
           try {
-            if (i >= str.length) {
+            if (i >= textoLimpo.length) {
               clearInterval(intervaloTexto);
               intervaloTexto = null;
               digitando = false;
@@ -509,9 +573,11 @@ function init() {
                 indicator.style && (indicator.style.display = "block");
               return;
             }
-            if (text) text.textContent += str[i];
+            // Reconstrói o HTML até o índice atual
+            if (text)
+              text.innerHTML = construirHTMLAteIndice(textoLimpo, tags, i);
             i++;
-            if (i >= str.length) {
+            if (i >= textoLimpo.length) {
               clearInterval(intervaloTexto);
               intervaloTexto = null;
               digitando = false;

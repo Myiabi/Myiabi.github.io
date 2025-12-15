@@ -288,10 +288,9 @@ function onTodosPostesAcesos() {
 
   // Exemplos:
   window.gameData.visualState.postesAcesos = true;
-  mudarCenario(personagens.pine, 'segunda');
-  mudarCenario(personagens.day25, 'segunda');
-  mudarCenario(personagens.ballerina, 'segunda');
-  
+  mudarCenario(personagens.pine, "segunda");
+  mudarCenario(personagens.day25, "segunda");
+  mudarCenario(personagens.ballerina, "segunda");
 }
 
 // adicionar alvo (uses = número de vezes que pode ativar; padrão 1)
@@ -747,6 +746,7 @@ window.startMinigameLogic = function () {
     sound: "reveal",
     onComplete: function (elemento) {
       window.gameData.visualState.mintVisivel = true;
+      window.gameData.mint = true; // Marca para achievement MintRevelado
     },
   });
 
