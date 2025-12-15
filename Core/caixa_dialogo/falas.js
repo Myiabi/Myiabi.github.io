@@ -168,7 +168,7 @@ window.personagens = {
       jardim: [
         {
           texto:
-            "Vejo que conseguiu restar esse amiguinho, então era ele a fonte de calor. Agora eu posso usar meus poderes e abrir meu jardim secreto aqui na cidade! Você quer vê-lo?",
+            "Vejo que conseguiu resgatar esse amiguinho, então era ele a fonte de calor. Agora eu posso usar meus poderes e abrir meu jardim secreto aqui na cidade! Você quer vê-lo?",
           expressao: "normal",
         },
 
@@ -189,16 +189,16 @@ window.personagens = {
           expressao: "normal",
         },
       ],
-      jardimWin: [
+      final: [
         {
           texto:
-            "Hihihi agora posso limpar meu jardim.",
+            "Hihihi agora posso limpar meu jardim. Você pode ficar com esse pote de mel [Jelly] como agradecimento.",
           expressao: "normal",
         },
 
         {
           texto:
-            "Se esse frio passar vou encher essa cidade de flores! :3",
+            "Estou feliz! Se esse frio passar vou encher essa cidade de flores! :3",
           expressao: "normal",
           aofechar: function () {
             
@@ -343,11 +343,7 @@ window.personagens = {
         },
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
-        {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
-        },
+        { texto: "O calor também não é tão ruim assim. Você quer patinar também?", expressao: "normal" },
       ],
     },
   },
@@ -404,12 +400,12 @@ window.personagens = {
         },
         {
           texto:
-            "Mas havia uma forma de conseguir a benção do templo... Orando para as estatuas das sacerdotizas antigas. Porém, elas só funcionam se estiverem na ordem correta, quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa!",
+            "Mas havia uma forma de conseguir a benção do templo... Orando para as estatuas das sacerdotizas antigas. Porém, elas só funcionam se estiverem na ordem correta.",
           expressao: "pensativo",
         },
         {
           texto:
-          "Mas tem um bilhete deixado pelo sacerdote antigo perto das estátuas, se quiser tentar resolver fique a vontade.",
+          "Mas quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa! Tem um bilhete deixado pelo sacerdote antigo perto das estátuas, se quiser tentar resolver fique a vontade.",
           expressao: "pensativo",
           aofechar: function () {
             gameData.visualState.estatuasON = true;
@@ -433,7 +429,7 @@ window.personagens = {
         },
         {
           texto:
-            "Como também os moradores da cidade poderão voltar a rezar para os guardiões. Eu queria que eles tivessem mantido a fé mesmo perante a crise, mas agora podemos ter esperança",
+            "Como também os moradores da cidade poderão voltar a rezar para os guardiões. Eu queria que eles tivessem mantido a fé mesmo perante a crise, mas agora podemos ter esperança.",
           expressao: "normal",
         },
       ],
@@ -533,6 +529,17 @@ window.personagens = {
       ],
       segunda: [
         { texto: "Impressionante. Apesar de serem apenas crianças, eles tem um talento precoce, e você conseguiu localiza-los tão rápido.", expressao: "normal" },
+        { texto: "Aqui, você pode ficar com isso como reconhecimento.", expressao: "normal", 
+           aofechar: function () {
+                
+              /* gameData.visualState.rigelVisivel = true;
+              mudarCenario(personagens.marin, 'rigel');
+              tocarEfeito("swoosh") */
+
+          },
+
+        },
+        
 
       ],
       intro: [

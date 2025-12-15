@@ -333,6 +333,7 @@ function triggerWin() {
     mudarCenario(personagens.spanish, "segunda");
     mudarCenario(personagens.paddlefish, "segunda");
     mudarCenario(personagens.wholphin, "segunda");
+    mudarCenario(personagens.maid, "final");
     gameData.visualState.crabWin = true;
     console.log("Cenários dos NPCs atualizados.");
   }, animationTime);

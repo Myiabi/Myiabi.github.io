@@ -795,7 +795,7 @@ function handleBossDefeat() {
   overlayContainer.innerHTML = "";
   const msg = document.createElement("div");
   msg.className = "overlay-msg";
-  msg.textContent = "Você venceu!";
+  msg.textContent = "YOU WIN!";
   overlayContainer.appendChild(msg);
 
   onBossDefeated();

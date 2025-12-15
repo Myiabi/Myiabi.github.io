@@ -1,3 +1,44 @@
+# OS FINALMENTES
+
+- Ativar recompensa na fala da Nodata
+- ~~Quando vencer o Crab mudar a fala da Maid~~
+- Gwenan dá uma Queen's Power's se você falar com ela após vencer Wendigo
+- ~~Se vencer Lily, muda a fala dela pra ultima.~~
+- ~~Procurar um gatilho pra felicia ir pro bar e aparecer a ultima cobra. (é o Rigel)~~
+- Quando vencer o bar {
+    - Mudar a fala do Waiter
+    - Mudar a fala do Barman
+    - Trocar café por Shake.
+}
+- Achievement no Mint
+- Achievement no Gato
+- Achivement no Last Boss
+
+- Mudar fala do Wendingo quando os 3 materiais forem coletados
+- Mudar fala do Myopic depois de abrir o baú
+- Mudar fala do Wayway quando receber o Fogo e quando acender os postes.
+- Aiko falar a historia do Last Boss
+- Remover opção sem boca do Myo
+- Myo não aparece no FINAL
+
+- Link das redes sociais
+
+- Sol Queimando mais lento
+- Lua revelando mais lento
+
+Ajustes de mecanica:
+
+- Remover win game do crab
+- Aumentar HP do Wendigo e testar.
+- Aumentar tempo do moon
+- Ajeitar os hits do Ice Emperor.
+
+Sons: 
+
+- Som 
+
+
+
 # Lembrar
 -~~Ao implementar/testar os minigames em definitivo, criar um README lembrando como funciona a chamada de cada função,~~
 ~~e anotar no README MAIN também.~~
@@ -49,7 +90,7 @@
 - ~~Wendigo ativa uma vez~~
 - ~~Jogo sempre abre na City~~
 
-- Criar imagem de fim
+- ~~Criar imagem de fim~~
 
 
 }
@@ -106,14 +147,6 @@
 - ~~Falas menores no mobile.~~
 - ~~Som dos achievments n toca~~
 - ~~Petala da Lily~~
-
-
-
-# Corrigir com Copilot Github
-
-- Variaveis
-- Bugs 
-- Globals
 
 
 # Ideias

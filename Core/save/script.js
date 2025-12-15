@@ -151,6 +151,12 @@ function aplicarMudancaVisual(prop, value) {
 
   // --- CITY ---
   const day25 = document.getElementById("day25");
+  
+  //--- FOREST ---- //
+  const felicia = document.getElementById("felicia");
+  const feliciabar = document.getElementById("felicia2");
+  const ice = document.getElementById("iceBlock");
+  
 
   switch (prop) {
     // ==================================
@@ -165,6 +171,10 @@ function aplicarMudancaVisual(prop, value) {
     case "rigelVisivel":
       if (rigelon) rigelon.style.display = value ? "block" : "none";
       if (cobra2) cobra2.style.display = value ? "none" : "block";
+      if (felicia) felicia.style.display = value ? "none" : "block";
+      if (feliciabar) feliciabar.style.display = value ? "block" : "none";
+      if (cobra3) cobra3.style.display = value ? "block" : "none";
+      if (ice) ice.style.display = value ? "block" : "none";
       break;
 
     case "rigelGhost":

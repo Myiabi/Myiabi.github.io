@@ -638,10 +638,10 @@ body {
 
 #coffee {
   position: absolute;
-  width: 2.4%;
-  height: 5%;
-  top: 73%;
-  left: 21%;
+  width: 4%;
+  height: 7%;
+  top: 70%;
+  left: 20%;
   z-index: 1000;
   display: none;
 }
@@ -658,10 +658,10 @@ body {
 
 #milkshake {
   position: absolute;
-  width: 4%;
-  height: 7%;
-  top: 70%;
-  left: 51.6%;
+  width: 2.4%;
+  height: 5%;
+  top: 73%;
+  left: 52.5%;
   z-index: 1000;
   display: none;
 }
