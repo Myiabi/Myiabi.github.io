@@ -318,6 +318,34 @@
         box-shadow: 0 8px 25px rgba(88, 101, 242, 0.4);
       }
 
+      /* Botão de Download */
+      .stage-btn {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s, color 0.2s, transform 0.1s;
+        backdrop-filter: blur(4px);
+      }
+      .stage-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+      .stage-btn:active {
+        transform: scale(0.95);
+      }
+
       @media (max-width: 700px) {
         .content-row {
           flex-direction: column-reverse;
@@ -363,7 +391,11 @@
               like, subscribing on Patreon/Ko-fi to help the artist have a great
               holiday season 🎄
             </p>
-            <div class="support-img">Image</div>
+            <img
+              src="/assets/img/nodata-sobbing.png"
+              alt="Myiabi"
+              class="support-img"
+            />
           </div>
         </div>
 
@@ -372,29 +404,22 @@
             <div class="placeholder" id="myo-placeholder">
               No character saved yet.
             </div>
-            <button
-              id="btn-download-myo"
-              title="Download MYO"
-              style="
-                position: absolute;
-                bottom: 8px;
-                right: 8px;
-                width: 32px;
-                height: 32px;
-                border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.15);
-                background: rgba(0, 0, 0, 0.4);
-                color: #eaf3ff;
-                font-size: 14px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                opacity: 0.6;
-                transition: opacity 0.2s;
-              "
-            >
-              📥
+            <button id="btn-download-myo" class="stage-btn" title="Baixar PNG">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" x2="12" y1="15" y2="3" />
+              </svg>
             </button>
           </div>
         </div>
@@ -404,13 +429,7 @@
       <div id="capture-area" style="position: absolute; left: -9999px; top: 0">
         <div
           id="myo-canvas-capture"
-          style="
-            width: 260px;
-            aspect-ratio: 500/800;
-            background: linear-gradient(180deg, #122033, #0b1624);
-            border-radius: 16px;
-            padding: 12px;
-          "
+          style="width: 260px; aspect-ratio: 500/800"
         ></div>
       </div>
 
@@ -452,6 +471,18 @@
     </div>
 
     <script>
+      // === CARREGA SAVE DIRETAMENTE DO LOCALSTORAGE ===
+      const SAVE_KEY = "meuSaveDoJogo";
+      function getLocalSave() {
+        try {
+          const data = localStorage.getItem(SAVE_KEY);
+          return data ? JSON.parse(data) : null;
+        } catch (e) {
+          console.error("Erro ao ler localStorage:", e);
+          return null;
+        }
+      }
+
       // === MAPA DE IMAGENS DE PEIXE (espelha o minigame de pesca) ===
       const FISH_SPRITES = {
         Catfish: "/assets/img/Fish-catfish.png",
@@ -544,7 +575,8 @@
       }
 
       function getRecordFish() {
-        const gd = window.gameData && window.gameData.fishing;
+        const saveData = getLocalSave();
+        const gd = saveData && saveData.fishing;
         const liveRecord =
           typeof window.RECORDE_ATUAL_PESO === "number"
             ? window.RECORDE_ATUAL_PESO
@@ -619,11 +651,16 @@
         const canvas = document.getElementById("myo-canvas");
         const canvasCapture = document.getElementById("myo-canvas-capture");
         const placeholder = document.getElementById("myo-placeholder");
+        const downloadBtn = document.getElementById("btn-download-myo");
         if (!canvas) return;
+
+        // Limpa canvas mas preserva o botão de download
         canvas.innerHTML = "";
+        if (downloadBtn) canvas.appendChild(downloadBtn);
         if (canvasCapture) canvasCapture.innerHTML = "";
 
-        const myo = window.gameData && window.gameData.customCharacter;
+        const saveData = getLocalSave();
+        const myo = saveData && saveData.customCharacter;
         if (!myo || !myo.traits) {
           if (placeholder) canvas.appendChild(placeholder);
           return;
@@ -632,7 +669,10 @@
         const element = createCharacterElement(myo.traits, "100%", true);
         canvas.appendChild(element);
 
-        // Renderiza também na área de captura
+        // Re-adiciona o botão por cima do personagem
+        if (downloadBtn) canvas.appendChild(downloadBtn);
+
+        // Renderiza também na área de captura (MYO)
         if (canvasCapture) {
           const elementCapture = createCharacterElement(
             myo.traits,
@@ -650,7 +690,7 @@
 
         try {
           const canvas = await html2canvas(captureArea, {
-            backgroundColor: "#0b1624",
+            backgroundColor: null,
             scale: 2,
             logging: false,
             useCORS: true,
@@ -682,11 +722,12 @@
         btn.disabled = false;
       }
 
-      function startRender(attempt = 0) {
-        const ready = window.gameData !== undefined;
-        if (!ready && attempt < 30) {
-          return setTimeout(() => startRender(attempt + 1), 200);
-        }
+      function startRender() {
+        // Lê diretamente do localStorage, não precisa esperar gameData
+        const saveData = getLocalSave();
+        console.log("[Final] Save carregado:", saveData);
+        console.log("[Final] customCharacter:", saveData?.customCharacter);
+
         renderFishCard();
         renderMyo();
       }
@@ -696,11 +737,6 @@
         document
           .getElementById("btn-download-myo")
           .addEventListener("click", downloadMyo);
-
-        // Hover effect no botão
-        const btn = document.getElementById("btn-download-myo");
-        btn.addEventListener("mouseenter", () => (btn.style.opacity = "1"));
-        btn.addEventListener("mouseleave", () => (btn.style.opacity = "0.6"));
       });
     </script>
   </body>

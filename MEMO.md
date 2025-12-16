@@ -1,8 +1,8 @@
 # OS FINALMENTES
 
-- Ativar recompensa na fala da Nodata
 - ~~Quando vencer o Crab mudar a fala da Maid~~
-- Gwenan dá uma Queen's Power's se você falar com ela após vencer Wendigo
+- ~~Ativar recompensa na fala da Nodata~~
+-~~ Gwenan dá uma Queen's Power's se você falar com ela após vencer Wendigo~~
 - ~~Se vencer Lily, muda a fala dela pra ultima.~~
 - ~~Procurar um gatilho pra felicia ir pro bar e aparecer a ultima cobra. (é o Rigel)~~
 - ~~Quando vencer o bar {~~
@@ -14,12 +14,14 @@
 - ~~Achievement no Gato~~
 - ~~Achivement no Last Boss~~
 
-- Mudar fala do Wendingo quando os 3 materiais forem coletados
-- Mudar fala do Myopic depois de abrir o baú
-- Mudar fala do Wayway quando receber o Fogo e quando acender os postes.
+- ~~Mudar fala do Wendingo quando os 3 materiais forem coletados~~
+- ~~Mudar fala do Myopic depois de abrir o baú~~
+- ~~Mudar fala do Wayway quando receber o Fogo e quando acender os postes.~~
 - Aiko falar a historia do Last Boss
-- Remover opção sem boca do Myo
-- Myo não aparece no FINAL
+- ~~Remover opção sem boca do Myo~~
+- Myo não aparecendo no FINAL
+- Imagem da forest tem logo de IA (CREDO)
+- Colocar a versão na tela de intro
 
 - ~~Link das redes sociais~~
 
@@ -159,12 +161,6 @@ Ajustes de mecanica:
 - ~~Criar puzzle de empurrar pedra e revelar o Pollux.~~
 - Tela final com pedidos de Patreon e Buy me a Coffee
 - ~~Quest do fundo do lago é sobre desenhar simbolos nas bolhas.~~
-
-- achievments {
-    - Achar as 6 cobrinhas
-    - Vencer Last Boss
-    - Achar o Mint
-}
 
 # Aprender
 

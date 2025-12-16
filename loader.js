@@ -1,9 +1,6 @@
-
-
 // loader.js — versão final corrigida e compatível com o script.js do minigame
 
 const scripts = [
-  
   "/core/save/script.js",
   "/core/caixa_dialogo/falas.js",
   "/core/global.js",
@@ -14,11 +11,9 @@ const scripts = [
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
   "/scripts/jardim/script.js",
-  "/city.js"
+  "/city.js",
+  "/dev.js", // 🛠️ DEV MODE - Painel de Debug
 ];
-
-
-
 
 // =========================
 // BLOQUEIA CONTEXTO — seguro
@@ -64,16 +59,18 @@ const BLOCK_MAP = {
   const allScripts = [...scripts];
 
   // verifica se script.js já existe no DOM
-  const found = Array.from(document.getElementsByTagName("script")).some(s => {
-    try {
-      return (
-        s.src &&
-        new URL(s.src, document.location.href).href === projectScriptUrl
-      );
-    } catch (e) {
-      return false;
+  const found = Array.from(document.getElementsByTagName("script")).some(
+    (s) => {
+      try {
+        return (
+          s.src &&
+          new URL(s.src, document.location.href).href === projectScriptUrl
+        );
+      } catch (e) {
+        return false;
+      }
     }
-  });
+  );
 
   if (!found) {
     console.log("script.js não estava no DOM — adicionando via loader.");
@@ -87,7 +84,7 @@ const BLOCK_MAP = {
   let blocked = [];
 
   if (body?.dataset?.no) {
-    blocked = body.dataset.no.split(",").map(s => s.trim());
+    blocked = body.dataset.no.split(",").map((s) => s.trim());
     console.log("Scripts bloqueados neste HTML:", blocked);
   }
 
@@ -95,16 +92,15 @@ const BLOCK_MAP = {
   // CARREGAMENTO SEQUENCIAL
   // =========================
   for (const src of allScripts) {
-
     // verifica se este script está na lista do BODY
-    const shouldBlock = blocked.some(key => BLOCK_MAP[key] === src);
+    const shouldBlock = blocked.some((key) => BLOCK_MAP[key] === src);
 
     if (shouldBlock) {
       console.log(`🔒 Script bloqueado: ${src}`);
       continue; // pulado
     }
 
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       const s = document.createElement("script");
       s.async = false;
       s.onload = () => {
@@ -134,7 +130,6 @@ const BLOCK_MAP = {
     );
   }
 })();
-
 
 // LOADING
 
@@ -170,66 +165,23 @@ const BLOCK_MAP = {
   `);
 
   function finishLoader() {
-    const loading = document.getElementById('global-loading');
+    const loading = document.getElementById("global-loading");
     if (!loading) return;
 
     const elapsed = Date.now() - start;
     const wait = Math.max(0, minTime - elapsed);
 
     setTimeout(() => {
-      loading.style.opacity = '0';
+      loading.style.opacity = "0";
       setTimeout(() => loading.remove(), 500);
     }, wait);
   }
 
   // Garante que o loader finalize no load
-  window.addEventListener('load', finishLoader);
+  window.addEventListener("load", finishLoader);
 
   // SE o "load" já tiver acontecido antes do script rodar...
-  if (document.readyState === 'complete') {
+  if (document.readyState === "complete") {
     finishLoader();
-  }
-
-})();
-
-(function () {
-  function injectButton() {
-    const btn = document.createElement("button");
-    btn.textContent = ""; // Botei texto pra você ver o botão
-
-    btn.onclick = () => {
-      // 1. Limpa o passado (Tatuagens e Pulseiras velhas)
-      localStorage.clear();
-      sessionStorage.clear();
-
-      // 2. Cria o VIP instantâneo (pra não ser chutado no reload)
-      sessionStorage.setItem('acesso_dropmoon', 'autorizado');
-
-      // 3. Recarrega a página forçando limpeza de cache
-      window.location.reload(true); 
-    };
-
-    Object.assign(btn.style, {
-      position: "fixed",
-      bottom: "5px",
-      right: "5px",
-      background: "red",
-      color: "white",
-      padding: "10px 14px",
-      fontSize: "14px",
-      border: "none",
-      borderRadius: "6px",
-      cursor: "pointer",
-      zIndex: "999999",
-      fontWeight: "bold"
-    });
-
-    document.body.appendChild(btn);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", injectButton);
-  } else {
-    injectButton();
   }
 })();

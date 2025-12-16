@@ -519,11 +519,100 @@ window.personagens = {
           expressao: "sorrindo",
         },
       ],
-      segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+      power: [
         {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
+          texto:
+            'Você precisa de um <span style="color: pink; font-size: 1em;">Queen\'s Power</span>?',
+          expressao: "normal",
+        },
+        {
+          texto: "Eu posso te dar o meu. Não precisa fazer nada, é só pegar.",
+          aofechar: function () {
+            // Salva a recompensa
+            if (typeof gameData !== "undefined") {
+              gameData.incubadora.hasRainha = true;
+              mudarCenario(personagens.nana, "inicio");
+            }
+
+            // Toca som de vitória se existir
+            if (typeof tocarEfeito === "function") {
+              tocarEfeito("win3");
+            }
+
+            // Cria o CSS do popup se não existir
+            if (!document.getElementById("winPopupStyles")) {
+              const style = document.createElement("style");
+              style.id = "winPopupStyles";
+              style.textContent = `
+                .win-popup {
+                  position: fixed;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%) scale(0.8);
+                  width: auto;
+                  min-width: 280px;
+                  max-width: 90%;
+                  padding: 25px 40px;
+                  background: linear-gradient(180deg, rgba(31, 31, 42, 0.95), rgba(20, 20, 30, 0.98));
+                  border-radius: 20px;
+                  border: 2px solid rgba(255, 184, 108, 0.3);
+                  box-shadow: 0 0 60px rgba(255, 184, 108, 0.3), 0 20px 60px rgba(2, 6, 23, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 15px;
+                  font-family: "Segoe UI", sans-serif;
+                  color: #f8f8f2;
+                  z-index: 10000;
+                  opacity: 0;
+                  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                }
+                .win-popup.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                .win-popup.hide { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                .win-popup-img {
+                  width: 120px;
+                  height: 120px;
+                  border-radius: 50%;
+                  object-fit: contain;
+                  background: rgba(255, 255, 255, 0.05);
+                  border: 3px solid rgba(255, 184, 108, 0.5);
+                  box-shadow: 0 0 30px rgba(255, 184, 108, 0.4);
+                  animation: popupGlow 2s ease-in-out infinite;
+                }
+                .win-popup-title { font-size: 22px; font-weight: 800; color: #ffb86c; text-shadow: 0 2px 10px rgba(255, 184, 108, 0.5); margin: 0; }
+                .win-popup-subtitle { font-size: 14px; color: #50fa7b; font-weight: 600; margin: 0; }
+                .win-popup-desc { font-size: 13px; color: #6272a4; text-align: center; margin: 0; }
+                @keyframes popupGlow {
+                  0%, 100% { box-shadow: 0 0 30px rgba(255, 184, 108, 0.4); }
+                  50% { box-shadow: 0 0 50px rgba(255, 184, 108, 0.7); }
+                }
+              `;
+              document.head.appendChild(style);
+            }
+
+            // Cria e mostra o popup
+            const popup = document.createElement("div");
+            popup.className = "win-popup";
+            popup.innerHTML = `
+              <img src="/assets/img/Queens-power.png" class="win-popup-img" alt="Dark Matter">
+              <p class="win-popup-title">Dark Matter</p>
+              <p class="win-popup-subtitle">ITEM OBTIDO! ✨</p>
+              <p class="win-popup-desc">Você recebeu a Dark Matter da Rainha!</p>
+            `;
+            document.body.appendChild(popup);
+
+            requestAnimationFrame(() => {
+              popup.classList.add("show");
+            });
+
+            setTimeout(() => {
+              popup.classList.remove("show");
+              popup.classList.add("hide");
+              setTimeout(() => popup.remove(), 400);
+            }, 4000);
+          },
+          expressao: "sorrindo",
         },
       ],
       intro: [
@@ -571,12 +660,93 @@ window.personagens = {
           expressao: "normal",
         },
         {
-          texto: "Aqui, você pode ficar com isso como reconhecimento.",
+          texto:
+            'Aqui, você pode ficar com essa <span style="color: #9966ff; font-size: 1em;">Dark Matter</span> como reconhecimento.',
           expressao: "normal",
           aofechar: function () {
-            /* gameData.visualState.rigelVisivel = true;
-              mudarCenario(personagens.marin, 'rigel');
-              tocarEfeito("swoosh") */
+            // Salva a recompensa
+            if (typeof gameData !== "undefined") {
+              gameData.incubadora.hasMateria = true;
+              mudarCenario(personagens.nodata, "inicio");
+            }
+
+            // Toca som de vitória se existir
+            if (typeof tocarEfeito === "function") {
+              tocarEfeito("win3");
+            }
+
+            // Cria o CSS do popup se não existir
+            if (!document.getElementById("winPopupStyles")) {
+              const style = document.createElement("style");
+              style.id = "winPopupStyles";
+              style.textContent = `
+                .win-popup {
+                  position: fixed;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%) scale(0.8);
+                  width: auto;
+                  min-width: 280px;
+                  max-width: 90%;
+                  padding: 25px 40px;
+                  background: linear-gradient(180deg, rgba(31, 31, 42, 0.95), rgba(20, 20, 30, 0.98));
+                  border-radius: 20px;
+                  border: 2px solid rgba(255, 184, 108, 0.3);
+                  box-shadow: 0 0 60px rgba(255, 184, 108, 0.3), 0 20px 60px rgba(2, 6, 23, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 15px;
+                  font-family: "Segoe UI", sans-serif;
+                  color: #f8f8f2;
+                  z-index: 10000;
+                  opacity: 0;
+                  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                }
+                .win-popup.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                .win-popup.hide { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                .win-popup-img {
+                  width: 120px;
+                  height: 120px;
+                  border-radius: 50%;
+                  object-fit: contain;
+                  background: rgba(255, 255, 255, 0.05);
+                  border: 3px solid rgba(255, 184, 108, 0.5);
+                  box-shadow: 0 0 30px rgba(255, 184, 108, 0.4);
+                  animation: popupGlow 2s ease-in-out infinite;
+                }
+                .win-popup-title { font-size: 22px; font-weight: 800; color: #ffb86c; text-shadow: 0 2px 10px rgba(255, 184, 108, 0.5); margin: 0; }
+                .win-popup-subtitle { font-size: 14px; color: #50fa7b; font-weight: 600; margin: 0; }
+                .win-popup-desc { font-size: 13px; color: #6272a4; text-align: center; margin: 0; }
+                @keyframes popupGlow {
+                  0%, 100% { box-shadow: 0 0 30px rgba(255, 184, 108, 0.4); }
+                  50% { box-shadow: 0 0 50px rgba(255, 184, 108, 0.7); }
+                }
+              `;
+              document.head.appendChild(style);
+            }
+
+            // Cria e mostra o popup
+            const popup = document.createElement("div");
+            popup.className = "win-popup";
+            popup.innerHTML = `
+              <img src="/assets/img/Dark-matter.png" class="win-popup-img" alt="Dark Matter">
+              <p class="win-popup-title">Dark Matter</p>
+              <p class="win-popup-subtitle">ITEM OBTIDO! ✨</p>
+              <p class="win-popup-desc">Você recebeu a Dark Matter da Rainha!</p>
+            `;
+            document.body.appendChild(popup);
+
+            requestAnimationFrame(() => {
+              popup.classList.add("show");
+            });
+
+            setTimeout(() => {
+              popup.classList.remove("show");
+              popup.classList.add("hide");
+              setTimeout(() => popup.remove(), 400);
+            }, 4000);
           },
         },
       ],
@@ -818,10 +988,15 @@ window.personagens = {
         },
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
         {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
-          expressao: "pensativo",
+          texto:
+            "Esse fogo que você carrega é gentil. Com certeza protegerá essa cidade.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Os postes da cidade... talvez eu consiga restaurar mais alguns.",
+          expressao: "normal",
         },
       ],
 
@@ -829,7 +1004,7 @@ window.personagens = {
         { texto: "Não desista ainda!", expressao: "furioso" },
         {
           texto:
-            "Nós conseguimos acender os postes uma única vez! Aproveite. Não deixe tudo congelar",
+            "Nós só vamos conseguir acender os postes uma única vez! Aproveite. Não deixe tudo congelar",
           expressao: "furioso",
         },
       ],
@@ -863,10 +1038,21 @@ window.personagens = {
         },
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
         {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
+          texto:
+            "Agora consigo enxergar tudo!!! Muito obrigado pela ajuda, melhor esconder esse cadeado.",
+          expressao: "normal",
+        },
+        {
+          texto: "Agora posso me preparar para começar o trabalho",
           expressao: "pensativo",
+        },
+      ],
+
+      final: [
+        {
+          texto: "Você já viu o Advent Callendar da Myiabi desse ano?",
+          expressao: "normal",
         },
       ],
     },
@@ -943,6 +1129,30 @@ window.personagens = {
         },
         {
           texto: "Vou apostar minhas fichas em você. Por favor... vença!",
+          expressao: "normal",
+        },
+      ],
+
+      myo: [
+        {
+          texto:
+            "Reuniu todos os materiais? Eles são tão raros... Eu te dou permissão de usar a incubadora, crie um Wendigo com a aparencia que desejar. A incubadora está equipada para tirar fotos, mas quando decidir terminar seu Wendigo segure o botão por alguns segundo. ",
+          expressao: "normal",
+        },
+        {
+          texto: "Lembre-se: Ele é único, pense bem antes de finalizar.",
+          expressao: "normal",
+        },
+      ],
+      pmyo: [
+        {
+          texto:
+            "Que belo Wendigo você criou! Tenho certeza que vocês serão grandes amigos.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Por favor, permita que ele se acostume com o novo corpo por um tempo. Ele pode te acompanhar depois que você terminar sua missão.",
           expressao: "normal",
         },
       ],

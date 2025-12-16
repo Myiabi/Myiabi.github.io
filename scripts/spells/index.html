@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spell Drawing</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: #0a0a0f;
+        color: #fff;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .stage {
+        position: relative;
+        width: 70vw;
+        height: 70vh;
+        max-width: 1000px;
+        max-height: 800px;
+        min-width: 320px;
+        min-height: 280px;
+        border: 1px solid rgba(100, 120, 255, 0.15);
+        border-radius: 12px;
+        background: radial-gradient(
+          ellipse at 50% 40%,
+          #12121a 0%,
+          #08080c 100%
+        );
+        box-shadow: 0 0 80px rgba(80, 100, 255, 0.08),
+          inset 0 0 120px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+      }
+
+      #cast-surface {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        touch-action: none;
+        cursor: crosshair;
+      }
+
+      /* SVG defs escondidos */
+      .spell-defs {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+      }
+
+      /* Barra de hints */
+      .spell-hints {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 14px 20px;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          to top,
+          rgba(8, 8, 14, 0.95) 0%,
+          rgba(8, 8, 14, 0.7) 60%,
+          transparent 100%
+        );
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      .spell-hints .label {
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: rgba(160, 170, 255, 0.8);
+        font-weight: 500;
+      }
+
+      .spell-hints .icon-wrap {
+        position: relative;
+        display: inline-flex;
+        transition: transform 0.25s ease, filter 0.25s ease;
+      }
+
+      .spell-hints .icon-wrap::after {
+        content: attr(data-name);
+        position: absolute;
+        bottom: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 10px;
+        color: rgba(160, 170, 255, 0.6);
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .spell-hints .icon-wrap.done {
+        transform: scale(1.05);
+      }
+
+      .spell-hints .icon-wrap.done .icon {
+        border-color: rgba(100, 255, 180, 0.6);
+        background: transparent;
+      }
+
+      .spell-hints .icon-wrap.done .icon path {
+        stroke: rgba(100, 255, 180, 0.95);
+      }
+
+      .spell-hints .icon-wrap.done::after {
+        color: rgba(100, 255, 180, 0.9);
+      }
+
+      .spell-hints .icon {
+        width: 52px;
+        height: 52px;
+        padding: 8px;
+        border: 1px solid rgba(100, 120, 255, 0.3);
+        border-radius: 8px;
+        background: transparent;
+      }
+
+      .spell-hints .icon path {
+        stroke: rgba(140, 160, 255, 0.9);
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
+
+      /* Banner de vitória */
+      .win-banner {
+        position: absolute;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.9);
+        padding: 12px 24px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          rgba(100, 255, 180, 0.15),
+          rgba(80, 140, 255, 0.2)
+        );
+        border: 1px solid rgba(100, 255, 180, 0.4);
+        color: #e0fff0;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 20;
+      }
+
+      .win-banner.show {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+
+      /* Feedback visual de match */
+      .match-feedback {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        padding: 10px 20px;
+        border-radius: 8px;
+        background: rgba(100, 255, 180, 0.15);
+        border: 1px solid rgba(100, 255, 180, 0.4);
+        color: #a0ffd0;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 15;
+      }
+
+      .match-feedback.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <!-- SVG com definições dos símbolos -->
+      <svg class="spell-defs">
+        <defs>
+          <!-- Onda - desenhe uma onda suave -->
+          <path
+            id="spell-wave"
+            data-spell="wave"
+            d="M15 70 Q40 30 70 70 Q100 110 125 70"
+          />
+
+          <!-- Infinito - desenhe um 8 deitado -->
+          <path
+            id="spell-infinity"
+            data-spell="infinity"
+            d="M70 70 C45 40 15 40 15 70 C15 100 45 100 70 70 C95 40 125 40 125 70 C125 100 95 100 70 70"
+          />
+
+          <!-- Lua crescente - desenhe uma meia lua -->
+          <path
+            id="spell-moon"
+            data-spell="moon"
+            d="M90 25 C130 50 130 90 90 115 C60 100 50 70 60 40 C70 30 80 25 90 25"
+          />
+        </defs>
+      </svg>
+
+      <canvas id="cast-surface"></canvas>
+
+      <div class="spell-hints">
+        <span class="label">Desenhe:</span>
+        <span class="icon-wrap" data-spell="wave" data-name="Onda">
+          <svg class="icon" viewBox="0 0 140 140">
+            <use href="#spell-wave" />
+          </svg>
+        </span>
+        <span class="icon-wrap" data-spell="infinity" data-name="Infinito">
+          <svg class="icon" viewBox="0 0 140 140">
+            <use href="#spell-infinity" />
+          </svg>
+        </span>
+        <span class="icon-wrap" data-spell="moon" data-name="Lua">
+          <svg class="icon" viewBox="0 0 140 140">
+            <use href="#spell-moon" />
+          </svg>
+        </span>
+      </div>
+
+      <div class="match-feedback" id="match-feedback"></div>
+      <div class="win-banner" id="win-banner">
+        ✨ Todos os símbolos completos!
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

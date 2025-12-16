@@ -41,6 +41,10 @@ const defaultData = {
     polluxVisivel: false,
     incubadoraLiberada: false,
 
+    // Sol e Lua
+    solON: false,
+    luaON: false,
+
     puzzleBubbles_hour: false,
     puzzleBubbles_jelly: false,
     puzzleBubbles_heart: false,
@@ -312,11 +316,30 @@ function aplicarMudancaVisual(prop, value) {
           ? noteJelly.classList.add("checked")
           : noteJelly.classList.remove("checked");
       break;
+  }
 
+  // ============================================
+  // 🥚 VERIFICA SE TODOS OS 3 ITENS DA INCUBADORA ESTÃO COMPLETOS
+  // ============================================
+  const incubadoraCompleta =
+    gameData.incubadora?.hasMateria &&
+    gameData.incubadora?.hasRainha &&
+    gameData.incubadora?.hasJelly;
+
+  if (incubadoraCompleta) {
+    // ============================================
+    // 🎉 INCUBADORA COMPLETA! Adicione aqui o que quiser:
+    // ============================================
+
+    mudarCenario(personagens.wendigo, "myo");
+    window.gameData.myoLiberado = true;
+  }
+
+  switch (prop) {
     // --- Estado da Incubadora / Myo ---
     case "myoLiberado":
       if (elWrapper) {
-        elWrapper.style.cursor = value ? "pointer" : "default";
+        elWrapper.style.pointerEvents = value ? "auto" : "none";
       }
       break;
 
@@ -545,36 +568,39 @@ styleSteam.innerHTML = `
 `;
 document.head.appendChild(styleSteam);
 
-// 2. CONTAINER
-let achievementsContainer = document.getElementById("achievements-container");
-if (!achievementsContainer) {
-  achievementsContainer = document.createElement("div");
-  achievementsContainer.id = "achievements-container";
-  document.documentElement.appendChild(achievementsContainer);
+// 2. CONTAINER (Persistente - sobrevive a mudanças de cenário)
+let achievementsContainer = null;
 
-  Object.assign(achievementsContainer.style, {
-    position: "fixed",
-    bottom: "20px",
-    right: "20px",
-    display: "flex",
-    flexDirection: "column-reverse",
-    gap: "10px",
-    zIndex: "9999999",
-    pointerEvents: "none",
-  });
+function ensureAchievementContainer() {
+  // Verifica se o container ainda existe no DOM
+  achievementsContainer = document.getElementById("achievements-container");
 
-  const rotateAch = () => {
-    if (window.matchMedia("(orientation: portrait)").matches) {
-      achievementsContainer.style.transform =
-        "rotate(-90deg) translate(-25vh, 70vw)";
-      achievementsContainer.style.transformOrigin = "bottom right";
-    } else {
-      achievementsContainer.style.transform = "none";
-    }
-  };
-  window.addEventListener("resize", rotateAch);
-  rotateAch();
+  if (!achievementsContainer) {
+    achievementsContainer = document.createElement("div");
+    achievementsContainer.id = "achievements-container";
+
+    Object.assign(achievementsContainer.style, {
+      position: "fixed",
+      bottom: "10px",
+      right: "20px",
+      display: "flex",
+      flexDirection: "column-reverse",
+      gap: "10px",
+      zIndex: "9999999",
+      pointerEvents: "none",
+    });
+  }
+
+  // Sempre garante que está no body (mesmo se foi removido)
+  if (!document.body.contains(achievementsContainer)) {
+    document.body.appendChild(achievementsContainer);
+  }
+
+  return achievementsContainer;
 }
+
+// Garante que o container existe inicialmente
+ensureAchievementContainer();
 
 // 3. CONFIGURAÇÃO DE ÁUDIO E DADOS
 const audioVitoria = new Audio("/assets/sounds/efeitos/steam.mp3");
@@ -585,7 +611,7 @@ const secretAchievements = [
     id: "lastBoss",
     title: "Zere o jogo",
     desc: "Você derrotou o Imperador do Gelo",
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    iconUrl: "/assets/img/boss.png",
     unlocked: false,
     condition: (gs) => gs.emperor,
   },
@@ -593,7 +619,7 @@ const secretAchievements = [
     id: "gatoLendario",
     title: "Morto de fome",
     desc: "Alimente o gato com o peixe lendário",
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    iconUrl: "/assets/img/fish.png",
     unlocked: false,
     condition: (gs) => gs.cat,
   },
@@ -601,7 +627,7 @@ const secretAchievements = [
     id: "mintRevelado",
     title: "Achou!",
     desc: "Revele o fantasma de gelo",
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    iconUrl: "/assets/img/ghost.png",
     unlocked: false,
     condition: (gs) => gs.mint,
   },
@@ -609,7 +635,7 @@ const secretAchievements = [
     id: "allCobrinhas",
     title: "Hide and Seek",
     desc: "Você encontrou todas as cobrinhas escondidas",
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    iconUrl: "/assets/img/snake.png",
     unlocked: false,
     condition: (gs) => gs.snakes,
   },
@@ -624,6 +650,30 @@ function renderAchievement(ach) {
   // 1. BLINDAGEM VISUAL: Se esse achievement já estiver na tela, aborta.
   if (document.querySelector(`.steam-achievement[data-id="${ach.id}"]`)) return;
 
+  // Garante que o container existe no DOM
+  const container = ensureAchievementContainer();
+
+  // Cria o modal bloqueador (3 segundos)
+  const overlay = document.createElement("div");
+  overlay.id = "achievement-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100vw",
+    height: "100vh",
+    background: "transparent",
+    zIndex: "9999998",
+    pointerEvents: "all",
+    cursor: "default",
+  });
+  document.body.appendChild(overlay);
+
+  // Remove o overlay após 3 segundos
+  setTimeout(() => {
+    overlay.remove();
+  }, 3000);
+
   const el = document.createElement("div");
   el.className = "steam-achievement";
   el.setAttribute("data-id", ach.id); // Marca o ID no HTML pra evitar duplicatas
@@ -631,11 +681,11 @@ function renderAchievement(ach) {
   el.innerHTML = `
       <div class="steam-icon"><img src="${ach.iconUrl}"></div>
       <div class="steam-content">
-          <div class="steam-title">Achievement Unlocked</div>
+          <div class="steam-title">${ach.title}</div>
           <div class="steam-desc">${ach.desc}</div> 
       </div>
     `;
-  achievementsContainer.appendChild(el);
+  container.appendChild(el);
 
   // Tenta tocar som
   audioVitoria.currentTime = 0;
@@ -649,7 +699,7 @@ function renderAchievement(ach) {
   setTimeout(() => {
     el.style.opacity = "0";
     setTimeout(() => el.remove(), 500);
-  }, 4000);
+  }, 8000);
 }
 
 // Processa a fila
