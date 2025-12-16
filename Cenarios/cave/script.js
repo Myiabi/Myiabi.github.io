@@ -33,15 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 4. Inicializa Puzzle da Pedra
   initRockPuzzle();
-
-  // 5. Botão Voltar
-  const btnBack = document.getElementById("btn-back");
-  if (btnBack) {
-    btnBack.addEventListener("click", () => {
-      const dest = btnBack.getAttribute("data-destino");
-      if (dest) window.location.href = dest;
-    });
-  }
 });
 
 // ======================================================

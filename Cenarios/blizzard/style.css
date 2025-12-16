@@ -1,123 +1,792 @@
 /* style.css */
-body {
-	margin: 0;
-	padding: 0;
-	height: 100vh;
-	width: 100vw;
-	overflow: hidden;
-	position: relative;
 
-	/* Fundo frio e profundo */
-	background-image: linear-gradient(to bottom, #02040f, #0a1a33, #123861, #1a4f85);
-	background-size: cover;
-	background-position: center;
+/* =========================================
+   RESET E BASE GLOBAL
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-drag: none;
+
+  /* Fundo frio e profundo */
+  background-image: linear-gradient(
+    to bottom,
+    #02040f,
+    #0a1a33,
+    #123861,
+    #1a4f85
+  );
+  background-size: cover;
+  background-position: center;
+  background-color: #1a1a1a;
 }
 
 /* Escurecimento global suave */
 body::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: rgba(0, 0, 20, 0.45);
-	z-index: 0;
-	pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 20, 0.45);
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Luz da lua no topo - BLUR REDUZIDO */
 body::after {
-	content: "";
-	position: absolute;
-	top: -30%;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 200%;
-	height: 80%;
-	background: radial-gradient(
-		ellipse at center,
-		rgba(130, 180, 255, 0.25),
-		transparent 70%
-	);
-	filter: blur(10px); /* REDUZIDO de 80px para 10px */
-	z-index: 0;
-	pointer-events: none;
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  height: 80%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(130, 180, 255, 0.25),
+    transparent 70%
+  );
+  filter: blur(10px); /* REDUZIDO de 80px para 10px */
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Vignette cinematográfico nas laterais */
 .vignette {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: radial-gradient(
-		ellipse at center,
-		transparent 55%,
-		rgba(0, 0, 0, 0.35) 100%
-	);
-	z-index: 0;
-	pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Neblina suave flutuante - BLUR REDUZIDO */
 .fog-layer {
-	position: absolute;
-	inset: 0;
-	background: radial-gradient(
-		circle at bottom,
-		rgba(180, 200, 255, 0.10),
-		transparent 70%
-	);
-	animation: fogMove 20s ease-in-out infinite alternate;
-	filter: blur(10px); /* REDUZIDO de 40px para 10px */
-	z-index: 0;
-	pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at bottom,
+    rgba(180, 200, 255, 0.1),
+    transparent 70%
+  );
+  animation: fogMove 20s ease-in-out infinite alternate;
+  filter: blur(10px); /* REDUZIDO de 40px para 10px */
+  z-index: 0;
+  pointer-events: none;
 }
 
 @keyframes fogMove {
-	0% { transform: translateX(-20px); opacity: 0.25; }
-	100% { transform: translateX(20px); opacity: 0.45; }
+  0% {
+    transform: translateX(-20px);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateX(20px);
+    opacity: 0.45;
+  }
 }
 
 /* Neve - GLOW REDUZIDO (O mais caro) */
 canvas {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 
-	/* Glow da neve - REMOVIDO o glow mais pesado */
-	/* Antes: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 14px rgba(180, 220, 255, 0.5)); */
-	filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)); /* Mantido o glow mais leve */
+  /* Glow da neve - REMOVIDO o glow mais pesado */
+  /* Antes: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 14px rgba(180, 220, 255, 0.5)); */
+  filter: drop-shadow(
+    0 0 6px rgba(255, 255, 255, 0.9)
+  ); /* Mantido o glow mais leve */
 }
 
-#snow-canvas-1 { z-index: 6; }
-#snow-canvas-2 { z-index: 5; }
-#snow-canvas-3 { z-index: 4; }
-#snow-canvas-4 { z-index: 3; }
-#snow-canvas-5 { z-index: 2; }
-#snow-canvas-6 { z-index: 1; }
+#snow-canvas-1 {
+  z-index: 6;
+}
+#snow-canvas-2 {
+  z-index: 5;
+}
+#snow-canvas-3 {
+  z-index: 4;
+}
+#snow-canvas-4 {
+  z-index: 3;
+}
+#snow-canvas-5 {
+  z-index: 2;
+}
+#snow-canvas-6 {
+  z-index: 1;
+}
 
 /* Nuvens rápidas */
 .clouds-bg {
-	width: 100vw;
-	height: 100vh;
-	background: url("https://hagall-media.de/cp/clouds.png") repeat-x;
-	background-size: cover;
-	animation: moveClouds 180s linear infinite;
-	mix-blend-mode: screen; 
-	opacity: 0.25;
-	z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url("https://hagall-media.de/cp/clouds.png") repeat-x;
+  background-size: cover;
+  animation: moveClouds 180s linear infinite;
+  mix-blend-mode: screen;
+  opacity: 0.25;
+  z-index: 0;
 }
 
 @keyframes moveClouds {
-	0% { background-position: 0 0; }
-	100% { background-position: -3000px 0; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -3000px 0;
+  }
 }
 
- #star-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0; 
-    pointer-events: none;
+#star-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* =========================================
+   MENU LATERAL (DRAG & DROP)
+   ========================================= */
+#menu-secundario {
+  position: fixed;
+  left: 2vw;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding: 1vw;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 2vw;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+}
+
+.menu-item {
+  width: 5vw;
+  height: 5vw;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  font-size: 3vw;
+}
+
+.menu-item:active {
+  transform: scale(0.9);
+}
+
+.menu-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* =========================================
+   LUPA (LUA)
+   ========================================= */
+.loupe {
+  position: fixed;
+  width: 15vw;
+  height: 15vw;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(135, 206, 250, 0.15) 50%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4),
+    0 0 10px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+  display: none;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* =========================================
+   MAPAS GERAIS (CONTAINERS DE CAMADA)
+   ========================================= */
+.container.mapa {
+  position: absolute;
+  overflow: hidden;
+  background: transparent;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layer.top {
+  z-index: 2;
+  clip-path: circle(0 at 0 0);
+  pointer-events: none;
+  background: transparent;
+}
+
+/* =========================================
+   FOGO AURA (SOL)
+   ========================================= */
+.fogo-aura {
+  width: 3vw;
+  height: 3vw;
+  background: radial-gradient(
+    circle,
+    rgba(255, 120, 0, 0.45) 0%,
+    rgba(255, 60, 0, 0.3) 40%,
+    rgba(255, 0, 0, 0.18) 70%,
+    rgba(0, 0, 0, 0) 90%
+  );
+  animation: pulsoFogo 1.4s infinite ease-in-out;
+  filter: blur(0.5vw);
+  border-radius: 50%;
+  pointer-events: none;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  z-index: 1499;
+}
+
+.fogo-aura::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 140, 0, 0.7) 0%,
+    rgba(255, 60, 0, 0.5) 50%,
+    rgba(255, 0, 0, 0) 80%
+  );
+  filter: blur(1.2vw);
+  animation: fogoGlow 1.2s infinite ease-in-out;
+}
+
+@keyframes fogoPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes fogoGlow {
+  0% {
+    opacity: 0.6;
+    filter: blur(0.9vw);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(1.5vw);
+  }
+  100% {
+    opacity: 0.6;
+    filter: blur(0.9vw);
+  }
+}
+
+@keyframes fly-animation {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0.5deg);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  }
+  50% {
+    transform: translate(-50%, -60%) rotate(-0.5deg);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+}
+
+/* =========================================
+   BOSS BATTLE - ANIMAÇÕES E ESTILOS
+   ========================================= */
+
+/* Animação de entrada do Boss */
+@keyframes bossDescend {
+  0% {
+    transform: translate(-50%, -150%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+#boss-arena {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 50;
+}
+
+#boss-arena.entering {
+  animation: bossDescend 6s ease-out forwards;
+}
+
+/* Esconde as barras de cast durante a entrada */
+#boss-arena.entering .cast-bar-container {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#boss-arena.entered {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+/* Mostra as barras de cast após pousar */
+#boss-arena.entered .cast-bar-container {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease;
+}
+
+/* Animação de flutuação do Boss */
+@keyframes floatBoss {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5vh);
+  }
+}
+
+/* Corpo do Boss */
+#boss-body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: auto;
+  z-index: 1;
+  opacity: 0.9;
+  animation: floatBody 4s ease-in-out infinite;
+}
+
+@keyframes floatBody {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-1.5vh);
+  }
+}
+
+/* =========================================
+   MÃOS DO BOSS
+   ========================================= */
+.hand-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: auto;
+  transition: opacity 0.5s;
+  animation: floatBoss 4s ease-in-out infinite;
+}
+
+#wrapper-left {
+  top: 50%;
+  left: 50%;
+  margin-top: -6vh;
+  margin-left: -37vh;
+  width: 25vh;
+  height: 25vh;
+}
+
+#hand-left {
+  width: 40%;
+  height: 40%;
+  margin: auto;
+}
+
+#cuff-left {
+  position: absolute;
+  top: 1%;
+  right: -5%;
+  width: 70%;
+  height: 70%;
+}
+
+#wrapper-right {
+  top: 50%;
+  left: 50%;
+  margin-top: -7vh;
+  margin-left: 8vh;
+  width: 25vh;
+  height: 25vh;
+}
+
+#hand-right {
+  width: 40%;
+  height: 40%;
+  margin: auto;
+}
+
+#cuff-right {
+  position: absolute;
+  top: 1.8%;
+  right: 35%;
+  width: 70%;
+  height: 70%;
+}
+
+.hand-img {
+  width: 100%;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+  transition: filter 0.3s;
+}
+
+.cuff-img {
+  width: 50%;
+  height: auto;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.cuff-target {
+  position: absolute !important;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boss-hand-target {
+  position: relative;
+  z-index: 5;
+}
+
+/* Dano na mão */
+.hand-damaged {
+  filter: sepia(1) saturate(1000%) hue-rotate(-50deg) drop-shadow(0 0 15px red) !important;
+  transform: scale(0.95);
+}
+
+/* Efeito de regeneração azul */
+@keyframes cuff-regeneration {
+  0% {
+    filter: drop-shadow(0 0 0px #00ffff);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 5px #0000ff);
+  }
+  100% {
+    filter: drop-shadow(0 0 0px #00ffff);
+  }
+}
+
+.hand-img.regenerating-glow {
+  animation: cuff-regeneration 0.6s ease-in-out 3;
+}
+
+/* =========================================
+   BARRAS DE CAST
+   ========================================= */
+.cast-bar-container {
+  width: 20%;
+  height: 0.6vh;
+  background: rgba(0, 20, 40, 0.6);
+  border: 1px solid rgba(100, 200, 255, 0.5);
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  border-radius: 2px;
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0;
+  overflow: hidden;
+  z-index: 30;
+}
+
+.hand-wrapper .cast-bar-container {
+  width: 80%;
+  height: 1vh;
+  top: 70%;
+}
+
+.cast-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ffffff, #00ffff, #0077be);
+  box-shadow: 0 0 8px #00ffff;
+  transition: width 0.1s linear;
+}
+
+/* =========================================
+   OLHOS DO BOSS (FASE 2)
+   ========================================= */
+#boss-eyes-container {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12vw;
+  height: 6vw;
+  z-index: 15;
+  display: none;
+}
+
+.eye-glow {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 255, 0.9) 0%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  animation: pulseEye 0.2s infinite alternate;
+  border-radius: 50%;
+}
+
+@keyframes pulseEye {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+#cast-eyes {
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20vw;
+  display: none;
+  z-index: 20;
+}
+
+#cast-eyes .cast-bar-fill {
+  background: linear-gradient(90deg, #ff00cc, #333399);
+}
+
+/* Barra de regen dos olhos */
+#regen-eyes {
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20vw;
+  display: none;
+  z-index: 20;
+  border-color: #ffd700;
+}
+
+#regen-eyes::before {
+  content: "REGEN";
+  position: absolute;
+  top: -2.5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 1.5vh;
+  text-shadow: 0 0 5px #000;
+}
+
+#regen-eyes .cast-bar-fill {
+  background: linear-gradient(90deg, #fff, #ffd700, #ff8c00);
+  box-shadow: 0 0 8px #ffd700;
+}
+
+/* =========================================
+   UI DO JOGADOR (POSTES DE VIDA)
+   ========================================= */
+#player-hp-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.poste-vida {
+  object-fit: contain;
+  transition: filter 0.3s;
+  pointer-events: none;
+  filter: drop-shadow(0 0 5px rgba(255, 100, 0, 0.5));
+}
+
+.poste-apagado {
+  filter: grayscale(1) brightness(0.3);
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+/* Posicionamento dos 8 postes */
+#poste-1 {
+  top: 85vh;
+  left: 30vw;
+  width: 4vw;
+}
+#poste-2 {
+  top: 85vh;
+  left: 35vw;
+  width: 4vw;
+}
+#poste-3 {
+  top: 85vh;
+  left: 40vw;
+  width: 4vw;
+}
+#poste-4 {
+  top: 85vh;
+  left: 45vw;
+  width: 4vw;
+}
+#poste-5 {
+  top: 85vh;
+  left: 50vw;
+  width: 4vw;
+}
+#poste-6 {
+  top: 85vh;
+  left: 55vw;
+  width: 4vw;
+}
+#poste-7 {
+  top: 85vh;
+  left: 60vw;
+  width: 4vw;
+}
+#poste-8 {
+  top: 85vh;
+  left: 65vw;
+  width: 4vw;
+}
+
+/* =========================================
+   MENSAGENS FLUTUANTES E UI
+   ========================================= */
+.floating-text {
+  position: fixed;
+  font-weight: bold;
+  text-shadow: 0 0 5px #000;
+  pointer-events: none;
+  z-index: 3000;
+  white-space: nowrap;
+  font-size: 1.5vw;
+  animation: floatUp 2s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50px);
+    opacity: 0;
+  }
+}
+
+#game-message {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5vw;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 10px #000, 0 0 20px red;
+  pointer-events: none;
+  z-index: 2000;
+  text-align: center;
+  display: none;
+  white-space: nowrap;
 }

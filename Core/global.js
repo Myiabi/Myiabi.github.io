@@ -37,6 +37,12 @@ window.addEventListener("keydown", (e) => {
 
 // Plugin. Precisa ser adicionado apenas uma vez
 (function ($, sr) {
+  // Se jQuery não existir, pula
+  if (typeof $ === "undefined" || typeof jQuery === "undefined") {
+    console.warn("jQuery não encontrado - smartresize desativado");
+    return;
+  }
+
   // debouncing function from John Hann
   // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
   var debounce = function (func, threshold, execAsap) {
@@ -60,26 +66,28 @@ window.addEventListener("keydown", (e) => {
   jQuery.fn[sr] = function (fn) {
     return fn ? this.bind("resize", debounce(fn)) : this.trigger(sr);
   };
-})(jQuery, "smartresize");
+})(typeof jQuery !== "undefined" ? jQuery : null, "smartresize");
 
 // Uso do plugin smartresize com a solução de J. Bruni
-$(window).smartresize(function () {
-  if (screen.height > screen.width) {
-    $("body").addClass("virado");
-  } else {
-    $("body").removeClass("virado");
+if (typeof $ !== "undefined") {
+  $(window).smartresize(function () {
+    if (screen.height > screen.width) {
+      $("body").addClass("virado");
+    } else {
+      $("body").removeClass("virado");
+    }
+  });
+}
+
+// desabilitar context menu
+window.addEventListener("contextmenu", (e) => e.preventDefault());
+
+// Botão voltar — usa delegação para funcionar mesmo com HTML dinâmico
+document.addEventListener("click", (e) => {
+  const btnBack = e.target.closest("#btn-back");
+  if (btnBack) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.location.href = "/city.html";
   }
 });
-
-// desabilitar context
-
-janela.addEventListener("contextmenu", (e) => e.preventDefault());
-
-document.getElementById("btn-back").addEventListener("pointerdown", (e) => {
-  const destino = e.target.getAttribute("/city.html");
-  if (destino) {
-    window.location.href = destino;
-  }
-});
-
-// Modo Portrait Proibido //

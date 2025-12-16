@@ -503,7 +503,7 @@
 
   const indicator = document.createElement("div");
   indicator.id = "dev-indicator";
-  indicator.textContent = "🛠️ DEV MODE [TAB]";
+  indicator.textContent = "";
   document.body.appendChild(indicator);
 
   // ========================

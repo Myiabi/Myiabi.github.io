@@ -75,3 +75,13 @@ function criarNeve() {
 
 // 🔥 CHAMA A FUNÇÃO PRA NEVAR
 criarNeve();
+
+// Espera o loader terminar de carregar os scripts antes de tocar a trilha
+function esperarETocar() {
+  if (typeof tocarTrilha === "function") {
+    tocarTrilha("city");
+  } else {
+    setTimeout(esperarETocar, 50);
+  }
+}
+esperarETocar();

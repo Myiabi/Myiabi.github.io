@@ -1,7 +1,6 @@
-
 /* ---------------------- NOTA DO ENIGMA ---------------------- */
 function toggleRiddle(e) {
-  if(e) e.stopPropagation(); 
+  if (e) e.stopPropagation();
   const note = document.getElementById("riddle-note");
   note.classList.toggle("expanded");
 }
@@ -16,7 +15,9 @@ let ghost = null;
 let lastHighlight = null;
 
 /* ---------------------- UTILITÁRIOS ---------------------- */
-function isLocked() { return isSolved; }
+function isLocked() {
+  return isSolved;
+}
 
 function clearDragState() {
   removeGhost();
@@ -70,7 +71,7 @@ function updateHighlight(x, y) {
 }
 
 /* ---------------------- DRAG DESKTOP ---------------------- */
-container.addEventListener("dragstart", e => {
+container.addEventListener("dragstart", (e) => {
   if (isLocked()) return e.preventDefault();
   const item = e.target.closest(".item");
   if (!item) return;
@@ -78,30 +79,35 @@ container.addEventListener("dragstart", e => {
   dragSrc = item;
   const img = document.createElement("img");
   img.src = "";
-  try { e.dataTransfer.setDragImage(img, 0, 0); } catch(e) {}
+  try {
+    e.dataTransfer.setDragImage(img, 0, 0);
+  } catch (e) {}
   createGhost(item, e.clientX, e.clientY);
 });
 
-container.addEventListener("dragover", e => {
+container.addEventListener("dragover", (e) => {
   if (isLocked()) return;
   e.preventDefault();
   moveGhost(e.clientX, e.clientY);
   updateHighlight(e.clientX, e.clientY);
 });
 
-container.addEventListener("drop", e => {
+container.addEventListener("drop", (e) => {
   if (isLocked()) return;
   e.preventDefault();
   const dropTarget = e.target.closest(".item");
   removeGhost();
-  if (!dropTarget) { clearDragState(); return; }
+  if (!dropTarget) {
+    clearDragState();
+    return;
+  }
   performSwap(dropTarget);
 });
 
 container.addEventListener("dragend", () => clearDragState());
 
 /* ---------------------- TOUCH (POINTER) ---------------------- */
-container.addEventListener("pointerdown", e => {
+container.addEventListener("pointerdown", (e) => {
   if (isLocked()) return;
   const item = e.target.closest(".item");
   if (!item) return;
@@ -109,27 +115,32 @@ container.addEventListener("pointerdown", e => {
   isTouchDragging = true;
   dragSrc = item;
   createGhost(item, e.clientX, e.clientY);
-  try { item.setPointerCapture && item.setPointerCapture(e.pointerId); } catch (err) {}
+  try {
+    item.setPointerCapture && item.setPointerCapture(e.pointerId);
+  } catch (err) {}
 });
 
-container.addEventListener("pointermove", e => {
+container.addEventListener("pointermove", (e) => {
   if (!isTouchDragging || isLocked()) return;
   moveGhost(e.clientX, e.clientY);
   updateHighlight(e.clientX, e.clientY);
 });
 
-container.addEventListener("pointerup", e => {
+container.addEventListener("pointerup", (e) => {
   if (!isTouchDragging || isLocked()) return;
   const tgt = document.elementFromPoint(e.clientX, e.clientY);
   const dropTarget = tgt && tgt.closest(".item");
   removeGhost();
-  if (!dropTarget) { clearDragState(); return; }
+  if (!dropTarget) {
+    clearDragState();
+    return;
+  }
   performSwap(dropTarget);
   clearDragState();
 });
 
 /* ---------------------- FALLBACKS GLOBAIS ---------------------- */
-document.addEventListener("pointerup", e => {
+document.addEventListener("pointerup", (e) => {
   if (!isTouchDragging) return;
   const tgt = document.elementFromPoint(e.clientX, e.clientY);
   const dropTarget = tgt && tgt.closest(".item");
@@ -141,10 +152,16 @@ document.addEventListener("pointerup", e => {
 document.addEventListener("drop", (e) => {
   if (!dragSrc) return;
   const dropTarget = e.target.closest && e.target.closest(".item");
-  if (!dropTarget) { removeGhost(); clearDragState(); }
+  if (!dropTarget) {
+    removeGhost();
+    clearDragState();
+  }
 });
 
-document.addEventListener("dragend", () => { removeGhost(); clearDragState(); });
+document.addEventListener("dragend", () => {
+  removeGhost();
+  clearDragState();
+});
 
 /* ---------------------- LÓGICA DE TROCA ---------------------- */
 function performSwap(dropTarget) {
@@ -182,7 +199,9 @@ function performSwap(dropTarget) {
 
 /* ---------------------- CHECAGEM DE VITÓRIA ---------------------- */
 function checkOrder() {
-  const order = Array.from(container.children).map(el => el.dataset.value).join("");
+  const order = Array.from(container.children)
+    .map((el) => el.dataset.value)
+    .join("");
 
   if (order === "12345") {
     // Apenas trava visualmente e fecha o modal.
@@ -190,17 +209,16 @@ function checkOrder() {
     isSolved = true;
     gameData.visualState.minigame2 = true;
     gameData.visualState.wendigoAparece = true;
-    
-    
+
     disablePuzzle();
-    setTimeout(closeModal, 3000); 
-    dialogo.abrir(personagens.aiko, 'estatuaWon');
+    setTimeout(closeModal, 3000);
+    dialogo.abrir(personagens.aiko, "estatuaWon");
   }
 }
 
 /* ---------------------- BLOQUEIO INTERNO ---------------------- */
 function disablePuzzle() {
-  container.querySelectorAll(".item").forEach(item => {
+  container.querySelectorAll(".item").forEach((item) => {
     item.draggable = false;
     item.style.pointerEvents = "none";
     item.style.cursor = "default";
@@ -220,12 +238,4 @@ function closeModal() {
   document.getElementById("modalSequencia").style.display = "none";
 }
 
-// Botão de voltar (se existir no HTML)
-const btnBack = document.getElementById("btn-back");
-if(btnBack) {
-    btnBack.addEventListener("pointerdown", (e) => {
-        const destino = e.target.getAttribute("data-destino");
-        if (destino) window.location.href = destino;
-    });
-}
-
+tocarTrilha("templo");

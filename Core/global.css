@@ -20,31 +20,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../assets/fonts/Wild-Words-Roman.woff2") format("woff2"),
-    url("../assets/fonts/Wild-Words-Roman.woff") format("woff"),
-    url("../assets/fonts/Wild-Words-Roman.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Wild Words";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../assets/fonts/Wild-Words-Italic.woff2") format("woff2"),
-    url("../assets/fonts/Wild-Words-Italic.woff") format("woff"),
-    url("../assets/fonts/Wild-Words-Font/Wild Words Italic.ttf")
-      format("truetype");
-}
-
-@font-face {
-  font-family: "Wild Words";
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url("../assets/fonts/Wild-Words-Bold-Italic.woff2") format("woff2"),
-    url("../assets/fonts/Wild-Words-Bold-Italic.woff") format("woff"),
-    url("../assets/fonts/Wild-Words-Font/Wild Words Bold Italic.ttf")
-      format("truetype");
+  src: url("../assets/fonts/Wild-Words-Roman.ttf") format("truetype");
 }
 
 /* Reset e helpers base */
@@ -53,13 +29,11 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
-   user-select: none;
+  user-select: none;
   -webkit-user-drag: none;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;  
-
+  -moz-osx-font-smoothing: grayscale;
 }
-
 
 /* desative seleção e arraste apenas em elementos específicos quando necessário */
 html,
@@ -71,7 +45,6 @@ body {
   width: 100vw;
   height: 100vh;
 }
-
 
 /* ===================== */
 /* VARIÁVEIS E TIPOGRAFIA */
@@ -95,7 +68,6 @@ body {
   --btn-padding-y: 0.6rem;
   --btn-padding-x: 1.1rem;
 }
-
 
 /* ===================== */
 /* CONTAINERS E LAYOUT   */
@@ -146,7 +118,6 @@ nav a {
   margin: 0.35rem 0.6rem;
   font-size: 0.98rem;
 }
-
 
 /* ===================== */
 /* MEDIA QUERIES GLOBAIS */
@@ -273,22 +244,22 @@ nav a {
   z-index: 1000;
 
   color: #fff;
-  background: rgba(0,0,0,0.55);
-  padding: .35em .55em;
-  border-radius: .6em;
-  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 0.35em 0.55em;
+  border-radius: 0.6em;
+  border: 2px solid rgba(255, 255, 255, 0.25);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   backdrop-filter: blur(4px);
-  transition: background .2s, border-color .2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .btnback:hover {
-  background: rgba(0,0,0,0.7);
-  border-color: rgba(255,255,255,0.5);
+  background: rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* ===================== */
@@ -297,36 +268,60 @@ nav a {
 /* Força a placa de vídeo a segurar a imagem na memória */
 /* Resolve o bug de piscar itens invisíveis ao trocar de aba */
 .hidden-item img {
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: opacity; /* Opcional: avisa o navegador que vai mudar */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: opacity; /* Opcional: avisa o navegador que vai mudar */
 }
 
+/* ===================== */
+/* MODO PORTRAIT PROIBIDO */
+/* ===================== */
+@media screen and (orientation: portrait) {
+  /* Bloqueia TODO o conteúdo */
+  body > *:not(#portrait-block) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
 
-/* Modo Portrait Proíbido */
+  body {
+    overflow: hidden !important;
+  }
 
-@media (orientation: portrait) {
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh; /* dynamic viewport height - melhor em mobile */
+    background: #000;
+    z-index: 999998;
+  }
+
   body::after {
-    content: "Please rotate your device to play!";
+    content: "🔄 Rotate your device to play!";
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;  /* Largura total da tela */
-    height: 100vh; /* Altura total da tela (Isso corrige o alinhamento) */
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
     background: #000;
     color: #fff;
     display: flex;
-    align-items: center;     /* Centraliza Verticalmente */
-    justify-content: center; /* Centraliza Horizontalmente */
-    z-index: 99999;
-    font-size: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 999999;
+    font-size: clamp(1rem, 5vw, 2rem);
+    font-family: sans-serif;
     text-align: center;
-    pointer-events: all; /* Garante que bloqueie toques no jogo */
-  }
-  
-  /* Opcional: Trava a rolagem enquanto estiver com o aviso */
-  body {
-    overflow: hidden;
+    padding: 2rem;
+    pointer-events: all;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
 }

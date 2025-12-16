@@ -1,9 +1,9 @@
 // loader.js — versão final corrigida e compatível com o script.js do minigame
 
 const scripts = [
+  "/core/global.js",
   "/core/save/script.js",
   "/core/caixa_dialogo/falas.js",
-  "/core/global.js",
   "/core/yesorno/script.js",
   "/core/menu_interativo/script.js",
   "/core/loading/script.js",
@@ -11,7 +11,6 @@ const scripts = [
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
   "/scripts/jardim/script.js",
-  "/city.js",
   "/dev.js", // 🛠️ DEV MODE - Painel de Debug
 ];
 
@@ -55,28 +54,17 @@ const BLOCK_MAP = {
 (async function loadAllScripts() {
   console.log("Loader iniciado.");
 
-  const projectScriptUrl = new URL("script.js", document.location.href).href;
   const allScripts = [...scripts];
 
-  // verifica se script.js já existe no DOM
-  const found = Array.from(document.getElementsByTagName("script")).some(
-    (s) => {
-      try {
-        return (
-          s.src &&
-          new URL(s.src, document.location.href).href === projectScriptUrl
-        );
-      } catch (e) {
-        return false;
-      }
-    }
-  );
-
-  if (!found) {
-    console.log("script.js não estava no DOM — adicionando via loader.");
-    allScripts.push(projectScriptUrl);
-  } else {
-    console.log("script.js já estava no DOM — loader não vai duplicar.");
+  // Adiciona o script.js local do cenário (se existir)
+  const currentPath = window.location.pathname;
+  // Só adiciona se estiver em uma subpasta (cenários)
+  if (currentPath.includes("/cenarios/") || currentPath.includes("/scripts/")) {
+    const localScript = currentPath
+      .replace(/\/[^\/]*\.html$/, "/script.js")
+      .replace(/\/$/, "/script.js");
+    allScripts.push(localScript);
+    console.log("Script local detectado:", localScript);
   }
 
   // lê o atributo data-no="menu,popup"

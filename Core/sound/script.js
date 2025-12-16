@@ -1,10 +1,17 @@
 // --------------------
 // GERENCIADOR DE SONS COM BOTÃO DE ÍCONE + LOOPS
 // --------------------
+let trilhaPendente = null; // Guarda qual trilha deve tocar após interação
+let audioLiberado = false; // Flag pra saber se já liberou
+let musicaMutada = localStorage.getItem("musicaMutada") === "true"; // Estado persistente
+
+const VOLUME_PADRAO = 0.7; // Volume padrão das músicas (70%)
+
 const Sons = {
   trilhas: {
-    cidade: new Audio("/assets/sounds/trilhas/city.mp3"),
-    predio: new Audio("/assets/sounds/trilhas/predio.mp3")
+    city: new Audio("/assets/sounds/trilhas/city.mp3"),
+    templo: new Audio("/assets/sounds/trilhas/templo.mp3"),
+    boss: new Audio("/assets/sounds/trilhas/boss.mp3"),
   },
   efeitos: {
     win: "/assets/sounds/efeitos/win.wav",
@@ -27,16 +34,15 @@ const Sons = {
     barrier: "/assets/sounds/efeitos/barrier.mp3",
     cuffs: "/assets/sounds/efeitos/cuffs.mp3",
     steam: "/assets/sounds/efeitos/steam.mp3",
-  
   },
   trilhaAtual: null,
-  loopsAtivos: {} // Armazena os sons contínuos que estão tocando
+  loopsAtivos: {}, // Armazena os sons contínuos que estão tocando
 };
 
 // Configura todas as trilhas
 for (let key in Sons.trilhas) {
   Sons.trilhas[key].loop = true;
-  Sons.trilhas[key].volume = 0.3;
+  Sons.trilhas[key].volume = VOLUME_PADRAO;
 }
 
 // --------------------
@@ -51,12 +57,82 @@ function tocarTrilha(nome) {
     Sons.trilhaAtual.currentTime = 0;
   }
 
-  novaTrilha.play().catch(() => {
-    mostrarOverlayParaLiberarAudio(nome);
-  });
-
   Sons.trilhaAtual = novaTrilha;
+  trilhaPendente = nome; // Sempre guarda como pendente
+
+  // Se estiver mutado, não toca
+  if (musicaMutada) {
+    console.log(`🔇 Música mutada. Trilha "${nome}" não vai tocar.`);
+    return;
+  }
+
+  // Tenta tocar
+  novaTrilha
+    .play()
+    .then(() => {
+      audioLiberado = true;
+      trilhaPendente = null;
+      removerListenersAudio();
+      console.log(`🔊 Tocando: ${nome}`);
+    })
+    .catch(() => {
+      console.log(
+        `🔇 Autoplay bloqueado. Aguardando interação para tocar: ${nome}`
+      );
+    });
 }
+
+// Função pra tentar tocar a trilha pendente
+function tentarTocarPendente() {
+  if (!trilhaPendente || musicaMutada) return;
+
+  const trilha = Sons.trilhas[trilhaPendente];
+  if (trilha) {
+    trilha
+      .play()
+      .then(() => {
+        audioLiberado = true;
+        console.log(`🔊 Interação detectada! Tocando: ${trilhaPendente}`);
+        trilhaPendente = null;
+        removerListenersAudio();
+      })
+      .catch(() => {});
+  }
+}
+
+// Remove todos os listeners de áudio
+function removerListenersAudio() {
+  document.removeEventListener("click", tentarTocarPendente, true);
+  document.removeEventListener("keydown", tentarTocarPendente, true);
+  document.removeEventListener("touchstart", tentarTocarPendente, true);
+  document.removeEventListener("touchend", tentarTocarPendente, true);
+  document.removeEventListener("pointerdown", tentarTocarPendente, true);
+  document.removeEventListener("pointerup", tentarTocarPendente, true);
+  document.removeEventListener("mousedown", tentarTocarPendente, true);
+  document.removeEventListener("mouseup", tentarTocarPendente, true);
+  document.removeEventListener("scroll", tentarTocarPendente, true);
+  window.removeEventListener("focus", tentarTocarPendente);
+}
+
+// Configura TODOS os listeners possíveis (capture: true pra pegar antes de qualquer outro)
+function setupAutoplayFix() {
+  document.addEventListener("click", tentarTocarPendente, true);
+  document.addEventListener("keydown", tentarTocarPendente, true);
+  document.addEventListener("touchstart", tentarTocarPendente, true);
+  document.addEventListener("touchend", tentarTocarPendente, true);
+  document.addEventListener("pointerdown", tentarTocarPendente, true);
+  document.addEventListener("pointerup", tentarTocarPendente, true);
+  document.addEventListener("mousedown", tentarTocarPendente, true);
+  document.addEventListener("mouseup", tentarTocarPendente, true);
+  document.addEventListener("scroll", tentarTocarPendente, {
+    capture: true,
+    passive: true,
+  });
+  window.addEventListener("focus", tentarTocarPendente);
+}
+
+// Inicializa o fix de autoplay
+setupAutoplayFix();
 
 function pausarTrilha() {
   if (Sons.trilhaAtual) Sons.trilhaAtual.pause();
@@ -74,7 +150,7 @@ function tocarEfeito(nome, volume = 0.5) {
   if (!caminho) return;
   const som = new Audio(caminho);
   som.volume = volume;
-  som.play().catch(()=>{});
+  som.play().catch(() => {});
 }
 
 // --------------------
@@ -86,14 +162,16 @@ function iniciarLoop(nome, volume = 0.5) {
 
   const caminho = Sons.efeitos[nome];
   if (!caminho) {
-    console.warn(`Som de loop "${nome}" não encontrado. Verifique a lista Sons.efeitos.`);
+    console.warn(
+      `Som de loop "${nome}" não encontrado. Verifique a lista Sons.efeitos.`
+    );
     return;
   }
 
   const audio = new Audio(caminho);
   audio.loop = true; // Faz repetir infinitamente
   audio.volume = volume;
-  
+
   audio.play().catch((e) => {
     console.log("Autoplay bloqueado ou erro no loop:", e);
   });
@@ -111,73 +189,56 @@ function pararLoop(nome) {
 }
 
 // --------------------
-// OVERLAY PARA AUTOPLAY
+// OVERLAY PARA AUTOPLAY (mantido como fallback visual, mas raramente usado agora)
 // --------------------
 function mostrarOverlayParaLiberarAudio(trilha) {
-  if(document.getElementById('audio-overlay')) return;
-
-  const ov = document.createElement('div');
-  ov.id = 'audio-overlay';
-  ov.innerText = 'Toque para ativar o som';
-  Object.assign(ov.style, {
-    position:'fixed', bottom:'10px', right:'10px',
-    background:'rgba(0,0,0,0.6)', color:'#fff',
-    padding:'8px 12px', borderRadius:'6px',
-    cursor:'pointer', zIndex:9999
-  });
-  document.body.appendChild(ov);
-
-  const liberar = () => {
-    tocarTrilha(trilha);
-    ov.remove();
-    window.removeEventListener('pointerdown', liberar);
-    window.removeEventListener('keydown', liberar);
-  };
-
-  window.addEventListener('pointerdown', liberar, { once: true });
-  window.addEventListener('keydown', liberar, { once: true });
+  // Não mostra mais o overlay - o sistema automático cuida disso
+  // Mantido apenas para compatibilidade caso alguém chame diretamente
+  trilhaPendente = trilha;
 }
 
 // --------------------
-// BOTÃO DE PAUSA/PLAY COM ÍCONE
+// BOTÃO DE PAUSA/PLAY COM ÍCONE (PERSISTENTE)
 // --------------------
 function criarBotaoMusica() {
-  const btn = document.createElement('div');
-  btn.id = 'btn-musica';
-  btn.innerText = '🎵';
+  const btn = document.createElement("div");
+  btn.id = "btn-musica";
+  btn.innerText = musicaMutada ? "🔇" : "🎵";
   Object.assign(btn.style, {
-    position: 'fixed',
-    top: '10px',
-    right: '10px',
-    width: '40px',
-    height: '40px',
-    background: 'rgba(0,0,0,0.6)',
-    color: '#fff',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '8px',
-    cursor: 'pointer',
+    position: "fixed",
+    top: "10px",
+    right: "10px",
+    width: "40px",
+    height: "40px",
+    background: musicaMutada ? "rgba(43, 193, 238, 1)" : "rgba(0,0,0,0.6)",
+    color: "#fff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "8px",
+    cursor: "pointer",
     zIndex: 9999,
-    fontSize: '20px',
-    userSelect: 'none'
+    fontSize: "20px",
+    userSelect: "none",
   });
 
-  let pausado = false;
+  btn.addEventListener("click", () => {
+    musicaMutada = !musicaMutada;
+    localStorage.setItem("musicaMutada", musicaMutada);
 
-  btn.addEventListener('click', () => {
-    if (!Sons.trilhaAtual) return;
-
-    if (pausado) {
-      resumirTrilha();
-      pausado = false;
-      btn.innerText = '🎵';
-      btn.style.background = 'rgba(0,0,0,0.6)';
-    } else {
+    if (musicaMutada) {
       pausarTrilha();
-      pausado = true;
-      btn.innerText = '🔇';
-      btn.style.background = 'rgba(43, 193, 238, 1)';
+      btn.innerText = "🔇";
+      btn.style.background = "rgba(43, 193, 238, 1)";
+    } else {
+      // Tenta tocar a trilha atual ou pendente
+      if (Sons.trilhaAtual) {
+        resumirTrilha();
+      } else if (trilhaPendente) {
+        tocarTrilha(trilhaPendente);
+      }
+      btn.innerText = "🎵";
+      btn.style.background = "rgba(0,0,0,0.6)";
     }
   });
 
@@ -187,17 +248,17 @@ function criarBotaoMusica() {
 // --------------------
 // INICIALIZAÇÃO
 // --------------------
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
   // Se quiser iniciar uma trilha logo de cara, descomente abaixo:
   // tocarTrilha('cidade');
-  
+
   criarBotaoMusica();
 });
 
 // Exemplo de uso existente
 const vitoriaBtn = document.getElementById("vitoriaBtn");
 if (vitoriaBtn) {
-    vitoriaBtn.addEventListener("click", () => {
-      tocarEfeito("whoosh", 0.5);
-    });
+  vitoriaBtn.addEventListener("click", () => {
+    tocarEfeito("whoosh", 0.5);
+  });
 }

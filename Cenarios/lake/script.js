@@ -341,12 +341,6 @@ function triggerWin() {
 
 // Inicializa quando o DOM estiver pronto
 document.addEventListener("DOMContentLoaded", () => {
-  const btnBack = document.getElementById("btn-back");
-  if (btnBack)
-    btnBack.addEventListener("click", () =>
-      window.location.replace("/city.html")
-    );
-
   initGrid();
 
   // --- DEBUG BUTTON ---

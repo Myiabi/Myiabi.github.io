@@ -32,6 +32,9 @@
     - Menu interativo responsivo
 }
 
+- Ativar sons dos cenários
+- Passar tudo pro ingles
+
 Ajustes de mecanica:
 
 - Remover win game do crab
@@ -39,7 +42,7 @@ Ajustes de mecanica:
 - Aumentar tempo do moon
 - Ajeitar os hits do Ice Emperor.
 
-
+- Fazer a verificação geral. 
 
 # Lembrar
 -~~Ao implementar/testar os minigames em definitivo, criar um README lembrando como funciona a chamada de cada função,~~
