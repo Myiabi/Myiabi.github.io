@@ -71,7 +71,6 @@
         width: 10%;
         top: 50%;
         left: 25%;
-
       }
       #nodatai {
         width: 9.5%;
@@ -290,6 +289,29 @@
       .replay-btn:hover {
         opacity: 1;
       }
+
+      /* --- VERSÃO DO JOGO --- */
+      #game-version {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 200;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: monospace;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        text-align: left;
+      }
+
+      #game-version .version-number {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: bold;
+      }
+
+      #game-version .version-info {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.75rem;
+      }
     </style>
   </head>
   <body>
@@ -302,6 +324,11 @@
         draggable="false"
       />
       <button id="start-btn">INICIAR JOGO</button>
+
+      <!-- VERSÃO DO JOGO -->
+      <div id="game-version">
+        <div class="version-number">Version 1.0.0</div>
+      </div>
     </div>
 
     <!-- CENA 2: O JOGO REAL -->

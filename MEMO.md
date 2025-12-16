@@ -17,13 +17,20 @@
 - ~~Mudar fala do Wendingo quando os 3 materiais forem coletados~~
 - ~~Mudar fala do Myopic depois de abrir o baú~~
 - ~~Mudar fala do Wayway quando receber o Fogo e quando acender os postes.~~
-- Aiko falar a historia do Last Boss
 - ~~Remover opção sem boca do Myo~~
-- Myo não aparecendo no FINAL
-- Imagem da forest tem logo de IA (CREDO)
-- Colocar a versão na tela de intro
+- ~~Myo não aparecendo no FINAL~~
+- ~~Imagem da forest tem logo de IA (CREDO)~~
+- ~~Colocar a versão na tela de intro~~
 
 - ~~Link das redes sociais~~
+- Aiko falar a historia do Last Boss
+
+- Ice Emperor {
+    - Barras surgindo junto com ele.
+    - Uma frase quando ele "pousar"
+    - Só liberar depois que ele terminar de falar
+    - Menu interativo responsivo
+}
 
 Ajustes de mecanica:
 
@@ -159,7 +166,7 @@ Ajustes de mecanica:
 - ~~Lily vai ser o joguinho de achar um objeto no meio de uma imagem de jardim caótica.~~
 - ~~Last Boss Fight, vai ter 3 alvos, os dois braços e os olhos.~~
 - ~~Criar puzzle de empurrar pedra e revelar o Pollux.~~
-- Tela final com pedidos de Patreon e Buy me a Coffee
+- ~~Tela final com pedidos de Patreon e Buy me a ~~Coffee~~
 - ~~Quest do fundo do lago é sobre desenhar simbolos nas bolhas.~~
 
 # Aprender

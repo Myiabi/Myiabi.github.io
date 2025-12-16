@@ -88,7 +88,7 @@ let dragClone = null;
 // 🔥 Aura do fogo
 let auraFogo = null;
 
-const RADIUS = 7.6;
+const RADIUS = 12;
 const START_THRESHOLD_VW = 0.5;
 const RADIUS_DETECT_VW = 10; // Valor razoável para a "borda" de detecção
 
@@ -98,6 +98,9 @@ let startX = 0,
 // utils
 function vwToPx(vw) {
   return window.innerWidth * (vw / 100);
+}
+function vminToPx(vmin) {
+  return Math.min(window.innerWidth, window.innerHeight) * (vmin / 100);
 }
 function getXY(e) {
   if (e.touches?.length)
@@ -110,7 +113,7 @@ function setClip(x, y, topLayer, r = RADIUS) {
   const rect = topLayer.getBoundingClientRect();
   const xp = ((x - rect.left) / rect.width) * 100;
   const yp = ((y - rect.top) / rect.height) * 100;
-  const clip = `circle(${r}vw at ${xp}% ${yp}%)`;
+  const clip = `circle(${r}vmin at ${xp}% ${yp}%)`;
 
   topLayer.style.clipPath = clip;
   topLayer.style.webkitClipPath = clip;
@@ -469,8 +472,8 @@ function criarAuraFogo() {
   auraFogo = document.createElement("div");
   auraFogo.className = "fogo-aura";
   auraFogo.style.position = "fixed";
-  auraFogo.style.width = "10vw";
-  auraFogo.style.height = "10vw";
+  auraFogo.style.width = "10vmin";
+  auraFogo.style.height = "10vmin";
   auraFogo.style.pointerEvents = "none";
   auraFogo.style.transform = "translate(-50%, -50%)";
   auraFogo.style.zIndex = "1499";
@@ -493,8 +496,10 @@ function returnToMenu(clone, menuItem) {
   const cy = r.top + r.height / 2;
 
   clone.style.transition = "all .8s cubic-bezier(.25,1,.5,1)";
-  clone.style.left = (cx / window.innerWidth) * 100 + "vw";
-  clone.style.top = (cy / window.innerHeight) * 100 + "vh";
+  clone.style.left =
+    (cx / Math.min(window.innerWidth, window.innerHeight)) * 100 + "vmin";
+  clone.style.top =
+    (cy / Math.min(window.innerWidth, window.innerHeight)) * 100 + "vmin";
 
   clone.addEventListener(
     "transitionend",
@@ -534,12 +539,14 @@ function startRealDrag(item, x, y) {
   dragClone.style.opacity = "0.9";
   dragClone.style.pointerEvents = "none";
   dragClone.style.zIndex = "1500";
-  dragClone.style.width = "5vw"; // tamanho fixo em vw igual ao CSS
-  dragClone.style.height = "5vw";
+  dragClone.style.width = "12vmin"; // tamanho fixo em vmin igual ao CSS
+  dragClone.style.height = "12vmin";
   dragClone.style.borderRadius = "50%";
   dragClone.style.transform = "translate(-50%,-50%)";
-  dragClone.style.left = (x / window.innerWidth) * 100 + "vw";
-  dragClone.style.top = (y / window.innerHeight) * 100 + "vh";
+  dragClone.style.left =
+    (x / Math.min(window.innerWidth, window.innerHeight)) * 100 + "vmin";
+  dragClone.style.top =
+    (y / Math.min(window.innerWidth, window.innerHeight)) * 100 + "vmin";
 
   document.body.appendChild(dragClone); // 🔥 ativar aura do fogo
 
@@ -588,8 +595,9 @@ function onPointerMove(e) {
   }
 
   if (isDragging && dragClone) {
-    dragClone.style.left = (x / window.innerWidth) * 100 + "vw";
-    dragClone.style.top = (y / window.innerHeight) * 100 + "vh"; // 🔥 move aura do fogo
+    const vminBase = Math.min(window.innerWidth, window.innerHeight);
+    dragClone.style.left = (x / vminBase) * 100 + "vmin";
+    dragClone.style.top = (y / vminBase) * 100 + "vmin"; // 🔥 move aura do fogo
 
     if (currentItem?.func === "sol") {
       auraFogo.style.left = dragClone.style.left;
