@@ -472,8 +472,6 @@ function criarAuraFogo() {
   auraFogo = document.createElement("div");
   auraFogo.className = "fogo-aura";
   auraFogo.style.position = "fixed";
-  auraFogo.style.width = "10vmin";
-  auraFogo.style.height = "10vmin";
   auraFogo.style.pointerEvents = "none";
   auraFogo.style.transform = "translate(-50%, -50%)";
   auraFogo.style.zIndex = "1499";

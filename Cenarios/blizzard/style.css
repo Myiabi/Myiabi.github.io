@@ -1,4 +1,4 @@
-/* style.css */
+/* style.css - VERSÃO CORRIGIDA (Proporção VH Unificada) */
 
 /* =========================================
    RESET E BASE GLOBAL
@@ -44,7 +44,7 @@ body::before {
   pointer-events: none;
 }
 
-/* Luz da lua no topo - BLUR REDUZIDO */
+/* Luz da lua no topo */
 body::after {
   content: "";
   position: absolute;
@@ -58,12 +58,12 @@ body::after {
     rgba(130, 180, 255, 0.25),
     transparent 70%
   );
-  filter: blur(10px); /* REDUZIDO de 80px para 10px */
+  filter: blur(10px);
   z-index: 0;
   pointer-events: none;
 }
 
-/* Vignette cinematográfico nas laterais */
+/* Vignette cinematográfico */
 .vignette {
   content: "";
   position: absolute;
@@ -77,7 +77,7 @@ body::after {
   pointer-events: none;
 }
 
-/* Neblina suave flutuante - BLUR REDUZIDO */
+/* Neblina suave flutuante */
 .fog-layer {
   position: absolute;
   inset: 0;
@@ -87,54 +87,31 @@ body::after {
     transparent 70%
   );
   animation: fogMove 20s ease-in-out infinite alternate;
-  filter: blur(10px); /* REDUZIDO de 40px para 10px */
+  filter: blur(10px);
   z-index: 0;
   pointer-events: none;
 }
 
 @keyframes fogMove {
-  0% {
-    transform: translateX(-20px);
-    opacity: 0.25;
-  }
-  100% {
-    transform: translateX(20px);
-    opacity: 0.45;
-  }
+  0% { transform: translateX(-20px); opacity: 0.25; }
+  100% { transform: translateX(20px); opacity: 0.45; }
 }
 
-/* Neve - GLOW REDUZIDO (O mais caro) */
+/* Canvas de Neve */
 canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-
-  /* Glow da neve - REMOVIDO o glow mais pesado */
-  /* Antes: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 14px rgba(180, 220, 255, 0.5)); */
-  filter: drop-shadow(
-    0 0 6px rgba(255, 255, 255, 0.9)
-  ); /* Mantido o glow mais leve */
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
 }
 
-#snow-canvas-1 {
-  z-index: 6;
-}
-#snow-canvas-2 {
-  z-index: 5;
-}
-#snow-canvas-3 {
-  z-index: 4;
-}
-#snow-canvas-4 {
-  z-index: 3;
-}
-#snow-canvas-5 {
-  z-index: 2;
-}
-#snow-canvas-6 {
-  z-index: 1;
-}
+#snow-canvas-1 { z-index: 6; }
+#snow-canvas-2 { z-index: 5; }
+#snow-canvas-3 { z-index: 4; }
+#snow-canvas-4 { z-index: 3; }
+#snow-canvas-5 { z-index: 2; }
+#snow-canvas-6 { z-index: 1; }
 
 /* Nuvens rápidas */
 .clouds-bg {
@@ -149,12 +126,8 @@ canvas {
 }
 
 @keyframes moveClouds {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: -3000px 0;
-  }
+  0% { background-position: 0 0; }
+  100% { background-position: -3000px 0; }
 }
 
 #star-canvas {
@@ -168,28 +141,34 @@ canvas {
 }
 
 /* =========================================
-   MENU LATERAL (DRAG & DROP)
+   MENU LATERAL - AGORA PROPORCIONAL AO BOSS (VH)
    ========================================= */
 #menu-secundario {
   position: fixed;
-  left: 2vw;
+  left: 2vh; /* Margem da esquerda também em VH */
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 2vh;
-  padding: 1vw;
+  
+  /* Tudo em VH para acompanhar a altura do jogo */
+  gap: 2vh; 
+  padding: 1.5vh;
+  
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 2vw;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1vh); 
+  -webkit-backdrop-filter: blur(1vh);
+  
+  border: 0.3vh solid rgba(255, 255, 255, 0.15);
+  border-radius: 2vh;
+  box-shadow: 0 1vh 3vh rgba(0, 0, 0, 0.5);
+  
   z-index: 2000;
 }
 
 .menu-item {
-  width: 5vw;
-  height: 5vw;
+  width: 12vh;  /* Tamanho definido em VH */
+  height: 12vh; /* Quadrado perfeito */
   padding: 0;
   border-radius: 0;
   background: transparent;
@@ -198,7 +177,6 @@ canvas {
   align-items: center;
   justify-content: center;
   transition: transform 0.2s;
-  font-size: 3vw;
 }
 
 .menu-item:active {
@@ -210,16 +188,26 @@ canvas {
   height: 100%;
   object-fit: contain;
   pointer-events: none;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+  
+  /* Sombra (Glow) forte e proporcional */
+  filter: drop-shadow(0 0.4vh 1.2vh rgba(0, 0, 0, 0.5));
+}
+
+/* Correção para o Clone Arrastável */
+/* Isso garante que ele tenha o mesmo tamanho do menu, ignorando o JS antigo */
+.drag-clone-float {
+  width: 12vh !important;
+  height: 12vh !important;
+  border-radius: 50%; /* Se quiser redondo o fundo */
 }
 
 /* =========================================
-   LUPA (LUA)
+   LUPA (LUA) - Proporcional em VH
    ========================================= */
 .loupe {
   position: fixed;
-  width: 15vw;
-  height: 15vw;
+  width: 25vh; /* Bem maior e travado na altura */
+  height: 25vh;
   border-radius: 50%;
   background: radial-gradient(
     circle,
@@ -227,13 +215,79 @@ canvas {
     rgba(135, 206, 250, 0.15) 50%,
     rgba(0, 0, 0, 0) 70%
   );
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4),
-    0 0 10px rgba(0, 0, 0, 0.2);
+  
+  /* Bordas e Glows em VH */
+  border: 0.3vh solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 4vh rgba(255, 255, 255, 0.4),
+              0 0 3vh rgba(0, 0, 0, 0.2);
+              
   transform: translate(-50%, -50%);
   display: none;
   pointer-events: none;
   z-index: 1000;
+}
+
+/* =========================================
+   FOGO AURA (SOL) - Gigante e em VH
+   ========================================= */
+.fogo-aura {
+  /* Tamanho grande para cobrir bem a área de colisão */
+  width: 50vh; 
+  height: 50vh;
+  
+  background: radial-gradient(
+    circle,
+    rgba(255, 120, 0, 0.45) 0%,
+    rgba(255, 60, 0, 0.3) 30%,
+    rgba(255, 0, 0, 0.1) 65%,
+    rgba(0, 0, 0, 0) 80%
+  );
+  animation: pulsoFogo 1.4s infinite ease-in-out;
+  
+  filter: blur(1vh); /* Blur proporcional */
+  border-radius: 50%;
+  pointer-events: none;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  z-index: 1499;
+}
+
+.fogo-aura::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 140, 0, 0.6) 0%,
+    rgba(255, 60, 0, 0.4) 40%,
+    rgba(255, 0, 0, 0) 70%
+  );
+  filter: blur(2vh);
+  animation: fogoGlow 1.2s infinite ease-in-out;
+}
+
+@keyframes fogoPulse {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.35); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes fogoGlow {
+  0% { opacity: 0.6; filter: blur(1vh); }
+  50% { opacity: 1; filter: blur(2vh); }
+  100% { opacity: 0.6; filter: blur(1vh); }
+}
+
+@keyframes fly-animation {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0.5deg);
+    filter: drop-shadow(0 0.5vh 1vh rgba(0, 0, 0, 0.4));
+  }
+  50% {
+    transform: translate(-50%, -60%) rotate(-0.5deg);
+    filter: drop-shadow(0 0.3vh 0.6vh rgba(0, 0, 0, 0.2));
+  }
 }
 
 /* =========================================
@@ -261,98 +315,14 @@ canvas {
 }
 
 /* =========================================
-   FOGO AURA (SOL)
-   ========================================= */
-.fogo-aura {
-  width: 3vw;
-  height: 3vw;
-  background: radial-gradient(
-    circle,
-    rgba(255, 120, 0, 0.45) 0%,
-    rgba(255, 60, 0, 0.3) 40%,
-    rgba(255, 0, 0, 0.18) 70%,
-    rgba(0, 0, 0, 0) 90%
-  );
-  animation: pulsoFogo 1.4s infinite ease-in-out;
-  filter: blur(0.5vw);
-  border-radius: 50%;
-  pointer-events: none;
-  position: fixed;
-  transform: translate(-50%, -50%);
-  z-index: 1499;
-}
-
-.fogo-aura::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 10%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 140, 0, 0.7) 0%,
-    rgba(255, 60, 0, 0.5) 50%,
-    rgba(255, 0, 0, 0) 80%
-  );
-  filter: blur(1.2vw);
-  animation: fogoGlow 1.2s infinite ease-in-out;
-}
-
-@keyframes fogoPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.35);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes fogoGlow {
-  0% {
-    opacity: 0.6;
-    filter: blur(0.9vw);
-  }
-  50% {
-    opacity: 1;
-    filter: blur(1.5vw);
-  }
-  100% {
-    opacity: 0.6;
-    filter: blur(0.9vw);
-  }
-}
-
-@keyframes fly-animation {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) rotate(0.5deg);
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
-  }
-  50% {
-    transform: translate(-50%, -60%) rotate(-0.5deg);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  }
-}
-
-/* =========================================
    BOSS BATTLE - ANIMAÇÕES E ESTILOS
    ========================================= */
 
 /* Animação de entrada do Boss */
 @keyframes bossDescend {
-  0% {
-    transform: translate(-50%, -150%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%);
-    opacity: 1;
-  }
+  0% { transform: translate(-50%, -150%); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(-50%, -50%); opacity: 1; }
 }
 
 #boss-arena {
@@ -371,7 +341,6 @@ canvas {
   animation: bossDescend 6s ease-out forwards;
 }
 
-/* Esconde as barras de cast durante a entrada */
 #boss-arena.entering .cast-bar-container {
   opacity: 0;
   visibility: hidden;
@@ -382,7 +351,6 @@ canvas {
   opacity: 1;
 }
 
-/* Mostra as barras de cast após pousar */
 #boss-arena.entered .cast-bar-container {
   opacity: 1;
   visibility: visible;
@@ -391,13 +359,8 @@ canvas {
 
 /* Animação de flutuação do Boss */
 @keyframes floatBoss {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-1.5vh);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5vh); }
 }
 
 /* Corpo do Boss */
@@ -414,13 +377,8 @@ canvas {
 }
 
 @keyframes floatBody {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) translateY(0);
-  }
-  50% {
-    transform: translate(-50%, -50%) translateY(-1.5vh);
-  }
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-1.5vh); }
 }
 
 /* =========================================
@@ -486,7 +444,7 @@ canvas {
 
 .hand-img {
   width: 100%;
-  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+  filter: drop-shadow(0 0 1vh rgba(0, 255, 255, 0.3));
   transition: filter 0.3s;
 }
 
@@ -512,21 +470,15 @@ canvas {
 
 /* Dano na mão */
 .hand-damaged {
-  filter: sepia(1) saturate(1000%) hue-rotate(-50deg) drop-shadow(0 0 15px red) !important;
+  filter: sepia(1) saturate(1000%) hue-rotate(-50deg) drop-shadow(0 0 1.5vh red) !important;
   transform: scale(0.95);
 }
 
 /* Efeito de regeneração azul */
 @keyframes cuff-regeneration {
-  0% {
-    filter: drop-shadow(0 0 0px #00ffff);
-  }
-  50% {
-    filter: drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 5px #0000ff);
-  }
-  100% {
-    filter: drop-shadow(0 0 0px #00ffff);
-  }
+  0% { filter: drop-shadow(0 0 0px #00ffff); }
+  50% { filter: drop-shadow(0 0 1.5vh #00ffff) drop-shadow(0 0 0.5vh #0000ff); }
+  100% { filter: drop-shadow(0 0 0px #00ffff); }
 }
 
 .hand-img.regenerating-glow {
@@ -541,7 +493,7 @@ canvas {
   height: 0.6vh;
   background: rgba(0, 20, 40, 0.6);
   border: 1px solid rgba(100, 200, 255, 0.5);
-  box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 0.5vh rgba(0, 255, 255, 0.5);
   border-radius: 2px;
   position: absolute;
   top: 65%;
@@ -562,7 +514,7 @@ canvas {
   width: 0%;
   height: 100%;
   background: linear-gradient(90deg, #ffffff, #00ffff, #0077be);
-  box-shadow: 0 0 8px #00ffff;
+  box-shadow: 0 0 0.8vh #00ffff;
   transition: width 0.1s linear;
 }
 
@@ -593,14 +545,8 @@ canvas {
 }
 
 @keyframes pulseEye {
-  from {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1.1);
-  }
+  from { opacity: 0.6; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.1); }
 }
 
 #cast-eyes {
@@ -616,7 +562,6 @@ canvas {
   background: linear-gradient(90deg, #ff00cc, #333399);
 }
 
-/* Barra de regen dos olhos */
 #regen-eyes {
   top: 10%;
   left: 50%;
@@ -636,12 +581,12 @@ canvas {
   color: #ffd700;
   font-weight: bold;
   font-size: 1.5vh;
-  text-shadow: 0 0 5px #000;
+  text-shadow: 0 0 0.5vh #000;
 }
 
 #regen-eyes .cast-bar-fill {
   background: linear-gradient(90deg, #fff, #ffd700, #ff8c00);
-  box-shadow: 0 0 8px #ffd700;
+  box-shadow: 0 0 0.8vh #ffd700;
 }
 
 /* =========================================
@@ -668,7 +613,7 @@ canvas {
   min-height: 0;
   transition: filter 0.3s;
   pointer-events: none;
-  filter: drop-shadow(0 0 5px rgba(255, 100, 0, 0.5));
+  filter: drop-shadow(0 0 0.5vh rgba(255, 100, 0, 0.5));
 }
 
 .poste-apagado {
@@ -676,39 +621,17 @@ canvas {
 }
 
 @keyframes shake {
-  0% {
-    transform: translate(1px, 1px) rotate(0deg);
-  }
-  10% {
-    transform: translate(-1px, -2px) rotate(-1deg);
-  }
-  20% {
-    transform: translate(-3px, 0px) rotate(1deg);
-  }
-  30% {
-    transform: translate(3px, 2px) rotate(0deg);
-  }
-  40% {
-    transform: translate(1px, -1px) rotate(1deg);
-  }
-  50% {
-    transform: translate(-1px, 2px) rotate(-1deg);
-  }
-  60% {
-    transform: translate(-3px, 1px) rotate(0deg);
-  }
-  70% {
-    transform: translate(3px, 1px) rotate(-1deg);
-  }
-  80% {
-    transform: translate(-1px, -1px) rotate(1deg);
-  }
-  90% {
-    transform: translate(1px, 2px) rotate(0deg);
-  }
-  100% {
-    transform: translate(1px, -2px) rotate(-1deg);
-  }
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
 .shake {
@@ -716,38 +639,14 @@ canvas {
 }
 
 /* Posicionamento dos 8 postes */
-#poste-1 {
-  top: 61vh;
-  left: 7vw;
-}
-#poste-2 {
-  top: 61vh;
-  left: 17vw;
-}
-#poste-3 {
-  top: 61vh;
-  left: 27vw;
-}
-#poste-4 {
-  top: 61vh;
-  left: 37vw;
-}
-#poste-5 {
-  top: 61vh;
-  left: 60vw;
-}
-#poste-6 {
-  top: 61vh;
-  left: 70vw;
-}
-#poste-7 {
-  top: 61vh;
-  left: 80vw;
-}
-#poste-8 {
-  top: 61vh;
-  left: 90vw;
-}
+#poste-1 { top: 61vh; left: 7vw; }
+#poste-2 { top: 61vh; left: 17vw; }
+#poste-3 { top: 61vh; left: 27vw; }
+#poste-4 { top: 61vh; left: 37vw; }
+#poste-5 { top: 61vh; left: 60vw; }
+#poste-6 { top: 61vh; left: 70vw; }
+#poste-7 { top: 61vh; left: 80vw; }
+#poste-8 { top: 61vh; left: 90vw; }
 
 /* =========================================
    MENSAGENS FLUTUANTES E UI
@@ -755,23 +654,17 @@ canvas {
 .floating-text {
   position: fixed;
   font-weight: bold;
-  text-shadow: 0 0 5px #000;
+  text-shadow: 0 0 0.5vh #000;
   pointer-events: none;
   z-index: 3000;
   white-space: nowrap;
-  font-size: 1.5vw;
+  font-size: 3vh; /* Ajustado para VH */
   animation: floatUp 2s ease-out forwards;
 }
 
 @keyframes floatUp {
-  0% {
-    transform: translate(-50%, 0);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50px);
-    opacity: 0;
-  }
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, -5vh); opacity: 0; }
 }
 
 #game-message {
@@ -779,10 +672,10 @@ canvas {
   top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 5vw;
+  font-size: 8vh; /* Ajustado para VH */
   font-weight: bold;
   color: white;
-  text-shadow: 0 0 10px #000, 0 0 20px red;
+  text-shadow: 0 0 1vh #000, 0 0 2vh red;
   pointer-events: none;
   z-index: 2000;
   text-align: center;

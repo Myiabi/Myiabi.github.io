@@ -237,7 +237,7 @@ window.personagens = {
           expressao: "normal",
         },
         {
-          texto: "[Double-click on the blue box to start fishing]",
+          texto: "<span style=\"color: gold; font-size: 1em;\">[Double-click on the blue box to start fishing]</span> ",
           expressao: "normal",
           aofechar: function () {
             gameData.visualState.varaON = true;
@@ -1019,7 +1019,7 @@ window.personagens = {
           expressao: "normal",
         },
         {
-          texto: "[Try diving in the fishing hole (!?)]",
+          texto: "<span style=\"color: gold; font-size: 1em;\">[Try diving in the fishing hole (!?)]</span>",
           expressao: "normal",
           executar: function () {
             gameData.visualState.presilha = true;

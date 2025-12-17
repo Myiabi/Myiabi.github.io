@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/core/global.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="/loader.js"></script>
+
     <style>
       :root {
         --bg: radial-gradient(
@@ -366,11 +367,97 @@
           justify-content: center;
         }
       }
+
+      /* === ESTILO DO MODAL DE CONFIRMAÇÃO === */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .modal-box {
+        background: #0b1624; /* Cor escura do seu tema */
+        border: 1px solid var(--border);
+        padding: 24px 32px;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        transform: scale(0.9);
+        transition: transform 0.2s ease;
+        max-width: 90%;
+        width: 320px;
+      }
+
+      .modal-overlay.active .modal-box {
+        transform: scale(1);
+      }
+
+      .modal-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 0 20px;
+        color: var(--text);
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .modal-btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .btn-yes {
+        background: var(--accent);
+        color: #04101c;
+      }
+      .btn-yes:hover {
+        filter: brightness(1.1);
+      }
+
+      .btn-no {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn-no:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
     </style>
   </head>
   <body>
+    <div id="confirm-modal" class="modal-overlay">
+      <div class="modal-box">
+        <p class="modal-title">Resetar e Jogar de novo?</p>
+        <div class="modal-actions">
+          <button id="btn-confirm-no" class="modal-btn btn-no">NÃO</button>
+          <button id="btn-confirm-yes" class="modal-btn btn-yes">SIM</button>
+        </div>
+      </div>
+    </div>
+
     <div class="page">
-      <!-- Área visível na tela -->
       <div class="header">
         <h1>GAME OVER</h1>
       </div>
@@ -425,7 +512,6 @@
         </div>
       </div>
 
-      <!-- Área capturada na imagem (oculta) - só MYO -->
       <div id="capture-area" style="position: absolute; left: -9999px; top: 0">
         <div
           id="myo-canvas-capture"
@@ -433,9 +519,7 @@
         ></div>
       </div>
 
-      <!-- Links sociais (fora da captura) -->
       <div class="social-row">
-
         <a
           class="social-btn"
           href="https://toyhou.se/~world/14589.drop-zilla-cafe"
@@ -460,6 +544,16 @@
         >
           <span class="social-icon">❤️</span> Patreon
         </a>
+
+        <div style="margin-left: auto">
+          <button
+            id="btn-play-again"
+            class="action-btn"
+            style="justify-content: center"
+          >
+            Play Again ↺
+          </button>
+        </div>
       </div>
     </div>
 
@@ -476,7 +570,7 @@
         }
       }
 
-      // === MAPA DE IMAGENS DE PEIXE (espelha o minigame de pesca) ===
+      // === MAPA DE IMAGENS DE PEIXE ===
       const FISH_SPRITES = {
         Catfish: "/assets/img/Fish-catfish.png",
         Carp: "/assets/img/Fish-Carp.png",
@@ -716,20 +810,51 @@
       }
 
       function startRender() {
-        // Lê diretamente do localStorage, não precisa esperar gameData
         const saveData = getLocalSave();
-        console.log("[Final] Save carregado:", saveData);
-        console.log("[Final] customCharacter:", saveData?.customCharacter);
-
         renderFishCard();
         renderMyo();
       }
 
+      // === INICIALIZAÇÃO ÚNICA E LIMPA ===
       document.addEventListener("DOMContentLoaded", () => {
+        // 1. Renderiza a tela
         startRender();
-        document
-          .getElementById("btn-download-myo")
-          .addEventListener("click", downloadMyo);
+
+        // 2. Configura o botão de download
+        const btnDownload = document.getElementById("btn-download-myo");
+        if (btnDownload) {
+          btnDownload.addEventListener("click", downloadMyo);
+        }
+
+        // 3. Configura o Modal e o botão Play Again
+        const btnPlay = document.getElementById("btn-play-again");
+        const modal = document.getElementById("confirm-modal");
+        const btnYes = document.getElementById("btn-confirm-yes");
+        const btnNo = document.getElementById("btn-confirm-no");
+
+        if (btnPlay && modal) {
+          // Abre o modal
+          btnPlay.addEventListener("click", () => {
+            modal.classList.add("active");
+          });
+
+          // Fecha o modal (NÃO)
+          btnNo.addEventListener("click", () => {
+            modal.classList.remove("active");
+          });
+
+          // Fecha se clicar fora da caixa
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) modal.classList.remove("active");
+          });
+
+          // Reseta o jogo (SIM)
+          btnYes.addEventListener("click", () => {
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = "/index.html";
+          });
+        }
       });
     </script>
   </body>

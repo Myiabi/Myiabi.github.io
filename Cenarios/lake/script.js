@@ -340,20 +340,3 @@ function triggerWin() {
   }, animationTime);
 }
 
-// Inicializa quando o DOM estiver pronto
-document.addEventListener("DOMContentLoaded", () => {
-  initGrid();
-
-  // --- DEBUG BUTTON ---
-  const debugBtn = document.createElement("button");
-  debugBtn.textContent = "WIN (Debug)";
-  debugBtn.style.cssText =
-    "position:fixed; top:10px; right:10px; z-index:9999; padding:8px; background:red; color:white; border:none; cursor:pointer; font-weight:bold;";
-  debugBtn.onclick = () => {
-    setGameState("puzzleBubbles_hour", true);
-    setGameState("puzzleBubbles_jelly", true);
-    setGameState("puzzleBubbles_heart", true);
-    triggerWin();
-  };
-  document.body.appendChild(debugBtn);
-});
