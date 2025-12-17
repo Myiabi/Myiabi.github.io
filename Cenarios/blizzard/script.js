@@ -835,10 +835,10 @@ async function startDramaticScene() {
 // ==========================================================
 const BOSS_CONFIG = {
   cuffRegenTime: 2000,
-  handMaxHits: 1,
+  handMaxHits: 3,
   castSpeedHand: 0.105,
   castSpeedEye: 0.105,
-  regenSpeedEye: 0.04,
+  regenSpeedEye: 0.06,
   totalPostes: 8,
 };
 
@@ -1042,7 +1042,13 @@ function apagarPoste(el) {
       gameState.postesVivos++;
     },
   });
+  
   gameState.postesVivos--;
+
+  // --- CHECK DE DERROTA ---
+  if (gameState.postesVivos <= 0) {
+    gameOver(false);
+  }
 }
 
 function setupTargetsMao(side) {
@@ -1282,29 +1288,13 @@ async function gameOver(vitoria) {
     mostrarMensagem("...", "white");
     await esperar(5000);
     window.location.href = "/cutscene.html";
-    return;
+  } else {
+    // --- DERROTA PRA VALER ---
+    mostrarMensagem("THE COLD TOOK EVERYTHING...", "cyan");
+    
+    await esperar(2000);
+    window.location.href = "/cenarios/templo/index.html";
   }
-
-  const overlay = document.createElement("div");
-  overlay.style.position = "fixed";
-  overlay.style.inset = 0;
-  overlay.style.background = "rgba(0,0,0,0.9)";
-  overlay.style.color = "#fff";
-  overlay.style.display = "flex";
-  overlay.style.flexDirection = "column";
-  overlay.style.alignItems = "center";
-  overlay.style.justifyContent = "center";
-  overlay.style.zIndex = 9999;
-  overlay.style.opacity = "0";
-  overlay.style.transition = "opacity 1s ease";
-
-  overlay.innerHTML =
-    "<h1>YOU LOST...</h1><p>The ice has consumed everything.</p><button onclick='location.reload()' style='padding:1rem; margin-top:1rem; cursor:pointer;'>Try Again</button>";
-  document.body.appendChild(overlay);
-
-  requestAnimationFrame(() => {
-    overlay.style.opacity = "1";
-  });
 }
 
 async function initBoss() {

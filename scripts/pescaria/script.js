@@ -35,8 +35,8 @@
     const jaPegouClip = gameData && gameData.fishing && gameData.fishing.uniqueItems['Star Hair Clip'];
     const jaPegouLendario = gameData && gameData.fishing && gameData.fishing.stats && gameData.fishing.stats.legendaryCount > 0;
 
-    if(r > 0.15 && !jaPegouClip) return ESPECIES.find(e => e.nome === 'Star Hair Clip');
-    if(r > 0.10 && r <= 0.95 && !jaPegouLendario) return ESPECIES.find(e => e.nome === 'Legendary Fish');
+    if(r > 0.90 && !jaPegouClip) return ESPECIES.find(e => e.nome === 'Star Hair Clip');
+    if(r > 0.90 && r <= 0.95 && !jaPegouLendario) return ESPECIES.find(e => e.nome === 'Legendary Fish');
 
     const comuns = ESPECIES.filter(e => e.raridadeBase === 'comum');
     return comuns[Math.floor(Math.random() * comuns.length)];

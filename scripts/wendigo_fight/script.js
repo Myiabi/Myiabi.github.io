@@ -29,7 +29,7 @@ const CONFIG = {
     img: "/assets/img/NPC_Warrior-attack.png",
     widthPct: 40, // 40% da largura da tela
     heightPct: 35, // 35% da altura da tela
-    hp: 50,
+    hp: 2000,
     speed: 0.55,
     teleportInterval: [1500, 3000],
     castTime: 2500,
@@ -41,7 +41,7 @@ const CONFIG = {
     img: "/assets/img/NPC_Minion.png",
     widthPct: 18, // 18% da largura da tela
     heightPct: 18, // 18% da altura da tela
-    hp: 10,
+    hp: 500,
     speed: 0.44,
     teleportInterval: [2500, 3800],
     castTime: 2400,

@@ -5,7 +5,7 @@
 
 /* ---------- NPC ---------- */
 function randomNPC() {
-  return Math.floor(Math.random() * 5) + 1 === 1;
+  return Math.floor(Math.random() * 20) + 1 === 1;
 }
 function entrarNoLocal() {
   const npc = document.getElementById("cobra5");
@@ -64,7 +64,7 @@ const NEW_TOOLTIP_CONTENT = {
   glass: "I feel better now.",
   girlfriend: "Give me some of the fries? hihihi",
   boyfriend: "Of course love! (I knew it grrrr)",
-  gorro: "My god I stayed, now I'm cold inside and outside",
+  gorro: "My God, now I'm freezing inside and out!",
   rosinha: "Ahhh that calmed my little belly",
   moreno: "I'm warm now",
   verdinha: "This place is wonderful, my compliments to the chef!",

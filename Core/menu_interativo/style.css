@@ -181,8 +181,8 @@ body {
    AURA DO FOGO (Mantida igual ao original)
    ========================================= */
 .fogo-aura {
-  width: 18vmin;
-  height: 18vmin;
+  width: 25vmin;
+  height: 25vmin;
 
   background: radial-gradient(
     circle,

@@ -658,7 +658,14 @@ canvas {
 }
 
 .poste-vida {
+  display: block;
+  width: 10vw !important;
+  height: 35vh !important;
   object-fit: contain;
+  max-width: unset;
+  max-height: unset;
+  min-width: 0;
+  min-height: 0;
   transition: filter 0.3s;
   pointer-events: none;
   filter: drop-shadow(0 0 5px rgba(255, 100, 0, 0.5));
@@ -710,44 +717,36 @@ canvas {
 
 /* Posicionamento dos 8 postes */
 #poste-1 {
-  top: 85vh;
-  left: 30vw;
-  width: 4vw;
+  top: 61vh;
+  left: 7vw;
 }
 #poste-2 {
-  top: 85vh;
-  left: 35vw;
-  width: 4vw;
+  top: 61vh;
+  left: 17vw;
 }
 #poste-3 {
-  top: 85vh;
-  left: 40vw;
-  width: 4vw;
+  top: 61vh;
+  left: 27vw;
 }
 #poste-4 {
-  top: 85vh;
-  left: 45vw;
-  width: 4vw;
+  top: 61vh;
+  left: 37vw;
 }
 #poste-5 {
-  top: 85vh;
-  left: 50vw;
-  width: 4vw;
+  top: 61vh;
+  left: 60vw;
 }
 #poste-6 {
-  top: 85vh;
-  left: 55vw;
-  width: 4vw;
+  top: 61vh;
+  left: 70vw;
 }
 #poste-7 {
-  top: 85vh;
-  left: 60vw;
-  width: 4vw;
+  top: 61vh;
+  left: 80vw;
 }
 #poste-8 {
-  top: 85vh;
-  left: 65vw;
-  width: 4vw;
+  top: 61vh;
+  left: 90vw;
 }
 
 /* =========================================

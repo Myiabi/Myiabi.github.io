@@ -1,5 +1,5 @@
 // --- CONFIGURAÇÕES GLOBAIS ---
-var jardim = false; // A variável que você pediu pra ativar no final
+var jardim = false;
 const HOLD_TIME = 2000; // Tempo segurando (2 segundos)
 const TOTAL_ITEMS = 12; // Total de itens para achar
 
@@ -276,9 +276,9 @@ function checkVictory() {
       // >>> POPUP DE VITÓRIA <<<
       showWinPopup(
         "/assets/img/Honey.png", // <-- COLOQUE SUA IMAGEM AQUI
-        "Jardim Completo!",
-        "VOCÊ CONSEGUIU! 🎉",
-        "Todos os itens foram encontrados!"
+        "Garden Complete!",         
+        "YOU DID IT!",         
+        "All items found!"
       );
 
       mudarCenario(personagens.lily, "final");

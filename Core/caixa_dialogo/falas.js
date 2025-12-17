@@ -102,9 +102,9 @@ window.personagens = {
         },
         {
           texto:
-            "[Focus the 'Magnifying Glass' on the invisible Moon Guardian to prevent him from growing. If he grows to maximum, you will lose. Hold out long enough to calm him down.]",
+            "<span style=\"color: gold; font-size: 1em;\">[Focus the 'Magnifying Glass' on the invisible Moon Guardian to prevent him from growing. If he grows to maximum, you will lose. Hold out long enough to calm him down.]</span>",
           aofechar: function () {
-            ConfirmModal.ask("Quer enfrentar o Guardião da Lua?", () => {
+            ConfirmModal.ask("Try calming the Moon Guardian?", () => {
               window.location.href = "/cenarios/snow/index.html";
               console.log("O usuário aceitou!");
             });
@@ -178,9 +178,9 @@ window.personagens = {
         },
         {
           texto:
-            "[Locate the highlighted items in the garden. Click on where you think it is. Collect them all to win.]",
+            "<span style=\"color: gold; font-size: 1em;\">[Locate the highlighted items in the garden. Click on where you think it is. Collect them all to win.]</span>",
           aofechar: function () {
-            ConfirmModal.ask("Ir para o Jardim?", () => {
+            ConfirmModal.ask("Go to the Garden?", () => {
               // Em vez de mudar de site, chamamos a função que abre o modal
               openGame();
               console.log("O usuário aceitou e o modal abriu!");
@@ -496,7 +496,7 @@ window.personagens = {
           texto: "Are you ready???",
           expressao: "normal",
           aofechar: function () {
-            ConfirmModal.ask("Challenge Ice Imperor?", () => {
+            ConfirmModal.ask("Challenge Ice Emperor?", () => {
               window.location.href = "/cenarios/blizzard/index.html";
               console.log("O usuário aceitou!");
             });
@@ -510,7 +510,7 @@ window.personagens = {
             "We've reached the end of the game. Thank you for saving our city. Here I can send you to the final screen if you wish. As well as you can play again! Thank you!",
           expressao: "normal",
           aofechar: function () {
-            ConfirmModal.ask("Ir para tela final?", () => {
+            ConfirmModal.ask("Go to the final screen?", () => {
               window.location.href = "/cenarios/final/index.html";
               console.log("O usuário aceitou!");
             });
@@ -974,7 +974,7 @@ window.personagens = {
         },
         {
           texto:
-            "[Watch the customers to figure out what each one ordered. Click on the table to start and drag the correct food to each customer.]",
+            "<span style=\"color: gold; font-size: 1em;\">[Watch the customers to figure out what each one ordered. Click on the table to start and drag the correct food to each customer.]</span>",
           aofechar: function () {
             gameData.visualState.mesasON = true;
             dialogo.agendar(personagens.barman, "sus", 300);
@@ -1052,16 +1052,8 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "This cold wind gave me warmth. Boss!!! bring me a crunchy ice cream!",
+            "This cold wind keeps me warm. Boss! Gimme an ice-cold milkshake!",
           expressao: "sorrindo",
-        },
-        { texto: "", expressao: "sorrindo" },
-      ],
-      segunda: [
-        { texto: "Heh, it wasn't that hard.", expressao: "normal" },
-        {
-          texto: "But I still have a long way to go.",
-          expressao: "pensativo",
         },
       ],
     },
@@ -1233,7 +1225,7 @@ window.personagens = {
           expressao: "normal",
 
           texto:
-            "[Attack the Wendigo with slashing movements with the cursor/touch. Some attacks make him cancel the cast. Draw a circle around enemies to give area damage (less damage, but good to cancel cast.)]",
+            "<span style=\"color: gold; font-size: 1em;\">[Attack the Wendigo with slashing movements with the cursor/touch. Some attacks make him cancel the cast. Draw a circle around enemies to give area damage (less damage, but good to cancel cast.)]</span>",
           aofechar: function () {
             ConfirmModal.ask("Fight?", () => {
               window.location.href = "/scripts/wendigo_fight/index.html";
