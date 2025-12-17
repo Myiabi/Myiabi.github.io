@@ -291,8 +291,9 @@ function checkVictory() {
         gameData.jardimCompleto = true;
 
         // Se quiser achievement, descomente:
-        window.gameData.incubadora.hasJelly = true;
-      }
+
+      gameData.incubadora.hasJelly = true;
+          }
 
       closeGame(); // Fecha o modal ao vencer
     }, 1000);
