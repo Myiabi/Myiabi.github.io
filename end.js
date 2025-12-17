@@ -72,16 +72,16 @@ function setupEndTooltips() {
   // NPCs principais
   createFloatingTooltip(
     "marinend",
-    "Agora fiquem quietos meus filhos!",
+    "Now stay quiet my children!",
     0,
     -10,
     tooltipStyle,
     true
   );
-  createFloatingTooltip("nanaend", "Obrigada!", 0, -10, tooltipStyle, true);
+  createFloatingTooltip("nanaend", "Thank you!", 0, -10, tooltipStyle, true);
   createFloatingTooltip(
     "nodataend",
-    "Finalmente junta com meu marido.",
+    "Finally together with my husband.",
     0,
     -10,
     tooltipStyle,
@@ -90,7 +90,7 @@ function setupEndTooltips() {
   createFloatingTooltip("aiko", "hey!", 0, -10, tooltipStyle, true);
   createFloatingTooltip(
     "barend",
-    "Venham comemorar no Bar.",
+    "Come celebrate at the Bar.",
     0,
     -10,
     tooltipStyle,
@@ -98,7 +98,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "assisend",
-    "Tava acontecendo tudo isso?",
+    "Was all this happening?",
     0,
     -10,
     tooltipStyle,
@@ -106,7 +106,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "maidend",
-    "Terminei meu trabalho!",
+    "I finished my work!",
     0,
     -10,
     tooltipStyle,
@@ -114,7 +114,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "felend",
-    "Eu gostava do frio.",
+    "I liked the cold.",
     0,
     -10,
     tooltipStyle,
@@ -122,7 +122,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "wendend",
-    "Eu sabia que conseguiria.",
+    "I knew I could do it.",
     0,
     -10,
     tooltipStyle,
@@ -130,7 +130,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "wayend",
-    "Volte aqui Hitachi!",
+    "Come back here Hitachi!",
     0,
     -10,
     tooltipStyle,
@@ -138,7 +138,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "myopend",
-    "Que dia agradável!",
+    "What a pleasant day!",
     0,
     -10,
     tooltipStyle,
@@ -150,7 +150,7 @@ function setupEndTooltips() {
   createFloatingTooltip("aldebaranend", "...", 0, -10, tooltipStyle, true);
   createFloatingTooltip(
     "capellaend",
-    "[Puxa a cauda da Kofongo]",
+    "[Pulls Kofongo's tail]",
     0,
     -10,
     tooltipStyle,
@@ -158,7 +158,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "pollux-city",
-    "Vou ficar aqui com meus pais",
+    "I'll stay here with my parents",
     0,
     -10,
     tooltipStyle,
@@ -166,7 +166,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "rigelonend",
-    "Tanta gente...",
+    "So many people...",
     0,
     -10,
     tooltipStyle,
@@ -174,7 +174,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "siriusend",
-    "Eu vou escrever sobre isso!",
+    "I'm going to write about this!",
     0,
     -10,
     tooltipStyle,
@@ -184,7 +184,7 @@ function setupEndTooltips() {
   // Outros personagens
   createFloatingTooltip(
     "mintend",
-    "Pensei que ia sobrar só eu.",
+    "I thought I'd be the only one left.",
     0,
     -10,
     tooltipStyle,
@@ -192,7 +192,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "lilyend",
-    "Minhas flores vão nascer lindas",
+    "My flowers will be born beautiful",
     0,
     -10,
     tooltipStyle,
@@ -200,7 +200,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "day25end",
-    "Foi... um final diferente do que vi.",
+    "It was... a different ending than what I saw.",
     0,
     -10,
     tooltipStyle,
@@ -209,13 +209,13 @@ function setupEndTooltips() {
   createFloatingTooltip("ballerinaend", "/spin", 0, -10, tooltipStyle, true);
   createFloatingTooltip(
     "pineend",
-    "Day-25 me disse que eu falei algo diferente!!!",
+    "Day-25 told me I said something different!!!",
     0,
     -10,
     tooltipStyle,
     true
   );
-  createFloatingTooltip("catend", "Miau", 0, -10, tooltipStyle, true);
+  createFloatingTooltip("catend", "Meow", 0, -10, tooltipStyle, true);
 }
 
 // Espera o loader terminar de carregar os scripts antes de tocar a trilha

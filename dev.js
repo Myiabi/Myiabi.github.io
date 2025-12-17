@@ -555,6 +555,10 @@
   document.getElementById("dev-clear-save").addEventListener("click", () => {
     if (confirm("Tem certeza que quer apagar o save?")) {
       localStorage.removeItem("meuSaveDoJogo");
+      localStorage.removeItem("wendigo_completo");
+      localStorage.removeItem("dropmoon_completo");
+      localStorage.removeItem("intro_completo");
+      sessionStorage.clear();
       location.reload(true);
     }
   });

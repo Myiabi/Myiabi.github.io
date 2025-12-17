@@ -4,6 +4,14 @@
 
 const CHAR_BASE_PATH = "/assets/img/MYO/";
 
+// ========== DISTRIBUIÇÃO DO PASSE WENDIGO (SUN) AO ENTRAR NA CAVERNA ==========
+// Se não venceu ainda, ganha o passe (permite tentar de novo se perdeu)
+(function () {
+  if (localStorage.getItem("wendigo_completo") !== "true") {
+    sessionStorage.setItem("acesso_wendigo", "autorizado");
+  }
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   if (!window.gameData) {
     console.warn("⚠️ GameData ainda não carregou, aguardando...");
@@ -440,6 +448,7 @@ function finalizeCharacter() {
   // Atualiza visual localmente
   renderSavedCharacter(characterInfo);
   mudarCenario(personagens.wendigo, "pmyo");
+  mudarCenario(personagens.aiko, "boss");
 
   closeGame();
 }

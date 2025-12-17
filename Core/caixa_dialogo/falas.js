@@ -11,58 +11,58 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "I came here with my wife and my sextuplets but  they all ended up getting lost in the city. I don't know from where to start the search for them..",
+            "I came here with my wife and my sextuplets, but they all got lost in the city. I don't know where to start looking for them...",
           expressao: "normal",
         },
         {
           texto:
-            "They're all good hunters and know how to hide their presence, maybe if you find them in their own play, they will agree to back here and behave.",
+            "They are all good hunters and know how to hide their presence. Perhaps, if you find them in their own hideouts, they will agree to come back and behave.",
           expressao: "pensativo",
         },
       ],
       kofongo: [
         {
           texto:
-            "Kofongo is a mischievous girl who have lots of energy. For sure she found a fun place to play and went to there.",
+            "Kofongo is a mischievous girl full of energy. She surely found a fun place to play and went there.",
           expressao: "pensativo",
         },
       ],
       pollux: [
         {
           texto:
-            "Pollux is a lonely child who always is searching big preys and is the strongest of his siblings. I am sure my wife is missing his presence already.",
+            "Pollux is a lonely child who is always looking for big prey and is the strongest of his siblings. I'm sure my wife misses him.",
           expressao: "pensativo",
         },
       ],
       sirius: [
         {
           texto:
-            "Sirius spend lots of time reading his books and he is not so good at hunting but he is very smart.",
+            "Sirius spends a lot of time reading his books and is not great at hunting, but he is very intelligent.",
           expressao: "pensativo",
         },
       ],
       aldebaran: [
         {
           texto:
-            "Alde is very shy and usually don't talk at all, but he always is a good child.",
+            "Alde is very shy and usually doesn't say anything, but he's always been a good child.",
           expressao: "pensativo",
         },
       ],
       rigel: [
         {
           texto:
-            "Rigel is a quirky child who can be a rebel sometimes--He still is getting used to his powers.",
+            "Rigel is a peculiar child who can sometimes be rebellious. He is still getting used to his powers.",
           expressao: "pensativo",
         },
       ],
       capella: [
         {
           texto:
-            "Capra is always seen with kofongo but sometimes he can't resist the smell of a good treat.",
+            "Capella is always seen with Kofongo, but sometimes he can't resist the smell of a good treat.",
           expressao: "normal",
         },
       ],
-      final: [{ texto: "", expressao: "pensativo" }],
+      final: [{ texto: "Now that all of them are here, we just need to wait your Mother.", expressao: "pensativo" }],
     },
   },
 
@@ -78,12 +78,12 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Estou sentindo uma presença inquieta nesse lugar... Será um dos espiritos guardiões?",
+            "I'm sensing an uneasy presence in this place... Could it be one of the guardian spirits?",
           expressao: "normal",
         },
         {
           texto:
-            "Você também está procurando por eles? Eu não consigo enxerga-lo... Se eu pelo menos tivesse a benção do templo. Você parece não possuir o poder ainda.",
+            "Are you also looking for them? I can't see them... If only I had the temple's blessing. You don't seem to have the power yet.",
           expressao: "normal",
           executar: function () {
             mudarCenario(personagens.aiko, "segunda");
@@ -93,16 +93,16 @@ window.personagens = {
       estatua: [
         {
           texto:
-            "Sim, eu estava certa. É o guardião da Lua que estava desaparecido. Mas ele está descontrolado, ele sente a presença de alguém???",
+            "Yes, I was right. It's the Moon Guardian who was missing. But he's out of control, he senses someone's presence???",
           expressao: "normal",
         },
         {
-          texto: "Temos que acalma-lo! Você parece está preparado para isso.",
+          texto: "We need to calm him down! You seem prepared for this.",
           expressao: "pensativo",
         },
         {
           texto:
-            "[Foque a 'Lupa' no guardião da Lua invisível para impedir que ele cresça, se ele crescer ao máximo você perderá. Aguente o tempo suficiente para acalma-lo.]",
+            "[Focus the 'Magnifying Glass' on the invisible Moon Guardian to prevent him from growing. If he grows to maximum, you will lose. Hold out long enough to calm him down.]",
           aofechar: function () {
             ConfirmModal.ask("Quer enfrentar o Guardião da Lua?", () => {
               window.location.href = "/cenarios/snow/index.html";
@@ -114,7 +114,7 @@ window.personagens = {
 
       luaWon: [
         {
-          texto: "Você conseguiu! Ele parece tão calmo agora... ",
+          texto: "You did it! He seems so calm now...",
           expressao: "normal",
         },
       ],
@@ -133,7 +133,7 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Didn't thought here was so cold. I should had trusted on my books",
+            "I didn't think it would be so cold here. I should have trusted my books.",
           aofechar: function () {
             gameData.visualState.siriusVisivel = true;
             mudarCenario(personagens.marin, "sirius");
@@ -155,30 +155,30 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Não consigo plantar nada nesse frio. Estranhamente essa é a unica parte quentinha da cidade. Apesar disso ninguém se aproxima dela.",
+            "I can't plant anything in this cold. Strangely, this is the only warm part of the city. Despite that, no one gets close to it.",
           expressao: "normal",
         },
         {
           texto:
-            "Alguma coisa estranha está acontecendo nessa caverna, se eu pudesse ter essa fonte de calor, conseguiria plantar algo e aumentar a vida nessa cidade.",
+            "Something strange is happening in this cave. If I could have this heat source, I could plant something and increase life in this city.",
           expressao: "normal",
         },
       ],
       jardim: [
         {
           texto:
-            "Vejo que conseguiu resgatar esse amiguinho, então era ele a fonte de calor. Agora eu posso usar meus poderes e abrir meu jardim secreto aqui na cidade! Você quer vê-lo?",
+            "I see you managed to rescue this little friend. So it was him the heat source. Now I can use my powers and open my secret garden here in the city! Do you want to see it?",
           expressao: "normal",
         },
 
         {
           texto:
-            "Erm... eu sei que você já me ajudou o bastante, mas meu jardim está uma bagunça, preciso que você localize alguns itens para mim",
+            "Um... I know you've already helped me a lot, but my garden is a mess. I need you to locate some items for me.",
           expressao: "normal",
         },
         {
           texto:
-            "[Localize os itens em destaque no jardim, pressione em cima de onde você acha que ele está. Colete todos para vencer.]",
+            "[Locate the highlighted items in the garden. Click on where you think it is. Collect them all to win.]",
           aofechar: function () {
             ConfirmModal.ask("Ir para o Jardim?", () => {
               // Em vez de mudar de site, chamamos a função que abre o modal
@@ -192,15 +192,14 @@ window.personagens = {
       final: [
         {
           texto:
-            "Hihihi agora posso limpar meu jardim. Você pode ficar com esse pote de mel [Jelly] como agradecimento.",
+            "Hihihi now I can clean my garden. You can have this jar of honey [Jelly] as thanks.",
           expressao: "normal",
         },
 
         {
           texto:
-            "Estou feliz! Se esse frio passar vou encher essa cidade de flores! :3",
+            "I'm happy! If this cold passes, I'll fill this city with flowers! :3",
           expressao: "normal",
-          aofechar: function () {},
         },
       ],
     },
@@ -213,32 +212,32 @@ window.personagens = {
       normal: "url('/assets/img/NPC_Cat.png')",
     },
     falas: {
-      inicio: [{ texto: "Miau myah myu nyah nyeh?", expressao: "normal" }],
+      inicio: [{ texto: "Meow myah myu nyah nyeh?", expressao: "normal" }],
       segunda: [
-        { texto: "Você consegue me entender agora? Myau", expressao: "normal" },
+        { texto: "You understand me now? Meow", expressao: "normal" },
         {
           texto:
-            "Eu sou um eximio pescador dessa cidade, o problema que ficou tão frio que a superficie do lago congelou, não conseguimos fazer um buraco sequer",
+            "I'm an excellent fisherman in this city. The problem is it's gotten so cold that the lake surface froze and we can't even make a hole.",
           expressao: "normal",
         },
         {
-          texto: "Tantos dias sem pegar um único peixe, estou com tanta fome",
+          texto: "So many days without catching a single fish. I'm so hungry.",
           expressao: "normal",
         },
       ],
       terceira: [
         {
           texto:
-            "O buraco de pesca está aberto! Como conseguiu? Agora posso voltar pensar e vender peixes! Como também matar minha fome.",
+            "The fishing hole is open! How did you do it? Now I can go back to thinking and selling fish! And also get rid of my hunger.",
           expressao: "normal",
         },
         {
           texto:
-            "Como agradecimento você pode usar a vara que está ali do lado. Boa sorte pescando.",
+            "As thanks, you can use the rod over there. Good luck fishing.",
           expressao: "normal",
         },
         {
-          texto: "[Clique 2x na caixa azul para iniciar a pescaria]",
+          texto: "[Double-click on the blue box to start fishing]",
           expressao: "normal",
           aofechar: function () {
             gameData.visualState.varaON = true;
@@ -248,11 +247,11 @@ window.personagens = {
       lendario: [
         {
           texto:
-            "OMG! Você pegou o lendário do lago. Eu posso... come-lo? [Muita fome]",
+            "OMG! You caught the legendary of the lake. Can I... eat it? [So hungry]",
           expressao: "normal",
         },
         {
-          texto: "Muito obrigado Nya!",
+          texto: "Thank you so much Meow!",
           expressao: "normal",
           aofechar: function () {
             gameData.cat = true; // Libera achievement de alimentar o gato
@@ -274,27 +273,28 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Eu estou sempre preso no dia 25, já vivi o dia de hoje ínumeras vezes, sei de tudo que já aconteceu (acontecerá)",
+            "I'm always stuck on day 25, I've lived today countless times, I know everything that has already happened (will happen).",
           expressao: "normal",
         },
         {
-          texto: "E olha... você foi incrível! Me emocionei no final.",
+          texto: "And look... you were amazing! I got emotional at the end.",
           expressao: "normal",
         },
         {
-          texto: "Pera. Você não vai desistir do jogo na metade né? né???",
+          texto:
+            "Wait. You're not going to quit the game in the middle, right? Right???",
           expressao: "normal",
         },
       ],
       segunda: [
         {
-          texto: "'Ele' está vindo... você está preparado?",
+          texto: "'He' is coming... are you prepared?",
           expressao: "normal",
         },
       ],
       amigo: [
         {
-          texto: "(Ele sempre fala a mesma coisa, mas agradeço o esforço)",
+          texto: "(He always says the same thing, but I appreciate the effort)",
           expressao: "normal",
         },
       ],
@@ -312,24 +312,24 @@ window.personagens = {
       inicial: [
         {
           texto:
-            "Essa cidade é bem populosa, com centenas de moradores. Mas está tão frio que a maioria não sai mais de casa.",
+            "This city is very populous, with hundreds of residents. But it's so cold that most people don't leave their houses anymore.",
           expressao: "normal",
         },
         {
           texto:
-            "Até os postes de fogo não se aguentam mais acesos, qualquer fogo normal apaga no primeiro vento.",
+            "Even the fire posts can't stay lit anymore. Any normal fire goes out in the first wind.",
           expressao: "normal",
         },
       ],
       segunda: [
         {
-          texto: "Está tão quentinho! Como você conseguiu acender os postes? ",
+          texto: "It's so warm! How did you manage to light the posts?",
           expressao: "normal",
         },
 
         {
           texto:
-            "Ah! Day-25 é meu melhor amigo, eu sei da situação dele, então eu me esforço para todo dia falar algo diferente.",
+            "Ah! Day-25 is my best friend. I know about his situation, so I try to say something different every day.",
           expressao: "normal",
           aofechar: function () {
             dialogo.agendar(personagens.day25, "amigo", 300);
@@ -350,14 +350,13 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto: "No gelo eu consigo expressar 100% da minha dança",
+          texto: "On ice I can express 100% of my dance.",
           expressao: "normal",
         },
       ],
       segunda: [
         {
-          texto:
-            "O calor também não é tão ruim assim. Você quer patinar também?",
+          texto: "The heat isn't so bad either. Do you want to skate too?",
           expressao: "normal",
         },
       ],
@@ -374,16 +373,15 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto:
-            "Fui revelado! Mas... Não era como que eu estivesse me escondendo.",
+          texto: "I've been revealed! But... it's not like I was hiding.",
           expressao: "normal",
         },
-        { texto: "Eu juro", expressao: "normal" },
+        { texto: "I swear.", expressao: "normal" },
       ],
       revelado: [
         {
           texto:
-            "Todos ficam reclamando sobre o quão está frio. Já eu saio de casa todos os dias, eu não sinto nada mesmo.",
+            "Everyone is complaining about how cold it is. Not me, I go out every day. I don't feel anything at all.",
           expressao: "normal",
         },
       ],
@@ -404,28 +402,28 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Você pode se sentir a vontade pra dar uma volta e conhecer a cidade. Se precisar de alguma coisa, estarei aqui no templo. Deixe-me saber se descobrir alguma pista dos Guardiões.",
+            "Feel free to walk around and get to know the city. If you need anything, I'll be here at the temple. Let me know if you discover any clues about the Guardians.",
           expressao: "normal",
         },
       ],
       segunda: [
         {
-          texto: "Você encontrou alguma pista sobre um dos espiritos!?",
+          texto: "Did you find a clue about one of the spirits!?",
           expressao: "normal",
         },
         {
           texto:
-            "Você vai precisar de alguma proteção para conseguir acalma-los. A benção do templo seria perfeita, mas infelizmente, eu como sacerdote, não possuo esse habilidade. Sinto muito.",
+            "You'll need some protection to calm them. The temple's blessing would be perfect, but unfortunately, as a priest, I don't possess that ability. I'm sorry.",
           expressao: "pensativo",
         },
         {
           texto:
-            "Mas havia uma forma de conseguir a benção do templo... Orando para as estatuas das sacerdotizas antigas. Porém, elas só funcionam se estiverem na ordem correta.",
+            "But there was a way to get the temple's blessing... By praying to the statues of the ancient priestesses. However, they only work if they're in the correct order.",
           expressao: "pensativo",
         },
         {
           texto:
-            "Mas quando realizamos uma limpeza no templo acabamos mudando elas de lugar e agora não sabemos a ordem certa! Tem um bilhete deixado pelo sacerdote antigo perto das estátuas, se quiser tentar resolver fique a vontade.",
+            "But when we did a cleaning at the temple, we ended up moving them around and now we don't know the correct order! There's a note left by the old priest near the statues. If you want to try solving it, feel free.",
           expressao: "pensativo",
           aofechar: function () {
             gameData.visualState.estatuasON = true;
@@ -435,12 +433,12 @@ window.personagens = {
 
       estatuaWon: [
         {
-          texto: "Vejo que conseguiu a benção das sacerdotizas! Incrivel!",
+          texto: "I see you got the blessing of the priestesses! Incredible!",
           expressao: "normal",
         },
         {
           texto:
-            "Agora você conseguirá enfrentar batalhas mais dificeis, por tempo limitado, mas é o suficiente.",
+            "Now you'll be able to face harder battles for a limited time, but it's enough.",
           expressao: "normal",
           executar: function () {
             mudarCenario(personagens.felicia, "estatua");
@@ -448,14 +446,15 @@ window.personagens = {
         },
         {
           texto:
-            "Como também os moradores da cidade poderão voltar a rezar para os guardiões. Eu queria que eles tivessem mantido a fé mesmo perante a crise, mas agora podemos ter esperança.",
+            "As well as the city's residents will be able to pray to the guardians again. I wish they had kept their faith even facing the crisis, but now we can have hope.",
           expressao: "normal",
         },
       ],
 
       boss: [
         {
-          texto: "Agora que você encontrou os dois guardiões, nós devemos te contar a historia completa da cidade.",
+          texto:
+            "Now that you've found the two guardians, we need to tell you the complete story of the city.",
           aofechar: function () {
             dialogo.agendar(personagens.nodata, "boss", 300);
           },
@@ -465,27 +464,27 @@ window.personagens = {
       boss1: [
         {
           texto:
-            "Antigamente essas terras eram normais, quando ele chegou aqui, ele usou a totalidade do seu poder. Foi um poder de grandes proporções, primeiro ele usou o olho da lua para conseguir elevar seu poder a todo território.",
+            "Long ago, these lands were normal. When he arrived here, he used all of his power. It was a power of great proportions. First, he used the Moon's eye to raise his power across the entire territory.",
           expressao: "normal",
         },
         {
           texto:
-            "Segundo ele roubou todo o calor da terra, das pedras, os rios e das plantas. Os seres vivos não tiveram outra escolha a não ser fugir.",
+            "Second, he stole all the heat from the earth, from the stones, the rivers, and the plants. Living beings had no choice but to flee.",
           expressao: "normal",
         },
         {
           texto:
-            "A partir disso, de cada asa, surgiu de si mesmo os dois guardiões, cada um representando seus poderes. Então, eles andadaram por cada canto roubando o calor das coisas... Quando finalmente congelaram tudo... Ele adormeceu.",
+            "From each wing, two guardians emerged from him, each representing his powers. Then, they wandered through every corner stealing the heat from things... When they finally froze everything... He fell asleep.",
           expressao: "normal",
         },
         {
           texto:
-            "Mas os dois guardiões não o acompanharam neste sono... Eles ficaram sozinhos por um bom tempo. Até que chegou os primeiros peregrinos, e com as 5 irmãs sacerdotizas que conseguiam utilizar de seus poderes, juntos estabeleram a cidade de Aislin.",
+            "But the two guardians did not accompany him in this sleep... They were alone for a long time. Until the first pilgrims arrived, and with the 5 priestess sisters who could use their powers, together they established the city of Aislin.",
           expressao: "normal",
         },
         {
           texto:
-            "Eles aprenderam a amar este local. Porém com o calor da cidade e dos seres vivos que estão vivendo felizes aqui... Eles sentiram que o Imperador está acordando. De inicio eles ficaram felizes, um reencontro após tanto tempo... Mas logos eles perceberam.",
+            "They learned to love this place. However, with the warmth of the city and the living beings who are living happily here... They felt that the Emperor is waking up. At first they were happy, a reunion after so long... But soon they realized.",
           expressao: "normal",
           aofechar: function () {
             dialogo.agendar(personagens.nana, "boss1", 300);
@@ -494,15 +493,13 @@ window.personagens = {
       ],
       boss3: [
         {
-          texto:
-            "Você está pronto???",
+          texto: "Are you ready???",
           expressao: "normal",
           aofechar: function () {
             ConfirmModal.ask("Challenge Ice Imperor?", () => {
               window.location.href = "/cenarios/blizzard/index.html";
               console.log("O usuário aceitou!");
             });
-            
           },
         },
       ],
@@ -510,56 +507,54 @@ window.personagens = {
       final: [
         {
           texto:
-            "Chegamos ao fim do jogo. Obrigado por salvar nossa cidade. Aqui eu posso te mandar para tela final se desejar. Como também você pode jogar novamente! Obrigado!",
+            "We've reached the end of the game. Thank you for saving our city. Here I can send you to the final screen if you wish. As well as you can play again! Thank you!",
           expressao: "normal",
           aofechar: function () {
             ConfirmModal.ask("Ir para tela final?", () => {
               window.location.href = "/cenarios/final/index.html";
               console.log("O usuário aceitou!");
             });
-            
           },
         },
       ],
 
-
       intro: [
         {
           texto:
-            "Seja bem-vindo! Que bom que você veio. A viagem foi muito cansativa? Bem, sinto muito a nossa pressa, mas esse problema precisa ser resolvido urgentemente.",
+            "Welcome! I'm glad you came. Was the journey very tiring? Well, I'm sorry for the rush, but this problem needs to be resolved urgently.",
           expressao: "normal",
         },
         {
           texto:
-            "Você deve ter ouvido que essa era uma cidade muito agradável de se estar... mas como pode perceber estamos numa friagem épica. E é por isso que solicitamos sua ajuda.",
+            "You must have heard that this was a very pleasant city to be in... but as you can see we're in an epic freeze. And that's why we requested your help.",
           expressao: "normal",
         },
         {
           texto:
-            "Em nossa companhia temos duas presenças ilustres, elas estão preocupadas com a situação. Elas podem explicar o que vem acontecendo. Mas por favor, cuidado com a forma como se dirige a elas! São duas Rainhas!.",
+            "In our company we have two illustrious presences, they are worried about the situation. They can explain what's been happening. But please, be careful with how you address them! They are two Queens!.",
           expressao: "normal",
         },
       ],
       intro2: [
         {
           texto:
-            "Os dois guardiões que protegiam essa cidade... eles moravam aqui no templo. Mas nos últimos dias eles ficaram muito inquietos... Até que um dia eles sumiram.",
+            "The two guardians that protected this city... they lived here at the temple. But in recent days they've been very restless... Until one day they disappeared.",
           expressao: "normal",
         },
         {
           texto:
-            "O poder deles era essencial. Basicamente a criação dessa cidade se deve a eles. O que será que eles sentiram?",
+            "Their power was essential. Basically, this city's creation is due to them. What did they feel?",
           expressao: "normal",
         },
       ],
       intro3: [
         {
           texto:
-            "Naturalmente, você será recompensado. Mas por favor... proteja as vidas dessa cidade",
+            "Naturally, you will be rewarded. But please... protect the lives of this city.",
           expressao: "normal",
         },
         {
-          texto: "Você já pode começar sua investigação.",
+          texto: "You can start your investigation now.",
           expressao: "normal",
         },
       ],
@@ -578,18 +573,19 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Visite a loja do Wayway perto do templo. Ele é muito prestativo. Se precisar alguma coisa com certeza ele terá.",
+            "Visit Wayway's shop near the temple. He is very helpful. If you need anything, he will certainly have it.",
           expressao: "sorrindo",
         },
       ],
       power: [
         {
           texto:
-            'Você precisa de um <span style="color: pink; font-size: 1em;">Queen\'s Power</span>?',
+            'Do you need a <span style="color: pink; font-size: 1em;">Queen\'s Power</span>?',
           expressao: "normal",
         },
         {
-          texto: "Eu posso te dar o meu. Não precisa fazer nada, é só pegar.",
+          texto:
+            "I can give you mine. You don't need to do anything, just take it.",
           aofechar: function () {
             // Salva a recompensa
             if (typeof gameData !== "undefined") {
@@ -660,8 +656,8 @@ window.personagens = {
             popup.innerHTML = `
               <img src="/assets/img/Queens-power.png" class="win-popup-img" alt="Dark Matter">
               <p class="win-popup-title">Dark Matter</p>
-              <p class="win-popup-subtitle">ITEM OBTIDO! ✨</p>
-              <p class="win-popup-desc">Você recebeu a Dark Matter da Rainha!</p>
+              <p class="win-popup-subtitle">ITEM OBTAINED! ✨</p>
+              <p class="win-popup-desc">You received the Dark Matter from the Queen!</p>
             `;
             document.body.appendChild(popup);
 
@@ -681,15 +677,14 @@ window.personagens = {
       boss: [
         {
           texto:
-            "Ele acredita que o melhor estado das coisas é o gelo absoluto. Que tudo deve congelar, assim tudo e todos durarão pela eternidade.",
+            "He believes that the best state of things is absolute ice. That everything should freeze so everything and everyone will last forever.",
           expressao: "normal",
         },
         {
           texto:
-            "Acredito que não por maldade, ele apenas segue sua natureza. Assim como acreditamos ser comum construir cidades e viver em constante mudança, ele acredita no contrário.",
+            "I believe not out of malice, he just follows his nature. Just as we believe it's common to build cities and live in constant change, he believes the opposite.",
           expressao: "normal",
           aofechar: function () {
-
             dialogo.agendar(personagens.aiko, "boss1", 300);
           },
         },
@@ -697,41 +692,39 @@ window.personagens = {
       boss1: [
         {
           texto:
-            "E agora estão com medo de que ele acorde e decida congelar tudo novamente.",
+            "And now they're afraid that he'll wake up and decide to freeze everything again.",
           expressao: "normal",
           aofechar: function () {
             dialogo.agendar(personagens.nodata, "boss1", 300);
           },
         },
-
       ],
       boss2: [
         {
           texto:
-            "Então talvez você e os guardiões conseguiam um desfecho melhor para essa situação. Confiamos em você. Vamos levar a luta para fora da cidade, mas como está congelante lá fora, wayway preparou postes com um fogo poderoso. Não deixe os postes apagarem ou tudo congelará.",
+            "So maybe you and the guardians can find a better outcome for this situation. We trust in you. We'll take the fight outside the city, but since it's freezing out there, wayway prepared posts with a powerful fire. Don't let the posts go out or everything will freeze.",
           expressao: "normal",
           aofechar: function () {
             dialogo.agendar(personagens.aiko, "boss3", 300);
           },
         },
-
       ],
       intro: [
         {
           texto:
-            "Não tem necessidade de ser tão formal, por favor. Afinal, nós que estamos em dívida pela sua visita.",
+            "There's no need to be so formal, please. After all, we are the ones in debt for your visit.",
           expressao: "sorrindo",
         },
       ],
       intro2: [
         {
           texto:
-            "Precisamos encontrar eles! Ou até o fim da noite, todos nessa cidade irão congelar!",
+            "We need to find them! Or by the end of the night, everyone in this city will freeze!",
           expressao: "normal",
         },
         {
           texto:
-            "Esse é o real motivo que nós duas viemos aqui, vamos tentar adiar ao máximo o congelamento até você encontrar os guardiões.",
+            "This is the real reason we two came here. We'll try to delay the freezing as much as possible until you find the guardians.",
           expressao: "normal",
         },
       ],
@@ -750,19 +743,19 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Se vir meu marido e minhas crianças por aí, dê um Oi. Eles são díficeis mas são interessantes.",
-          expressao: "normal",
+          "If you see my husband and my children around, say hi. They are a handful, but they're interesting.",
+          expressao: "sorrindo",
         },
       ],
       segunda: [
         {
           texto:
-            "Impressionante. Apesar de serem apenas crianças, eles tem um talento precoce, e você conseguiu localiza-los tão rápido.",
+            "Impressive. Although they're just children, they have precocious talent, and you managed to locate them so quickly.",
           expressao: "normal",
         },
         {
           texto:
-            'Aqui, você pode ficar com essa <span style="color: #9966ff; font-size: 1em;">Dark Matter</span> como reconhecimento.',
+            'Here, you can have this <span style="color: #9966ff; font-size: 1em;">Dark Matter</span> as recognition.',
           expressao: "normal",
           aofechar: function () {
             // Salva a recompensa
@@ -834,8 +827,8 @@ window.personagens = {
             popup.innerHTML = `
               <img src="/assets/img/Dark-matter.png" class="win-popup-img" alt="Dark Matter">
               <p class="win-popup-title">Dark Matter</p>
-              <p class="win-popup-subtitle">ITEM OBTIDO! ✨</p>
-              <p class="win-popup-desc">Você recebeu a Dark Matter da Rainha!</p>
+              <p class="win-popup-subtitle">ITEM OBTAINED! ✨</p>
+              <p class="win-popup-desc">You received the Dark Matter from the Queen!</p>
             `;
             document.body.appendChild(popup);
 
@@ -852,40 +845,49 @@ window.personagens = {
         },
       ],
       boss: [
-        { texto: "A verdade é que é impossivel habitar essas terras.", expressao: "normal" },
+        {
+          texto: "The truth is it's impossible to inhabit these lands.",
+          expressao: "normal",
+        },
         {
           texto:
-            "Há muito tempo atrás, um ser muito poderoso chegou a essa região. Ele possui um incrivel poder, manipulando o clima.",
+            "A long time ago, a very powerful being arrived in this region. He possesses incredible power, manipulating the climate.",
           expressao: "normal",
           aofechar: function () {
-
             dialogo.agendar(personagens.nana, "boss", 300);
           },
         },
       ],
       boss1: [
-        { texto: "Desculpem interromper a historia, mas agora ele despertou e está vindo direto pra cá.", expressao: "normal" },
         {
           texto:
-            "Vamos ter que lutar. Algúns de nós que possuimos grande poder, poderiamos vence-lo. Mas no processo... a cidade pode congelar. Do que adiantaria sobreviver?",
-            aofechar: function () {
+            "Sorry to interrupt the story, but now he's awakened and is coming straight here.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "We'll have to fight. Some of us who possess great power could defeat him. But in the process... the city could freeze. What's the point of surviving?",
+          aofechar: function () {
             dialogo.agendar(personagens.nana, "boss2", 300);
           },
           expressao: "normal",
         },
       ],
       intro: [
-        { texto: "Concordo. Mas vamos direto ao ponto.", expressao: "normal" },
+        {
+          texto: "I agree. But let's get straight to the point.",
+          expressao: "normal",
+        },
         {
           texto:
-            "Essa cidade vai colapsar. Sendo mais especifica, ela está congelando.",
+            "This city is going to collapse. To be more specific, it's freezing.",
           expressao: "normal",
         },
       ],
       intro2: [
-        { texto: "Então é isso. Contamos com você", expressao: "normal" },
+        { texto: "So that's it. We're counting on you.", expressao: "normal" },
         {
-          texto: "Estaremos aqui se precisar saber alguma coisa.",
+          texto: "We'll be here if you need to know anything.",
           expressao: "normal",
         },
       ],
@@ -926,10 +928,10 @@ window.personagens = {
     },
     falas: {
       primeira: [
-        { texto: "Quer um drink?", expressao: "normal" },
+        { texto: "Want a drink?", expressao: "normal" },
         {
           texto:
-            "Nos últimos dias estavamos com baixa movimentação. Criamos um ambiente com clima agradável e comidas quentes para conseguir tirar as pessoas de casa. Você pode ficar por aqui o tempo que desejar.",
+            "In recent days we had low foot traffic. We created an environment with a pleasant atmosphere and hot food to get people out of their houses. You can stay here as long as you want.",
           expressao: "normal",
         },
       ],
@@ -937,12 +939,12 @@ window.personagens = {
       final: [
         {
           texto:
-            "Eu vi que você ajudou hoje no bar. Poucos sabem, mas o calor que emana das pessoas também aquece a cidade.",
+            "I saw that you helped out at the bar today. Few know, but the warmth that emanates from people also heats the city.",
           expressao: "normal",
         },
         {
           texto:
-            "Espero que isso ajuda no que estar por vir. Boa sorte. [Ele te serve um drink que ao tomar você se sente aquecido]",
+            "I hope that helps with what's to come. Good luck. [He serves you a drink that when you drink it you feel warm]",
           expressao: "normal",
         },
       ],
@@ -958,20 +960,20 @@ window.personagens = {
     },
     falas: {
       inicio: [
-        { texto: "E agora. O que eu faço...? ", expressao: "normal" },
+        { texto: "And now. What do I do...?", expressao: "normal" },
         {
           texto:
-            "Tem tanta gente hoje que misturei todas as comandas, não sei quem pediu o que! Se o chefe descobrir estarei frito.",
+            "There are so many people today that I mixed up all the orders. I don't know who ordered what! If the boss finds out, I'm toast.",
           expressao: "normal",
         },
         {
           texto:
-            "Que tal prestar atenção nos clientes e descobrir quem pediu cada prato?",
+            "How about paying attention to the customers and figuring out who ordered each dish?",
           expressao: "normal",
         },
         {
           texto:
-            "[Observe os clientes para descobrir o que cada um pediu. Clique na mesa para iniciar e arraste as comidas certas para cada cliente.]",
+            "[Watch the customers to figure out what each one ordered. Click on the table to start and drag the correct food to each customer.]",
           aofechar: function () {
             gameData.visualState.mesasON = true;
             dialogo.agendar(personagens.barman, "sus", 300);
@@ -981,7 +983,7 @@ window.personagens = {
       segunda: [
         {
           texto:
-            "Ufa!!! Você é muito bom nisso! Não deixe o chefe descobrir que você me ajudou hein.",
+            "Phew!!! You're great at this! Don't let the boss find out I had your help though.",
           expressao: "normal",
           aofechar: function () {
             gameData.visualState.mesasON = true;
@@ -1000,23 +1002,23 @@ window.personagens = {
       normal: "url('/assets/img/7-06-half.png')",
     },
     falas: {
-      inicio: [{ texto: "Como está lotado hoje!!!", expressao: "normal" }],
+      inicio: [{ texto: "It's packed today!!!", expressao: "normal" }],
 
       finish: [
         {
-          texto: "Hey! Você acabou de fazer o meu trabalho?",
+          texto: "Hey! Did you just do my job?",
           expressao: "normal",
         },
       ],
       presilha: [
-        { texto: "Você pescou uma presilha no lago?", expressao: "normal" },
+        { texto: "You caught a pin in the lake?", expressao: "normal" },
         {
           texto:
-            "Na verdade... eu moro lá Com muitos outros peixes, provavelmente essa presilha é de algum deles. Se você quiser eu te dou permissão para entrar",
+            "Actually... I live there with many other fish. Probably that pin belongs to one of them. If you want I can give you permission to enter.",
           expressao: "normal",
         },
         {
-          texto: "[Tente mergulhar no buraco de pesca (!?)]",
+          texto: "[Try diving in the fishing hole (!?)]",
           expressao: "normal",
           executar: function () {
             gameData.visualState.presilha = true;
@@ -1025,12 +1027,12 @@ window.personagens = {
       ],
       final: [
         {
-          texto: "Nós sereias somos dropzillas que não foram vendidos...",
+          texto: "We mermaids are dropzillas that weren't sold...",
           expressao: "normal",
         },
         {
           texto:
-            "Oh! Não estou reclamando nem triste. Nós vivemos felizes e fala sério, tive a oportunidade de aparecer num jogo, sou famosa!",
+            "Oh! I'm not complaining or sad. We live happily and seriously, I had the opportunity to appear in a game, I'm famous!",
           expressao: "normal",
         },
       ],
@@ -1049,15 +1051,15 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Esse vento frio todo me deu calor. Chefe!!! desce um sorvete trincando!",
+            "This cold wind gave me warmth. Boss!!! bring me a crunchy ice cream!",
           expressao: "sorrindo",
         },
         { texto: "", expressao: "sorrindo" },
       ],
       segunda: [
-        { texto: "Heh, não foi tão difícil assim.", expressao: "normal" },
+        { texto: "Heh, it wasn't that hard.", expressao: "normal" },
         {
-          texto: "Mas ainda tenho um longo caminho pela frente.",
+          texto: "But I still have a long way to go.",
           expressao: "pensativo",
         },
       ],
@@ -1102,33 +1104,32 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Seja Bem-vindo! Estamos nos estabelecendo para as festas de final de ano. Nós trouxemos mercadorias que podem ajudar a população nesse frio intenso. Mas nossa... quando falaram que era frio, foram bonzinhos.",
+            "Welcome! We're setting up for the end-of-year festivities. We brought merchandise that can help the population through this intense cold. But man... when they said it was cold, they were being nice.",
           expressao: "normal",
         },
         {
           texto:
-            "Ainda estamos arrumando tudo, então se precisar de alguma coisa pode falar comigo.",
+            "We're still setting everything up, so if you need anything, you can talk to me.",
           expressao: "normal",
         },
       ],
       segunda: [
         {
           texto:
-            "Esse fogo que você carrega é gentil. Com certeza protegerá essa cidade.",
+            "This fire you carry is kind. It will surely protect this city.",
           expressao: "normal",
         },
         {
-          texto:
-            "Os postes da cidade... talvez eu consiga restaurar mais alguns.",
+          texto: "The city's posts... maybe I can restore a few more.",
           expressao: "normal",
         },
       ],
 
       final: [
-        { texto: "Não desista ainda!", expressao: "furioso" },
+        { texto: "Don't give up yet!", expressao: "furioso" },
         {
           texto:
-            "Nós só vamos conseguir acender os postes uma única vez! Aproveite. Não deixe tudo congelar",
+            "We'll only be able to light the posts once! Take advantage of it. Don't let everything freeze.",
           expressao: "furioso",
         },
       ],
@@ -1147,35 +1148,35 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Ahhh! Estamos abrindo a loja, mas as melhores mercadorias estão nessa baú protegido com um cadeado de runas!!!",
+            "Ahhh! We're opening the store, but the best merchandise is in this chest protected with a rune lock!!!",
           expressao: "normal",
         },
         {
           texto:
-            "Pra piorar as coisas, eu deixei meus óculos cairem dentro do baú e fechei o cadeado, agora não enxergo mais nada!",
+            "To make matters worse, I dropped my glasses inside the chest and locked it. Now I can't see anything!",
           expressao: "normal",
         },
         {
           texto:
-            "Eu tenho certeza que eu anotei a senha no computador da loja, mas por mais que eu olhe não enxergo nada!!!",
+            "I'm sure I wrote the password on the store's computer, but no matter how much I look, I can't see anything!!!",
           expressao: "normal",
         },
       ],
       segunda: [
         {
           texto:
-            "Agora consigo enxergar tudo!!! Muito obrigado pela ajuda, melhor esconder esse cadeado.",
+            "Now I can see everything!!! Thank you so much for the help. Better hide this lock.",
           expressao: "normal",
         },
         {
-          texto: "Agora posso me preparar para começar o trabalho",
+          texto: "Now I can get ready to start work.",
           expressao: "pensativo",
         },
       ],
 
       final: [
         {
-          texto: "Você já viu o Advent Callendar da Myiabi desse ano?",
+          texto: "Have you seen Myiabi's Advent Calendar this year?",
           expressao: "normal",
         },
       ],
@@ -1193,10 +1194,10 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto: "Tehee~ Você me achou.",
+          texto: "Hehe~ You found me.",
         },
         {
-          texto: "Minha cauda coçou e não consegui ficar imovél. heh",
+          texto: "My tail itched and I couldn't stay still. Heh",
           aofechar: function () {
             gameData.visualState.kofongoVisivel = true;
             mudarCenario(personagens.marin, "kofongo");
@@ -1218,20 +1219,20 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto: "Você não é permitido aqui! Saia!",
+          texto: "You are not allowed here! Get out!",
           expressao: "normal",
         },
         {
           texto:
-            "O Guardião do Sol não precisa de pessoas fracas! Sou eu quem vai proteger essas terras!",
+            "The Sun Guardian doesn't need weak people! I'm the one who will protect these lands!",
           expressao: "normal",
         },
         {
-          texto: "Não diga que eu não avisei! Lute comigo!",
+          texto: "Don't say I didn't warn you! Fight me!",
           expressao: "normal",
 
           texto:
-            "[Ataque o Wendigo com movimentos de corte com o cursor/touch. Alguns ataques fazem ele cancelar o cast. Risque um circulo ao redor dos inimigos para dar dano em area (menos dano, mas bom pra cancelar cast.)]",
+            "[Attack the Wendigo with slashing movements with the cursor/touch. Some attacks make him cancel the cast. Draw a circle around enemies to give area damage (less damage, but good to cancel cast.)]",
           aofechar: function () {
             ConfirmModal.ask("Fight?", () => {
               window.location.href = "/scripts/wendigo_fight/index.html";
@@ -1243,16 +1244,40 @@ window.personagens = {
       segunda: [
         {
           texto:
-            "Você me venceu.... talvez se for você... você consiga impedir ele...",
+            "You defeated me.... maybe if it's you... you can prevent him...",
           expressao: "normal",
         },
         {
           texto:
-            "O guardião do sol quer ir com você, eu estava pensando em fazer um exercíto para proteger essas terras, mas talvez você seja a melhor escolha.",
+            "The Sun Guardian wants to go with you. I was thinking of building an army to protect these lands, but maybe you're the best choice.",
           expressao: "normal",
         },
         {
-          texto: "Vou apostar minhas fichas em você. Por favor... vença!",
+          texto: "I'm betting my chips on you. Please... win!",
+          aofechar: function () {
+            gameData.visualState.incLista = true;
+            salvarJogo();
+          },
+          expressao: "normal",
+        },
+      ],
+      segunda: [
+        {
+          texto:
+            "You defeated me.... maybe if it's you... you can prevent him...",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "The Sun Guardian wants to go with you. I was thinking of building an army to protect these lands, but maybe you're the best choice.",
+          expressao: "normal",
+        },
+        {
+          texto: "I'm betting my chips on you. Please... win!",
+          aofechar: function () {
+            gameData.visualState.incLista = true;
+            salvarJogo();
+          },
           expressao: "normal",
         },
       ],
@@ -1260,23 +1285,23 @@ window.personagens = {
       myo: [
         {
           texto:
-            "Reuniu todos os materiais? Eles são tão raros... Eu te dou permissão de usar a incubadora, crie um Wendigo com a aparencia que desejar. A incubadora está equipada para tirar fotos, mas quando decidir terminar seu Wendigo segure o botão por alguns segundo. ",
+            "Did you gather all the materials? They are so rare... I give you permission to use the incubator. Create a Wendigo with the appearance you want. The incubator is equipped to take photos, but when you decide to finish your Wendigo, hold the button for a few seconds.",
           expressao: "normal",
         },
         {
-          texto: "Lembre-se: Ele é único, pense bem antes de finalizar.",
+          texto: "Remember: He is unique, think carefully before finishing.",
           expressao: "normal",
         },
       ],
       pmyo: [
         {
           texto:
-            "Que belo Wendigo você criou! Tenho certeza que vocês serão grandes amigos.",
+            "What a beautiful Wendigo you created! I'm sure you two will be great friends.",
           expressao: "normal",
         },
         {
           texto:
-            "Por favor, permita que ele se acostume com o novo corpo por um tempo. Ele pode te acompanhar depois que você terminar sua missão.",
+            "Please let him get used to the new body for a while. He can accompany you after you finish your mission.",
           expressao: "normal",
         },
       ],
@@ -1284,7 +1309,7 @@ window.personagens = {
       final: [
         {
           texto:
-            "Estive analisando ele por um tempo. Cuidado com os olhos agora! Destrua a barreira dos olhos e finalize-o!!!",
+            "I've been analyzing it for a while. Watch the eyes now! Destroy the eye barrier and finish it!!!",
           expressao: "normal",
         },
       ],
@@ -1348,12 +1373,12 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto: "Não é todo dia que recebemos visitantes.",
+          texto: "We don't get visitors every day.",
         },
       ],
       segunda: [
         {
-          texto: "Essas aguas estão ficando tão frias, quando isso vai passar?",
+          texto: "These waters are getting so cold. When will this pass?",
         },
       ],
     },
@@ -1370,12 +1395,12 @@ window.personagens = {
     falas: {
       inicio: [
         {
-          texto: "Coitadinho. O caranguejo prendeu ele.",
+          texto: "Poor thing. The crab caught him.",
         },
       ],
       segunda: [
         {
-          texto: "Vai bebêzinho, volte para sua mãe",
+          texto: "Go on, little one, go back to your mother.",
         },
       ],
     },
@@ -1393,12 +1418,13 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Já tentei espocar essas bolhas, mas elas sempre nascem de novo, não consegui liberar a criança.",
+            "I've tried to pop these bubbles, but they keep being born again. I couldn't free the child.",
         },
       ],
       segunda: [
         {
-          texto: "Padrões nas bolhas? nunca pensaria nisso! Você ´um gênio.",
+          texto:
+            "Patterns in the bubbles? Never would have thought of that! You're a genius.",
         },
       ],
     },
@@ -1416,12 +1442,12 @@ window.personagens = {
       inicio: [
         {
           texto:
-            "Hahahaha! Quer que eu mate o caranguejo pra você? Mas não garanto a segurança do garoto.",
+            "Hahahaha! Want me to kill the crab for you? But I don't guarantee the boy's safety.",
         },
       ],
       segunda: [
         {
-          texto: "Odeio quem resolve as coisas na inteligência",
+          texto: "I hate people who solve things with intelligence.",
         },
       ],
     },

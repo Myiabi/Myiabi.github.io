@@ -217,12 +217,14 @@ function aplicarMudancaVisual(prop, value) {
     gameData.visualState?.siriusVisivel &&
     gameData.visualState?.aldebaranVisivel;
 
-  if (todosVisiveis) {
-    // ============================================
-    // 🎉 TODOS OS 7 PERSONAGENS ESTÃO VISÍVEIS!
-    // Adicione aqui o que você quiser:
-    gameData.snakes = true; // Marca achievement de todas as cobrinhas
+  if (todosVisiveis && !gameData.snakes) {
+  gameData.snakes = true;
+  if (window.personagens && personagens.nodata && personagens.marin) {
+    mudarCenario(personagens.nodata, "segunda");
+    mudarCenario(personagens.marin, "final");
   }
+}
+
 
   switch (prop) {
     case "boxSumiu":

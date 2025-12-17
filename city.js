@@ -1,13 +1,4 @@
-// ========== DISTRIBUIÇÃO DE PASSES AO ENTRAR NA CIDADE ==========
-// Se não venceu ainda, ganha o passe (permite tentar de novo se perdeu)
-(function () {
-  if (localStorage.getItem("dropmoon_completo") !== "true") {
-    sessionStorage.setItem("acesso_dropmoon", "autorizado");
-  }
-  if (localStorage.getItem("wendigo_completo") !== "true") {
-    sessionStorage.setItem("acesso_wendigo", "autorizado");
-  }
-})();
+// ========== VERIFICAÇÃO DE DESAFIOS JÁ COMPLETADOS ==========
 
 document.querySelectorAll(".back").forEach((p) => {
   p.addEventListener("click", () => {
@@ -85,3 +76,4 @@ function esperarETocar() {
   }
 }
 esperarETocar();
+

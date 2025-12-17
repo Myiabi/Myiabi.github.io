@@ -61,16 +61,16 @@ const BAR_TOOLTIP_MAPPING = {
 
 // Conteúdo que a Tooltip DEVE ter após a conclusão da Mesa
 const NEW_TOOLTIP_CONTENT = {
-  glass: "Me sinto melhor agora.",
-  girlfriend: "Me dá um pouco das batatas fritas? hihihi",
-  boyfriend: "Claro amor! (Eu sabia grrrr)",
-  gorro: "Meu deus eu fiquei agora estou com frio por dentro e por fora",
-  rosinha: "Ahhh acalmou minha barriginha",
-  moreno: "Estou quentinho agora",
-  verdinha: "Esse lugar é maravilhoso, meus comprimentos ao chef!",
-  kid1: "Obrigado pelo bolo! 😊",
-  kid2: "Obrigado pelo bolo! 😄",
-  cachecol: "Esse café tá potente",
+  glass: "I feel better now.",
+  girlfriend: "Give me some of the fries? hihihi",
+  boyfriend: "Of course love! (I knew it grrrr)",
+  gorro: "My god I stayed, now I'm cold inside and outside",
+  rosinha: "Ahhh that calmed my little belly",
+  moreno: "I'm warm now",
+  verdinha: "This place is wonderful, my compliments to the chef!",
+  kid1: "Thank you for the cake! 😊",
+  kid2: "Thank you for the cake! 😄",
+  cachecol: "This coffee is strong",
 };
 
 /**
