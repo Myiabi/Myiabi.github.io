@@ -324,18 +324,15 @@ function aplicarMudancaVisual(prop, value) {
   // 🥚 VERIFICA SE TODOS OS 3 ITENS DA INCUBADORA ESTÃO COMPLETOS
   // ============================================
   const incubadoraCompleta =
-    gameData.incubadora?.hasMateria &&
-    gameData.incubadora?.hasRainha &&
-    gameData.incubadora?.hasJelly;
+  gameData.incubadora?.hasMateria &&
+  gameData.incubadora?.hasRainha &&
+  gameData.incubadora?.hasJelly;
 
-  if (incubadoraCompleta) {
-    // ============================================
-    // 🎉 INCUBADORA COMPLETA! Adicione aqui o que quiser:
-    // ============================================
-
-    mudarCenario(personagens.wendigo, "myo");
-    window.gameData.myoLiberado = true;
-  }
+if (incubadoraCompleta && !gameData.myoLiberado) {
+  // Só executa se ainda não liberou!
+  mudarCenario(personagens.wendigo, "myo");
+  window.gameData.myoLiberado = true;
+}
 
   switch (prop) {
     // --- Estado da Incubadora / Myo ---

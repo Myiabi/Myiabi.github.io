@@ -1281,7 +1281,7 @@ async function gameOver(vitoria) {
   if (vitoria) {
     mostrarMensagem("...", "white");
     await esperar(3000);
-    window.location.href = "/cutscene.html.html";
+    window.location.href = "/cutscene.html";
     return;
   }
 

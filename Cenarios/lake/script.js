@@ -287,6 +287,13 @@ function triggerWin() {
   // 🔒 SALVA IMEDIATAMENTE - O estado é salvo, mas os elementos não somem
   // porque têm a classe 'animating-out'
   setGameState("puzzleBubbles_complete", true);
+  mudarCenario(personagens.cory, "segunda");
+    mudarCenario(personagens.spanish, "segunda");
+    mudarCenario(personagens.paddlefish, "segunda");
+    mudarCenario(personagens.wholphin, "segunda");
+    mudarCenario(personagens.maid, "final");
+    gameData.visualState.crabWin = true;
+    console.log("Cenários dos NPCs atualizados.");
   console.log("Jogo salvo como Completo (Lake) - IMEDIATO.");
 
   // 1. Grid: fade out suave
@@ -329,13 +336,7 @@ function triggerWin() {
       el.style.display = "none";
     });
 
-    mudarCenario(personagens.cory, "segunda");
-    mudarCenario(personagens.spanish, "segunda");
-    mudarCenario(personagens.paddlefish, "segunda");
-    mudarCenario(personagens.wholphin, "segunda");
-    mudarCenario(personagens.maid, "final");
-    gameData.visualState.crabWin = true;
-    console.log("Cenários dos NPCs atualizados.");
+    
   }, animationTime);
 }
 

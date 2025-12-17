@@ -762,6 +762,7 @@ window.personagens = {
             if (typeof gameData !== "undefined") {
               gameData.incubadora.hasMateria = true;
               mudarCenario(personagens.nodata, "inicio");
+              mudarCenario(personagens.marin, "final");
             }
 
             // Toca som de vitória se existir
@@ -1401,6 +1402,7 @@ window.personagens = {
       segunda: [
         {
           texto: "Go on, little one, go back to your mother.",
+          
         },
       ],
     },
