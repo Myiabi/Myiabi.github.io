@@ -1185,7 +1185,7 @@ function iniciarFase2() {
   });
 
   gameState.phase = 2;
-  mostrarMensagem("PHASE 2", "red");
+  mostrarMensagem("PHASE 2", "white");
 
   document.getElementById("boss-body").src = "/assets/img/Villain2.png";
 
@@ -1280,7 +1280,7 @@ async function gameOver(vitoria) {
 
   if (vitoria) {
     mostrarMensagem("...", "white");
-    await esperar(3000);
+    await esperar(5000);
     window.location.href = "/cutscene.html";
     return;
   }
@@ -1338,7 +1338,7 @@ async function initBoss() {
     await dialogo.abrirAsync({
       nome: "Ice Emperor",
       texto:
-        "Então é daqui que vem esse calor... Eu estou aqui agora, podemos dormir em paz, juntos.",
+        "So this is where this heat comes from... I'm here now, we can sleep in peace, together.",
     });
   } else {
     console.warn("Sistema de dialogo não carregado!");

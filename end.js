@@ -130,7 +130,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "wayend",
-    "Come back here Hitachi!",
+    "Come back here Itachi!",
     0,
     -10,
     tooltipStyle,
@@ -206,7 +206,7 @@ function setupEndTooltips() {
     tooltipStyle,
     true
   );
-  createFloatingTooltip("ballerinaend", "/spin", 0, -10, tooltipStyle, true);
+  createFloatingTooltip("ballerinaend", "[spin]", 0, -10, tooltipStyle, true);
   createFloatingTooltip(
     "pineend",
     "Day-25 told me I said something different!!!",
@@ -216,6 +216,7 @@ function setupEndTooltips() {
     true
   );
   createFloatingTooltip("catend", "Meow", 0, -10, tooltipStyle, true);
+  createFloatingTooltip("myo-npc", "Give me a name.", 0, -10, tooltipStyle, true);
 }
 
 // Espera o loader terminar de carregar os scripts antes de tocar a trilha

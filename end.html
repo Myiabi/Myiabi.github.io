@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fim - Guardiões da Cidade</title>
@@ -69,6 +70,15 @@
           id="wendend"
           src="/assets/img/NPC_Warrior-guard.png"
           draggable="false"
+        />
+        <!-- MYO Character Renderizado como NPC -->
+        <img
+          class="npc"
+          id="myo-npc"
+          src=""
+          alt="MYO"
+          draggable="false"
+          style="display: none; position: absolute; left: 5%; top: 15%"
         />
         <img
           class="npc"
@@ -227,5 +237,144 @@
 
     <script src="/loader.js"></script>
     <script src="end.js"></script>
+    <script>
+      // Funções para renderizar o personagem MYO (adaptadas do final/index.html)
+      const CHAR_BASE_PATH = "/assets/img/MYO/";
+      const charConfig = {
+        body: { filename: "BASE" },
+        eyes: {},
+        eyebrows: {},
+        mouth: {},
+        hairStyle: {},
+        hairColor: {
+          options: [
+            "Black",
+            "Blue",
+            "Brown",
+            "Green",
+            "Pink",
+            "Purple",
+            "Red",
+            "White",
+            "Yellow",
+          ],
+        },
+        horns: {},
+        claws: {},
+        marks: {},
+        tail: {},
+        cloth: {},
+        accessory: {},
+      };
+
+      function capitalize(s) {
+        return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+      }
+
+      function getLocalSave() {
+        try {
+          const data = localStorage.getItem("meuSaveDoJogo");
+          return data ? JSON.parse(data) : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function createCharacterElement(data, width = "70px", comAura = false) {
+        const container = document.createElement("div");
+        container.style.width = width;
+        container.style.height = "112px";
+        container.style.aspectRatio = "500 / 800";
+        container.style.position = "relative";
+        container.style.display = "inline-block";
+        if (comAura)
+          container.style.filter =
+            "drop-shadow(0 0 6px rgba(122,162,247,0.35))";
+
+        Object.keys(data || {}).forEach((key) => {
+          if (key === "hairColor") return;
+          const currentVal = data[key];
+          if (!currentVal || currentVal === 0) return;
+          const img = document.createElement("img");
+          img.style.position = "absolute";
+          img.style.top = "0";
+          img.style.left = "0";
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.objectFit = "contain";
+          let zIndex = 20;
+          if (key === "body") zIndex = 0;
+          else if (key === "eyes") zIndex = 25;
+          else if (key === "cloth") zIndex = 35;
+          else if (key === "hairStyle") zIndex = 45;
+          else if (key === "horns") zIndex = 50;
+          else if (key === "accessory")
+            zIndex = currentVal === 2 || currentVal === 4 ? 55 : 49;
+          img.style.zIndex = zIndex;
+
+          if (key === "hairStyle") {
+            const colorIndex = data["hairColor"] || 0;
+            const colorName = charConfig.hairColor.options[colorIndex];
+            img.src = `${CHAR_BASE_PATH}Hair${currentVal}-${colorName}.png`;
+          } else {
+            const itemConfig = charConfig[key];
+            const filePrefix =
+              itemConfig && itemConfig.filename
+                ? itemConfig.filename
+                : capitalize(key);
+            img.src = `${CHAR_BASE_PATH}${filePrefix}-${currentVal}.png`;
+          }
+          container.appendChild(img);
+        });
+        return container;
+      }
+
+      // Renderiza o personagem MYO como uma imagem composta, salva em um canvas e converte para dataURL
+      function renderMyoNpc() {
+        const npcImg = document.getElementById("myo-npc");
+        if (!npcImg) return;
+        const saveData = getLocalSave();
+        const myo = saveData && saveData.customCharacter;
+        if (!myo || !myo.traits) {
+          npcImg.style.display = "none";
+          return;
+        }
+        // Cria o personagem em um canvas temporário
+        const tempDiv = createCharacterElement(myo.traits, "70px", false);
+        document.body.appendChild(tempDiv);
+        tempDiv.style.position = "fixed";
+        tempDiv.style.left = "-9999px";
+        // Usa html2canvas para gerar uma imagem composta
+        function setNpcImgFromCanvas(canvas) {
+          npcImg.src = canvas.toDataURL("image/png");
+          npcImg.style.display = "";
+          document.body.removeChild(tempDiv);
+        }
+        if (window.html2canvas) {
+          window
+            .html2canvas(tempDiv, {
+              backgroundColor: null,
+              scale: 1,
+              logging: false,
+              useCORS: true,
+              allowTaint: true,
+            })
+            .then(setNpcImgFromCanvas)
+            .catch(() => {
+              npcImg.style.display = "none";
+              document.body.removeChild(tempDiv);
+            });
+        } else {
+          npcImg.style.display = "none";
+          document.body.removeChild(tempDiv);
+        }
+      }
+
+      if (window.html2canvas) {
+        document.addEventListener("DOMContentLoaded", renderMyoNpc);
+      } else {
+        window.addEventListener("load", renderMyoNpc);
+      }
+    </script>
   </body>
 </html>

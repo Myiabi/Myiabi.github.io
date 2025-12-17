@@ -147,7 +147,9 @@
       <div id="end-text">END</div>
     </div>
 
-    <script src="/loader.js"></script>
+    <script src="/core/global.js"></script>
+    <script src="/core/caixa_dialogo/script.js"></script>
+    <script src="/core/caixa_dialogo/falas.js"></script>
     <script>
       // Função auxiliar para esperar
       function esperar(ms) {
@@ -155,56 +157,52 @@
       }
 
       // Cena final - diálogos no fundo preto
-      async function cenaFinal() {
-        // Garante que o sistema global existe
-        if (typeof dialogo !== "undefined") {
-          await dialogo.abrirAsync({
-            nome: "Ice Emperor",
-            texto: "Vocês não querem... ser felizes?",
-          });
+async function cenaFinal() {
+  // Garante que o sistema global existe
+  if (typeof dialogo !== "undefined") {
+    await dialogo.abrirAsync({
+      nome: "Ice Emperor",
+      texto: "Don't you want... to be happy?",
+    });
 
-          await esperar(1000);
+    await esperar(1000);
 
-          await dialogo.abrirAsync({
-            nome: "",
-            texto:
-              "Ele cai de joelhos, sem conseguir compreender as pessoas da cidade.",
-          });
+    await dialogo.abrirAsync({
+      nome: "Narrator",
+      texto: "[He falls to his knees, unable to understand the people of the city.]",
+    });
 
-          await dialogo.abrirAsync({
-            nome: "",
-            texto: "...Então se prepara para se auto congelar sozinho...",
-          });
+    await dialogo.abrirAsync({
+      nome: "Narrator",
+      texto: "[...So he prepares to freeze alone...]",
+    });
 
-          await dialogo.abrirAsync({
-            nome: "",
-            texto: "Mas algo se aproxima dele. Os dois Guardiões o abraçam.",
-          });
+    await dialogo.abrirAsync({
+      nome: "Narrator",
+      texto: "[But something approaches him. The two Guardians embrace him.]",
+    });
 
-          await dialogo.abrirAsync({
-            nome: "Ice Emperor",
-            texto:
-              "Vocês ainda se lembram de mim? Vocês escolheram não adormecerem comigo, e ajudaram a manter calor nessas terras. Vocês não conseguem me entender?",
-          });
+    await dialogo.abrirAsync({
+      nome: "Ice Emperor",
+      texto: "Do you still remember me? You chose not to slumber with me, and helped keep the warmth in these lands. Can't you understand me?",
+    });
 
-          await dialogo.abrirAsync({
-            nome: "Ice Emperor",
-            texto:
-              "Não... é o contrário. Vocês gostaram do tempo que passamos juntos, vocês queriam dar essa oportunidade aos seres desse lugar. Mas vocês fizeram isso sem nenhum descanso.",
-          });
+    await dialogo.abrirAsync({
+      nome: "Ice Emperor",
+      texto: "No... it is the opposite. You enjoyed the time we spent together, you wanted to give that opportunity to the beings of this place. But you did it without any rest.",
+    });
 
-          await dialogo.abrirAsync({
-            nome: "Ice Emperor",
-            texto:
-              "Venham comigo, eu não tocarei na sua preciosa cidade. Vocês merecem este descanso.",
-          });
+    await dialogo.abrirAsync({
+      nome: "Ice Emperor",
+      texto: "Come with me, I will not touch your precious city. You deserve this rest.",
+    });
 
-          await dialogo.abrirAsync({
-            nome: "",
-            texto:
-              "Os 3 congelam juntos num belo sono. Símbolos de uma era de paz, guardiões da cidade.",
-          });
-        }
+    await dialogo.abrirAsync({
+      nome: "Narrator",
+      texto: "[The three freeze together in a beautiful slumber. Symbols of an era of peace, guardians of the city.]",
+    });
+  }
+
 
         // Transição visual: fundo preto -> imagem com zoom/blur
         await iniciarCenaVisual();
@@ -236,7 +234,7 @@
         endText.classList.add("visible");
 
         // Aguarda a animação terminar (8 segundos)
-        await esperar(8000);
+        await esperar(10000);
 
         console.log("Cena visual finalizada!");
 

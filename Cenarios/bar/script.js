@@ -118,7 +118,7 @@ function hideAllFoodInitially() {
 function setupTooltips() {
   createFloatingTooltip(
     "glass",
-    "So quero esquecer os problemas...",
+    "I just want to forget my problems...",
     150,
     90,
     myStyle,
@@ -128,7 +128,7 @@ function setupTooltips() {
 
   createFloatingTooltip(
     "girlfriend",
-    "Estou de dieta, quero algo leve... (Mas ele pediu minha preferida)",
+    "I'm on a diet, I want something light... (But he ordered my favorite)",
     140,
     80,
     myStyle,
@@ -136,7 +136,7 @@ function setupTooltips() {
   );
   createFloatingTooltip(
     "boyfriend",
-    "Hoje vou comer de tudo! Certeza que não vai querer uma porçao? Nao? Ok.",
+    "Today I'm eating everything! Sure you don't want some fries? No? Ok.",
     130,
     100,
     myStyle,
@@ -145,7 +145,7 @@ function setupTooltips() {
 
   createFloatingTooltip(
     "gorro",
-    "Vão me julgar se eu pedir isso nesse frio...?",
+    "Will they judge me if I order this in the cold...?",
     0,
     0,
     myStyle,
@@ -153,7 +153,7 @@ function setupTooltips() {
   );
   createFloatingTooltip(
     "rosinha",
-    "Sou intolerante a lactose.",
+    "I'm lactose intolerant.",
     0,
     0,
     myStyle,
@@ -161,7 +161,7 @@ function setupTooltips() {
   );
   createFloatingTooltip(
     "moreno",
-    "Estou morrendo de frio!!!",
+    "I'm freezing!!!",
     135,
     30,
     myStyle,
@@ -170,7 +170,7 @@ function setupTooltips() {
 
   createFloatingTooltip(
     "verdinha",
-    "Vou querer algo que sirva 4 pessoas, ah! e algo gelado.",
+    "I'll have something that serves 4 people, oh! And something cold.",
     0,
     0,
     myStyle,
@@ -180,7 +180,7 @@ function setupTooltips() {
   createFloatingTooltip("kid2", "CAKE!!!", 0, 0, myStyle, true);
   createFloatingTooltip(
     "cachecol",
-    "Estou com tanto sono...",
+    "I'm so sleepy...",
     0,
     0,
     myStyle,
