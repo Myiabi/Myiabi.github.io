@@ -16,6 +16,9 @@ const Sons = {
     boss: new Audio("/assets/sounds/trilhas/boss.mp3"),
     intro: new Audio("/assets/sounds/trilhas/intro.mp3"),
     market: new Audio("/assets/sounds/trilhas/market.mp3"),
+    bar: new Audio("/assets/sounds/trilhas/bar.mp3"),
+    sun: new Audio("/assets/sounds/trilhas/sun.mp3"),
+    moon: new Audio("/assets/sounds/trilhas/moon.mp3"),
   },
   efeitos: {
     win: "/assets/sounds/efeitos/win.wav",
@@ -293,7 +296,7 @@ function criarPainelVolume() {
     <div style="margin-bottom: 12px; font-weight: bold;">🔊 Volume</div>
     
     <div style="margin-bottom: 10px;">
-      <label for="volumeMusicaSlider" style="display: block; font-size: 12px; margin-bottom: 5px;">Música: <span id="textoMusica">30</span>%</label>
+      <label for="volumeMusicaSlider" style="display: block; font-size: 12px; margin-bottom: 5px;">Music: <span id="textoMusica">30</span>%</label>
       <input 
         type="range" 
         id="volumeMusicaSlider" 
@@ -305,7 +308,7 @@ function criarPainelVolume() {
     </div>
 
     <div style="margin-bottom: 10px;">
-      <label for="volumeEfeitosSlider" style="display: block; font-size: 12px; margin-bottom: 5px;">Efeitos: <span id="textoEfeitos">50</span>%</label>
+      <label for="volumeEfeitosSlider" style="display: block; font-size: 12px; margin-bottom: 5px;">SFX: <span id="textoEfeitos">50</span>%</label>
       <input 
         type="range" 
         id="volumeEfeitosSlider" 
@@ -394,7 +397,7 @@ function criarPainelVolume() {
 
     if (musicaMutada) {
       pausarTrilha();
-      btnMutar.innerText = "🔇 Mutar";
+      btnMutar.innerText = "🔇 Mute";
       btnMutar.style.background = "#2c3e50";
       botaoMusica.innerText = "🔇";
       botaoMusica.style.background = "rgba(43, 193, 238, 1)";
@@ -408,7 +411,7 @@ function criarPainelVolume() {
       } else if (trilhaPendente) {
         tocarTrilha(trilhaPendente);
       }
-      btnMutar.innerText = "🎵 Som ligado";
+      btnMutar.innerText = "🎵 On";
       btnMutar.style.background = "#27ae60";
       botaoMusica.innerText = "🎵";
       botaoMusica.style.background = "rgba(0,0,0,0.6)";

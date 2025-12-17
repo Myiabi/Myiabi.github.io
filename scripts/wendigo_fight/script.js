@@ -821,3 +821,13 @@ function init() {
 }
 
 init();
+
+// Espera o loader terminar de carregar os scripts antes de tocar a trilha
+function esperarETocar() {
+  if (typeof tocarTrilha === "function") {
+    tocarTrilha("sun");
+  } else {
+    setTimeout(esperarETocar, 50);
+  }
+}
+esperarETocar();

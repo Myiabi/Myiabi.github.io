@@ -303,7 +303,7 @@
       bottom: 20px;
       right: 20px;
       padding: 10px 15px;
-      background: rgba(83, 52, 131, 0.8);
+      background: transparent;
       border-radius: 10px;
       color: #00f3ff;
       font-family: 'Segoe UI', sans-serif;
@@ -492,7 +492,7 @@
       </div>
     </div>
     <div id="dev-panel-footer">
-      <span class="dev-footer-info">Pressione TAB para fechar | Alterações resetam a página</span>
+      <span class="dev-footer-info">CheatCode: ⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️ | Mobile: Segurar 3 dedos (12s)</span>
       <div class="dev-footer-actions">
         <button class="dev-btn dev-btn-danger" id="dev-clear-save">🗑️ Apagar Save</button>
         <button class="dev-btn dev-btn-success" id="dev-reload">🔄 Recarregar</button>
@@ -523,14 +523,6 @@
       renderFalas();
     }
   }
-
-  // TAB para abrir/fechar
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      togglePanel();
-    }
-  });
 
   // Clique no overlay fecha
   overlay.addEventListener("click", togglePanel);
@@ -643,7 +635,6 @@
       "🏆 Outros": [],
     };
 
-    // Categoriza as variáveis
     function processObject(obj, prefix = "", category = "🏆 Outros") {
       for (const [key, value] of Object.entries(obj)) {
         const fullKey = prefix ? `${prefix}.${key}` : key;
@@ -667,7 +658,6 @@
       }
     }
 
-    // Variáveis principais (primeiro nível booleanos)
     for (const [key, value] of Object.entries(gameData)) {
       if (typeof value === "boolean") {
         categories["🎮 Principais"].push({
@@ -679,7 +669,6 @@
       }
     }
 
-    // Objetos aninhados
     if (gameData.incubadora)
       processObject(gameData.incubadora, "incubadora", "🔬 Incubadora");
     if (gameData.visualState)
@@ -694,7 +683,6 @@
     if (gameData.itensJardim)
       processObject(gameData.itensJardim, "itensJardim", "🌿 Jardim");
 
-    // Renderiza cada categoria
     for (const [category, items] of Object.entries(categories)) {
       if (items.length === 0) continue;
 
@@ -728,7 +716,6 @@
       container.appendChild(grid);
     }
 
-    // Search functionality
     document.getElementById("dev-search").addEventListener("input", (e) => {
       const search = e.target.value.toLowerCase();
       container.querySelectorAll(".dev-toggle").forEach((toggle) => {
@@ -749,14 +736,12 @@
     const lastKey = keys[keys.length - 1];
     obj[lastKey] = !obj[lastKey];
 
-    // Salva e recarrega
     if (typeof salvarJogo === "function") {
       salvarJogo();
     } else {
       localStorage.setItem("meuSaveDoJogo", JSON.stringify(gameData));
     }
 
-    // Ctrl+F5 (hard reload)
     location.reload(true);
   }
 
@@ -780,7 +765,6 @@
       const card = document.createElement("div");
       card.className = "dev-character-card";
 
-      // Avatar
       let avatarStyle = "";
       if (character.expressoes?.normal) {
         const urlMatch = character.expressoes.normal.match(
@@ -807,7 +791,6 @@
         btn.textContent = scenarioKey;
         btn.addEventListener("click", () => {
           changeScenario(charKey, scenarioKey);
-          // Visual feedback
           buttonsContainer
             .querySelectorAll(".dev-scenario-btn")
             .forEach((b) => b.classList.remove("active"));
@@ -835,16 +818,69 @@
       return;
     }
 
-    // Chama mudarCenario
     mudarCenario(character, scenarioKey);
-
-    // Fecha o painel para ver o diálogo
     togglePanel();
   }
 
+  // ========================
+  // 🎮 ATIVAÇÃO (INPUTS)
+  // ========================
+
+  // 1. CHEAT CODE (Teclado)
+  const secretCode = [
+    "ArrowUp", "ArrowUp", 
+    "ArrowDown", "ArrowDown", 
+    "ArrowLeft", "ArrowRight", 
+    "ArrowLeft", "ArrowRight"
+  ];
+  let inputSequence = [];
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isPanelOpen) {
+      togglePanel();
+      return;
+    }
+    inputSequence.push(e.key);
+    if (inputSequence.length > secretCode.length) {
+      inputSequence.shift();
+    }
+    if (JSON.stringify(inputSequence) === JSON.stringify(secretCode)) {
+      togglePanel();
+      inputSequence = [];
+    }
+  });
+
+  // 2. GESTO MOBILE: SEGURAR 3 DEDOS POR 12 SEGUNDOS
+  let devTimer = null;
+
+  document.addEventListener("touchstart", (e) => {
+    // Verifica se tem exatos 3 dedos na tela
+    if (e.touches.length === 3) {
+      // Opcional: Feedback visual discreto ou log
+      console.log("🔒 Segure firme para abrir o DevMode...");
+      
+      devTimer = setTimeout(() => {
+        togglePanel();
+        // Vibra se o celular suportar
+        if (navigator.vibrate) navigator.vibrate(200);
+      }, 12000); // 12000ms = 12 segundos
+    }
+  }, { passive: true });
+
+  // Se soltar ou mudar o número de dedos, cancela
+  const cancelDev = () => {
+    if (devTimer) {
+      clearTimeout(devTimer);
+      devTimer = null;
+    }
+  };
+
+  document.addEventListener("touchend", cancelDev);
+  document.addEventListener("touchcancel", cancelDev);
+
   // Log inicial
   console.log(
-    "%c🛠️ DEV MODE ATIVO %c Pressione TAB para abrir o painel",
+    "%c🛠️ DEV MODE ATIVO %c Cheat: ⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️ | Mobile: Segurar 3 dedos (12s)",
     "background: #533483; color: #00f3ff; padding: 5px 10px; border-radius: 5px;",
     "color: #aaa;"
   );

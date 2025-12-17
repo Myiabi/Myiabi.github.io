@@ -359,3 +359,12 @@ function endGame(win) {
 
 // Start
 resetGame();
+// Espera o loader terminar de carregar os scripts antes de tocar a trilha
+function esperarETocar() {
+  if (typeof tocarTrilha === "function") {
+    tocarTrilha("moon");
+  } else {
+    setTimeout(esperarETocar, 50);
+  }
+}
+esperarETocar();

@@ -11,7 +11,7 @@ const scripts = [
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
   "/scripts/jardim/script.js",
-  "/dev.js", // 🛠️ DEV MODE - Painel de Debug
+  "/dev.js",
 ];
 
 // =========================
