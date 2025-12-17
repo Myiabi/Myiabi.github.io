@@ -453,12 +453,75 @@ window.personagens = {
         },
       ],
 
-      luaMenu: [
+      boss: [
         {
-          texto: "YAY!",
+          texto: "Agora que você encontrou os dois guardiões, nós devemos te contar a historia completa da cidade.",
+          aofechar: function () {
+            dialogo.agendar(personagens.nodata, "boss", 300);
+          },
           expressao: "normal",
         },
       ],
+      boss1: [
+        {
+          texto:
+            "Antigamente essas terras eram normais, quando ele chegou aqui, ele usou a totalidade do seu poder. Foi um poder de grandes proporções, primeiro ele usou o olho da lua para conseguir elevar seu poder a todo território.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Segundo ele roubou todo o calor da terra, das pedras, os rios e das plantas. Os seres vivos não tiveram outra escolha a não ser fugir.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "A partir disso, de cada asa, surgiu de si mesmo os dois guardiões, cada um representando seus poderes. Então, eles andadaram por cada canto roubando o calor das coisas... Quando finalmente congelaram tudo... Ele adormeceu.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Mas os dois guardiões não o acompanharam neste sono... Eles ficaram sozinhos por um bom tempo. Até que chegou os primeiros peregrinos, e com as 5 irmãs sacerdotizas que conseguiam utilizar de seus poderes, juntos estabeleram a cidade de Aislin.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Eles aprenderam a amar este local. Porém com o calor da cidade e dos seres vivos que estão vivendo felizes aqui... Eles sentiram que o Imperador está acordando. De inicio eles ficaram felizes, um reencontro após tanto tempo... Mas logos eles perceberam.",
+          expressao: "normal",
+          aofechar: function () {
+            dialogo.agendar(personagens.nana, "boss1", 300);
+          },
+        },
+      ],
+      boss3: [
+        {
+          texto:
+            "Você está pronto???",
+          expressao: "normal",
+          aofechar: function () {
+            ConfirmModal.ask("Challenge Ice Imperor?", () => {
+              window.location.href = "/cenarios/blizzard/index.html";
+              console.log("O usuário aceitou!");
+            });
+            
+          },
+        },
+      ],
+
+      final: [
+        {
+          texto:
+            "Chegamos ao fim do jogo. Obrigado por salvar nossa cidade. Aqui eu posso te mandar para tela final se desejar. Como também você pode jogar novamente! Obrigado!",
+          expressao: "normal",
+          aofechar: function () {
+            ConfirmModal.ask("Ir para tela final?", () => {
+              window.location.href = "/cenarios/final/index.html";
+              console.log("O usuário aceitou!");
+            });
+            
+          },
+        },
+      ],
+
 
       intro: [
         {
@@ -615,6 +678,44 @@ window.personagens = {
           expressao: "sorrindo",
         },
       ],
+      boss: [
+        {
+          texto:
+            "Ele acredita que o melhor estado das coisas é o gelo absoluto. Que tudo deve congelar, assim tudo e todos durarão pela eternidade.",
+          expressao: "normal",
+        },
+        {
+          texto:
+            "Acredito que não por maldade, ele apenas segue sua natureza. Assim como acreditamos ser comum construir cidades e viver em constante mudança, ele acredita no contrário.",
+          expressao: "normal",
+          aofechar: function () {
+
+            dialogo.agendar(personagens.aiko, "boss1", 300);
+          },
+        },
+      ],
+      boss1: [
+        {
+          texto:
+            "E agora estão com medo de que ele acorde e decida congelar tudo novamente.",
+          expressao: "normal",
+          aofechar: function () {
+            dialogo.agendar(personagens.nodata, "boss1", 300);
+          },
+        },
+
+      ],
+      boss2: [
+        {
+          texto:
+            "Então talvez você e os guardiões conseguiam um desfecho melhor para essa situação. Confiamos em você. Vamos levar a luta para fora da cidade, mas como está congelante lá fora, wayway preparou postes com um fogo poderoso. Não deixe os postes apagarem ou tudo congelará.",
+          expressao: "normal",
+          aofechar: function () {
+            dialogo.agendar(personagens.aiko, "boss3", 300);
+          },
+        },
+
+      ],
       intro: [
         {
           texto:
@@ -748,6 +849,29 @@ window.personagens = {
               setTimeout(() => popup.remove(), 400);
             }, 4000);
           },
+        },
+      ],
+      boss: [
+        { texto: "A verdade é que é impossivel habitar essas terras.", expressao: "normal" },
+        {
+          texto:
+            "Há muito tempo atrás, um ser muito poderoso chegou a essa região. Ele possui um incrivel poder, manipulando o clima.",
+          expressao: "normal",
+          aofechar: function () {
+
+            dialogo.agendar(personagens.nana, "boss", 300);
+          },
+        },
+      ],
+      boss1: [
+        { texto: "Desculpem interromper a historia, mas agora ele despertou e está vindo direto pra cá.", expressao: "normal" },
+        {
+          texto:
+            "Vamos ter que lutar. Algúns de nós que possuimos grande poder, poderiamos vence-lo. Mas no processo... a cidade pode congelar. Do que adiantaria sobreviver?",
+            aofechar: function () {
+            dialogo.agendar(personagens.nana, "boss2", 300);
+          },
+          expressao: "normal",
         },
       ],
       intro: [

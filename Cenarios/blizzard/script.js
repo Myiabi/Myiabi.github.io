@@ -1185,7 +1185,7 @@ function iniciarFase2() {
   });
 
   gameState.phase = 2;
-  mostrarMensagem("PHASE 2: EYES!", "red");
+  mostrarMensagem("PHASE 2", "red");
 
   document.getElementById("boss-body").src = "/assets/img/Villain2.png";
 
@@ -1281,6 +1281,8 @@ async function gameOver(vitoria) {
   if (vitoria) {
     mostrarMensagem("...", "white");
     await esperar(3000);
+    window.location.href = "/cutscene.html.html";
+    return;
   }
 
   const overlay = document.createElement("div");
@@ -1296,12 +1298,8 @@ async function gameOver(vitoria) {
   overlay.style.opacity = "0";
   overlay.style.transition = "opacity 1s ease";
 
-  if (vitoria) {
-    overlay.innerHTML = "<h1>BOSS DEFEATED!</h1><p>The city is saved.</p>";
-  } else {
-    overlay.innerHTML =
-      "<h1>YOU LOST...</h1><p>The ice has consumed everything.</p><button onclick='location.reload()' style='padding:1rem; margin-top:1rem; cursor:pointer;'>Try Again</button>";
-  }
+  overlay.innerHTML =
+    "<h1>YOU LOST...</h1><p>The ice has consumed everything.</p><button onclick='location.reload()' style='padding:1rem; margin-top:1rem; cursor:pointer;'>Try Again</button>";
   document.body.appendChild(overlay);
 
   requestAnimationFrame(() => {

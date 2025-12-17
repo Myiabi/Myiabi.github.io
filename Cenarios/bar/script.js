@@ -472,3 +472,13 @@ window.startMinigameLogic = function () {
   applyMesaStateFromSave();
   entrarNoLocal();
 };
+
+// Espera o loader terminar de carregar os scripts antes de tocar a trilha
+function esperarETocar() {
+  if (typeof tocarTrilha === "function") {
+    tocarTrilha("bar");
+  } else {
+    setTimeout(esperarETocar, 50);
+  }
+}
+esperarETocar();

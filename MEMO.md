@@ -23,13 +23,13 @@
 - ~~Colocar a versão na tela de intro~~
 
 - ~~Link das redes sociais~~
-- Aiko falar a historia do Last Boss
+- ~~Aiko~~ falar a historia do Last Boss~~
 
 - Ice Emperor {
-    - Barras surgindo junto com ele.
-    - Uma frase quando ele "pousar"
-    - Só liberar depois que ele terminar de falar
-    - Menu interativo responsivo
+    - ~~Barras surgindo junto com ele.~~
+    - ~~Uma frase quando ele "pousar"~~
+    - ~~Só liberar depois que ele terminar de falar~~
+    - ~~Menu~~ interativo responsivo~~
 }
 
 - Ativar sons dos cenários
@@ -175,4 +175,3 @@ Ajustes de mecanica:
 # Aprender
 
 - ~~Aprender o conceito por trás da disposição das medidas para garantir objeto fixo no mapa. Algumas medidas não escalam com outras.~~ 
-

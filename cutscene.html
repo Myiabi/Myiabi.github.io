@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fim - Guardiões da Cidade</title>
+    <link rel="stylesheet" href="/core/global.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #1a1a1a;
+        font-family: "Arial", sans-serif;
+        color: white;
+      }
+
+      /* Fundo preto inicial */
+      #black-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #1a1a1a;
+        z-index: 10;
+        transition: opacity 1.5s ease;
+      }
+
+      #black-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Container da imagem final */
+      #end-scene {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        opacity: 0;
+        z-index: 5;
+      }
+
+      #end-scene.visible {
+        opacity: 1;
+      }
+
+      /* Imagem final com efeito de zoom e blur */
+      #bgEnd {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        transform: scale(2.5);
+        filter: blur(15px);
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      #bgEnd.animate {
+        animation: finalReveal 8s ease-out forwards;
+      }
+
+      @keyframes finalReveal {
+        0% {
+          transform: scale(2.5);
+          filter: blur(15px);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          filter: blur(0px);
+          opacity: 1;
+        }
+      }
+
+      /* Texto final */
+      #end-text {
+        position: fixed;
+        bottom: 15vh;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 25;
+        font-family: "Georgia", serif;
+        font-size: clamp(1.5rem, 4vw, 3rem);
+        letter-spacing: 4px;
+        color: #f0f0f0;
+        text-transform: uppercase;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 1);
+        opacity: 0;
+        text-align: center;
+      }
+
+      #end-text.visible {
+        animation: textFadeIn 3s ease forwards 5s;
+      }
+
+      @keyframes textFadeIn {
+        from {
+          opacity: 0;
+          transform: translateX(-50%) translateY(20px);
+          filter: blur(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+          filter: blur(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Tela preta inicial para os diálogos -->
+    <div id="black-screen"></div>
+
+    <!-- Cena final com a imagem -->
+    <div id="end-scene">
+      <img
+        id="bgEnd"
+        src="/assets/img/BG_Final-boss.png"
+        alt="Guardiões da Cidade"
+        draggable="false"
+      />
+      <div id="end-text">END</div>
+    </div>
+
+    <script src="/loader.js"></script>
+    <script>
+      // Função auxiliar para esperar
+      function esperar(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      // Cena final - diálogos no fundo preto
+      async function cenaFinal() {
+        // Garante que o sistema global existe
+        if (typeof dialogo !== "undefined") {
+          await dialogo.abrirAsync({
+            nome: "Ice Emperor",
+            texto: "Vocês não querem... ser felizes?",
+          });
+
+          await esperar(1000);
+
+          await dialogo.abrirAsync({
+            nome: "",
+            texto:
+              "Ele cai de joelhos, sem conseguir compreender as pessoas da cidade.",
+          });
+
+          await dialogo.abrirAsync({
+            nome: "",
+            texto: "...Então se prepara para se auto congelar sozinho...",
+          });
+
+          await dialogo.abrirAsync({
+            nome: "",
+            texto: "Mas algo se aproxima dele. Os dois Guardiões o abraçam.",
+          });
+
+          await dialogo.abrirAsync({
+            nome: "Ice Emperor",
+            texto:
+              "Vocês ainda se lembram de mim? Vocês escolheram não adormecerem comigo, e ajudaram a manter calor nessas terras. Vocês não conseguem me entender?",
+          });
+
+          await dialogo.abrirAsync({
+            nome: "Ice Emperor",
+            texto:
+              "Não... é o contrário. Vocês gostaram do tempo que passamos juntos, vocês queriam dar essa oportunidade aos seres desse lugar. Mas vocês fizeram isso sem nenhum descanso.",
+          });
+
+          await dialogo.abrirAsync({
+            nome: "Ice Emperor",
+            texto:
+              "Venham comigo, eu não tocarei na sua preciosa cidade. Vocês merecem este descanso.",
+          });
+
+          await dialogo.abrirAsync({
+            nome: "",
+            texto:
+              "Os 3 congelam juntos num belo sono. Símbolos de uma era de paz, guardiões da cidade.",
+          });
+        }
+
+        // Transição visual: fundo preto -> imagem com zoom/blur
+        await iniciarCenaVisual();
+      }
+
+      // Transição visual: fundo preto -> imagem com zoom/blur
+      async function iniciarCenaVisual() {
+        const blackScreen = document.getElementById("black-screen");
+        const endScene = document.getElementById("end-scene");
+        const bgEnd = document.getElementById("bgEnd");
+        const endText = document.getElementById("end-text");
+
+        // Pequena pausa antes da transição
+        await esperar(500);
+
+        // Mostra a cena final
+        endScene.classList.add("visible");
+
+        // Fade out do fundo preto
+        blackScreen.classList.add("fade-out");
+
+        // Aguarda o fade out terminar
+        await esperar(1500);
+
+        // Inicia a animação da imagem (zoom out + deblur)
+        bgEnd.classList.add("animate");
+
+        // Mostra o texto final
+        endText.classList.add("visible");
+
+        // Aguarda a animação terminar (8 segundos)
+        await esperar(8000);
+
+        console.log("Cena visual finalizada!");
+
+        // Redireciona para a cena da cidade
+        window.location.href = "/end.html";
+      }
+
+      // Inicia a cena quando a página carregar
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          cenaFinal();
+        }, 500);
+      });
+    </script>
+  </body>
+</html>

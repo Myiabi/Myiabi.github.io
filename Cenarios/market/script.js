@@ -220,3 +220,5 @@ function abrirLockGame() {
     }, 3000);
   }
 }
+
+tocarTrilha("market");
