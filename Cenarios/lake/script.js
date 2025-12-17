@@ -340,3 +340,7 @@ function triggerWin() {
   }, animationTime);
 }
 
+// Inicializa quando o DOM estiver pronto
+document.addEventListener("DOMContentLoaded", () => {
+  initGrid();
+});
