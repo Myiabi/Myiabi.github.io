@@ -2,37 +2,502 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    
-    <meta http-equiv="refresh" content="0; url=cenarios/intro/index.html" />
-    
-    <title>Cold Memories</title>
-    <meta name="description" content="Um jogo de mistério e puzzles. Descubra a verdade em Cold Memories." />
-    <meta name="author" content="Czar" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intro Visual Novel - Sequência Final</title>
+    <!-- Seus estilos globais -->
+    <link rel="stylesheet" href="/core/global.css" />
+
+    <!-- IMPORTANTE: Certifique-se de importar seus scripts de diálogo e personagens AQUI ou no final do body -->
+    <!-- <script src="/core/dialogo.js"></script> -->
+    <!-- <script src="/dados/personagens.js"></script> -->
 
     <style>
-        body {
-            background-color: #000; /* Ou a cor predominante do seu jogo */
-            color: #fff;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: sans-serif;
+      /* --- SEU RESET CSS (Melhoria para mobile) --- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        -webkit-user-drag: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Arial", sans-serif;
+        color: white;
+      }
+
+      /* --- CONTEÚDO DO JOGO (CENA 2) --- */
+      #game-content {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        opacity: 0;
+      }
+
+      #game-content.animate-entrance {
+        animation: gameContentReveal 2s ease forwards;
+      }
+
+      /* --- BACKGROUND DO JOGO (Estica 100%) --- */
+      #bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: fill; /* Estica para preencher */
+        z-index: 0;
+      }
+
+      /* --- NPCs --- */
+      .npc {
+        height: 28%;
+        position: absolute;
+        z-index: 1;
+      }
+
+      #nanai {
+        width: 10%;
+        top: 50%;
+        left: 25%;
+      }
+      #nodatai {
+        width: 9.5%;
+        top: 50%;
+        left: 62%;
+      }
+      #aikoi {
+        position: absolute;
+        width: 10%;
+        top: 65%;
+        left: 45%;
+      }
+
+      /* --- TELA DE INÍCIO --- */
+      #start-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        transition: opacity 0.5s ease;
+      }
+
+      .start-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+      }
+
+      #start-btn {
+        position: relative;
+        z-index: 10;
+        padding: 15px 50px;
+        font-size: 1.5rem;
+        color: white;
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-family: "Georgia", serif;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+      }
+
+      #start-btn:hover {
+        background: white;
+        color: black;
+        border-color: white;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+      }
+
+      /* --- INTRO OVERLAY --- */
+      #game-intro {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 100;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background: black;
+        pointer-events: auto;
+      }
+
+      /* --- ELEMENTOS DA INTRO (Atualizado para IMG tag) --- */
+      .intro-bg-1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* AQUI ESTÁ A MUDANÇA: Usamos object-fit fill igual ao jogo */
+        object-fit: fill;
+        z-index: 1;
+        transform: scale(2.5); /* Começa com zoom */
+      }
+
+      .cinematic-bar {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 12vh;
+        background: black;
+        z-index: 20;
+        transition: transform 0.8s ease-out;
+      }
+      .bar-top {
+        top: 0;
+        transform: translateY(-100%);
+      }
+      .bar-bottom {
+        bottom: 0;
+        transform: translateY(100%);
+      }
+
+      .game-title {
+        position: relative;
+        z-index: 30;
+        font-family: "Georgia", serif;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        letter-spacing: 6px;
+        color: #f0f0f0;
+        text-transform: uppercase;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 1);
+        opacity: 0;
+        will-change: transform, opacity;
+      }
+
+      .intro-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 10;
+        opacity: 0;
+      }
+
+      /* --- GATILHOS DE ANIMAÇÃO --- */
+      #game-intro.running .intro-bg-1 {
+        animation: fullRevealZoom 7s ease-out forwards;
+      }
+      #game-intro.running .bar-top {
+        animation: slideDown 0.8s ease-out forwards;
+      }
+      #game-intro.running .bar-bottom {
+        animation: slideUp 0.8s ease-out forwards;
+      }
+      #game-intro.running .game-title {
+        animation: titleReveal 3s ease-out 2.5s forwards;
+      }
+      #game-intro.running .intro-overlay {
+        animation: fadeInOverlay 2s ease 1s forwards;
+      }
+
+      /* --- KEYFRAMES --- */
+      @keyframes fullRevealZoom {
+        0% {
+          transform: scale(2.5);
         }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes titleReveal {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+          filter: blur(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+          filter: blur(0px);
+        }
+      }
+      @keyframes gameContentReveal {
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes fadeInOverlay {
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeOutIntro {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .replay-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 200;
+        padding: 8px 16px;
+        background: transparent;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        font-family: monospace;
+        opacity: 0.5;
+        transition: opacity 0.3s;
+      }
+      .replay-btn:hover {
+        opacity: 1;
+      }
+
+      /* --- VERSÃO DO JOGO --- */
+      #game-version {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 200;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: monospace;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        text-align: left;
+      }
+
+      #game-version .version-number {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: bold;
+      }
+
+      #game-version .version-info {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.75rem;
+      }
     </style>
   </head>
   <body>
+    <!-- TELA DE INÍCIO -->
+    <div id="start-screen">
+      <img
+        class="start-bg"
+        src="/assets/img/BG_Banner.png"
+        alt="Banner"
+        draggable="false"
+      />
+      <button id="start-btn">INICIAR JOGO</button>
+
+      <!-- VERSÃO DO JOGO -->
+      <div id="game-version">
+        <div class="version-number">Version 1.0.0</div>
+      </div>
+    </div>
+
+    <!-- CENA 2: O JOGO REAL -->
+    <div id="game-content">
+      <!-- BACKGROUND COMO IMAGEM (ESTICA 100%) -->
+      <img id="bg" src="/assets/img/BG_Temple.png" alt="Background" />
+
+      <!-- NPCs -->
+      <img
+        class="npc"
+        id="nanai"
+        src="/assets/img/NPC_nan.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="nodatai"
+        src="/assets/img/NPC_nodata.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="aikoi"
+        src="/assets/img/NPC_Leader.png"
+        draggable="false"
+      />
+    </div>
+
+    <!-- INTRO OVERLAY (CENA 1) -->
+    <div id="game-intro">
+      <!-- TROQUEI DIV POR IMG AQUI TAMBÉM PRA ESTICAR IGUAL -->
+      <img
+        src="/assets/img/BG_Base.png"
+        class="intro-bg-1"
+        alt="Intro Background"
+      />
+
+      <div class="intro-overlay"></div>
+      <div class="cinematic-bar bar-top"></div>
+      <div class="cinematic-bar bar-bottom"></div>
+      <h1 class="game-title">COLD MEMORIES</h1>
+    </div>
+
+    <button class="replay-btn" onclick="replayIntro()" style="display: none">
+      Replay Intro
+    </button>
+
     <script>
-      // Redirecionamento via JS (mais rápido que o meta refresh em alguns casos)
-      window.location.href = "cenarios/intro/index.html";
+      // ========== SISTEMA DE PASSE ÚNICO ==========
+      // Intro é tela inicial - só bloqueia se já foi completada
+      (function () {
+        if (localStorage.getItem("intro_completo") === "true") {
+          window.location.replace("/city.html");
+          return;
+        }
+      })();
+
+      // --- SEU SCRIPT PURO ---
+      async function cenaIntro() {
+        await dialogo.abrirAsync({ nome: "", texto: "..." });
+        await dialogo.abrirAsync(personagens.aiko, "intro");
+        await esperar(300);
+        await dialogo.abrirAsync(personagens.nana, "intro");
+        await esperar(300);
+        await dialogo.abrirAsync(personagens.nodata, "intro");
+        await esperar(300);
+        await dialogo.abrirAsync(personagens.aiko, "intro2");
+        await esperar(300);
+        await dialogo.abrirAsync(personagens.nana, "intro2");
+        await esperar(300);
+        await dialogo.abrirAsync(personagens.nodata, "intro2");
+        await esperar(300);
+        await dialogo.abrirAsync(personagens.aiko, "intro3");
+
+        console.log("Cena finalizada!");
+
+        // A TATUAGEM ETERNA: Marca que a intro já foi completada
+        localStorage.setItem("intro_completo", "true");
+
+        // Usa replace para não permitir voltar com botão back
+        window.location.replace("/cenarios/templo/index.html");
+      }
+
+      // --- LÓGICA DE CONTROLE DA INTRO ---
+      let scriptTimeoutId = null;
+
+      function startIntroSequence() {
+        const intro = document.getElementById("game-intro");
+        const gameContent = document.getElementById("game-content");
+
+        if (intro) {
+          intro.style.display = "flex";
+          intro.style.animation = "none";
+          intro.style.opacity = "1";
+          intro.style.visibility = "visible";
+
+          void intro.offsetWidth;
+
+          intro.classList.add("running");
+
+          if (gameContent) {
+            gameContent.style.pointerEvents = "none";
+          }
+
+          // --- TIMER 1: Sumir com a intro ---
+          setTimeout(() => {
+            intro.style.animation = "fadeOutIntro 1.5s forwards";
+
+            if (gameContent) {
+              gameContent.classList.add("animate-entrance");
+            }
+
+            setTimeout(() => {
+              intro.classList.remove("running");
+              if (intro.parentNode) intro.parentNode.removeChild(intro);
+              if (gameContent) {
+                gameContent.style.pointerEvents = "";
+              }
+            }, 1500);
+          }, 7500);
+
+          // --- TIMER 2: Rodar o script ---
+          scriptTimeoutId = setTimeout(() => {
+            console.log("⏱️ Timer disparou: Chamando cenaIntro agora...");
+            cenaIntro();
+          }, 10500);
+        }
+      }
+
+      // --- INICIALIZAÇÃO ---
+      document.addEventListener("DOMContentLoaded", () => {
+        const startBtn = document.getElementById("start-btn");
+        const startScreen = document.getElementById("start-screen");
+
+        startBtn.addEventListener("click", () => {
+          startScreen.style.opacity = "0";
+          setTimeout(() => {
+            startScreen.style.display = "none";
+            startIntroSequence();
+          }, 500);
+        });
+      });
+
+      function replayIntro() {
+        if (scriptTimeoutId) clearTimeout(scriptTimeoutId);
+
+        const gameContent = document.getElementById("game-content");
+        if (gameContent) {
+          gameContent.classList.remove("animate-entrance");
+          gameContent.style.opacity = "0";
+        }
+
+        const oldIntro = document.getElementById("game-intro");
+        if (oldIntro) oldIntro.remove();
+
+        const introHTML = `
+                <div id="game-intro">
+                    <img src="/assets/img/BG_Base.png" class="intro-bg-1" alt="Intro Background">
+                    <div class="intro-overlay"></div>
+                    <div class="cinematic-bar bar-top"></div>
+                    <div class="cinematic-bar bar-bottom"></div>
+                    <h1 class="game-title">COLD MEMORIES</h1>
+                </div>
+            `;
+        document.body.insertAdjacentHTML("beforeend", introHTML);
+        startIntroSequence();
+      }
     </script>
-    
-    <noscript>
-      <p>Carregando Cold Memories...</p>
-      <a href="cenarios/intro/index.html" style="color: #fff;">Clique aqui se não for redirecionado.</a>
-    </noscript>
+
+    <script src="/loader.js"></script>
   </body>
 </html>
