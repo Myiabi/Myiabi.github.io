@@ -344,3 +344,13 @@ function triggerWin() {
 document.addEventListener("DOMContentLoaded", () => {
   initGrid();
 });
+
+// Espera o loader terminar de carregar os scripts antes de tocar a trilha
+function esperarETocar() {
+  if (typeof tocarTrilha === "function") {
+    tocarTrilha("lake");
+  } else {
+    setTimeout(esperarETocar, 50);
+  }
+}
+esperarETocar();

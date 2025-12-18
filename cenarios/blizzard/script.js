@@ -836,7 +836,7 @@ async function startDramaticScene() {
 const BOSS_CONFIG = {
   cuffRegenTime: 2000,
   handMaxHits: 3,
-  castSpeedHand: 0.105,
+  castSpeedHand: 0.150,
   castSpeedEye: 0.105,
   regenSpeedEye: 0.04,
   totalPostes: 8,

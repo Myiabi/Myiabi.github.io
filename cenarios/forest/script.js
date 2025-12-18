@@ -5,3 +5,13 @@
     sessionStorage.setItem("acesso_dropmoon", "autorizado");
   }
 })();
+
+// Espera o loader terminar de carregar os scripts antes de tocar a trilha
+function esperarETocar() {
+  if (typeof tocarTrilha === "function") {
+    tocarTrilha("celt");
+  } else {
+    setTimeout(esperarETocar, 50);
+  }
+}
+esperarETocar();

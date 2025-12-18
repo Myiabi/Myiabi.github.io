@@ -19,6 +19,10 @@ const Sons = {
     bar: new Audio("/assets/sounds/trilhas/bar.mp3"),
     sun: new Audio("/assets/sounds/trilhas/sun.mp3"),
     moon: new Audio("/assets/sounds/trilhas/moon.mp3"),
+    cave: new Audio("/assets/sounds/trilhas/cave.mp3"),
+    forest: new Audio("/assets/sounds/trilhas/forest.mp3"),
+    lake: new Audio("/assets/sounds/trilhas/lake.mp3"),
+    celt: new Audio("/assets/sounds/trilhas/celt.mp3"),
   },
   efeitos: {
     win: "/assets/sounds/efeitos/win.wav",
@@ -331,7 +335,7 @@ function criarPainelVolume() {
         width: 100%;
         transition: background 0.3s ease;
       ">
-        ${musicaMutada ? "🔇 Mutar" : "🎵 Som ligado"}
+        ${musicaMutada ? "🔇 Mutar" : "🎵 Sound ON"}
       </button>
     </div>
   `;
