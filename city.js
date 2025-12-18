@@ -1,5 +1,9 @@
 // ========== VERIFICAÇÃO DE DESAFIOS JÁ COMPLETADOS ==========
 
+if (typeof unlockAchievement === "function") {
+      unlockAchievement("boss");
+  }
+
 document.querySelectorAll(".back").forEach((p) => {
   p.addEventListener("click", () => {
     // VERIFICAÇÃO DE JOGO JÁ ZERADO (bloqueio permanente)

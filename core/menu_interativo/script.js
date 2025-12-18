@@ -295,6 +295,8 @@ function onTodosPostesAcesos() {
   mudarCenario(personagens.day25, "segunda");
   mudarCenario(personagens.ballerina, "segunda");
   mudarCenario(personagens.wayway, "segunda");
+  unlockAchievement("fire");
+  
 }
 
 // adicionar alvo (uses = número de vezes que pode ativar; padrão 1)

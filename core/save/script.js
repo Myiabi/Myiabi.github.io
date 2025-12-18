@@ -608,24 +608,24 @@ audioVitoria.volume = 0.5;
 const secretAchievements = [
   {
     id: "lastBoss",
-    title: "Zere o jogo",
-    desc: "Você derrotou o Imperador do Gelo",
+    title: "Beat the Game",
+    desc: "You defeated the Ice Emperor",
     iconUrl: "/assets/img/boss.png",
     unlocked: false,
     condition: (gs) => gs.emperor,
   },
   {
     id: "gatoLendario",
-    title: "Morto de fome",
-    desc: "Alimente o gato com o peixe lendário",
+    title: "Starving",
+    desc: "Feed the cat the legendary fish",
     iconUrl: "/assets/img/fish.png",
     unlocked: false,
     condition: (gs) => gs.cat,
   },
   {
     id: "mintRevelado",
-    title: "Achou!",
-    desc: "Revele o fantasma de gelo",
+    title: "Found You!",
+    desc: "Reveal the ice ghost",
     iconUrl: "/assets/img/ghost.png",
     unlocked: false,
     condition: (gs) => gs.mint,
@@ -633,10 +633,18 @@ const secretAchievements = [
   {
     id: "allCobrinhas",
     title: "Hide and Seek",
-    desc: "Você encontrou todas as cobrinhas escondidas",
+    desc: "You found all the hidden snakes",
     iconUrl: "/assets/img/snake.png",
     unlocked: false,
     condition: (gs) => gs.snakes,
+  },
+  {
+    id: "firepostes",
+    title: "City Lights",
+    desc: "You lit all the fire posts",
+    iconUrl: "/assets/img/poleachie.png",
+    unlocked: false,
+    condition: (gs) => gs.fire,
   },
 ];
 

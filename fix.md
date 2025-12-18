@@ -5,9 +5,9 @@
 - ~~Queen's Power~~
 - ~~Peixe escapou~~
 - ~~Capella hard~~
-- Lista some
+- ~~Lista some~~
 
 ### BOSSES ###
 
-- Lua pesada
+- ~~Lua pesada~~
 - ~~Ice Emperor Fácil~~
