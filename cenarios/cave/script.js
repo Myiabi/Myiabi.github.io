@@ -369,7 +369,7 @@ function downloadCharacter() {
 
     html2canvas(tempWrapper, {
       backgroundColor: null,
-      scale: 2,
+      scale: 4,
       logging: false,
       useCORS: true,
     })
@@ -497,7 +497,7 @@ function createCharacterElement(data, width = "200px", comAura = false) {
     let zIndex = 20;
     if (key === "body") zIndex = 0;
     else if (key === "eyes") zIndex = 25;
-    else if (key === "cloth") zIndex = 35;
+    else if (key === "cloth") zIndex = 46;
     else if (key === "hairStyle") zIndex = 45;
     else if (key === "horns") zIndex = 50;
     else if (key === "accessory")
