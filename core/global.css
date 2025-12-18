@@ -44,6 +44,21 @@ body {
   font-size: var(--fs-base);
   width: 100vw;
   height: 100vh;
+  background-color: #000; /* Ou a cor principal do seu BG */
+  margin: 0;
+  overflow: hidden; /* Evita scrolbar indesejada no load */
+}
+
+#scene {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* Efeito Fade-in elegante */
+    visibility: hidden; /* Garante que não seja clicável enquanto carrega */
+}
+
+/* Classe que o JS vai adicionar quando estiver tudo pronto */
+#scene.scene-visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* ===================== */

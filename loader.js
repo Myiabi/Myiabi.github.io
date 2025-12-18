@@ -1,4 +1,4 @@
-// loader.js — versão final corrigida e compatível com o script.js do minigame
+// loader.js — Versão Final Blindada
 
 const scripts = [
   "/core/global.js",
@@ -15,7 +15,7 @@ const scripts = [
 ];
 
 // =========================
-// BLOQUEIA CONTEXTO — seguro
+// BLOQUEIA CONTEXTO
 // =========================
 function disableContextMenuOnBody() {
   const apply = () => {
@@ -45,90 +45,15 @@ const BLOCK_MAP = {
   menu: "/core/menu_interativo/script.js",
   popup: "/core/popup/script.js",
   achievements: "/core/achievements/script.js",
-  save: "/core/save/script.js", // caso volte a usar
+  save: "/core/save/script.js",
 };
 
 // =========================
-// CARREGADOR PRINCIPAL
+// INJETA O LOADING VISUAL (IMEDIATAMENTE)
 // =========================
-(async function loadAllScripts() {
-  console.log("Loader iniciado.");
-
-  const allScripts = [...scripts];
-
-  // Adiciona o script.js local do cenário (se existir)
-  const currentPath = window.location.pathname;
-  // Só adiciona se estiver em uma subpasta (cenários)
-  if (currentPath.includes("/cenarios/") || currentPath.includes("/scripts/")) {
-    const localScript = currentPath
-      .replace(/\/[^\/]*\.html$/, "/script.js")
-      .replace(/\/$/, "/script.js");
-    allScripts.push(localScript);
-    console.log("Script local detectado:", localScript);
-  }
-
-  // lê o atributo data-no="menu,popup"
-  const body = document.body;
-  let blocked = [];
-
-  if (body?.dataset?.no) {
-    blocked = body.dataset.no.split(",").map((s) => s.trim());
-    console.log("Scripts bloqueados neste HTML:", blocked);
-  }
-
-  // =========================
-  // CARREGAMENTO SEQUENCIAL
-  // =========================
-  for (const src of allScripts) {
-    // verifica se este script está na lista do BODY
-    const shouldBlock = blocked.some((key) => BLOCK_MAP[key] === src);
-
-    if (shouldBlock) {
-      console.log(`🔒 Script bloqueado: ${src}`);
-      continue; // pulado
-    }
-
-    await new Promise((resolve) => {
-      const s = document.createElement("script");
-      s.async = false;
-      s.onload = () => {
-        console.log(`${src} carregado`);
-        resolve();
-      };
-      s.onerror = () => {
-        console.error(`Erro ao carregar ${src}`);
-        resolve();
-      };
-      s.src = src;
-      document.body.appendChild(s);
-    });
-  }
-
-  console.log("Todos os scripts foram processados.");
-
-  // ==========================================
-  // TENTA INICIAR O MINIGAME (drag & drop)
-  // ==========================================
-  if (typeof window.startMinigameLogic === "function") {
-    console.log("Chamando startMinigameLogic via loader...");
-    window.startMinigameLogic();
-  } else {
-    console.warn(
-      "startMinigameLogic não encontrado no script.js! Minigame não pôde iniciar."
-    );
-  }
-})();
-
-// LOADING
-
-// loader.js - Tempo mínimo garantido SEMPRE
-(function () {
-  // Tempo mínimo (ms)
-  const minTime = 500;
-  const start = Date.now();
-
-  // Insere o loader imediatamente antes do render
-  document.write(`
+(function injectLoader() {
+  // HTML do Loader
+  const loaderHTML = `
     <div id="global-loading" style="
       position: fixed;
       top: 0;
@@ -146,29 +71,124 @@ const BLOCK_MAP = {
       font-family: sans-serif;
       font-size: 2rem;
       letter-spacing: 2px;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.3s ease;
+      pointer-events: none; /* Garante que não bloqueie cliques se bugar invisível */
     ">
       Loading...
     </div>
-  `);
+  `;
+  
+  // Insere no começo do body assim que possível
+  if (document.body) {
+    document.body.insertAdjacentHTML('afterbegin', loaderHTML);
+  } else {
+    window.addEventListener('DOMContentLoaded', () => {
+        document.body.insertAdjacentHTML('afterbegin', loaderHTML);
+    });
+  }
+})();
+
+// =========================
+// CARREGADOR DE SCRIPTS
+// =========================
+(async function loadAllScripts() {
+  console.log("Loader iniciado.");
+
+  const allScripts = [...scripts];
+
+  // Adiciona script local
+  const currentPath = window.location.pathname;
+  if (currentPath.includes("/cenarios/") || currentPath.includes("/scripts/")) {
+    const localScript = currentPath
+      .replace(/\/[^\/]*\.html$/, "/script.js")
+      .replace(/\/$/, "/script.js");
+    allScripts.push(localScript);
+    console.log("Script local detectado:", localScript);
+  }
+
+  // Lê bloqueios
+  const body = document.body;
+  let blocked = [];
+  if (body?.dataset?.no) {
+    blocked = body.dataset.no.split(",").map((s) => s.trim());
+  }
+
+  // Carregamento Sequencial
+  for (const src of allScripts) {
+    const shouldBlock = blocked.some((key) => BLOCK_MAP[key] === src);
+
+    if (shouldBlock) {
+      console.log(`🔒 Script bloqueado: ${src}`);
+      continue; 
+    }
+
+    await new Promise((resolve) => {
+      const s = document.createElement("script");
+      s.async = false;
+      s.onload = resolve;
+      s.onerror = () => {
+        console.error(`Erro ao carregar ${src}`);
+        resolve(); // Segue o jogo mesmo com erro
+      };
+      s.src = src;
+      document.body.appendChild(s);
+    });
+  }
+
+  console.log("Scripts processados.");
+
+  // Tenta iniciar minigame
+  if (typeof window.startMinigameLogic === "function") {
+    window.startMinigameLogic();
+  }
+})();
+
+// =========================
+// GERENCIADOR DE TRANSIÇÃO (LOADING -> CENA)
+// =========================
+(function () {
+  const minTime = 300; // Tempo mínimo de tela preta
+  const start = Date.now();
+  let finished = false;
 
   function finishLoader() {
+    if (finished) return; // Evita rodar duas vezes
+    finished = true;
+
     const loading = document.getElementById("global-loading");
-    if (!loading) return;
+    const scene = document.getElementById("scene");
 
     const elapsed = Date.now() - start;
     const wait = Math.max(0, minTime - elapsed);
 
     setTimeout(() => {
-      loading.style.opacity = "0";
-      setTimeout(() => loading.remove(), 500);
+      // 1. Some o Loading
+      if (loading) {
+        loading.style.opacity = "0";
+      }
+
+      // 2. Aparece a Cena (AQUI ESTAVA O PROBLEMA ANTES)
+      if (scene) {
+        scene.classList.add("scene-visible");
+      } else {
+        console.warn("Elemento #scene não encontrado pelo loader!");
+      }
+
+      // 3. Limpa o DOM
+      setTimeout(() => {
+        if (loading) loading.remove();
+      }, 500);
+
     }, wait);
   }
 
-  // Garante que o loader finalize no load
+  // Dispara quando tudo (imagens, scripts, css) carregar
   window.addEventListener("load", finishLoader);
 
-  // SE o "load" já tiver acontecido antes do script rodar...
+  // Failsafe: Se o load travar por 5 segundos, libera o jogo na marra
+  setTimeout(finishLoader, 5000);
+
+  // Se já carregou antes do script rodar
   if (document.readyState === "complete") {
     finishLoader();
   }
