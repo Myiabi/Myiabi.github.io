@@ -838,7 +838,7 @@ const BOSS_CONFIG = {
   handMaxHits: 3,
   castSpeedHand: 0.105,
   castSpeedEye: 0.105,
-  regenSpeedEye: 0.06,
+  regenSpeedEye: 0.04,
   totalPostes: 8,
 };
 

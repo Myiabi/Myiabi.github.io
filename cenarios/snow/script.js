@@ -1,12 +1,14 @@
 const TOTAL_NUM_FLAKES = 300;
 const SNOW_SYMBOLS = ["•", "❅", "❆", "❄"];
 
+// CONFIGURAÇÃO DAS CAMADAS
+// speedFactor drasticamente reduzido (dividido por 10) para efeito "flutuante"
 const LAYERS = [
   {
     layer: 1,
     sizeMin: 24,
     sizeMax: 40,
-    speedFactor: 0.12,
+    speedFactor: 0.012, 
     swayAmpMin: 10,
     swayAmpMax: 30,
     opacity: 1,
@@ -20,7 +22,7 @@ const LAYERS = [
     layer: 2,
     sizeMin: 20,
     sizeMax: 28,
-    speedFactor: 0.09,
+    speedFactor: 0.009, 
     swayAmpMin: 10,
     swayAmpMax: 25,
     opacity: 0.85,
@@ -34,7 +36,7 @@ const LAYERS = [
     layer: 3,
     sizeMin: 16,
     sizeMax: 24,
-    speedFactor: 0.07,
+    speedFactor: 0.007,
     swayAmpMin: 10,
     swayAmpMax: 20,
     opacity: 0.75,
@@ -48,7 +50,7 @@ const LAYERS = [
     layer: 4,
     sizeMin: 12,
     sizeMax: 18,
-    speedFactor: 0.05,
+    speedFactor: 0.005,
     swayAmpMin: 10,
     swayAmpMax: 20,
     opacity: 0.65,
@@ -62,7 +64,7 @@ const LAYERS = [
     layer: 5,
     sizeMin: 10,
     sizeMax: 14,
-    speedFactor: 0.03,
+    speedFactor: 0.003,
     swayAmpMin: 10,
     swayAmpMax: 20,
     opacity: 0.55,
@@ -76,7 +78,7 @@ const LAYERS = [
     layer: 6,
     sizeMin: 8,
     sizeMax: 12,
-    speedFactor: 0.01,
+    speedFactor: 0.001,
     swayAmpMin: 10,
     swayAmpMax: 20,
     opacity: 0.4,
@@ -99,50 +101,9 @@ class SnowLayer {
     this.canvas.height = this.height * window.devicePixelRatio;
     this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     this.snowflakes = [];
-    this.snowPileHeights = [];
-    this.SEGMENT_WIDTH = 5;
-    this.NUM_SEGMENTS = Math.ceil(this.width / this.SEGMENT_WIDTH);
-    this.initializeSnowPiles();
+    
+    // Cria os flocos iniciais
     this.createSnowflakes(Math.floor(TOTAL_NUM_FLAKES / LAYERS.length));
-  }
-
-  initializeSnowPiles() {
-    this.snowPileHeights = [];
-    this.NUM_SEGMENTS = Math.ceil(this.width / this.SEGMENT_WIDTH);
-    for (let j = 0; j < this.NUM_SEGMENTS; j++) {
-      if (j === 0) {
-        this.snowPileHeights[j] = this.height - 30 + (Math.random() * 10 - 5);
-      } else {
-        const previousHeight = this.snowPileHeights[j - 1];
-        let delta = Math.random() * 10 - 5;
-        let newHeight = previousHeight + delta;
-
-        const maxHeight = this.height - 10;
-        const minHeight = this.height - 100;
-        if (newHeight > maxHeight) {
-          newHeight = maxHeight;
-        } else if (newHeight < minHeight) {
-          newHeight = minHeight;
-        }
-
-        this.snowPileHeights[j] = newHeight;
-      }
-    }
-    this.smoothSnowPile(2);
-  }
-
-  smoothSnowPile(iterations = 1) {
-    for (let iter = 0; iter < iterations; iter++) {
-      const temp = [...this.snowPileHeights];
-      for (let i = 1; i < this.NUM_SEGMENTS - 1; i++) {
-        temp[i] =
-          (this.snowPileHeights[i - 1] +
-            this.snowPileHeights[i] +
-            this.snowPileHeights[i + 1]) /
-          3;
-      }
-      this.snowPileHeights = temp;
-    }
   }
 
   createSnowflakes(numFlakes) {
@@ -161,11 +122,16 @@ class SnowLayer {
     const size =
       Math.random() * (layerProps.sizeMax - layerProps.sizeMin) +
       layerProps.sizeMin;
-    const fallSpeed = size * layerProps.speedFactor + Math.random() * 0.5;
+      
+    // Velocidade base reduzida (de 0.5 para 0.1) para garantir leveza
+    const fallSpeed = size * layerProps.speedFactor + Math.random() * 0.1;
+    
     const swayAmplitude =
       Math.random() * (layerProps.swayAmpMax - layerProps.swayAmpMin) +
       layerProps.swayAmpMin;
-    const swaySpeed = Math.random() * 0.02 + 0.01;
+      
+    // Balanço mais suave
+    const swaySpeed = Math.random() * 0.01 + 0.005;
 
     const rotation = Math.random() * Math.PI * 2;
     const rotationSpeed = Math.random() * 0.02 - 0.01;
@@ -179,7 +145,7 @@ class SnowLayer {
 
     return {
       x: Math.random() * this.width,
-      y: Math.random() * -this.height,
+      y: Math.random() * -this.height, 
       size: size,
       symbol: symbol,
       fallSpeed: fallSpeed,
@@ -194,63 +160,8 @@ class SnowLayer {
     };
   }
 
-  drawSnowPile() {
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, this.snowPileHeights[0]);
-
-    for (let i = 1; i < this.NUM_SEGMENTS; i++) {
-      this.ctx.lineTo(i * this.SEGMENT_WIDTH, this.snowPileHeights[i]);
-    }
-
-    this.ctx.lineTo(this.width, this.snowPileHeights[this.NUM_SEGMENTS - 1]);
-    this.ctx.lineTo(this.width, this.height);
-    this.ctx.lineTo(0, this.height);
-    this.ctx.closePath();
-
-    this.ctx.fillStyle = `rgba(255, 255, 255, ${this.layerProps.opacity})`;
-    this.ctx.fill();
-  }
-
-  getSnowPileHeight(x) {
-    const index = Math.floor(x / this.SEGMENT_WIDTH);
-    if (index < 0 || index >= this.NUM_SEGMENTS) {
-      return this.height;
-    }
-    return this.snowPileHeights[index];
-  }
-
-  addToSnowPile(x, size) {
-    const index = Math.floor(x / this.SEGMENT_WIDTH);
-    if (index < 0 || index >= this.NUM_SEGMENTS) return;
-
-    this.snowPileHeights[index] -= size * 0.5;
-
-    const spread = 2;
-    for (let i = 1; i <= spread; i++) {
-      if (index - i >= 0) {
-        this.snowPileHeights[index - i] -= size * 0.05;
-      }
-      if (index + i < this.NUM_SEGMENTS) {
-        this.snowPileHeights[index + i] -= size * 0.05;
-      }
-    }
-
-    for (let i = -spread; i <= spread; i++) {
-      const currentIndex = index + i;
-      if (currentIndex >= 0 && currentIndex < this.NUM_SEGMENTS) {
-        if (this.snowPileHeights[currentIndex] < this.height - 100) {
-          this.snowPileHeights[currentIndex] = this.height - 100;
-        }
-      }
-    }
-
-    this.smoothSnowPile(1);
-  }
-
   animate(wind) {
     this.ctx.clearRect(0, 0, this.width, this.height);
-
-    this.drawSnowPile();
 
     for (let flake of this.snowflakes) {
       const swayX = Math.sin(flake.swayOffset) * flake.swayAmplitude;
@@ -260,46 +171,41 @@ class SnowLayer {
       flake.rotation += flake.rotationSpeed;
 
       this.ctx.save();
-
+      
+      // Aplica a posição
       this.ctx.translate(flake.x + swayX + windEffect, flake.y);
-
       this.ctx.rotate(flake.rotation);
 
       this.ctx.font = `${flake.size}px sans-serif`;
       this.ctx.fillStyle = flake.color;
 
-      this.ctx.shadowBlur = flake.blur;
-      this.ctx.shadowColor = flake.color;
+      if (flake.blur > 0) {
+        this.ctx.shadowBlur = flake.blur;
+        this.ctx.shadowColor = flake.color;
+      }
 
       this.ctx.fillText(flake.symbol, 0, 0);
 
       this.ctx.restore();
 
+      // Atualiza física
       flake.y += flake.fallSpeed;
       flake.x += windEffect * 0.5;
       flake.swayOffset += flake.swaySpeed;
 
-      if (
-        flake.y >=
-        this.getSnowPileHeight(flake.x + swayX + windEffect) - flake.size / 2
-      ) {
-        this.addToSnowPile(flake.x + swayX + windEffect, flake.size);
-        Object.assign(flake, this.createSnowflake());
-        flake.y = Math.random() * -this.height;
-        flake.x = Math.random() * this.width;
-        flake.swayOffset = Math.random() * Math.PI * 2;
-      }
-
+      // Se sair pelas laterais, volta do outro lado
       if (flake.x > this.width + 50) {
         flake.x = -50;
       } else if (flake.x < -50) {
         flake.x = this.width + 50;
       }
 
+      // Se passar do fundo da tela, reinicia lá em cima
       if (flake.y > this.height + 50) {
-        flake.y = Math.random() * -this.height;
-        flake.x = Math.random() * this.width;
-        flake.swayOffset = Math.random() * Math.PI * 2;
+        // Reinicia o floco com novas propriedades
+        Object.assign(flake, this.createSnowflake());
+        // Posiciona acima da tela para cair novamente
+        flake.y = -50; 
       }
     }
   }
@@ -310,13 +216,12 @@ class SnowLayer {
     this.canvas.width = this.width * window.devicePixelRatio;
     this.canvas.height = this.height * window.devicePixelRatio;
     this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    this.NUM_SEGMENTS = Math.ceil(this.width / this.SEGMENT_WIDTH);
-    this.initializeSnowPiles();
     this.snowflakes = [];
     this.createSnowflakes(Math.floor(TOTAL_NUM_FLAKES / LAYERS.length));
   }
 }
 
+// Lógica simples de vento
 let wind = {
   direction: Math.random() < 0.5 ? -1 : 1,
   speed: Math.random() * 0.5 + 0.1,
@@ -327,16 +232,19 @@ setInterval(() => {
   wind.speed = Math.random() * 0.5 + 0.1;
 }, 5000);
 
+// Cria as camadas
 const snowLayers = LAYERS.map(
   (layer) => new SnowLayer(`snow-canvas-${layer.layer}`, layer)
 );
 
+// Ajusta no resize
 window.addEventListener("resize", () => {
   for (let layer of snowLayers) {
     layer.resize();
   }
 });
 
+// Loop de animação
 function animate() {
   for (let layer of snowLayers) {
     layer.animate(wind);

@@ -40,6 +40,7 @@ const defaultData = {
     pedraResolvida: false,
     polluxVisivel: false,
     incubadoraLiberada: false,
+    incLista: false, // Adicionado para persistência
 
     // Sol e Lua
     solON: false,
@@ -218,13 +219,12 @@ function aplicarMudancaVisual(prop, value) {
     gameData.visualState?.aldebaranVisivel;
 
   if (todosVisiveis && !gameData.snakes) {
-  gameData.snakes = true;
-  if (window.personagens && personagens.nodata && personagens.marin) {
-    mudarCenario(personagens.nodata, "segunda");
-    mudarCenario(personagens.marin, "final");
+    gameData.snakes = true;
+    if (window.personagens && personagens.nodata && personagens.marin) {
+      mudarCenario(personagens.nodata, "segunda");
+      mudarCenario(personagens.marin, "final");
+    }
   }
-}
-
 
   switch (prop) {
     case "boxSumiu":
@@ -324,15 +324,15 @@ function aplicarMudancaVisual(prop, value) {
   // 🥚 VERIFICA SE TODOS OS 3 ITENS DA INCUBADORA ESTÃO COMPLETOS
   // ============================================
   const incubadoraCompleta =
-  gameData.incubadora?.hasMateria &&
-  gameData.incubadora?.hasRainha &&
-  gameData.incubadora?.hasJelly;
+    gameData.incubadora?.hasMateria &&
+    gameData.incubadora?.hasRainha &&
+    gameData.incubadora?.hasJelly;
 
-if (incubadoraCompleta && !gameData.myoLiberado) {
-  // Só executa se ainda não liberou!
-  mudarCenario(personagens.wendigo, "myo");
-  window.gameData.myoLiberado = true;
-}
+  if (incubadoraCompleta && !gameData.myoLiberado) {
+    // Só executa se ainda não liberou!
+    mudarCenario(personagens.wendigo, "myo");
+    window.gameData.myoLiberado = true;
+  }
 
   switch (prop) {
     // --- Estado da Incubadora / Myo ---
@@ -365,9 +365,9 @@ if (incubadoraCompleta && !gameData.myoLiberado) {
       if (rock) rock.style.pointerEvents = value ? "auto" : "none";
       break;
 
-    case "incLista":
+    /* case "incLista":
       if (elWrapper) elWrapper.style.pointerEvents = value ? "auto" : "none";
-      break;
+      break; */
 
     // mesas
     case "mesasON":

@@ -232,7 +232,7 @@
             }
             showResultPopup(peixe, peixe.size, isRecord);
         } else {
-            showResultPopup({nome:'Escaped...', img:'', raridadeBase:'comum'}, null);
+            showResultPopup({nome:'Escaped...', img:'/assets/img/Fish-pond-smelt.png', raridadeBase:'comum'}, null);
         }
         endSession();
       });

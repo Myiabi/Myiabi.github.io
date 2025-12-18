@@ -654,10 +654,10 @@ window.personagens = {
             const popup = document.createElement("div");
             popup.className = "win-popup";
             popup.innerHTML = `
-              <img src="/assets/img/Queens-power.png" class="win-popup-img" alt="Dark Matter">
-              <p class="win-popup-title">Dark Matter</p>
+              <img src="/assets/img/Queens-power.png" class="win-popup-img" alt="Queen's Power">
+              <p class="win-popup-title">Queen's Power</p>
               <p class="win-popup-subtitle">ITEM OBTAINED! ✨</p>
-              <p class="win-popup-desc">You received the Dark Matter from the Queen!</p>
+              <p class="win-popup-desc">You received Queen's Power from the Dropzilla Queen!</p>
             `;
             document.body.appendChild(popup);
 
@@ -1012,7 +1012,7 @@ window.personagens = {
         },
       ],
       presilha: [
-        { texto: "You caught a pin in the lake?", expressao: "normal" },
+        { texto: "You caught a hairpin in the lake?", expressao: "normal" },
         {
           texto:
             "Actually... I live there with many other fish. Probably that pin belongs to one of them. If you want I can give you permission to enter.",
@@ -1159,7 +1159,7 @@ window.personagens = {
         {
           texto:
             "Now I can see everything!!! Thank you so much for the help. Better hide this lock.",
-          expressao: "normal",
+          expressao: "pensativo",
         },
         {
           texto: "Now I can get ready to start work.",
@@ -1248,8 +1248,9 @@ window.personagens = {
         {
           texto: "I'm betting my chips on you. Please... win!",
           aofechar: function () {
-            gameData.visualState.incLista = true;
-            salvarJogo();
+
+            
+            
           },
           expressao: "normal",
         },
@@ -1267,10 +1268,6 @@ window.personagens = {
         },
         {
           texto: "I'm betting my chips on you. Please... win!",
-          aofechar: function () {
-            gameData.visualState.incLista = true;
-            salvarJogo();
-          },
           expressao: "normal",
         },
       ],
