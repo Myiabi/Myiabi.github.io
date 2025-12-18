@@ -122,7 +122,7 @@ function setupEndTooltips() {
   );
   createFloatingTooltip(
     "wendend",
-    "I knew I could do it.",
+    "I knew you could do it.",
     0,
     -10,
     tooltipStyle,

@@ -29,7 +29,7 @@ const CONFIG = {
     img: "/assets/img/NPC_Warrior-attack.png",
     widthPct: 40, // 40% da largura da tela
     heightPct: 35, // 35% da altura da tela
-    hp: 20,
+    hp: 2000,
     speed: 0.55,
     teleportInterval: [1500, 3000],
     castTime: 2500,
