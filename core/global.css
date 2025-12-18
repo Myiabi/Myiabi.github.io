@@ -51,7 +51,7 @@ body {
 
 #scene {
     opacity: 0;
-    transition: opacity 0.3s ease-in-out; /* Efeito Fade-in elegante */
+    transition: opacity 0.5s ease-in-out; /* Efeito Fade-in elegante */
     visibility: hidden; /* Garante que não seja clicável enquanto carrega */
 }
 

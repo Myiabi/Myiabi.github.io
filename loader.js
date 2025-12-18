@@ -71,7 +71,7 @@ const BLOCK_MAP = {
       font-family: sans-serif;
       font-size: 2rem;
       letter-spacing: 2px;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.5s ease;
       pointer-events: none; /* Garante que não bloqueie cliques se bugar invisível */
     ">
       Loading...
@@ -147,7 +147,7 @@ const BLOCK_MAP = {
 // GERENCIADOR DE TRANSIÇÃO (LOADING -> CENA)
 // =========================
 (function () {
-  const minTime = 300; // Tempo mínimo de tela preta
+  const minTime = 500; // Tempo mínimo de tela preta
   const start = Date.now();
   let finished = false;
 
