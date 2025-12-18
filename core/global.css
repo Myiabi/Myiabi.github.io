@@ -43,8 +43,8 @@ body {
   -ms-touch-action: none;
   font-size: var(--fs-base);
   width: 100vw;
-  height: 100vh;
-  background-color: #000; /* Ou a cor principal do seu BG */
+  height: 100dvh; /* O segredo */ 
+ background-color: #000; /* Ou a cor principal do seu BG */
   margin: 0;
   overflow: hidden; /* Evita scrolbar indesejada no load */
 }
