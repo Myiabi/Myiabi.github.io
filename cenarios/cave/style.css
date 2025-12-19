@@ -204,7 +204,11 @@ body {
   /* Configuração do Puzzle */
   z-index: 100; /* Garante que está na frente de tudo */
   cursor: grab;
-  touch-action: none; /* Permite arrastar no mobile */
+
+  /* Touch mobile */
+  touch-action: none; /* Bloqueia scroll/zoom ao arrastar */
+  -webkit-touch-callout: none; /* iOS: desabilita menu de contexto */
+  -webkit-user-select: none;
 }
 
 #rock.dragging {

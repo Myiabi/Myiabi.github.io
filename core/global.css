@@ -64,8 +64,8 @@ body {
   position: relative;
   overflow: hidden;
 
-  /* bloqueia gestos SÓ no jogo */
-  touch-action: none;
+  /* manipulation permite drag nos filhos que usam touch-action: none */
+  touch-action: manipulation;
 
   opacity: 0;
   visibility: hidden;

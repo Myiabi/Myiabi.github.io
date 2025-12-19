@@ -282,15 +282,77 @@ body {
 
 /* ================= RESPONSIVIDADE ================= */
 @media (max-width: 768px) {
+  .modal {
+    padding: 0;
+  }
+
   .modal-content {
     width: 100%;
     height: 100%;
+    max-width: 100%;
     border-radius: 0;
     padding: 5px;
+    box-sizing: border-box;
   }
+
+  .game-container {
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 120px); /* Desconta a HUD */
+    overflow: hidden;
+  }
+
+  .game-bg {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .hud-bar {
+    padding: 5px;
+    gap: 5px;
+    min-height: 50px;
+    border-radius: 10px;
+  }
+
   .hud-item {
+    width: 35px;
+    height: 35px;
+  }
+
+  .close-btn {
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .loader {
+    width: 50px;
+    height: 50px;
+  }
+
+  .error-x {
     width: 40px;
     height: 40px;
+  }
+}
+
+/* Telas muito pequenas (celulares menores) */
+@media (max-width: 480px) {
+  .hud-item {
+    width: 28px;
+    height: 28px;
+  }
+
+  .hud-bar {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .game-container {
+    max-height: calc(100vh - 80px);
   }
 }
 
