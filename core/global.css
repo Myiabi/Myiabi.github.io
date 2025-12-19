@@ -39,28 +39,15 @@
 
 html,
 body {
-  /* TRAVA DE SEGURANÇA */
-  position: fixed; /* O segredo da Caverna */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; /* Força o pé da página a ficar acima da barra de endereços */
-
+  min-height: 100vh;
   width: 100%;
-  height: 100%; /* Fallback seguro */
-
-  /* Reset padrão */
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: #000;
-
-  /* Centralização do Jogo */
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* Trava de gestos */
   touch-action: none;
   /* Áreas seguras para mobile (notch, barra de navegação) */
   padding-top: env(safe-area-inset-top);
