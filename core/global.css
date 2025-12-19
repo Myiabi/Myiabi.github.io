@@ -1,5 +1,5 @@
 /* ===================== */
-/* GLOBAL.CSS LIMPO (GAME MODE) */
+/* GLOBAL.CSS LIMPO & FUNCIONAL */
 /* ===================== */
 
 /* 1. Fontes */
@@ -13,8 +13,7 @@
 
 /* 2. Variáveis Essenciais */
 :root {
-  /* Um tamanho de fonte base fluido único é suficiente. 
-     Isso escala textos da UI suavemente sem precisar de media queries */
+  /* Tamanho de fonte fluido único */
   --fs-base: clamp(12px, 2vw, 18px); 
 }
 
@@ -23,8 +22,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  user-select: none;
-  -webkit-user-drag: none;
+  user-select: none; /* Ninguém seleciona texto */
+  -webkit-user-drag: none; /* ISSO impede arrastar a imagem, sem matar o clique */
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
@@ -50,12 +49,11 @@ html, body {
 
 /* 5. O Palco (Scene) */
 #scene {
-    /* Ocupa o espaço disponível respeitando o pai */
+    /* Ocupa o espaço disponível */
     width: 100%;
     height: 100%;
     
-    /* Mantém proporção de TV (16:9). Se o jogo for quadrado, mude para 1/1 */
-    /* Isso substitui a necessidade de breakpoints manuais */
+    /* Mantém proporção de TV (16:9) */
     aspect-ratio: 16 / 9;
     
     /* Limites para não estourar */
@@ -78,7 +76,7 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
-  pointer-events: none; /* Padrão para não arrastar fantasma */
+  /* pointer-events: none; <--- REMOVI ESSA LINHA ASSASSINA */
 }
 
 /* 6. UI: Botão Voltar */
@@ -86,7 +84,7 @@ img {
   position: absolute;
   top: 1.5vw;
   left: 1.5vw;
-  font-size: min(5vw, 32px); /* Responsivo simples */
+  font-size: min(5vw, 32px);
   font-weight: bold;
   cursor: pointer;
   z-index: 1000;
@@ -99,7 +97,7 @@ img {
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(4px);
-  pointer-events: auto; /* Garante clique */
+  pointer-events: auto;
 }
 
 /* 7. Otimização de GPU */
