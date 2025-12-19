@@ -152,12 +152,16 @@ body {
 }
 
 .game-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: block;
   user-select: none;
   pointer-events: none;
   object-fit: contain;
+  object-position: center;
 }
 
 /* ================= ITENS ESCONDIDOS ================= */
