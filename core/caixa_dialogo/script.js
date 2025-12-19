@@ -103,10 +103,10 @@ body {
 /* Celulares em landscape - altura pequena */
 @media (max-height: 500px) {
   .text {
-    font-size: clamp(12px, 2.5vh, 18px);
+    font-size: clamp(14px, 3vh, 22px);
   }
   .name {
-    font-size: clamp(10px, 2vh, 14px);
+    font-size: clamp(12px, 2.5vh, 16px);
     margin-bottom: 1vh;
   }
   .dialog-box {
@@ -117,19 +117,19 @@ body {
 
 @media (max-height: 400px) {
   .text {
-    font-size: clamp(10px, 2.2vh, 16px);
+    font-size: clamp(12px, 2.8vh, 18px);
   }
   .name {
-    font-size: clamp(9px, 1.8vh, 13px);
+    font-size: clamp(11px, 2.2vh, 15px);
   }
 }
 
 @media (max-height: 320px) {
   .text {
-    font-size: clamp(9px, 2vh, 14px);
+    font-size: clamp(11px, 2.5vh, 16px);
   }
   .name {
-    font-size: clamp(8px, 1.6vh, 12px);
+    font-size: clamp(10px, 2vh, 14px);
   }
 }
 
