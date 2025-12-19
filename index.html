@@ -2,7 +2,10 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Intro</title>
     <!-- Seus estilos globais -->
     <link rel="stylesheet" href="/core/global.css" />
@@ -22,6 +25,7 @@
         -webkit-user-drag: none;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        touch-action: manipulation;
       }
 
       body,
@@ -34,6 +38,7 @@
         background-color: #000;
         font-family: "Arial", sans-serif;
         color: white;
+        touch-action: none;
       }
 
       /* --- CONTEÚDO DO JOGO (CENA 2) --- */
