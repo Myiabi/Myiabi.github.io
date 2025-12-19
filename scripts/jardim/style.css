@@ -129,6 +129,13 @@ body {
   justify-content: center;
 }
 
+.game-container .game-bg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
 /* ================= BOTÃO DEBUG (REMOVER EM PRODUÇÃO) ================= */
 .debug-btn {
   position: absolute;
@@ -152,17 +159,12 @@ body {
 }
 
 .game-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   display: block;
   user-select: none;
   pointer-events: none;
   object-fit: contain;
-  object-position: center;
-  z-index: 1;
 }
 
 /* ================= ITENS ESCONDIDOS ================= */
