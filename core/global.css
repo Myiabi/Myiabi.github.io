@@ -48,7 +48,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  touch-action: none;
   /* Áreas seguras para mobile (notch, barra de navegação) */
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
@@ -144,6 +143,11 @@ nav a {
 /* ===================== */
 /* MEDIA QUERIES GLOBAIS */
 /* ===================== */
+@media (min-width: 800px) {
+  body {
+    overflow: hidden; /* trava rolagem no PC */
+  }
+}
 
 /* Extra-large desktops (widescreen) */
 @media (min-width: var(--bp-xl)) {
