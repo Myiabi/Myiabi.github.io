@@ -203,8 +203,8 @@ body {
 
   /* Configuração do Puzzle */
   z-index: 100; /* Garante que está na frente de tudo */
-  pointer-events: none; /* Bloqueado por padrão, JS libera após vencer wendigo */
-  touch-action: none; /* Permite arrastar no mobile quando liberado */
+  cursor: grab;
+  touch-action: none; /* Permite arrastar no mobile */
 }
 
 #rock.dragging {
