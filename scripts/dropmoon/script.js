@@ -22,7 +22,7 @@ const timerText = document.getElementById("timer");
 const lua = document.getElementById("lua");
 
 /* CONFIG */
-const START_TIMER = 50;
+const START_TIMER = 2;
 const GROWTH_RATE_WHEN_HIDDEN = 8;
 const REGRESS_RATE_WHEN_REVEALED = 18;
 const TELEPORT_AFTER_FOCUS = 6;
