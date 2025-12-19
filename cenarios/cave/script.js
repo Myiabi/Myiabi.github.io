@@ -183,13 +183,11 @@ function initRockPuzzle() {
   });
 
   const getX = (e) => {
-    if (e.type.includes("mouse")) {
-      return e.clientX;
-    } else if (e.touches && e.touches.length > 0) {
-      return e.touches[0].clientX;
-    } else if (e.changedTouches && e.changedTouches.length > 0) {
+    // Pointer/mouse events têm clientX sempre; fallback para touch lists
+    if (typeof e.clientX === "number") return e.clientX;
+    if (e.touches && e.touches.length > 0) return e.touches[0].clientX;
+    if (e.changedTouches && e.changedTouches.length > 0)
       return e.changedTouches[0].clientX;
-    }
     return 0;
   };
 
