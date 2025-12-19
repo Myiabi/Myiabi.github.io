@@ -15,17 +15,20 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.9);
   z-index: 1000;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .modal-content {
   position: relative;
-  width: 95%;
+  width: 100%;
   max-width: 1000px;
+  max-height: 100%;
   background: #fff;
   padding: 10px;
   border-radius: 15px;
@@ -33,6 +36,8 @@ body {
   flex-direction: column;
   gap: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* ================= BOTÃO FECHAR ================= */
@@ -112,9 +117,14 @@ body {
 .game-container {
   position: relative;
   width: 100%;
+  flex: 1;
+  min-height: 0;
   border-radius: 10px;
   overflow: hidden;
   cursor: default; /* Garante cursor normal no jardim todo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ================= BOTÃO DEBUG (REMOVER EM PRODUÇÃO) ================= */
@@ -141,9 +151,11 @@ body {
 
 .game-bg {
   width: 100%;
+  height: 100%;
   display: block;
   user-select: none;
   pointer-events: none;
+  object-fit: contain;
 }
 
 /* ================= ITENS ESCONDIDOS ================= */
@@ -283,76 +295,136 @@ body {
 /* ================= RESPONSIVIDADE ================= */
 @media (max-width: 768px) {
   .modal {
-    padding: 0;
+    padding: 5px;
+    align-items: flex-start;
   }
 
   .modal-content {
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: 100dvh;
     max-width: 100%;
-    border-radius: 0;
+    border-radius: 10px;
     padding: 5px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .hud-bar {
+    padding: 5px;
+    gap: 4px;
+    min-height: 40px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .hud-item {
+    width: 30px;
+    height: 30px;
   }
 
   .game-container {
+    position: relative;
     width: 100%;
-    height: auto;
-    max-height: calc(100vh - 120px); /* Desconta a HUD */
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
   }
 
   .game-bg {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: contain;
-  }
-
-  .hud-bar {
-    padding: 5px;
-    gap: 5px;
-    min-height: 50px;
-    border-radius: 10px;
-  }
-
-  .hud-item {
-    width: 35px;
-    height: 35px;
+    display: block;
   }
 
   .close-btn {
     top: 5px;
     right: 5px;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 16px;
   }
 
   .loader {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
   }
 
   .error-x {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
   }
 }
 
 /* Telas muito pequenas (celulares menores) */
 @media (max-width: 480px) {
+  .modal-content {
+    padding: 3px;
+    border-radius: 8px;
+  }
+
+  .hud-item {
+    width: 24px;
+    height: 24px;
+  }
+
+  .hud-bar {
+    gap: 3px;
+    padding: 3px;
+    min-height: 32px;
+  }
+
+  .close-btn {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    top: 3px;
+    right: 3px;
+  }
+
+  .loader {
+    width: 40px;
+    height: 40px;
+  }
+
+  .error-x {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* Landscape em telas pequenas */
+@media (max-height: 500px) and (orientation: landscape) {
+  .modal-content {
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .hud-bar {
+    flex-direction: column;
+    width: auto;
+    min-width: 40px;
+    height: 100%;
+    border-radius: 10px;
+    order: -1;
+  }
+
   .hud-item {
     width: 28px;
     height: 28px;
   }
 
-  .hud-bar {
-    gap: 4px;
-    padding: 4px;
-  }
-
   .game-container {
-    max-height: calc(100vh - 80px);
+    flex: 1;
+    height: 100%;
   }
 }
 
