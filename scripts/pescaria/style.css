@@ -194,87 +194,97 @@
   color: var(--accent-2);
 }
 
-/* ========== MOBILE (Horizontal e Menor) ========== */
+/* ========== MOBILE (Fullscreen Horizontal) ========== */
 @media screen and (max-width: 768px) {
-  .fishing-modal {
-    width: 90%;
-    max-width: 380px;
-    max-height: 50vh;
-    padding: 4% 5%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+  .fishing-overlay {
+    align-items: stretch;
+    justify-content: stretch;
   }
 
-  .header {
+  .fishing-modal {
     width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    padding: 20px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+  }
+
+  /* Lado esquerdo: Header + Hint */
+  .header {
+    flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
   }
 
   .emote {
-    font-size: 24px;
+    font-size: 32px;
   }
   .status {
-    font-size: 14px;
+    font-size: 16px;
+    text-align: center;
   }
 
+  /* Centro: Círculo de ação grande pro dedo */
   .action-area {
-    width: 120px;
-    height: 120px;
+    width: 55vmin;
+    height: 55vmin;
+    min-width: 180px;
+    min-height: 180px;
+    max-width: 280px;
+    max-height: 280px;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
   }
 
   .gesture-label {
-    font-size: 12px;
-    padding: 6px 12px;
+    font-size: 14px;
+    padding: 8px 16px;
   }
 
+  /* Lado direito: Hint */
   .hint {
-    width: 100%;
-    font-size: 12px;
+    flex: 1;
+    font-size: 14px;
+    text-align: center;
   }
 
   .cancel-btn {
-    padding: 8px 16px;
-    font-size: 12px;
+    padding: 10px 20px;
+    font-size: 13px;
   }
 
   .result-popup {
-    min-width: 60%;
-    padding: 1.2vh 3vw;
+    min-width: 70%;
+    padding: 12px 20px;
     font-size: 14px;
-    gap: 2vw;
+    gap: 12px;
   }
 
   .result-popup img {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
   }
 }
 
-/* Landscape no mobile - ainda mais compacto */
+/* Landscape no mobile - otimizado pra tela deitada */
 @media screen and (max-width: 768px) and (orientation: landscape) {
   .fishing-modal {
-    max-height: 80vh;
-    flex-direction: row;
-    padding: 3%;
-  }
-
-  .header {
-    width: auto;
-    flex: 1;
+    padding: 15px 30px;
+    gap: 25px;
   }
 
   .action-area {
-    width: 100px;
-    height: 100px;
-  }
-
-  .hint {
-    width: auto;
-    flex: 1;
+    width: 45vmin;
+    height: 45vmin;
+    min-width: 150px;
+    min-height: 150px;
   }
 }
