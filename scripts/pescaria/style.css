@@ -47,6 +47,7 @@
 /* MODAL (Vidro) */
 .fishing-modal {
   width: 95%; /* Aumentei de 90% pra 95% */
+  height: 90%;
 
   /* O PULO DO GATO: Aumentei o limite de 400px para 600px. 
      Isso vai deixar ele crescer mais na tela do jogo. */
@@ -85,8 +86,8 @@
 }
 
 .action-area {
-  width: 95%; /* Aumentei de 85% pra 95% pra ocupar quase o modal todo */
-  aspect-ratio: 1 / 1;
+  width: 100%; /* Aumentei de 85% pra 95% pra ocupar quase o modal todo */
+  height: 100%;
 
   border-radius: 50%;
   background: radial-gradient(
@@ -234,12 +235,9 @@
 
   /* Centro: Círculo de ação GRANDE - 90% da altura */
   .action-area {
-    width: 90dvh;
-    height: 90dvh;
-    min-width: unset;
-    min-height: unset;
-    max-width: 90dvh;
-    max-height: 90dvh;
+    width: 70%;
+    height: 100%;
+    
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
   }
@@ -262,7 +260,8 @@
   }
 
   .result-popup {
-    min-width: 70%;
+    width: 20%;
+    height: 10%;
     padding: 12px 20px;
     font-size: 14px;
     gap: 12px;
@@ -274,17 +273,3 @@
   }
 }
 
-/* Landscape no mobile - otimizado pra tela deitada */
-@media screen and (max-width: 768px) and (orientation: landscape) {
-  .fishing-modal {
-    padding: 15px 30px;
-    gap: 25px;
-  }
-
-  .action-area {
-    width: 45vmin;
-    height: 45vmin;
-    min-width: 150px;
-    min-height: 150px;
-  }
-}
