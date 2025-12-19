@@ -162,6 +162,7 @@ body {
   pointer-events: none;
   object-fit: contain;
   object-position: center;
+  z-index: 1;
 }
 
 /* ================= ITENS ESCONDIDOS ================= */
