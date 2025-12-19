@@ -92,3 +92,35 @@ document.addEventListener("click", (e) => {
   }
 });
 
+// =========================
+// PAUSA O SOM SE SAIR DA TELA (OU DESLIGAR)
+// =========================
+document.addEventListener("visibilitychange", () => {
+  // Pega todos os sons que estão tocando (audio e video)
+  const allAudios = document.querySelectorAll("audio, video");
+
+  if (document.hidden) {
+    // USUÁRIO SAIU OU DESLIGOU A TELA -> PAUSAR TUDO
+    console.log("Minigame em segundo plano: Pausando sons...");
+    
+    allAudios.forEach(audio => {
+      // Salva um "lembrete" se o áudio estava tocando de verdade
+      if (!audio.paused) {
+        audio.dataset.wasPlaying = "true"; // Marca com uma etiqueta
+        audio.pause();
+      }
+    });
+
+  } else {
+    // USUÁRIO VOLTOU -> RESUMIR O QUE ESTAVA TOCANDO
+    console.log("Minigame visível: Retomando sons...");
+    
+    allAudios.forEach(audio => {
+      // Só dá play se tiver a etiqueta que a gente colou antes
+      if (audio.dataset.wasPlaying === "true") {
+        audio.play().catch(e => console.log("Erro ao retomar áudio:", e));
+        audio.dataset.wasPlaying = "false"; // Remove a etiqueta
+      }
+    });
+  }
+});

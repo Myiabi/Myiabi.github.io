@@ -22,9 +22,6 @@ body {
   overflow: hidden;
   background: transparent;
   color: #e6eef8;
-}
-
-body {
   display: flex;
   align-items: center;
   justify-content: center;
