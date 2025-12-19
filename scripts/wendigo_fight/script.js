@@ -21,6 +21,17 @@ if (typeof tsParticles !== "undefined") {
   });
 }
 
+// Detecta se é mobile
+const isMobile =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  ) ||
+  "ontouchstart" in window ||
+  navigator.maxTouchPoints > 0;
+
+// Mobile = 55% da velocidade do PC
+const MOBILE_SPEED_MULTIPLIER = 0.55;
+
 // ======== CONFIG ========
 // AGORA EM PORCENTAGEM (0 a 100 relativa a tela do jogo)
 const CONFIG = {
@@ -30,8 +41,8 @@ const CONFIG = {
     widthPct: 40, // 40% da largura da tela
     heightPct: 35, // 35% da altura da tela
     hp: 2000,
-    speed: 0.55,
-    teleportInterval: [1500, 3000],
+    speed: isMobile ? 0.55 * MOBILE_SPEED_MULTIPLIER : 0.55,
+    teleportInterval: isMobile ? [2000, 4000] : [1500, 3000], // Mobile teleporta menos
     castTime: 2500,
     hitsToCancel: 3,
     damageHearts: 1,
@@ -42,8 +53,8 @@ const CONFIG = {
     widthPct: 18, // 18% da largura da tela
     heightPct: 18, // 18% da altura da tela
     hp: 250,
-    speed: 0.44,
-    teleportInterval: [2500, 3800],
+    speed: isMobile ? 0.44 * MOBILE_SPEED_MULTIPLIER : 0.44,
+    teleportInterval: isMobile ? [3000, 4500] : [2500, 3800], // Mobile teleporta menos
     castTime: 2400,
     hitsToCancel: 1,
     damageHearts: 1,

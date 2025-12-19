@@ -435,8 +435,9 @@ body {
   position: absolute;
   top: -10px;
 
-  /* FIX MOBILE: background-color é mais confiável que background shorthand */
-  background-color: #ffffff;
+  /* FIX MOBILE: Múltiplas declarações para garantir cor branca */
+  background: #ffffff !important;
+  background-color: #ffffff !important;
 
   border-radius: 50%;
   opacity: 1;
@@ -453,12 +454,26 @@ body {
   will-change: transform;
 }
 
-/* Animação de cair com um leve balanço lateral */
-@keyframes snowfall {
+/* FIX MOBILE: Animação com prefixo webkit para Safari/iOS */
+@-webkit-keyframes snowfall {
   0% {
+    -webkit-transform: translateY(-10vh) translateX(0px);
     transform: translateY(-10vh) translateX(0px);
   }
   100% {
-    transform: translateY(110vh) translateX(20px); /* Cai até sumir embaixo */
+    -webkit-transform: translateY(110vh) translateX(20px);
+    transform: translateY(110vh) translateX(20px);
+  }
+}
+
+/* Animação de cair com um leve balanço lateral */
+@keyframes snowfall {
+  0% {
+    -webkit-transform: translateY(-10vh) translateX(0px);
+    transform: translateY(-10vh) translateX(0px);
+  }
+  100% {
+    -webkit-transform: translateY(110vh) translateX(20px);
+    transform: translateY(110vh) translateX(20px);
   }
 }

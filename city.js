@@ -1,8 +1,8 @@
 // ========== VERIFICAÇÃO DE DESAFIOS JÁ COMPLETADOS ==========
 
 if (typeof unlockAchievement === "function") {
-      unlockAchievement("boss");
-  }
+  unlockAchievement("boss");
+}
 
 document.querySelectorAll(".back").forEach((p) => {
   p.addEventListener("click", () => {
@@ -54,15 +54,23 @@ function criarNeve() {
     flake.style.width = size;
     flake.style.height = size;
 
+    // FIX MOBILE: Força cor branca inline (alguns browsers mobile ignoram CSS)
+    flake.style.backgroundColor = "#ffffff";
+    flake.style.background = "#ffffff";
+
     // Opacidade (alguns mais transparentes que outros)
     flake.style.opacity = Math.random() * 0.9 + 0.6;
 
     // Duração da queda (entre 5s e 15s) - Uns caem rápido, outros planam
     const duration = Math.random() * 10 + 5 + "s";
-    flake.style.animation = `snowfall ${duration} linear infinite`;
+    const animValue = `snowfall ${duration} linear infinite`;
+    flake.style.animation = animValue;
+    flake.style.webkitAnimation = animValue; // FIX: Prefixo para Safari/iOS
 
     // Atraso inicial (pra não caírem todos juntos no load da página)
-    flake.style.animationDelay = Math.random() * 5 + "s";
+    const delay = Math.random() * 5 + "s";
+    flake.style.animationDelay = delay;
+    flake.style.webkitAnimationDelay = delay; // FIX: Prefixo para Safari/iOS
 
     container.appendChild(flake);
   }
@@ -80,4 +88,3 @@ function esperarETocar() {
   }
 }
 esperarETocar();
-

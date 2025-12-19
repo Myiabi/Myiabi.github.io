@@ -99,6 +99,40 @@ body {
 .dialog-box.show { opacity: 1; }
 #portrait.show { opacity: 1; }
 
+/* ===== AJUSTES MOBILE ===== */
+/* Celulares em landscape - altura pequena */
+@media (max-height: 500px) {
+  .text {
+    font-size: clamp(12px, 2.5vh, 18px);
+  }
+  .name {
+    font-size: clamp(10px, 2vh, 14px);
+    margin-bottom: 1vh;
+  }
+  .dialog-box {
+    padding: 1.5vh 2vw;
+    min-height: 25vh;
+  }
+}
+
+@media (max-height: 400px) {
+  .text {
+    font-size: clamp(10px, 2.2vh, 16px);
+  }
+  .name {
+    font-size: clamp(9px, 1.8vh, 13px);
+  }
+}
+
+@media (max-height: 320px) {
+  .text {
+    font-size: clamp(9px, 2vh, 14px);
+  }
+  .name {
+    font-size: clamp(8px, 1.6vh, 12px);
+  }
+}
+
 @media (orientation: portrait) {
   body {
     transform: rotate(-90deg) translateX(-100vh);
