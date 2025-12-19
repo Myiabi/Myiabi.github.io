@@ -28,7 +28,9 @@
   z-index: 1000;
   pointer-events: none;
 }
-.rod-btn:active { transform: translateY(2px); }
+.rod-btn:active {
+  transform: translateY(2px);
+}
 
 /* OVERLAY */
 .fishing-overlay {
@@ -45,14 +47,18 @@
 /* MODAL (Vidro) */
 .fishing-modal {
   width: 95%; /* Aumentei de 90% pra 95% */
-  
+
   /* O PULO DO GATO: Aumentei o limite de 400px para 600px. 
      Isso vai deixar ele crescer mais na tela do jogo. */
-  max-width: 600px; 
-  
-  background: linear-gradient(180deg, rgba(31, 31, 42, 0.9), rgba(30, 30, 40, 0.95));
+  max-width: 600px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(31, 31, 42, 0.9),
+    rgba(30, 30, 40, 0.95)
+  );
   border-radius: 16px;
-  padding: 5%; 
+  padding: 5%;
   border: 1px solid rgba(255, 255, 255, 0.04);
   box-shadow: var(--card-shadow);
   display: flex;
@@ -62,16 +68,33 @@
 }
 
 /* HEADER */
-.header { display: flex; align-items: center; gap: 3%; justify-content: center; width: 100%; }
-.emote { font-size: 32px; }
-.status { font-weight: 800; color: var(--text); font-size: 18px; }
+.header {
+  display: flex;
+  align-items: center;
+  gap: 3%;
+  justify-content: center;
+  width: 100%;
+}
+.emote {
+  font-size: 32px;
+}
+.status {
+  font-weight: 800;
+  color: var(--text);
+  font-size: 18px;
+}
 
 .action-area {
   width: 95%; /* Aumentei de 85% pra 95% pra ocupar quase o modal todo */
-  aspect-ratio: 1 / 1; 
-  
+  aspect-ratio: 1 / 1;
+
   border-radius: 50%;
-  background: radial-gradient(circle at 25% 25%, rgba(139, 233, 253, 0.06), rgba(189, 147, 249, 0.03) 35%, transparent 60%);
+  background: radial-gradient(
+    circle at 25% 25%,
+    rgba(139, 233, 253, 0.06),
+    rgba(189, 147, 249, 0.03) 35%,
+    transparent 60%
+  );
   border: 2px solid rgba(139, 233, 253, 0.06);
   display: flex;
   align-items: center;
@@ -82,12 +105,19 @@
   position: relative;
   user-select: none;
   touch-action: none;
-  box-shadow: 0 10px 30px rgba(11, 12, 18, 0.55), inset 0 -4px 15px rgba(0, 0, 0, 0.25);
-  transition: transform .12s ease, opacity .12s ease;
-  transform: scale(.98); opacity: 0; visibility: hidden;
+  box-shadow: 0 10px 30px rgba(11, 12, 18, 0.55),
+    inset 0 -4px 15px rgba(0, 0, 0, 0.25);
+  transition: transform 0.12s ease, opacity 0.12s ease;
+  transform: scale(0.98);
+  opacity: 0;
+  visibility: hidden;
 }
 
-.action-area.show { transform: scale(1); opacity: 1; visibility: visible; }
+.action-area.show {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}
 
 /* LABEL DO GESTO */
 .gesture-label {
@@ -100,7 +130,11 @@
 }
 
 /* DICAS E BOTÕES */
-.hint { font-size: 14px; color: var(--muted); text-align: center; }
+.hint {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+}
 
 .cancel-btn {
   margin-top: 2%;
@@ -119,34 +153,128 @@
   top: 5%; /* Mantive a altura que combinamos antes */
   left: 50%;
   transform: translateX(-50%);
-  
+
   /* MUDANÇA AQUI: */
   width: auto;
   min-width: 10%; /* Força ele a ocupar pelo menos 70% da tela (fica comprido) */
-  
+
   /* Padding assimétrico: Pouco em cima/baixo (1.5vh), Bastante nos lados (4vw) */
-  padding: 1.5vh 4vw; 
-  
+  padding: 1.5vh 4vw;
+
   background: rgba(30, 30, 40, 0.95);
   border-radius: 50px; /* Borda bem redonda (estilo pílula) ajuda a parecer mais comprido */
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 10px 40px rgba(2, 6, 23, 0.8);
-  
+
   display: flex;
   align-items: center;
   justify-content: center; /* Centraliza o conteúdo dentro da barra */
   gap: 3vw;
-  
+
   font-size: 16px;
   font-weight: 800;
   color: var(--text);
   z-index: 10000;
-  
-  transition: opacity .25s ease, transform .25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  transition: opacity 0.25s ease,
+    transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.result-popup img { width: 45px; height: 45px; border-radius: 8px; }
+.result-popup img {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+}
 
 /* Classes utilitárias */
-.species-legendary { color: var(--gold); }
-.species-rare { color: var(--accent-2); }
+.species-legendary {
+  color: var(--gold);
+}
+.species-rare {
+  color: var(--accent-2);
+}
+
+/* ========== MOBILE (Horizontal e Menor) ========== */
+@media screen and (max-width: 768px) {
+  .fishing-modal {
+    width: 90%;
+    max-width: 380px;
+    max-height: 50vh;
+    padding: 4% 5%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .header {
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .emote {
+    font-size: 24px;
+  }
+  .status {
+    font-size: 14px;
+  }
+
+  .action-area {
+    width: 120px;
+    height: 120px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+  }
+
+  .gesture-label {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .hint {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .cancel-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .result-popup {
+    min-width: 60%;
+    padding: 1.2vh 3vw;
+    font-size: 14px;
+    gap: 2vw;
+  }
+
+  .result-popup img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* Landscape no mobile - ainda mais compacto */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .fishing-modal {
+    max-height: 80vh;
+    flex-direction: row;
+    padding: 3%;
+  }
+
+  .header {
+    width: auto;
+    flex: 1;
+  }
+
+  .action-area {
+    width: 100px;
+    height: 100px;
+  }
+
+  .hint {
+    width: auto;
+    flex: 1;
+  }
+}

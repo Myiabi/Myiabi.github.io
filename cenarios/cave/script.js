@@ -250,13 +250,41 @@ function initRockPuzzle() {
     }, 500);
   }
 
-  rock.addEventListener("mousedown", startDrag);
-  rock.addEventListener("touchstart", startDrag, { passive: false });
-  window.addEventListener("mousemove", onDrag, { passive: false });
-  window.addEventListener("touchmove", onDrag, { passive: false });
-  window.addEventListener("mouseup", stopDrag);
-  window.addEventListener("touchend", stopDrag);
-  window.addEventListener("touchcancel", stopDrag);
+  // Em mobile o touchmove no window pode ser ignorado em alguns navegadores.
+  // Usamos Pointer Events quando disponíveis para capturar o dedo mesmo fora da pedra.
+  if (window.PointerEvent) {
+    rock.addEventListener("pointerdown", (e) => {
+      if (solved) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      rock.setPointerCapture(e.pointerId);
+      startDrag(e);
+    });
+
+    rock.addEventListener("pointermove", (e) => {
+      if (!rock.hasPointerCapture?.(e.pointerId)) return;
+      onDrag(e);
+    });
+
+    rock.addEventListener("pointerup", (e) => {
+      if (rock.hasPointerCapture?.(e.pointerId))
+        rock.releasePointerCapture(e.pointerId);
+      stopDrag(e);
+    });
+
+    rock.addEventListener("pointercancel", (e) => {
+      if (rock.hasPointerCapture?.(e.pointerId))
+        rock.releasePointerCapture(e.pointerId);
+      stopDrag(e);
+    });
+  } else {
+    rock.addEventListener("mousedown", startDrag);
+    rock.addEventListener("touchstart", startDrag, { passive: false });
+    window.addEventListener("mousemove", onDrag, { passive: false });
+    window.addEventListener("touchmove", onDrag, { passive: false });
+    window.addEventListener("mouseup", stopDrag);
+    window.addEventListener("touchend", stopDrag);
+    window.addEventListener("touchcancel", stopDrag);
+  }
 }
 
 // ======================================================
