@@ -165,9 +165,6 @@ function initRockPuzzle() {
     return;
   }
 
-  // Garante que touch funciona
-  rock.style.touchAction = "none";
-
   let isDragging = false;
   let startMouseX = 0;
   let startRockLeft = 0;
@@ -182,22 +179,14 @@ function initRockPuzzle() {
     }
   });
 
-  const getX = (e) => {
-    // Pointer/mouse events têm clientX sempre; fallback para touch lists
-    if (typeof e.clientX === "number") return e.clientX;
-    if (e.touches && e.touches.length > 0) return e.touches[0].clientX;
-    if (e.changedTouches && e.changedTouches.length > 0)
-      return e.changedTouches[0].clientX;
-    return 0;
-  };
+  const getX = (e) =>
+    e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
 
   function startDrag(e) {
     if (solved) return;
     if (window.getComputedStyle(rock).pointerEvents === "none") return;
 
-    e.preventDefault(); // Sempre previne default pra não scrollar
-    e.stopPropagation();
-
+    if (e.cancelable && e.type !== "mousedown") e.preventDefault();
     maxDistance = rock.clientWidth * 0.4;
     isDragging = true;
     rock.classList.add("dragging");
@@ -208,9 +197,7 @@ function initRockPuzzle() {
 
   function onDrag(e) {
     if (!isDragging || solved) return;
-    e.preventDefault();
-    e.stopPropagation();
-
+    if (e.cancelable) e.preventDefault();
     const mouseDiff = getX(e) - startMouseX;
     let newPos = startRockLeft + mouseDiff;
 
@@ -221,8 +208,7 @@ function initRockPuzzle() {
     if (newPos >= originLeft + maxDistance * 0.9) triggerWin();
   }
 
-  function stopDrag(e) {
-    if (!isDragging) return;
+  function stopDrag() {
     isDragging = false;
     rock.classList.remove("dragging");
     if (!solved) {
@@ -248,41 +234,12 @@ function initRockPuzzle() {
     }, 500);
   }
 
-  // Em mobile o touchmove no window pode ser ignorado em alguns navegadores.
-  // Usamos Pointer Events quando disponíveis para capturar o dedo mesmo fora da pedra.
-  if (window.PointerEvent) {
-    rock.addEventListener("pointerdown", (e) => {
-      if (solved) return;
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      rock.setPointerCapture(e.pointerId);
-      startDrag(e);
-    });
-
-    rock.addEventListener("pointermove", (e) => {
-      if (!rock.hasPointerCapture?.(e.pointerId)) return;
-      onDrag(e);
-    });
-
-    rock.addEventListener("pointerup", (e) => {
-      if (rock.hasPointerCapture?.(e.pointerId))
-        rock.releasePointerCapture(e.pointerId);
-      stopDrag(e);
-    });
-
-    rock.addEventListener("pointercancel", (e) => {
-      if (rock.hasPointerCapture?.(e.pointerId))
-        rock.releasePointerCapture(e.pointerId);
-      stopDrag(e);
-    });
-  } else {
-    rock.addEventListener("mousedown", startDrag);
-    rock.addEventListener("touchstart", startDrag, { passive: false });
-    window.addEventListener("mousemove", onDrag, { passive: false });
-    window.addEventListener("touchmove", onDrag, { passive: false });
-    window.addEventListener("mouseup", stopDrag);
-    window.addEventListener("touchend", stopDrag);
-    window.addEventListener("touchcancel", stopDrag);
-  }
+  rock.addEventListener("mousedown", startDrag);
+  rock.addEventListener("touchstart", startDrag, { passive: false });
+  window.addEventListener("mousemove", onDrag);
+  window.addEventListener("touchmove", onDrag, { passive: false });
+  window.addEventListener("mouseup", stopDrag);
+  window.addEventListener("touchend", stopDrag);
 }
 
 // ======================================================
