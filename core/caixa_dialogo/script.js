@@ -78,6 +78,7 @@ body {
   font-size: clamp(16px, 1.7vw, 28px); 
   font-weight: bold;
   min-height: 6vh;
+  line-height: 1.3;
 }
 
 .next-indicator {

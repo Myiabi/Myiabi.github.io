@@ -35,18 +35,28 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* desative seleção e arraste apenas em elementos específicos quando necessário */
-html,
+/* desative seleção e arraste apenas em elementos específicos quando necessário */html,
 body {
-  /* Desativa gestos padrão (pan/zoom) — note que isto afeta acessibilidade: teste em vários dispositivos */
+  /* Desativa gestos padrão */
   touch-action: none;
   -ms-touch-action: none;
+  
   font-size: var(--fs-base);
   width: 100vw;
-  height: 100dvh; /* O segredo */ 
- background-color: #000; /* Ou a cor principal do seu BG */
+  
+  /* AQUI TÁ A MÁGICA */
+  height: 100vh; /* Fallback pra PC velho */
+  height: 100dvh; /* Dynamic Height: Desconta a barra do navegador sozinho */
+  
+  /* TRAVA A TELA IGUAL A CAVERNA */
+  position: fixed; 
+  top: 0;
+  left: 0;
+  
+  background-color: #000;
   margin: 0;
-  overflow: hidden; /* Evita scrolbar indesejada no load */
+  padding: 0;
+  overflow: hidden;
 }
 
 #scene {
