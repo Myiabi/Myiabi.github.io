@@ -165,6 +165,17 @@ function initRockPuzzle() {
     return;
   }
 
+  // Só libera o drag se derrotou o wendigo
+  const pedraLiberada = window.gameData.visualState?.pedraLiberada === true;
+  if (!pedraLiberada) {
+    rock.style.pointerEvents = "none";
+    return; // Não inicia os listeners de drag
+  }
+
+  // Pedra liberada - habilita interação
+  rock.style.pointerEvents = "auto";
+  rock.style.cursor = "grab";
+
   let isDragging = false;
   let startMouseX = 0;
   let startRockLeft = 0;
