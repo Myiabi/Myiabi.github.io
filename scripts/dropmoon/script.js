@@ -31,10 +31,19 @@ const TELEPORT_AFTER_FOCUS = 6;
 const RANDOM_TELEPORT_MIN = 8; // segundos
 const RANDOM_TELEPORT_MAX = 15; // segundos
 
-// CONFIG DE VELOCIDADE (REDUZIDA)
-const BASE_SPEED = 210; // Era 300
-const MAX_SPEED = 500; // Era 700
-const TURN_SPEED = 4.0;
+// Detecta se é mobile
+const isMobile =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  ) ||
+  "ontouchstart" in window ||
+  navigator.maxTouchPoints > 0;
+
+// CONFIG DE VELOCIDADE - Mobile mais lento para compensar tela menor
+const MOBILE_SPEED_MULTIPLIER = 0.55; // Mobile = 55% da velocidade do PC
+const BASE_SPEED = isMobile ? 210 * MOBILE_SPEED_MULTIPLIER : 210;
+const MAX_SPEED = isMobile ? 500 * MOBILE_SPEED_MULTIPLIER : 500;
+const TURN_SPEED = isMobile ? 2.5 : 4.0; // Mobile vira mais devagar também
 
 const EDGE_BUFFER = 100;
 const WALL_REPULSION = 2.5;

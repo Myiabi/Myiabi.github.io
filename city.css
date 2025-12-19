@@ -434,15 +434,21 @@ body {
 .snowflake {
   position: absolute;
   top: -10px;
-  background: #ffffff; /* Branco absoluto */
-  border-radius: 50%;
 
-  /* AQUI ESTAVA O "ERRO": Antes estava opacity: 0.8. 
-       Agora vamos garantir que ela seja visível. */
+  /* FIX MOBILE: background-color é mais confiável que background shorthand */
+  background-color: #ffffff;
+
+  border-radius: 50%;
   opacity: 1;
 
   /* DICA DE OURO: Um leve brilho pra ela não parecer papel picado */
   box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+
+  /* FIX MOBILE: Força renderização GPU correta em navegadores mobile */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   will-change: transform;
 }

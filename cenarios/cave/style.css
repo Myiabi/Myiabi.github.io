@@ -143,6 +143,7 @@ body {
   top: 45%;
   left: 50%;
   display: none;
+  z-index: 50;
 }
 
 #cobra1 {
@@ -152,6 +153,7 @@ body {
   top: 70%;
   left: 17%;
   pointer-events: none;
+  z-index: 50;
 }
 
 /* Personagem Salvo na Caverna */

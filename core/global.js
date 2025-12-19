@@ -72,11 +72,19 @@ document.addEventListener("click", (e) => {
 // ========== PAUSAR MÍDIA AO SAIR DA ABA (Mobile + Desktop) ==========
 (function () {
   let midiasTocando = [];
+  let estaVisivel = true;
+
+  function getAllMedia() {
+    // Pega todos os áudios e vídeos, incluindo os criados dinamicamente
+    return document.querySelectorAll("audio, video");
+  }
 
   function pausarTudo() {
-    // Pega todos os áudios e vídeos da página
-    const todasMidias = document.querySelectorAll("audio, video");
-    midiasTocando = []; // Limpa antes de popular
+    if (!estaVisivel) return; // Já pausou
+    estaVisivel = false;
+
+    const todasMidias = getAllMedia();
+    midiasTocando = [];
 
     todasMidias.forEach((midia) => {
       if (!midia.paused) {
@@ -87,34 +95,49 @@ document.addEventListener("click", (e) => {
   }
 
   function retomarTudo() {
+    if (estaVisivel) return; // Já está tocando
+    estaVisivel = true;
+
     midiasTocando.forEach((midia) => {
-      // play() retorna Promise - precisa tratar pra não dar erro
       const playPromise = midia.play();
       if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Browser bloqueou autoplay, ignora silenciosamente
-        });
+        playPromise.catch(() => {});
       }
     });
     midiasTocando = [];
   }
 
-  // Método principal: visibilitychange (funciona na maioria dos casos)
+  // Método principal: visibilitychange
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
+    if (document.hidden || document.visibilityState === "hidden") {
       pausarTudo();
     } else {
       retomarTudo();
     }
   });
 
-  // Fallback para mobile (blur/focus na window)
+  // Fallback para mobile
   window.addEventListener("blur", pausarTudo);
   window.addEventListener("focus", retomarTudo);
 
-  // Fallback extra para iOS Safari
+  // Fallback para iOS Safari
   window.addEventListener("pagehide", pausarTudo);
   window.addEventListener("pageshow", (e) => {
-    if (e.persisted) retomarTudo();
+    retomarTudo();
   });
+
+  // FALLBACK AGRESSIVO: Checa a cada 500ms se a página está visível
+  // Isso pega casos onde os eventos não disparam (minimizar app no mobile)
+  setInterval(() => {
+    const deveEstarPausado =
+      document.hidden ||
+      document.visibilityState === "hidden" ||
+      !document.hasFocus();
+
+    if (deveEstarPausado && estaVisivel) {
+      pausarTudo();
+    } else if (!deveEstarPausado && !estaVisivel) {
+      retomarTudo();
+    }
+  }, 500);
 })();
