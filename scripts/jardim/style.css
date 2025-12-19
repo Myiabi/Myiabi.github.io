@@ -22,13 +22,15 @@ body {
   align-items: center;
   padding: 10px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .modal-content {
   position: relative;
-  width: 100%;
-  max-width: 1000px;
-  max-height: 100%;
+  width: auto;
+  height: auto;
+  max-width: calc(100% - 20px);
+  max-height: calc(100dvh - 20px);
   background: #fff;
   padding: 10px;
   border-radius: 15px;
@@ -293,63 +295,52 @@ body {
 }
 
 /* ================= RESPONSIVIDADE ================= */
-@media (max-width: 768px) {
+
+/* Mobile Portrait - HUD embaixo */
+@media (max-width: 768px) and (orientation: portrait) {
   .modal {
     padding: 5px;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
   }
 
   .modal-content {
-    width: 100%;
-    height: auto;
-    max-height: 100dvh;
+    width: calc(100% - 10px);
     max-width: 100%;
+    max-height: calc(100dvh - 10px);
     border-radius: 10px;
     padding: 5px;
-    box-sizing: border-box;
-    display: flex;
     flex-direction: column;
-    overflow: hidden;
+    gap: 5px;
+  }
+
+  .close-btn {
+    top: 2px;
+    right: 2px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 16px;
   }
 
   .hud-bar {
     padding: 5px;
     gap: 4px;
-    min-height: 40px;
+    min-height: 36px;
     border-radius: 10px;
     flex-shrink: 0;
+    order: 1; /* HUD embaixo */
   }
 
   .hud-item {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
   }
 
   .game-container {
-    position: relative;
-    width: 100%;
     flex: 1;
     min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .game-bg {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-
-  .close-btn {
-    top: 5px;
-    right: 5px;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    font-size: 16px;
+    order: 0; /* Jogo em cima */
   }
 
   .loader {
@@ -363,31 +354,54 @@ body {
   }
 }
 
-/* Telas muito pequenas (celulares menores) */
-@media (max-width: 480px) {
+/* Mobile Landscape - HUD na esquerda */
+@media (max-height: 500px) and (orientation: landscape) {
+  .modal {
+    padding: 5px;
+  }
+
   .modal-content {
-    padding: 3px;
-    border-radius: 8px;
+    width: calc(100% - 10px);
+    max-width: 100%;
+    max-height: calc(100dvh - 10px);
+    flex-direction: row;
+    gap: 5px;
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+  .close-btn {
+    top: 2px;
+    right: 2px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+  }
+
+  .hud-bar {
+    flex-direction: column;
+    width: auto;
+    min-width: 36px;
+    max-height: 100%;
+    border-radius: 10px;
+    order: -1; /* HUD na esquerda */
+    padding: 5px;
+    gap: 4px;
+    overflow-y: auto;
+    flex-shrink: 0;
   }
 
   .hud-item {
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
   }
 
-  .hud-bar {
-    gap: 3px;
-    padding: 3px;
-    min-height: 32px;
-  }
-
-  .close-btn {
-    width: 24px;
-    height: 24px;
-    line-height: 24px;
-    font-size: 14px;
-    top: 3px;
-    right: 3px;
+  .game-container {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
   }
 
   .loader {
@@ -401,30 +415,29 @@ body {
   }
 }
 
-/* Landscape em telas pequenas */
-@media (max-height: 500px) and (orientation: landscape) {
+/* Telas muito pequenas (celulares menores) */
+@media (max-width: 400px) {
   .modal-content {
-    flex-direction: row;
-    gap: 5px;
-  }
-
-  .hud-bar {
-    flex-direction: column;
-    width: auto;
-    min-width: 40px;
-    height: 100%;
-    border-radius: 10px;
-    order: -1;
+    padding: 3px;
+    gap: 3px;
   }
 
   .hud-item {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
   }
 
-  .game-container {
-    flex: 1;
-    height: 100%;
+  .hud-bar {
+    gap: 3px;
+    padding: 3px;
+    min-height: 28px;
+  }
+
+  .close-btn {
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 12px;
   }
 }
 

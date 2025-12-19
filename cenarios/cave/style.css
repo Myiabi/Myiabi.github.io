@@ -6,6 +6,14 @@
   padding: 0;
 }
 
+@font-face {
+  font-family: "Wild Words";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../assets/fonts/Wild-Words-Roman.ttf") format("truetype");
+}
+
 html,
 body {
   overflow: hidden; /* remove barras de rolagem - APENAS no html/body */
