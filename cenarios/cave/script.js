@@ -142,7 +142,7 @@ function closeGame() {
 }
 
 // ======================================================
-// 3. PUZZLE DA PEDRA (Mouse + Touch sem Pointer Events)
+// 3. PUZZLE DA PEDRA (Pointer Events - funciona pra mouse e touch)
 // ======================================================
 
 function initRockPuzzle() {
@@ -175,37 +175,27 @@ function initRockPuzzle() {
     }
   });
 
-  // Extrai coordenada X do evento (mouse ou touch)
-  function getX(e) {
-    if (e.touches && e.touches.length > 0) {
-      return e.touches[0].clientX;
-    }
-    return e.clientX;
-  }
-
   // Inicia arrasto
-  function onStart(e) {
+  rock.addEventListener("pointerdown", (e) => {
     if (solved) return;
-    if (window.getComputedStyle(rock).pointerEvents === "none") return;
 
-    // Previne scroll e seleção
     e.preventDefault();
+    rock.setPointerCapture(e.pointerId);
 
     maxDistance = rock.clientWidth * 0.4;
     isDragging = true;
-    startX = getX(e);
+    startX = e.clientX;
     startLeft = rock.offsetLeft;
 
     rock.classList.add("dragging");
     rock.style.transition = "none";
-  }
+  });
 
   // Move a pedra
-  function onMove(e) {
+  rock.addEventListener("pointermove", (e) => {
     if (!isDragging || solved) return;
-    e.preventDefault();
 
-    const diff = getX(e) - startX;
+    const diff = e.clientX - startX;
     let newLeft = startLeft + diff;
 
     // Limita movimento
@@ -216,13 +206,14 @@ function initRockPuzzle() {
 
     // Verifica vitória (90% do caminho)
     if (newLeft >= originLeft + maxDistance * 0.9) {
-      onWin();
+      onWin(e.pointerId);
     }
-  }
+  });
 
   // Solta a pedra
-  function onEnd(e) {
+  rock.addEventListener("pointerup", (e) => {
     if (!isDragging) return;
+    rock.releasePointerCapture(e.pointerId);
     isDragging = false;
     rock.classList.remove("dragging");
 
@@ -231,13 +222,32 @@ function initRockPuzzle() {
       rock.style.transition = "left 0.3s ease";
       rock.style.left = originLeft + "px";
     }
-  }
+  });
+
+  // Cancelamento
+  rock.addEventListener("pointercancel", (e) => {
+    if (!isDragging) return;
+    rock.releasePointerCapture(e.pointerId);
+    isDragging = false;
+    rock.classList.remove("dragging");
+
+    if (!solved) {
+      rock.style.transition = "left 0.3s ease";
+      rock.style.left = originLeft + "px";
+    }
+  });
 
   // Vitória
-  function onWin() {
+  function onWin(pointerId) {
     if (solved) return;
     solved = true;
     isDragging = false;
+
+    if (pointerId !== undefined) {
+      try {
+        rock.releasePointerCapture(pointerId);
+      } catch (err) {}
+    }
 
     rock.classList.remove("dragging");
     rock.style.pointerEvents = "none";
@@ -251,17 +261,6 @@ function initRockPuzzle() {
       }
     }, 500);
   }
-
-  // === MOUSE ===
-  rock.addEventListener("mousedown", onStart);
-  document.addEventListener("mousemove", onMove);
-  document.addEventListener("mouseup", onEnd);
-
-  // === TOUCH ===
-  rock.addEventListener("touchstart", onStart, { passive: false });
-  document.addEventListener("touchmove", onMove, { passive: false });
-  document.addEventListener("touchend", onEnd);
-  document.addEventListener("touchcancel", onEnd);
 }
 
 // ======================================================

@@ -232,14 +232,14 @@
     text-align: center;
   }
 
-  /* Centro: Círculo de ação grande pro dedo */
+  /* Centro: Círculo de ação GRANDE - 90% da altura */
   .action-area {
-    width: 55vmin;
-    height: 55vmin;
-    min-width: 180px;
-    min-height: 180px;
-    max-width: 280px;
-    max-height: 280px;
+    width: 90dvh;
+    height: 90dvh;
+    min-width: unset;
+    min-height: unset;
+    max-width: 90dvh;
+    max-height: 90dvh;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
   }
