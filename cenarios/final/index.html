@@ -7,7 +7,6 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>End</title>
-    <link rel="stylesheet" href="/core/global.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="/loader.js"></script>
 
@@ -27,27 +26,37 @@
         --accent-2: #7aa2f7;
         --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
         --blur: blur(14px);
+        --page-padding: clamp(16px, 4vw, 32px);
+        --page-gap: clamp(12px, 2vw, 20px);
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html,
+      body {
+        height: 100%;
+      }
+
       body {
         margin: 0;
-        min-height: 100dvh;
+        width: 100%;
+        min-height: 100vh;
         font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
         background: var(--bg);
         color: var(--text);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 32px 18px;
+        padding: var(--page-padding) clamp(12px, 3vw, 22px);
         overflow-x: hidden;
+        overflow-y: hidden;
       }
 
       .page {
-        width: min(900px, 100%);
+        width: 80%;
+        height: 80%;
         backdrop-filter: var(--blur);
         background: linear-gradient(
           135deg,
@@ -55,11 +64,13 @@
           rgba(255, 255, 255, 0.02)
         );
         border: 1px solid var(--border);
-        border-radius: 22px;
-        padding: 28px 26px 24px;
+        border-radius: 10px;
         box-shadow: var(--shadow);
         position: relative;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
       }
 
       .page::before {
@@ -113,27 +124,32 @@
       }
 
       .content-row {
-        display: flex;
-        gap: 20px;
-        align-items: flex-start;
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(240px, 1fr);
+        gap: var(--page-gap);
+        align-items: start;
+        flex: 1;
       }
 
       .left-col {
         flex: 1;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: clamp(12px, 2vw, 18px);
+        min-height: 0;
       }
 
       .right-col {
         flex-shrink: 0;
+        display: flex;
+        justify-content: center;
       }
 
       .fish-card {
         background: var(--panel);
         border: 1px solid var(--border);
         border-radius: 14px;
-        padding: 14px;
+        padding: clamp(12px, 2vw, 16px);
       }
 
       .fish-card-title {
@@ -193,7 +209,7 @@
       }
 
       #myo-canvas {
-        width: 280px;
+        width: clamp(220px, 25vw, 320px);
         aspect-ratio: 500 / 800;
         display: grid;
         place-items: center;
@@ -206,13 +222,14 @@
         border: 1px solid var(--border);
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
         overflow: hidden;
+        min-height: min(40vh, 800px);
       }
 
       .support-block {
         display: flex;
         gap: 18px;
         align-items: center;
-        padding: 20px;
+        padding: clamp(16px, 3vw, 22px);
         border-radius: 16px;
         border: 1px solid var(--border);
         background: rgba(255, 255, 255, 0.04);
@@ -347,13 +364,25 @@
         transform: scale(0.95);
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 1024px) {
         .content-row {
-          flex-direction: column-reverse;
+          grid-template-columns: 1fr;
+        }
+        .right-col {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .page {
+          min-height: auto;
+        }
+        .right-col {
+          justify-content: center;
         }
         #myo-canvas {
-          width: 100%;
-          max-width: 260px;
+          width: min(260px, 100%);
+          max-height: 64vh;
           margin: 0 auto;
         }
         .support-block {
@@ -857,5 +886,6 @@
         }
       });
     </script>
+    <script src="/core/global.js"></script>
   </body>
 </html>

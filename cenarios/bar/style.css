@@ -175,6 +175,8 @@ body {
 
 /* MODAL */
 .modal-overlay {
+  width: 100%;
+  height: 100%;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
@@ -186,8 +188,8 @@ body {
 
 .modal-box {
   background: rgba(15, 15, 15, 0.7); /* preto com leve transparência */
-  width: 90dvw;
-  height: 100dvh;
+  width: 90%;
+  height: 100%;
   border-radius: 14px;
   padding: 20px;
   transform: scale(0.8);
@@ -217,8 +219,8 @@ body {
 }
 
 .draggable {
-  width: clamp(40px, 8vw, 80px);
-  height: clamp(40px, 8vw, 80px);
+  width: clamp(40px, 5vw, 80px);
+  height: clamp(40px, 5vw, 80px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -243,6 +245,8 @@ body {
 
 /* DROPZONES */
 .container {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   gap: 3vw;
@@ -250,8 +254,8 @@ body {
 }
 
 .dropzone {
-  width: 20%;
-  height: 55%;
+  width: 30%;
+  height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -268,8 +272,8 @@ body {
 .npc-icon {
   position: absolute;
 
-  width: 6%; /* Ajustei levemente o tamanho */
-  height: 24%;
+  width: 8%; /* Ajustei levemente o tamanho */
+  height: 14%;
   z-index: 20;
   pointer-events: none;
 
@@ -281,48 +285,48 @@ body {
 }
 
 #glasses-icon {
-  top: 80%;
-  left: 47%;
+  top: 40%;
+  left: 45%;
 }
 
 #gf-icon {
-  top: 80%;
-  left: 35%;
+  top: 40%;
+  left: 30%;
 }
 
 #bf-icon {
-  top: 80%;
-  left: 58.5%;
+  top: 40%;
+  left: 62%;
 }
 
 #cocoa-icon {
-  top: 80%;
-  left: 24%;
+  top: 40%;
+  left: 14%;
 }
 #lac-icon {
-  top: 80%;
-  left: 47%;
+  top: 40%;
+  left: 46%;
 }
 #cap-icon {
-  top: 80%;
-  left: 70%;
+  top: 40%;
+  left: 78%;
 }
 
 #greenie-icon {
-  top: 80%;
-  left: 12%;
+  top: 40%;
+  left: 8%;
 }
 #stb-icon {
-  top: 80%;
-  left: 35%;
+  top: 40%;
+  left: 33%;
 }
 #choco-icon {
-  top: 80%;
+  top: 40%;
   left: 59%;
 }
 #coffee-icon {
-  top: 80%;
-  left: 82%;
+  top: 40%;
+  left: 83%;
 }
 
 .dropzone img {

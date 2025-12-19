@@ -574,10 +574,7 @@ window.personagens = {
         {
           texto:
             "Visit Wayway's shop near the temple. He is very helpful. If you need anything, he will certainly have it.",
-            executar: function () {
-            mudarCenario(personagens.lily, "jardim");
-            mudarCenario(personagens.aiko, "boss3");
-          },
+            
           expressao: "sorrindo",
         },
       ],
