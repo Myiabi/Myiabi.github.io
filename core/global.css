@@ -319,3 +319,42 @@ nav a {
     user-select: none;
   }
 }
+
+/* ===================== */
+/* OVERLAY FULLSCREEN MOBILE */
+/* ===================== */
+#mobile-fullscreen-overlay {
+    display: none; /* Começa escondido, o JS decide se mostra */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    z-index: 99999999; /* ACIMA DE TUDO, ATÉ DO LOAD */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-family: "Courier New", Courier, monospace;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 20px;
+}
+
+#mobile-fullscreen-overlay h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+#mobile-fullscreen-overlay .icon {
+    font-size: 3rem;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
