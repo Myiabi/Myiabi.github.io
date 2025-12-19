@@ -186,8 +186,8 @@ body {
 
 .modal-box {
   background: rgba(15, 15, 15, 0.7); /* preto com leve transparência */
-  width: 90%;
-  height: 90%;
+  width: 90dvw;
+  height: 100dvh;
   border-radius: 14px;
   padding: 20px;
   transform: scale(0.8);
@@ -245,7 +245,6 @@ body {
 .container {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   gap: 3vw;
   position: relative;
 }
