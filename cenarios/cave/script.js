@@ -24,13 +24,69 @@ document.addEventListener("DOMContentLoaded", () => {
     renderSavedCharacter(window.gameData.customCharacter);
   }
 
-  // 2. Inicializa Criador de Personagem
+  // 2. Partículas do Fundo (Configuração manual para compatibilidade mobile)
+  if (typeof tsParticles !== "undefined") {
+    tsParticles.load("fire-background", {
+      fullScreen: { enable: false },
+      background: { color: "#000000" },
+      fpsLimit: 60,
+      detectRetina: true,
+      particles: {
+        number: {
+          value: 80,
+          density: { enable: true, area: 800 },
+        },
+        color: {
+          value: ["#ff4500", "#ff6a00", "#ff8c00", "#ffa500", "#ffcc00"],
+        },
+        shape: { type: "circle" },
+        opacity: {
+          value: { min: 0.3, max: 0.8 },
+          animation: {
+            enable: true,
+            speed: 1,
+            minimumValue: 0.1,
+            sync: false,
+          },
+        },
+        size: {
+          value: { min: 2, max: 6 },
+          animation: {
+            enable: true,
+            speed: 3,
+            minimumValue: 1,
+            sync: false,
+          },
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: "top",
+          random: true,
+          straight: false,
+          outModes: { default: "out" },
+        },
+        life: {
+          duration: { value: 3 },
+          count: 0,
+        },
+      },
+      emitters: {
+        direction: "top",
+        position: { x: 50, y: 100 },
+        size: { width: 100, height: 0 },
+        rate: { quantity: 5, delay: 0.1 },
+      },
+    });
+  }
+
+  // 3. Inicializa Criador de Personagem
   if (document.getElementById("controlsList")) {
     initCharCreator();
     setupFinishButton();
   }
 
-  // 3. Inicializa Puzzle da Pedra
+  // 4. Inicializa Puzzle da Pedra
   initRockPuzzle();
 });
 
@@ -529,3 +585,16 @@ function esperarETocar() {
   }
 }
 esperarETocar();
+
+// ======================================================
+// BOTÃO VOLTAR (Independente do global.js)
+// ======================================================
+document.addEventListener("click", (e) => {
+  const btnBack = e.target.closest("#btn-back");
+  if (btnBack) {
+    e.preventDefault();
+    e.stopPropagation();
+    const destino = btnBack.dataset.destino || "/city.html";
+    window.location.href = destino;
+  }
+});
