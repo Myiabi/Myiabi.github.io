@@ -343,7 +343,7 @@ body {
   /* Só aumenta a área de drop no mobile para facilitar o toque */
   .dropzone {
     width: 29%;
-    height: 65%;
+    height: 50%;
   }
 
   .draggable {
