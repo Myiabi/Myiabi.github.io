@@ -319,7 +319,7 @@
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       background: rgba(0, 0, 0, 0.7);
       z-index: 99998;
       display: none;
@@ -828,10 +828,14 @@
 
   // 1. CHEAT CODE (Teclado)
   const secretCode = [
-    "ArrowUp", "ArrowUp", 
-    "ArrowDown", "ArrowDown", 
-    "ArrowLeft", "ArrowRight", 
-    "ArrowLeft", "ArrowRight"
+    "ArrowUp",
+    "ArrowUp",
+    "ArrowDown",
+    "ArrowDown",
+    "ArrowLeft",
+    "ArrowRight",
+    "ArrowLeft",
+    "ArrowRight",
   ];
   let inputSequence = [];
 
@@ -853,19 +857,23 @@
   // 2. GESTO MOBILE: SEGURAR 3 DEDOS POR 12 SEGUNDOS
   let devTimer = null;
 
-  document.addEventListener("touchstart", (e) => {
-    // Verifica se tem exatos 3 dedos na tela
-    if (e.touches.length === 3) {
-      // Opcional: Feedback visual discreto ou log
-      console.log("🔒 Segure firme para abrir o DevMode...");
-      
-      devTimer = setTimeout(() => {
-        togglePanel();
-        // Vibra se o celular suportar
-        if (navigator.vibrate) navigator.vibrate(200);
-      }, 12000); // 12000ms = 12 segundos
-    }
-  }, { passive: true });
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      // Verifica se tem exatos 3 dedos na tela
+      if (e.touches.length === 3) {
+        // Opcional: Feedback visual discreto ou log
+        console.log("🔒 Segure firme para abrir o DevMode...");
+
+        devTimer = setTimeout(() => {
+          togglePanel();
+          // Vibra se o celular suportar
+          if (navigator.vibrate) navigator.vibrate(200);
+        }, 12000); // 12000ms = 12 segundos
+      }
+    },
+    { passive: true }
+  );
 
   // Se soltar ou mudar o número de dedos, cancela
   const cancelDev = () => {

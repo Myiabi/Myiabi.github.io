@@ -1,26 +1,40 @@
 * {
-    touch-action: none;
-    user-select: none;         /* bloqueia seleção de texto */
-    -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
-    overflow: hidden; /* remove barras de rolagem */
+  user-select: none; /* bloqueia seleção de texto */
+  -webkit-user-drag: none; /* impede arrastar imagens no Chrome/Safari */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  overflow: hidden; /* remove barras de rolagem - APENAS no html/body */
+  touch-action: manipulation;
+  background-color: #000;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f0f0;
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 20px; overflow: hidden;
-
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100dvh;
 }
+
+/* O #scene é definido no global.css, aqui apenas complementamos */
+#scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: transparent; /* Transparente para mostrar as partículas de fogo */
+}
+
 #fire-background {
-  position: fixed;   /* Fica fixo na tela */
+  position: fixed; /* Fica fixo na tela */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;       /* Atrás de tudo */
+  z-index: 0; /* Base - atrás do BG da caverna */
   pointer-events: none; /* Permite clicar nos elementos acima */
 }
 
@@ -35,26 +49,25 @@ body {
   z-index: 1000;
 
   color: #fff;
-  background: rgba(0,0,0,0.55);
-  padding: .35em .55em;
-  border-radius: .6em;
-  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 0.35em 0.55em;
+  border-radius: 0.6em;
+  border: 2px solid rgba(255, 255, 255, 0.25);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   backdrop-filter: blur(4px);
-  transition: background .2s, border-color .2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .btnback:hover {
-  background: rgba(0,0,0,0.7);
-  border-color: rgba(255,255,255,0.5);
+  background: rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* MYO */
-
 
 #bg {
   position: absolute;
@@ -63,135 +76,132 @@ body {
   width: 100%;
   height: 100%;
   object-fit: fill; /* estica para preencher */
-  z-index: 0;
+  z-index: 1; /* Acima do fire-background */
 }
 
 /* Estilo para transformar imagem em botão */
 .img-btn {
-    cursor: pointer;       /* Mãozinha */
-    transition: transform 0.2s, filter 0.2s; /* Animação suave */
-    width: 12%;
-    height: 27%;      /* Tamanho máximo para não estourar */
-    display: block;        /* Garante comportamento de bloco */
-    user-select: none;
-    position: absolute;
-    top: 65%; 
-    left: 77%;
+  cursor: pointer; /* Mãozinha */
+  transition: transform 0.2s, filter 0.2s; /* Animação suave */
+  width: 12%;
+  height: 27%; /* Tamanho máximo para não estourar */
+  display: block; /* Garante comportamento de bloco */
+  user-select: none;
+  position: absolute;
+  top: 65%;
+  left: 77%;
 }
 
 /* O Container (Herda a posição .img-btn que você já criou: top 65%, left 77%) */
 #incubadora-wrapper {
-    position: absolute; /* Garante que respeita o top/left do seu CSS original */
-    /* Removemos o src aqui, pois é uma div, mas mantemos o tamanho */
+  position: absolute; /* Garante que respeita o top/left do seu CSS original */
+  /* Removemos o src aqui, pois é uma div, mas mantemos o tamanho */
 }
 
 /* Garante que a imagem base ocupe todo o espaço do container */
 #incubadora-wrapper #openCreatorBtn {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1; /* Fica atrás */
-    pointer-events: auto;
-
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Fica atrás */
+  pointer-events: auto;
 }
 
 /* Estilo das camadas de cima (Drop e Rainha) */
 .inc-overlay {
-    width: 100%;
-    height: 100%;   
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2; /* Fica na frente */
-    display: none; /* Começam escondidas */
-    pointer-events: none; /* O clique passa direto pra div pai */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2; /* Fica na frente */
+  display: none; /* Começam escondidas */
+  pointer-events: none; /* O clique passa direto pra div pai */
 }
 
 /* Estilo específico da Rainha dentro da Incubadora */
 #inc-rainha {
-    position: absolute;
-    /* 1. Tamanho: Ajuste a porcentagem conforme o gosto */
-    width: 35% !important;  /* Era 100%, agora é 40% do tamanho da incubadora */
-    height: 32%;           /* Mantém a proporção pra não esticar */
+  position: absolute;
+  /* 1. Tamanho: Ajuste a porcentagem conforme o gosto */
+  width: 35% !important; /* Era 100%, agora é 40% do tamanho da incubadora */
+  height: 32%; /* Mantém a proporção pra não esticar */
 
-    /* 2. Posicionamento (Como ela é absolute, usamos Top/Left) */
-    top: 7%;   /* Empurra 30% pra baixo */
-    left: 33%;  /* Empurra 30% pra direita (pra centralizar visualmente) */
+  /* 2. Posicionamento (Como ela é absolute, usamos Top/Left) */
+  top: 7%; /* Empurra 30% pra baixo */
+  left: 33%; /* Empurra 30% pra direita (pra centralizar visualmente) */
 
-    /* Opcional: Se quiser garantir que ela fique na frente da geleia mas atrás do vidro */
-    z-index: 15; 
+  /* Opcional: Se quiser garantir que ela fique na frente da geleia mas atrás do vidro */
+  z-index: 15;
 }
 
 #wendigo {
-    position: absolute;
-    width: 15%;
-    height: 45%;
-    top: 45%;
-    left: 50%;
-    display: none;
+  position: absolute;
+  width: 15%;
+  height: 45%;
+  top: 45%;
+  left: 50%;
+  display: none;
 }
 
 #cobra1 {
-    position: absolute;
-    width: 8%;
-    height: 20%;
-    top: 70%;
-    left: 17%;
-    pointer-events: none;
-    
+  position: absolute;
+  width: 8%;
+  height: 20%;
+  top: 70%;
+  left: 17%;
+  pointer-events: none;
 }
 
 /* Personagem Salvo na Caverna */
 #saved-char-display {
-    position: absolute;
-    /* Mesmas dimensões do Wendigo */
-    width: 15%;
-    height: 45%;
-    
-    /* Posicionamento: */
-    /* Left: 75.5% (Ajustei levemente pra centralizar na posição original da incubadora que era 77%) */
-    left: 75.5%; 
-    
-    /* Top: 47% (Cálculo: O chão da incubadora é ~92%. 92% - 45% altura do boneco = 47%) */
-    top: 47%;
-    
-    z-index: 100;
-    pointer-events: none; /* Pra não bloquear cliques se tiver algo atrás */
+  position: absolute;
+  /* Mesmas dimensões do Wendigo */
+  width: 15%;
+  height: 45%;
+
+  /* Posicionamento: */
+  /* Left: 75.5% (Ajustei levemente pra centralizar na posição original da incubadora que era 77%) */
+  left: 75.5%;
+
+  /* Top: 47% (Cálculo: O chão da incubadora é ~92%. 92% - 45% altura do boneco = 47%) */
+  top: 47%;
+
+  z-index: 100;
+  pointer-events: none; /* Pra não bloquear cliques se tiver algo atrás */
 }
 
 /* Ajuste interno para as imagens do boneco preencherem a div corretamente */
 #saved-char-display img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Garante que não estique/deforme */
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Garante que não estique/deforme */
 }
 
 /* --- Puzzle da Pedra --- */
 #rock {
-    position: absolute;
-    width: 20%;       /* Largura ok */
-    height: 30%;     /* MUDANÇA: deixa a altura se ajustar sozinha */
-    top: 63%;
-    left: 13%;
-    
-    /* Configuração do Puzzle */
-    z-index: 100;         /* Garante que está na frente de tudo */
-    pointer-events: none; /* Impede clicar nela depois que sumir */
+  position: absolute;
+  width: 20%; /* Largura ok */
+  height: 30%; /* MUDANÇA: deixa a altura se ajustar sozinha */
+  top: 63%;
+  left: 13%;
 
+  /* Configuração do Puzzle */
+  z-index: 100; /* Garante que está na frente de tudo */
+  pointer-events: none; /* Impede clicar nela depois que sumir */
 }
 
 #rock.dragging {
-    cursor: grabbing;
-    transform: scale(1.02); /* Feedback visual leve quando segura */
+  cursor: grabbing;
+  transform: scale(1.02); /* Feedback visual leve quando segura */
 }
 
 /* Classe para fazer a cobra sumir suavemente */
 .fade-out {
-    opacity: 0;
-    transition: opacity 1.5s ease-out;
-    pointer-events: none; /* Impede clicar nela depois que sumir */
+  opacity: 0;
+  transition: opacity 1.5s ease-out;
+  pointer-events: none; /* Impede clicar nela depois que sumir */
 }
 
 /* Estado da cobra quando o puzzle tá feito */
@@ -205,267 +215,539 @@ body {
   pointer-events: none; /* Impede o mouse/dedo de interagir */
 }
 
-
-
 /* Garante que suma quando desabilitado/criado (controlado pelo JS) */
 .img-btn[style*="display: none"] {
-    display: none !important;
+  display: none !important;
 }
-
-/* Fundo de Fogo */
-#fire-background {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1; pointer-events: none;
-}
-
-/* Botão Voltar */
-.btnback {
-    position: absolute; top: 1.5vw; left: 1.5vw;
-    font-size: min(5vw, 32px); font-weight: bold;
-    cursor: pointer; color: #fff; background: rgba(0,0,0,0.55);
-    padding: .35em .55em; border-radius: .6em;
-    border: 2px solid rgba(255,255,255,0.25);
-    display: flex; justify-content: center; align-items: center;
-    backdrop-filter: blur(4px); z-index: 1000;
-    transition: background .2s, border-color .2s;
-}
-.btnback:hover { background: rgba(0,0,0,0.7); border-color: rgba(255,255,255,0.5); }
 
 /* Área Principal */
 .main-content {
-    display: flex; align-items: center; gap: 20px;
-    padding: 30px; z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+  z-index: 5;
 }
 
 .open-modal-btn {
-    padding: 15px 30px; font-size: 1.2rem; background: #ff4757; color: white;
-    border: none; border-radius: 8px; cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-    transition: transform 0.2s, background 0.2s;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, background 0.2s;
 }
-.open-modal-btn:hover { transform: scale(1.05); background: #ff6b81; }
+.open-modal-btn:hover {
+  transform: scale(1.05);
+  background: #ff6b81;
+}
 
 /* --- MODAL --- */
 .modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
-    z-index: 9999; display: none; align-items: center; justify-content: center; 
-    padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .game-container {
-    width: 100%; height: 100%; max-width: 1200px; max-height: 90vh;
-    background: #1a1a1a; border-radius: 16px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 1px solid #333;
-    display: flex; position: relative; overflow: hidden;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  max-height: 90dvh;
+  background: #1a1a1a;
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+  border: 1px solid #333;
+  display: flex;
+  position: relative;
+  overflow: hidden;
 }
 
 .close-btn {
-    position: absolute; top: 20px; right: 20px;
-    background: rgba(0,0,0,0.5); color: #888; border: 1px solid #444;
-    width: 36px; height: 36px; border-radius: 50%;
-    font-weight: bold; cursor: pointer; z-index: 200;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s ease; backdrop-filter: blur(4px);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #888;
+  border: 1px solid #444;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 }
-.close-btn:hover { background: #ff4757; border-color: #ff4757; color: white; transform: rotate(90deg); }
+.close-btn:hover {
+  background: #ff4757;
+  border-color: #ff4757;
+  color: white;
+  transform: rotate(90deg);
+}
 
 /* Painel Esquerdo (Menu) */
 .menu-panel {
-    flex: 1; background: #1e1e1e; display: flex; flex-direction: column; 
-    border-right: 1px solid #2a2a2a; z-index: 10; 
-    position: relative; overflow: hidden;
+  flex: 1;
+  background: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #2a2a2a;
+  z-index: 10;
+  position: relative;
+  overflow: hidden;
 }
 
 .controls-list {
-    flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-    padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-.controls-list::-webkit-scrollbar { width: 6px; }
-.controls-list::-webkit-scrollbar-track { background: #1e1e1e; }
-.controls-list::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+.controls-list::-webkit-scrollbar {
+  width: 6px;
+}
+.controls-list::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+.controls-list::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
 
 /* Botão Finish e Footer */
 .finish-btn-container {
-    flex-shrink: 0; height: 120px; width: 100%; background: #1e1e1e;
-    border-top: 1px solid #333; display: flex; justify-content: center; align-items: center;
-    position: relative; z-index: 20;
+  flex-shrink: 0;
+  height: 120px;
+  width: 100%;
+  background: #1e1e1e;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 20;
 }
 
 .finish-btn {
-    width: 80px; height: 80px; border-radius: 50%; border: none;
-    background: linear-gradient(135deg, #ff4757, #ff6b81);
-    color: white; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 2; margin: 0;
-    box-shadow: 0 6px 0 #c41e3a, 0 15px 20px rgba(0,0,0,0.4);
-    transition: all 0.1s; text-transform: uppercase;
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #ff4757, #ff6b81);
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 2;
+  margin: 0;
+  box-shadow: 0 6px 0 #c41e3a, 0 15px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.1s;
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.finish-btn:active { transform: translate(-50%, -50%) translateY(4px); box-shadow: 0 0px 0 #c41e3a, 0 5px 10px rgba(0,0,0,0.3); }
+.finish-btn:active {
+  transform: translate(-50%, -50%) translateY(4px);
+  box-shadow: 0 0px 0 #c41e3a, 0 5px 10px rgba(0, 0, 0, 0.3);
+}
 
 /* Anel de Progresso */
 .progress-ring {
-    position: absolute; top: 53%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);
-    width: 100px; height: 100px; z-index: 1; pointer-events: none;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+  pointer-events: none;
 }
-.progress-ring__track { stroke: #333; stroke-width: 4; fill: transparent; }
+.progress-ring__track {
+  stroke: #333;
+  stroke-width: 4;
+  fill: transparent;
+}
 .progress-ring__circle {
-    stroke: #ff4757; stroke-width: 4; fill: transparent;
-    stroke-dasharray: 289; stroke-dashoffset: 289; transition: stroke-dashoffset 0s linear;
+  stroke: #ff4757;
+  stroke-width: 4;
+  fill: transparent;
+  stroke-dasharray: 289;
+  stroke-dashoffset: 289;
+  transition: stroke-dashoffset 0s linear;
 }
-.is-holding .progress-ring__circle { stroke-dashoffset: 0; transition: stroke-dashoffset 3s linear; }
+.is-holding .progress-ring__circle {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 3s linear;
+}
 
 /* Caixa de Confirmação */
 .confirm-box {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-    background: #222; border: 2px solid #ff4757; padding: 30px; border-radius: 15px;
-    text-align: center; color: white; z-index: 300; box-shadow: 0 0 30px rgba(0,0,0,0.8);
-    opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: #222;
+  border: 2px solid #ff4757;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  z-index: 300;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.confirm-box.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
-.confirm-box h3 { margin-bottom: 20px; font-size: 1.4rem; }
-.confirm-actions { display: flex; gap: 15px; justify-content: center; }
-.confirm-btn { padding: 10px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
-.confirm-btn:hover { transform: scale(1.05); }
-.btn-no { background: #444; color: white; }
-.btn-yes { background: #ff4757; color: white; }
+.confirm-box.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.confirm-box h3 {
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+.confirm-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+.confirm-btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.confirm-btn:hover {
+  transform: scale(1.05);
+}
+.btn-no {
+  background: #444;
+  color: white;
+}
+.btn-yes {
+  background: #ff4757;
+  color: white;
+}
 
 /* Painel Direito (Palco) */
 .character-stage {
-    flex: 1.5; position: relative; background-color: #0f0f0f;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px; box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
-    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  flex: 1.5;
+  position: relative;
+  background-color: #0f0f0f;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 .character-stage::after {
-    content: ''; position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%); width: 60%; height: 30px;
-    background: radial-gradient(ellipse at center, rgba(255, 71, 87, 0.15) 0%, transparent 70%); filter: blur(5px); pointer-events: none; z-index: 0;
+  content: "";
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 30px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 71, 87, 0.15) 0%,
+    transparent 70%
+  );
+  filter: blur(5px);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Botões do Palco */
 .stage-btn {
-    position: absolute; top: 20px; width: 36px; height: 36px;
-    background: rgba(40, 40, 40, 0.7); color: #ff4757;
-    border: 1px solid #444; border-radius: 8px; cursor: pointer; z-index: 200;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s, color 0.2s, transform 0.1s; backdrop-filter: blur(4px);
+  position: absolute;
+  top: 20px;
+  width: 36px;
+  height: 36px;
+  background: rgba(40, 40, 40, 0.7);
+  color: #ff4757;
+  border: 1px solid #444;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+  backdrop-filter: blur(4px);
 }
-.stage-btn:hover { background: #ff4757; color: white; border-color: #ff4757; }
-.stage-btn:active { transform: scale(0.95); }
-#downloadBtn { right: 80px; }
-#randomBtn { left: 20px; }
+.stage-btn:hover {
+  background: #ff4757;
+  color: white;
+  border-color: #ff4757;
+}
+.stage-btn:active {
+  transform: scale(0.95);
+}
+#downloadBtn {
+  right: 80px;
+}
+#randomBtn {
+  left: 20px;
+}
 
 /* Controles de UI */
 .control-row {
-    display: flex; align-items: center; justify-content: space-between;
-    background: #252525; padding: 10px 15px; border-radius: 10px; color: white; border: 1px solid #333;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #252525;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: white;
+  border: 1px solid #333;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  flex-shrink: 0;
 }
-.control-row:hover { border-color: #ff4757; background: #2a2a2a; transform: translateX(5px); }
-.control-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.2px; color: #888; flex: 1; text-align: center; }
-.control-value { display: block; font-size: 0.75rem; color: #ff6b81; margin-top: 4px; font-weight: 600; }
+.control-row:hover {
+  border-color: #ff4757;
+  background: #2a2a2a;
+  transform: translateX(5px);
+}
+.control-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #888;
+  flex: 1;
+  text-align: center;
+}
+.control-value {
+  display: block;
+  font-size: 0.75rem;
+  color: #ff6b81;
+  margin-top: 4px;
+  font-weight: 600;
+}
 .nav-btn {
-    background: transparent; border: 1px solid #444; color: #666; width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: 1px solid #444;
+  color: #666;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.nav-btn:hover { background: #ff4757; border-color: #ff4757; color: white; }
-.nav-btn:active { transform: scale(0.92); background: #e04050; }
+.nav-btn:hover {
+  background: #ff4757;
+  border-color: #ff4757;
+  color: white;
+}
+.nav-btn:active {
+  transform: scale(0.92);
+  background: #e04050;
+}
 
 /* Boneco e Camadas */
 .char-wrapper {
-    position: relative; width: 100%; height: 100%; max-width: 500px; max-height: 800px; aspect-ratio: 500 / 800; 
-    z-index: 1; filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 4px #ffffff);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  max-height: 800px;
+  aspect-ratio: 500 / 800;
+  z-index: 1;
+  filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 4px #ffffff);
 }
-.layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; transition: opacity 0.15s ease; }
-.z-body { z-index: 0; } .z-claws { z-index: 5; } .z-marks { z-index: 10; } .z-tail { z-index: 15; } .z-mouth { z-index: 20; } .z-eyes { z-index: 25; } .z-eyebrows { z-index: 30; } .z-cloth { z-index: 46; } .z-hair { z-index: 45; } .z-accessory { z-index: 49; } .z-horns { z-index: 50; }
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.z-body {
+  z-index: 0;
+}
+.z-claws {
+  z-index: 5;
+}
+.z-marks {
+  z-index: 10;
+}
+.z-tail {
+  z-index: 15;
+}
+.z-mouth {
+  z-index: 20;
+}
+.z-eyes {
+  z-index: 25;
+}
+.z-eyebrows {
+  z-index: 30;
+}
+.z-cloth {
+  z-index: 46;
+}
+.z-hair {
+  z-index: 45;
+}
+.z-accessory {
+  z-index: 49;
+}
+.z-horns {
+  z-index: 50;
+}
 
 /* Mobile */
 @media (max-width: 768px) {
-    .game-container { flex-direction: column-reverse; height: 100%; border-radius: 10px; }
-    .menu-panel { flex: 0 0 50%; border-right: none; border-top: 1px solid #333; padding: 0; }
-    .controls-list { padding: 15px; }
-    .close-btn { top: 10px; right: 10px; }
-    #downloadBtn { top: 10px; right: 50px; width: 30px; height: 30px;} 
-    #randomBtn { top: 10px; left: 10px; width: 30px; height: 30px; } 
-    .modal-overlay { padding: 10px; }
-    .finish-btn-container { height: 100px; }
+  .game-container {
+    flex-direction: column-reverse;
+    height: 100%;
+    border-radius: 10px;
+  }
+  .menu-panel {
+    flex: 0 0 50%;
+    border-right: none;
+    border-top: 1px solid #333;
+    padding: 0;
+  }
+  .controls-list {
+    padding: 15px;
+  }
+  .close-btn {
+    top: 10px;
+    right: 10px;
+  }
+  #downloadBtn {
+    top: 10px;
+    right: 50px;
+    width: 30px;
+    height: 30px;
+  }
+  #randomBtn {
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+  }
+  .modal-overlay {
+    padding: 10px;
+  }
+  .finish-btn-container {
+    height: 100px;
+  }
 }
 
 /* --- Modal da Nota (Lista de Tarefas) --- */
 .note-paper {
-    background: #fffdf0; /* Cor creme/papel */
-    width: 90%;
-    max-width: 320px;
-    padding: 30px 20px;
-    position: relative;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-    transform: rotate(-2deg); /* Leve inclinação pra dar estilo */
-    font-family: 'Courier New', Courier, monospace; /* Fonte estilo máquina de escrever */
-    color: #4a4a4a;
-    border: 1px solid #e0e0e0;
+  background: #fffdf0; /* Cor creme/papel */
+  width: 90%;
+  max-width: 320px;
+  padding: 30px 20px;
+  position: relative;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  transform: rotate(-2deg); /* Leve inclinação pra dar estilo */
+  font-family: "Courier New", Courier, monospace; /* Fonte estilo máquina de escrever */
+  color: #4a4a4a;
+  border: 1px solid #e0e0e0;
 }
 
 .note-paper h3 {
-    text-align: center;
-    text-transform: uppercase;
-    border-bottom: 2px solid #4a4a4a;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 2px solid #4a4a4a;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
 }
 
 .note-list {
-    list-style: none;
-    padding-left: 10px;
+  list-style: none;
+  padding-left: 10px;
 }
 
 .note-list li {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    position: relative;
-    transition: color 0.3s;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  position: relative;
+  transition: color 0.3s;
 }
 
 /* O item riscado */
 .note-list li.checked {
-    text-decoration: line-through;
-    color: #b0b0b0; /* Cinza claro */
-    font-style: italic;
+  text-decoration: line-through;
+  color: #b0b0b0; /* Cinza claro */
+  font-style: italic;
 }
 
 /* Bolinha antes do item */
 .note-list li::before {
-    content: '☐'; /* Checkbox vazio */
-    margin-right: 10px;
-    font-weight: bold;
+  content: "☐"; /* Checkbox vazio */
+  margin-right: 10px;
+  font-weight: bold;
 }
 .note-list li.checked::before {
-    content: '☒'; /* Checkbox marcado */
-    color: #ff4757;
+  content: "☒"; /* Checkbox marcado */
+  color: #ff4757;
 }
 
 /* Botão Fechar */
 .close-note {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #888;
-    line-height: 20px;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #888;
+  line-height: 20px;
 }
-.close-note:hover { color: #ff4757; }
+.close-note:hover {
+  color: #ff4757;
+}
 
 /* Alfinete decorativo no topo */
 .pin {
-    background-color: #d94646;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
-    position: absolute;
-    top: -7px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
+  background-color: #d94646;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 }

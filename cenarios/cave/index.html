@@ -1,141 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cave</title>
 
-     <!-- Bibliotecas Externas -->
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js" defer></script>
+    <!-- Bibliotecas Externas -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"
+      defer
+    ></script>
 
     <!-- CSS Global e Local -->
-     <link rel="stylesheet" href="/core/global.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/core/yesorno/style.css">
-</head>
+    <link rel="stylesheet" href="/core/global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/core/yesorno/style.css" />
+  </head>
 
-<body oncontextmenu="return false" data-no="menu">
+  <body oncontextmenu="return false" data-no="menu">
+    <!-- Container Principal da Cena (Necessário para o loader funcionar) -->
+    <div id="scene">
+      <img id="bg" src="/assets/img/BG_Cave.png" alt="BG" draggable="false" />
+      <img
+        id="cobra1"
+        src="/assets/img/NPC_Snake-Pollux.png"
+        draggable="false"
+      />
+      <img
+        id="wendigo"
+        src="/assets/img/NPC_Warrior-guard.png"
+        draggable="false"
+      />
+      <img
+        id="rock"
+        src="/assets/img/Stone.png"
+        draggable="false"
+        alt="Pedra"
+      />
 
-    <div id="noteModal" class="modal-overlay" onclick="if(event.target === this) closeNote()">
-    <div class="note-paper">
-        <div class="pin"></div> <span class="close-note" onclick="closeNote()">×</span>
+      <!-- Interface Fixa -->
+      <div class="btnback" id="btn-back" data-destino="/city.html">↩</div>
+      <div id="fire-background"></div>
+
+      <div class="main-content">
+        <div id="incubadora-wrapper" class="img-btn" onclick="openGame()">
+          <img
+            id="openCreatorBtn"
+            src="/assets/img/Incubator-stage0.png"
+            draggable="false"
+            alt="Incubadora Base"
+          />
+
+          <img
+            id="inc-materia"
+            src="/assets/img/Incubator-stage-only-drop.png"
+            class="inc-overlay"
+          />
+
+          <img
+            id="inc-rainha"
+            src="/assets/img/Queens-power.png"
+            class="inc-overlay"
+          />
+        </div>
+
+        <div id="result-area"></div>
+      </div>
+    </div>
+    <!-- Fecha #scene -->
+
+    <!-- ========================================== -->
+    <!-- MODAIS (Fora do #scene para não serem afetados pela transição) -->
+    <!-- ========================================== -->
+    <div
+      id="noteModal"
+      class="modal-overlay"
+      onclick="if(event.target === this) closeNote()"
+    >
+      <div class="note-paper">
+        <div class="pin"></div>
+        <span class="close-note" onclick="closeNote()">×</span>
         <h3>Ingredients Needed:</h3>
         <ul class="note-list">
-            <li id="note-materia">Dark Matter</li>
-            <li id="note-rainha">Queen's Powers</li>
-            <li id="note-jelly">Jelly</li>
+          <li id="note-materia">Dark Matter</li>
+          <li id="note-rainha">Queen's Powers</li>
+          <li id="note-jelly">Jelly</li>
         </ul>
+      </div>
     </div>
-</div>
 
-    <img id="bg" src="/assets/img/BG_Cave.png" alt="BG" draggable="false">
-    <img id="cobra1" src="/assets/img/NPC_Snake-Pollux.png" draggable="false">
-    <img id="wendigo" src="/assets/img/NPC_Warrior-guard.png" draggable="false">
-    <img id="rock" src="/assets/img/Stone.png" draggable="false" alt="Pedra">    
-    
-    
-    
-    <!-- Interface Fixa -->
-    <div class="btnback" id="btn-back" data-destino="/city.html">↩</div>    
-    <div id="fire-background"></div>
-    
-    <div class="main-content">
-
-
-    <div id="incubadora-wrapper" class="img-btn" onclick="openGame()">
-    
-    <img 
-        id="openCreatorBtn" 
-        src="/assets/img/Incubator-stage0.png" 
-        draggable="false" 
-        alt="Incubadora Base"
-    >
-
-    <img 
-        id="inc-materia" 
-        src="/assets/img/Incubator-stage-only-drop.png" 
-        class="inc-overlay"
-    >
-
-    <img 
-        id="inc-rainha" 
-        src="/assets/img/Queens-power.png" 
-        class="inc-overlay"
-    >
-</div>
-    
-    <div id="result-area"></div>
-</div>
-
-    <!-- ========================================== -->
-    <!-- MODAL DO CRIADOR (Janela Flutuante) -->
-    <!-- ========================================== -->
-    <div id="charCreatorModal" class="modal-overlay" style="display: none;">
+    <div id="charCreatorModal" class="modal-overlay" style="display: none">
         <div class="game-container" id="gameContainerContent">
-            
-            <button class="close-btn" onclick="closeGame()">X</button>
+          <button class="close-btn" onclick="closeGame()">X</button>
 
-            <!-- Menu Esquerdo -->
-            <div class="menu-panel" id="menuPanel">
-                <div id="controlsList" class="controls-list">
-                    <!-- JS injeta os controles aqui -->
-                </div>
-                <!-- Rodapé com Botão Finish -->
-                <div class="finish-btn-container" id="finishContainer">
-                    <svg class="progress-ring" width="100" height="100" viewBox="0 0 100 100">
-                        <circle class="progress-ring__track" cx="50" cy="50" r="46" />
-                        <circle class="progress-ring__circle" cx="50" cy="50" r="46" />
-                    </svg>
-                    <button class="finish-btn" id="finishBtn">FINISH</button>
-                </div>
+          <!-- Menu Esquerdo -->
+          <div class="menu-panel" id="menuPanel">
+            <div id="controlsList" class="controls-list">
+              <!-- JS injeta os controles aqui -->
             </div>
-
-            <!-- Palco do Personagem -->
-            <div class="character-stage">
-                <button id="randomBtn" class="stage-btn" onclick="randomizeCharacter()" title="Aleatório">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 8h.01"></path><path d="M8 8h.01"></path><path d="M8 16h.01"></path><path d="M16 16h.01"></path><path d="M12 12h.01"></path></svg>
-                </button>
-
-                <button id="downloadBtn" class="stage-btn" onclick="downloadCharacter()" title="Baixar PNG">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                </button>
-
-                <!-- Área de Captura -->
-                <div class="char-wrapper" id="characterCaptureArea">
-                    <img src="" class="layer z-body" id="img-body">
-                    <img src="" class="layer z-marks" id="img-marks">
-                    <img src="" class="layer z-tail" id="img-tail">
-                    <img src="" class="layer z-claws" id="img-claws">
-                    <img src="" class="layer z-mouth" id="img-mouth">
-                    <img src="" class="layer z-eyes" id="img-eyes">
-                    <img src="" class="layer z-eyebrows" id="img-eyebrows">
-                    <img src="" class="layer z-cloth" id="img-cloth">
-                    <img src="" class="layer z-accessory" id="img-accessory">
-                    <img src="" class="layer z-hair" id="img-hair">
-                    <img src="" class="layer z-horns" id="img-horns">
-                </div>
+            <!-- Rodapé com Botão Finish -->
+            <div class="finish-btn-container" id="finishContainer">
+              <svg
+                class="progress-ring"
+                width="100"
+                height="100"
+                viewBox="0 0 100 100"
+              >
+                <circle class="progress-ring__track" cx="50" cy="50" r="46" />
+                <circle class="progress-ring__circle" cx="50" cy="50" r="46" />
+              </svg>
+              <button class="finish-btn" id="finishBtn">FINISH</button>
             </div>
+          </div>
 
-            <!-- Caixa de Confirmação -->
-            <div class="confirm-box" id="confirmBox">
-                <h3>Salvar e criar personagem?</h3>
-                <div class="confirm-actions">
-                    <button class="confirm-btn btn-no" onclick="closeConfirmBox()">NÃO</button>
-                    <button class="confirm-btn btn-yes" onclick="finalizeAndDownload()">SIM</button>
-                </div>
+          <!-- Palco do Personagem -->
+          <div class="character-stage">
+            <button
+              id="randomBtn"
+              class="stage-btn"
+              onclick="randomizeCharacter()"
+              title="Aleatório"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 8h.01"></path>
+                <path d="M8 8h.01"></path>
+                <path d="M8 16h.01"></path>
+                <path d="M16 16h.01"></path>
+                <path d="M12 12h.01"></path>
+              </svg>
+            </button>
+
+            <button
+              id="downloadBtn"
+              class="stage-btn"
+              onclick="downloadCharacter()"
+              title="Baixar PNG"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" x2="12" y1="15" y2="3" />
+              </svg>
+            </button>
+
+            <!-- Área de Captura -->
+            <div class="char-wrapper" id="characterCaptureArea">
+              <img src="" class="layer z-body" id="img-body" />
+              <img src="" class="layer z-marks" id="img-marks" />
+              <img src="" class="layer z-tail" id="img-tail" />
+              <img src="" class="layer z-claws" id="img-claws" />
+              <img src="" class="layer z-mouth" id="img-mouth" />
+              <img src="" class="layer z-eyes" id="img-eyes" />
+              <img src="" class="layer z-eyebrows" id="img-eyebrows" />
+              <img src="" class="layer z-cloth" id="img-cloth" />
+              <img src="" class="layer z-accessory" id="img-accessory" />
+              <img src="" class="layer z-hair" id="img-hair" />
+              <img src="" class="layer z-horns" id="img-horns" />
             </div>
+          </div>
+
+          <!-- Caixa de Confirmação -->
+          <div class="confirm-box" id="confirmBox">
+            <h3>Salvar e criar personagem?</h3>
+            <div class="confirm-actions">
+              <button class="confirm-btn btn-no" onclick="closeConfirmBox()">
+                NÃO
+              </button>
+              <button
+                class="confirm-btn btn-yes"
+                onclick="finalizeAndDownload()"
+              >
+                SIM
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-
-    
 
     <!-- Scripts (Apenas um arquivo JS agora) -->
-     <script src="script.js"></script>
     <script src="/loader.js"></script>
-
-
-</body>
-
+  </body>
 </html>

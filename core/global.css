@@ -32,7 +32,10 @@
 html,
 body {
   width: 100%;
+  /* Fallback para navegadores antigos */
   height: 100%;
+  /* Viewport dinâmica - funciona com barra de endereço mobile */
+  height: 100dvh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -45,6 +48,9 @@ body {
 
   /* evita bug de viewport mobile */
   touch-action: manipulation;
+
+  /* Previne scroll bounce no iOS */
+  overscroll-behavior: none;
 }
 
 /* ===================== */
@@ -76,6 +82,9 @@ body {
 /* ===================== */
 
 :root {
+  /* Fallback: será sobrescrito por JS para altura real em mobile */
+  --real-vh: 1vh;
+
   --bp-xl: 1600px;
   --bp-lg: 1440px;
   --bp-md: 1024px;

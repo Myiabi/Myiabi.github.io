@@ -1,3 +1,24 @@
+// ========== FIX MOBILE VIEWPORT (100vh bug) ==========
+// Cria variável CSS --real-vh que reflete a altura real da viewport
+// Necessário porque 100vh em mobile inclui a barra de endereço
+(function () {
+  function setRealVH() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--real-vh", `${vh}px`);
+  }
+
+  // Executa no load
+  setRealVH();
+
+  // Atualiza no resize (quando barra de endereço aparece/desaparece)
+  window.addEventListener("resize", setRealVH);
+
+  // Também atualiza na mudança de orientação
+  window.addEventListener("orientationchange", () => {
+    setTimeout(setRealVH, 100); // delay para garantir que os valores estejam corretos
+  });
+})();
+
 // ========== BLOQUEIO DO BOTÃO BACK DO NAVEGADOR ==========
 // Faz o botão back do navegador ficar "preso" na mesma página
 (function () {
@@ -35,8 +56,6 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-
-
 // desabilitar context menu
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
@@ -50,23 +69,52 @@ document.addEventListener("click", (e) => {
   }
 });
 
-let midiasTocando = [];
+// ========== PAUSAR MÍDIA AO SAIR DA ABA (Mobile + Desktop) ==========
+(function () {
+  let midiasTocando = [];
 
-document.addEventListener('visibilitychange', () => {
-  // Pega todos os áudios e vídeos da página
-  const todasMidias = document.querySelectorAll('audio, video');
+  function pausarTudo() {
+    // Pega todos os áudios e vídeos da página
+    const todasMidias = document.querySelectorAll("audio, video");
+    midiasTocando = []; // Limpa antes de popular
 
-  if (document.hidden) {
-    // Se a aba escondeu:
-    todasMidias.forEach(midia => {
+    todasMidias.forEach((midia) => {
       if (!midia.paused) {
-        midiasTocando.push(midia); // Salva na lista quem estava tocando
-        midia.pause();             // Pausa
+        midiasTocando.push(midia);
+        midia.pause();
       }
     });
-  } else {
-    // Se a aba voltou:
-    midiasTocando.forEach(midia => midia.play()); // Dá play só em quem estava tocando
-    midiasTocando = []; // Limpa a lista
   }
-});
+
+  function retomarTudo() {
+    midiasTocando.forEach((midia) => {
+      // play() retorna Promise - precisa tratar pra não dar erro
+      const playPromise = midia.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Browser bloqueou autoplay, ignora silenciosamente
+        });
+      }
+    });
+    midiasTocando = [];
+  }
+
+  // Método principal: visibilitychange (funciona na maioria dos casos)
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      pausarTudo();
+    } else {
+      retomarTudo();
+    }
+  });
+
+  // Fallback para mobile (blur/focus na window)
+  window.addEventListener("blur", pausarTudo);
+  window.addEventListener("focus", retomarTudo);
+
+  // Fallback extra para iOS Safari
+  window.addEventListener("pagehide", pausarTudo);
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) retomarTudo();
+  });
+})();

@@ -11,7 +11,7 @@
 
 html,
 body {
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   overflow: hidden;
   position: relative;
@@ -93,8 +93,14 @@ body::after {
 }
 
 @keyframes fogMove {
-  0% { transform: translateX(-20px); opacity: 0.25; }
-  100% { transform: translateX(20px); opacity: 0.45; }
+  0% {
+    transform: translateX(-20px);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateX(20px);
+    opacity: 0.45;
+  }
 }
 
 /* Canvas de Neve */
@@ -106,17 +112,29 @@ canvas {
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
 }
 
-#snow-canvas-1 { z-index: 6; }
-#snow-canvas-2 { z-index: 5; }
-#snow-canvas-3 { z-index: 4; }
-#snow-canvas-4 { z-index: 3; }
-#snow-canvas-5 { z-index: 2; }
-#snow-canvas-6 { z-index: 1; }
+#snow-canvas-1 {
+  z-index: 6;
+}
+#snow-canvas-2 {
+  z-index: 5;
+}
+#snow-canvas-3 {
+  z-index: 4;
+}
+#snow-canvas-4 {
+  z-index: 3;
+}
+#snow-canvas-5 {
+  z-index: 2;
+}
+#snow-canvas-6 {
+  z-index: 1;
+}
 
 /* Nuvens rápidas */
 .clouds-bg {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background: url("https://hagall-media.de/cp/clouds.png") repeat-x;
   background-size: cover;
   animation: moveClouds 180s linear infinite;
@@ -126,8 +144,12 @@ canvas {
 }
 
 @keyframes moveClouds {
-  0% { background-position: 0 0; }
-  100% { background-position: -3000px 0; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -3000px 0;
+  }
 }
 
 #star-canvas {
@@ -150,24 +172,24 @@ canvas {
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  
+
   /* Tudo em VH para acompanhar a altura do jogo */
-  gap: 2vh; 
+  gap: 2vh;
   padding: 1.5vh;
-  
+
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(1vh); 
+  backdrop-filter: blur(1vh);
   -webkit-backdrop-filter: blur(1vh);
-  
+
   border: 0.3vh solid rgba(255, 255, 255, 0.15);
   border-radius: 2vh;
   box-shadow: 0 1vh 3vh rgba(0, 0, 0, 0.5);
-  
+
   z-index: 2000;
 }
 
 .menu-item {
-  width: 12vh;  /* Tamanho definido em VH */
+  width: 12vh; /* Tamanho definido em VH */
   height: 12vh; /* Quadrado perfeito */
   padding: 0;
   border-radius: 0;
@@ -188,7 +210,7 @@ canvas {
   height: 100%;
   object-fit: contain;
   pointer-events: none;
-  
+
   /* Sombra (Glow) forte e proporcional */
   filter: drop-shadow(0 0.4vh 1.2vh rgba(0, 0, 0, 0.5));
 }
@@ -215,12 +237,11 @@ canvas {
     rgba(135, 206, 250, 0.15) 50%,
     rgba(0, 0, 0, 0) 70%
   );
-  
+
   /* Bordas e Glows em VH */
   border: 0.3vh solid rgba(255, 255, 255, 0.5);
-  box-shadow: inset 0 0 4vh rgba(255, 255, 255, 0.4),
-              0 0 3vh rgba(0, 0, 0, 0.2);
-              
+  box-shadow: inset 0 0 4vh rgba(255, 255, 255, 0.4), 0 0 3vh rgba(0, 0, 0, 0.2);
+
   transform: translate(-50%, -50%);
   display: none;
   pointer-events: none;
@@ -232,9 +253,9 @@ canvas {
    ========================================= */
 .fogo-aura {
   /* Tamanho grande para cobrir bem a área de colisão */
-  width: 50vh; 
+  width: 50vh;
   height: 50vh;
-  
+
   background: radial-gradient(
     circle,
     rgba(255, 120, 0, 0.45) 0%,
@@ -243,7 +264,7 @@ canvas {
     rgba(0, 0, 0, 0) 80%
   );
   animation: pulsoFogo 1.4s infinite ease-in-out;
-  
+
   filter: blur(1vh); /* Blur proporcional */
   border-radius: 50%;
   pointer-events: none;
@@ -268,19 +289,35 @@ canvas {
 }
 
 @keyframes fogoPulse {
-  0% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -50%) scale(1.35); }
-  100% { transform: translate(-50%, -50%) scale(1); }
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 @keyframes fogoGlow {
-  0% { opacity: 0.6; filter: blur(1vh); }
-  50% { opacity: 1; filter: blur(2vh); }
-  100% { opacity: 0.6; filter: blur(1vh); }
+  0% {
+    opacity: 0.6;
+    filter: blur(1vh);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(2vh);
+  }
+  100% {
+    opacity: 0.6;
+    filter: blur(1vh);
+  }
 }
 
 @keyframes fly-animation {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(-50%, -50%) rotate(0.5deg);
     filter: drop-shadow(0 0.5vh 1vh rgba(0, 0, 0, 0.4));
   }
@@ -320,9 +357,17 @@ canvas {
 
 /* Animação de entrada do Boss */
 @keyframes bossDescend {
-  0% { transform: translate(-50%, -150%); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translate(-50%, -50%); opacity: 1; }
+  0% {
+    transform: translate(-50%, -150%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
 }
 
 #boss-arena {
@@ -331,7 +376,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, -150%);
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   pointer-events: none;
   opacity: 0;
   z-index: 50;
@@ -359,8 +404,13 @@ canvas {
 
 /* Animação de flutuação do Boss */
 @keyframes floatBoss {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1.5vh); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5vh);
+  }
 }
 
 /* Corpo do Boss */
@@ -377,8 +427,13 @@ canvas {
 }
 
 @keyframes floatBody {
-  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-  50% { transform: translate(-50%, -50%) translateY(-1.5vh); }
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-1.5vh);
+  }
 }
 
 /* =========================================
@@ -476,9 +531,15 @@ canvas {
 
 /* Efeito de regeneração azul */
 @keyframes cuff-regeneration {
-  0% { filter: drop-shadow(0 0 0px #00ffff); }
-  50% { filter: drop-shadow(0 0 1.5vh #00ffff) drop-shadow(0 0 0.5vh #0000ff); }
-  100% { filter: drop-shadow(0 0 0px #00ffff); }
+  0% {
+    filter: drop-shadow(0 0 0px #00ffff);
+  }
+  50% {
+    filter: drop-shadow(0 0 1.5vh #00ffff) drop-shadow(0 0 0.5vh #0000ff);
+  }
+  100% {
+    filter: drop-shadow(0 0 0px #00ffff);
+  }
 }
 
 .hand-img.regenerating-glow {
@@ -545,8 +606,14 @@ canvas {
 }
 
 @keyframes pulseEye {
-  from { opacity: 0.6; transform: scale(1); }
-  to { opacity: 1; transform: scale(1.1); }
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.1);
+  }
 }
 
 #cast-eyes {
@@ -621,17 +688,39 @@ canvas {
 }
 
 @keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
 }
 
 .shake {
@@ -639,14 +728,38 @@ canvas {
 }
 
 /* Posicionamento dos 8 postes */
-#poste-1 { top: 61vh; left: 7vw; }
-#poste-2 { top: 61vh; left: 17vw; }
-#poste-3 { top: 61vh; left: 27vw; }
-#poste-4 { top: 61vh; left: 37vw; }
-#poste-5 { top: 61vh; left: 60vw; }
-#poste-6 { top: 61vh; left: 70vw; }
-#poste-7 { top: 61vh; left: 80vw; }
-#poste-8 { top: 61vh; left: 90vw; }
+#poste-1 {
+  top: 61vh;
+  left: 7vw;
+}
+#poste-2 {
+  top: 61vh;
+  left: 17vw;
+}
+#poste-3 {
+  top: 61vh;
+  left: 27vw;
+}
+#poste-4 {
+  top: 61vh;
+  left: 37vw;
+}
+#poste-5 {
+  top: 61vh;
+  left: 60vw;
+}
+#poste-6 {
+  top: 61vh;
+  left: 70vw;
+}
+#poste-7 {
+  top: 61vh;
+  left: 80vw;
+}
+#poste-8 {
+  top: 61vh;
+  left: 90vw;
+}
 
 /* =========================================
    MENSAGENS FLUTUANTES E UI
@@ -663,8 +776,14 @@ canvas {
 }
 
 @keyframes floatUp {
-  0% { transform: translate(-50%, 0); opacity: 1; }
-  100% { transform: translate(-50%, -5vh); opacity: 0; }
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -5vh);
+    opacity: 0;
+  }
 }
 
 #game-message {

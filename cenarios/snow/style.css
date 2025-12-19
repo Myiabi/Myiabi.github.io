@@ -1,61 +1,61 @@
 body {
-    margin: 0;
-    padding: 0;
-    /* Fundo da floresta e gradiente */
-    background-image: linear-gradient(to bottom, #00111a, #00334d, #005580);
-    background: url("/assets/img/forest.png") repeat-x;
-    background-position: center bottom;
-    background-size: cover;
-    
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
-    position: relative;
+  margin: 0;
+  padding: 0;
+  /* Fundo da floresta e gradiente */
+  background-image: linear-gradient(to bottom, #00111a, #00334d, #005580);
+  background: url("/assets/img/forest.png") repeat-x;
+  background-position: center bottom;
+  background-size: cover;
+
+  overflow: hidden;
+  height: 100dvh;
+  width: 100vw;
+  position: relative;
 }
 
 /* Camada escura para dar destaque ao jogo */
 body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4); 
-    z-index: 0; 
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
 }
 
 /* Nuvens OTIMIZADAS (Sem filtros pesados) */
 .clouds-bg {
-    position: absolute; /* Essencial para aparecer */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1; /* Fica acima do fundo preto, mas atrás do jogo */
-    pointer-events: none; /* Garante que o clique passe pelas nuvens */
-    
-    background: url("https://hagall-media.de/cp/clouds.png") repeat-x;
-    
-    /* 250% deixa elas bem grandes */
-    background-size: 250% auto; 
-    
-    /* 200s deixa o movimento lento e majestoso */
-    animation: moveClouds 30s linear infinite;
-    
-    /* Substitui os filtros pesados por opacidade simples */
-    opacity: 0.6; 
+  position: absolute; /* Essencial para aparecer */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 1; /* Fica acima do fundo preto, mas atrás do jogo */
+  pointer-events: none; /* Garante que o clique passe pelas nuvens */
+
+  background: url("https://hagall-media.de/cp/clouds.png") repeat-x;
+
+  /* 250% deixa elas bem grandes */
+  background-size: 250% auto;
+
+  /* 200s deixa o movimento lento e majestoso */
+  animation: moveClouds 30s linear infinite;
+
+  /* Substitui os filtros pesados por opacidade simples */
+  opacity: 0.6;
 }
 
 /* Garante que o jogo fique ACIMA das nuvens */
 #arena {
-    position: relative;
-    z-index: 10; 
+  position: relative;
+  z-index: 10;
 }
 
 @keyframes moveClouds {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        /* Move bastante para a esquerda */
-        background-position: -3000px 0;
-    }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    /* Move bastante para a esquerda */
+    background-position: -3000px 0;
+  }
 }

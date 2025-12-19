@@ -3,26 +3,24 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
-   user-select: none;
+  user-select: none;
   -webkit-user-drag: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
-
 }
 body {
   margin: 0;
   padding: 0;
   overflow: hidden;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background: #000;
 }
 
 #scene {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -38,11 +36,12 @@ body {
 }
 
 /* Assets absolutos, % relativos ao container */
-#counter, .npc, .table{
+#counter,
+.npc,
+.table {
   position: absolute;
   transform: translate(-50%, -50%);
   height: auto; /* vamos controlar pelo height */
-  
 }
 
 /* Counter */
@@ -52,7 +51,7 @@ body {
   top: 55%;
   left: 78%;
   z-index: 3;
-  pointer-events: none
+  pointer-events: none;
 }
 
 /* NPCs */
@@ -67,7 +66,6 @@ body {
   z-index: 1;
 }
 
-
 #assistant {
   width: 11%;
   top: 80%;
@@ -80,58 +78,56 @@ body {
   top: 25%;
   left: 36%;
   z-index: 500;
-    transform-origin: bottom center;
-    /* Ajuste o tempo (6s) se ela estiver muito lenta ou rápida */
-    animation: servir-mesas 6s linear infinite;
-    will-change: transform;
+  transform-origin: bottom center;
+  /* Ajuste o tempo (6s) se ela estiver muito lenta ou rápida */
+  animation: servir-mesas 6s linear infinite;
+  will-change: transform;
 }
 
 @keyframes servir-mesas {
-    /* --- FASE 1: INDO PARA A ESQUERDA --- */
-    0% {
-        /* Começa no 0, olhando para a ESQUERDA */
-        transform: translateX(0) scaleX(-1); 
-    }
-    45% {
-        /* Anda 100px para a esquerda */
-        transform: translateX(-300px) scaleX(-1);
-    }
+  /* --- FASE 1: INDO PARA A ESQUERDA --- */
+  0% {
+    /* Começa no 0, olhando para a ESQUERDA */
+    transform: translateX(0) scaleX(-1);
+  }
+  45% {
+    /* Anda 100px para a esquerda */
+    transform: translateX(-300px) scaleX(-1);
+  }
 
-    /* --- FASE 2: A VIRADA --- */
-    49% {
-        /* Pausa dramática */
-        transform: translateX(-300px) scaleX(-1);
-    }
-    50% {
-        /* VIRA PARA A DIREITA */
-        transform: translateX(-300px) scaleX(1);
-    }
+  /* --- FASE 2: A VIRADA --- */
+  49% {
+    /* Pausa dramática */
+    transform: translateX(-300px) scaleX(-1);
+  }
+  50% {
+    /* VIRA PARA A DIREITA */
+    transform: translateX(-300px) scaleX(1);
+  }
 
-    /* --- FASE 3: VOLTANDO PARA O PONTO ORIGINAL --- */
-    95% {
-        /* Volta ao 0, olhando para a direita */
-        transform: translateX(0) scaleX(1);
-    }
+  /* --- FASE 3: VOLTANDO PARA O PONTO ORIGINAL --- */
+  95% {
+    /* Volta ao 0, olhando para a direita */
+    transform: translateX(0) scaleX(1);
+  }
 
-    /* --- FASE 4: RESET --- */
-    100% {
-        /* Vira para a esquerda para recomeçar o loop */
-        transform: translateX(0) scaleX(-1);
-    }
+  /* --- FASE 4: RESET --- */
+  100% {
+    /* Vira para a esquerda para recomeçar o loop */
+    transform: translateX(0) scaleX(-1);
+  }
 }
 
 #felicia2 {
   width: 11%;
   top: 24%;
   left: 56%;
-  transform: scaleX(-1); 
+  transform: scaleX(-1);
   z-index: 500;
   display: none;
-  
 }
 
 #cobra5 {
-
   position: absolute;
   width: 8%;
   height: 20%;
@@ -139,49 +135,38 @@ body {
   left: 83%;
   display: none;
   z-index: 1;
-
 }
 
-#table1 
-{
+#table1 {
   width: 25%;
   height: 63%;
   top: 23%;
   left: 47%;
   pointer-events: none;
-
-
 }
-#table2 
-{ 
-  width:23%;
+#table2 {
+  width: 23%;
   height: 59%;
   top: 24%;
   left: 20%;
   pointer-events: none;
-
 }
 
-#table3 
-{ 
+#table3 {
   width: 24%;
   height: 59%;
   top: 77%;
   left: 17%;
   pointer-events: none;
-
 }
-#table4 
-{ 
-  width:25%;
+#table4 {
+  width: 25%;
   height: 61%;
   top: 77%;
   left: 48%;
   z-index: 10;
   pointer-events: none;
-
 }
-
 
 .close-btn {
   margin-top: 20px;
@@ -192,7 +177,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -200,15 +185,14 @@ body {
 }
 
 .modal-box {
-
   background: rgba(15, 15, 15, 0.7); /* preto com leve transparência */
   width: 90%;
   height: 90%;
   border-radius: 14px;
   padding: 20px;
-  transform: scale(.8);
+  transform: scale(0.8);
   opacity: 0;
-  transition: .3s;
+  transition: 0.3s;
   overflow: hidden; /* impede o item de sair do modal */
   z-index: 3000;
 }
@@ -255,7 +239,6 @@ body {
   z-index: 1000;
 }
 
-
 .draggable.can-drop {
   background: transparent;
 }
@@ -279,24 +262,23 @@ body {
   border: 2px solid transparent;
   border-radius: 10px;
   font-size: 20px;
-  transition: .2s;
+  transition: 0.2s;
   gap: 50%;
-  position:relative;
-
+  position: relative;
 }
 
 /* O Retrato do personagem estilo "Quadro Redondo" */
 .npc-icon {
   position: absolute;
 
-  width: 6%;  /* Ajustei levemente o tamanho */
+  width: 6%; /* Ajustei levemente o tamanho */
   height: 24%;
   z-index: 20;
   pointer-events: none;
 
   /* --- ESTILO DE QUADRO REDONDO --- */
   border: 3px solid #827d7d; /* Borda branca grossa parecendo moldura */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.5); /* Sombra para dar profundidade 3D */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidade 3D */
   border-radius: 50%; /* Transforma em círculo */
   background-color: #333; /* Cor de fundo caso a imagem seja PNG transparente */
 }
@@ -308,7 +290,7 @@ body {
 
 #gf-icon {
   top: 80%;
-  left:35%;
+  left: 35%;
 }
 
 #bf-icon {
@@ -346,23 +328,18 @@ body {
   left: 82%;
 }
 
-
-
 .dropzone img {
-
   width: 100%;
   height: 100%;
   object-fit: cover; /* mantém proporção bonitinha */
   pointer-events: none; /* pra garantir que o drag é no container e não na imagem */
   border: #444 solid 2px;
   border-radius: 5%;
-
 }
 
 .dropzone.dragover {
-  transform: scale(.9);
+  transform: scale(0.9);
 }
-
 
 .close-x {
   position: absolute;
@@ -393,22 +370,22 @@ body {
   z-index: 1000;
 
   color: #fff;
-  background: rgba(0,0,0,0.55);
-  padding: .35em .55em;
-  border-radius: .6em;
-  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 0.35em 0.55em;
+  border-radius: 0.6em;
+  border: 2px solid rgba(255, 255, 255, 0.25);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   backdrop-filter: blur(4px);
-  transition: background .2s, border-color .2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .btnback:hover {
-  background: rgba(0,0,0,0.7);
-  border-color: rgba(255,255,255,0.5);
+  background: rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 #glass {
@@ -419,7 +396,7 @@ body {
   width: 6%;
   height: 20%;
   top: 2%;
-  left:44.5%;
+  left: 44.5%;
   border: none;
   overlay: none;
 }
@@ -444,7 +421,7 @@ body {
   width: 5%;
   height: 25%;
   top: 7%;
-  left:26%;
+  left: 26%;
   border: none;
   overlay: none;
 }
@@ -456,7 +433,7 @@ body {
   width: 7%;
   height: 30%;
   top: 60%;
-  left:5%;
+  left: 5%;
   border: none;
   overlay: none;
 }
@@ -468,7 +445,7 @@ body {
   width: 6.5%;
   height: 15%;
   top: 57%;
-  left:14%;
+  left: 14%;
   border: none;
   overlay: none;
 }
@@ -480,7 +457,7 @@ body {
   width: 6.5%;
   height: 30%;
   top: 60%;
-  left:22.5%;
+  left: 22.5%;
   border: none;
   overlay: none;
 }
@@ -505,7 +482,7 @@ body {
   width: 5%;
   height: 15%;
   top: 60%;
-  left:43%;
+  left: 43%;
   border: none;
   overlay: none;
 }
@@ -517,7 +494,7 @@ body {
   width: 5%;
   height: 15%;
   top: 60%;
-  left:48.3%;
+  left: 48.3%;
   border: none;
   overlay: none;
 }
@@ -529,7 +506,7 @@ body {
   width: 6.5%;
   height: 30%;
   top: 60%;
-  left:53.5%;
+  left: 53.5%;
   border: none;
   overlay: none;
 }
@@ -665,5 +642,3 @@ body {
   z-index: 1000;
   display: none;
 }
-
-

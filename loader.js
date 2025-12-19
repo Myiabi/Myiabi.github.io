@@ -58,7 +58,7 @@ const BLOCK_MAP = {
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       background: #000;
       color: #fff;
       display: flex;
@@ -76,13 +76,13 @@ const BLOCK_MAP = {
       Loading...
     </div>
   `;
-  
+
   // Insere no começo do body assim que possível
   if (document.body) {
-    document.body.insertAdjacentHTML('afterbegin', loaderHTML);
+    document.body.insertAdjacentHTML("afterbegin", loaderHTML);
   } else {
-    window.addEventListener('DOMContentLoaded', () => {
-        document.body.insertAdjacentHTML('afterbegin', loaderHTML);
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.insertAdjacentHTML("afterbegin", loaderHTML);
     });
   }
 })();
@@ -118,7 +118,7 @@ const BLOCK_MAP = {
 
     if (shouldBlock) {
       console.log(`🔒 Script bloqueado: ${src}`);
-      continue; 
+      continue;
     }
 
     await new Promise((resolve) => {
@@ -177,7 +177,6 @@ const BLOCK_MAP = {
       setTimeout(() => {
         if (loading) loading.remove();
       }, 500);
-
     }, wait);
   }
 
@@ -192,4 +191,3 @@ const BLOCK_MAP = {
     finishLoader();
   }
 })();
-
