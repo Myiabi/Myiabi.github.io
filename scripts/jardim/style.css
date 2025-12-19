@@ -119,21 +119,11 @@ body {
 .game-container {
   position: relative;
   width: 100%;
-  flex: 1;
-  min-height: 0;
+  flex: 1 1 0;
+  min-height: 200px;
   border-radius: 10px;
   overflow: hidden;
   cursor: default; /* Garante cursor normal no jardim todo */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.game-container .game-bg {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
 }
 
 /* ================= BOTÃO DEBUG (REMOVER EM PRODUÇÃO) ================= */
@@ -159,12 +149,18 @@ body {
 }
 
 .game-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   display: block;
   user-select: none;
   pointer-events: none;
   object-fit: contain;
+  object-position: center;
 }
 
 /* ================= ITENS ESCONDIDOS ================= */
