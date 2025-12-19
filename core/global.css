@@ -35,28 +35,33 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* desative seleção e arraste apenas em elementos específicos quando necessário */html,
+/* core/global.css */
+
+html,
 body {
-  /* Desativa gestos padrão */
-  touch-action: none;
-  -ms-touch-action: none;
-  
-  font-size: var(--fs-base);
-  width: 100vw;
-  
-  /* AQUI TÁ A MÁGICA */
-  height: 100vh; /* Fallback pra PC velho */
-  height: 100dvh; /* Dynamic Height: Desconta a barra do navegador sozinho */
-  
-  /* TRAVA A TELA IGUAL A CAVERNA */
-  position: fixed; 
+  /* TRAVA DE SEGURANÇA */
+  position: fixed; /* O segredo da Caverna */
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0; /* Força o pé da página a ficar acima da barra de endereços */
   
-  background-color: #000;
+  width: 100%;
+  height: 100%; /* Fallback seguro */
+  
+  /* Reset padrão */
   margin: 0;
   padding: 0;
   overflow: hidden;
+  background-color: #000;
+  
+  /* Centralização do Jogo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Trava de gestos */
+  touch-action: none;
 }
 
 #scene {
