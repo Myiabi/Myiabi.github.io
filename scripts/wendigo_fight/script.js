@@ -21,13 +21,12 @@ if (typeof tsParticles !== "undefined") {
   });
 }
 
-// Detecta se é mobile
+// Detecta se é mobile (apenas por User Agent para não interferir no touch)
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   ) ||
-  "ontouchstart" in window ||
-  navigator.maxTouchPoints > 0;
+  (navigator.maxTouchPoints > 0 && window.innerWidth < 1024);
 
 // Mobile = 55% da velocidade do PC
 const MOBILE_SPEED_MULTIPLIER = 0.55;
