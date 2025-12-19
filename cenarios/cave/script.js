@@ -13,82 +13,101 @@ const CHAR_BASE_PATH = "/assets/img/MYO/";
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (!window.gameData) {
-    console.warn("⚠️ GameData ainda não carregou, aguardando...");
-    return;
-  }
+  waitForGameData(() => {
+    // 1. Renderiza Personagem Salvo (Se existir)
+    if (window.gameData.customCharacter) {
+      renderSavedCharacter(window.gameData.customCharacter);
+    }
 
-  // 1. Renderiza Personagem Salvo (Se existir)
-  // Isso precisa ficar aqui pois depende dos assets locais
-  if (window.gameData.customCharacter) {
-    renderSavedCharacter(window.gameData.customCharacter);
-  }
-
-  // 2. Partículas do Fundo (Configuração manual para compatibilidade mobile)
-  if (typeof tsParticles !== "undefined") {
-    tsParticles.load("fire-background", {
-      fullScreen: { enable: false },
-      background: { color: "#000000" },
-      fpsLimit: 60,
-      detectRetina: true,
-      particles: {
-        number: {
-          value: 80,
-          density: { enable: true, area: 800 },
-        },
-        color: {
-          value: ["#ff4500", "#ff6a00", "#ff8c00", "#ffa500", "#ffcc00"],
-        },
-        shape: { type: "circle" },
-        opacity: {
-          value: { min: 0.3, max: 0.8 },
-          animation: {
+    // 2. Partículas do Fundo (Configuração manual para compatibilidade mobile)
+    if (typeof tsParticles !== "undefined") {
+      tsParticles.load("fire-background", {
+        fullScreen: { enable: false },
+        background: { color: "#000000" },
+        fpsLimit: 60,
+        detectRetina: true,
+        particles: {
+          number: {
+            value: 80,
+            density: { enable: true, area: 800 },
+          },
+          color: {
+            value: ["#ff4500", "#ff6a00", "#ff8c00", "#ffa500", "#ffcc00"],
+          },
+          shape: { type: "circle" },
+          opacity: {
+            value: { min: 0.3, max: 0.8 },
+            animation: {
+              enable: true,
+              speed: 1,
+              minimumValue: 0.1,
+              sync: false,
+            },
+          },
+          size: {
+            value: { min: 2, max: 6 },
+            animation: {
+              enable: true,
+              speed: 3,
+              minimumValue: 1,
+              sync: false,
+            },
+          },
+          move: {
             enable: true,
-            speed: 1,
-            minimumValue: 0.1,
-            sync: false,
+            speed: 2,
+            direction: "top",
+            random: true,
+            straight: false,
+            outModes: { default: "out" },
+          },
+          life: {
+            duration: { value: 3 },
+            count: 0,
           },
         },
-        size: {
-          value: { min: 2, max: 6 },
-          animation: {
-            enable: true,
-            speed: 3,
-            minimumValue: 1,
-            sync: false,
-          },
-        },
-        move: {
-          enable: true,
-          speed: 2,
+        emitters: {
           direction: "top",
-          random: true,
-          straight: false,
-          outModes: { default: "out" },
+          position: { x: 50, y: 100 },
+          size: { width: 100, height: 0 },
+          rate: { quantity: 5, delay: 0.1 },
         },
-        life: {
-          duration: { value: 3 },
-          count: 0,
-        },
-      },
-      emitters: {
-        direction: "top",
-        position: { x: 50, y: 100 },
-        size: { width: 100, height: 0 },
-        rate: { quantity: 5, delay: 0.1 },
-      },
-    });
-  }
+      });
+    }
 
-  // 3. Inicializa Criador de Personagem
-  if (document.getElementById("controlsList")) {
-    initCharCreator();
-    setupFinishButton();
-  }
+    // 3. Inicializa Criador de Personagem
+    if (document.getElementById("controlsList")) {
+      initCharCreator();
+      setupFinishButton();
+    }
 
-  // 4. Inicializa Puzzle da Pedra
-  initRockPuzzle();
+    // 4. Inicializa Puzzle da Pedra
+    initRockPuzzle();
+  });
 });
+
+function waitForGameData(onReady) {
+  const maxTries = 60; // 3s @ 50ms
+  let tries = 0;
+
+  const check = () => {
+    if (window.gameData) {
+      onReady();
+      return;
+    }
+
+    tries += 1;
+    if (tries >= maxTries) {
+      console.warn("⚠️ GameData não carregou a tempo; seguindo mesmo assim.");
+      onReady();
+      return;
+    }
+
+    setTimeout(check, 50);
+  };
+
+  check();
+}
 
 // ======================================================
 // 2. INTERAÇÃO (Botões e Menus)
