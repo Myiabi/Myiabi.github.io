@@ -217,10 +217,8 @@ body {
 }
 
 .draggable {
-  width: 18vw;
-  height: 18vw;
-  max-width: 80px;
-  max-height: 80px;
+  width: clamp(40px, 8vw, 80px);
+  height: clamp(40px, 8vw, 80px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -344,8 +342,13 @@ body {
 @media (max-width: 768px) {
   /* Só aumenta a área de drop no mobile para facilitar o toque */
   .dropzone {
-    width: 26%;
+    width: 29%;
     height: 65%;
+  }
+
+  .draggable {
+    width: clamp(25px, 5vw, 45px);
+    height: clamp(25px, 5vw, 45px);
   }
 }
 

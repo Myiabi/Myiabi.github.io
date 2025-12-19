@@ -13,101 +13,82 @@ const CHAR_BASE_PATH = "/assets/img/MYO/";
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-  waitForGameData(() => {
-    // 1. Renderiza Personagem Salvo (Se existir)
-    if (window.gameData.customCharacter) {
-      renderSavedCharacter(window.gameData.customCharacter);
-    }
+  if (!window.gameData) {
+    console.warn("⚠️ GameData ainda não carregou, aguardando...");
+    return;
+  }
 
-    // 2. Partículas do Fundo (Configuração manual para compatibilidade mobile)
-    if (typeof tsParticles !== "undefined") {
-      tsParticles.load("fire-background", {
-        fullScreen: { enable: false },
-        background: { color: "#000000" },
-        fpsLimit: 60,
-        detectRetina: true,
-        particles: {
-          number: {
-            value: 80,
-            density: { enable: true, area: 800 },
-          },
-          color: {
-            value: ["#ff4500", "#ff6a00", "#ff8c00", "#ffa500", "#ffcc00"],
-          },
-          shape: { type: "circle" },
-          opacity: {
-            value: { min: 0.3, max: 0.8 },
-            animation: {
-              enable: true,
-              speed: 1,
-              minimumValue: 0.1,
-              sync: false,
-            },
-          },
-          size: {
-            value: { min: 2, max: 6 },
-            animation: {
-              enable: true,
-              speed: 3,
-              minimumValue: 1,
-              sync: false,
-            },
-          },
-          move: {
+  // 1. Renderiza Personagem Salvo (Se existir)
+  // Isso precisa ficar aqui pois depende dos assets locais
+  if (window.gameData.customCharacter) {
+    renderSavedCharacter(window.gameData.customCharacter);
+  }
+
+  // 2. Partículas do Fundo (Configuração manual para compatibilidade mobile)
+  if (typeof tsParticles !== "undefined") {
+    tsParticles.load("fire-background", {
+      fullScreen: { enable: false },
+      background: { color: "#000000" },
+      fpsLimit: 60,
+      detectRetina: true,
+      particles: {
+        number: {
+          value: 80,
+          density: { enable: true, area: 800 },
+        },
+        color: {
+          value: ["#ff4500", "#ff6a00", "#ff8c00", "#ffa500", "#ffcc00"],
+        },
+        shape: { type: "circle" },
+        opacity: {
+          value: { min: 0.3, max: 0.8 },
+          animation: {
             enable: true,
-            speed: 2,
-            direction: "top",
-            random: true,
-            straight: false,
-            outModes: { default: "out" },
-          },
-          life: {
-            duration: { value: 3 },
-            count: 0,
+            speed: 1,
+            minimumValue: 0.1,
+            sync: false,
           },
         },
-        emitters: {
+        size: {
+          value: { min: 2, max: 6 },
+          animation: {
+            enable: true,
+            speed: 3,
+            minimumValue: 1,
+            sync: false,
+          },
+        },
+        move: {
+          enable: true,
+          speed: 2,
           direction: "top",
-          position: { x: 50, y: 100 },
-          size: { width: 100, height: 0 },
-          rate: { quantity: 5, delay: 0.1 },
+          random: true,
+          straight: false,
+          outModes: { default: "out" },
         },
-      });
-    }
+        life: {
+          duration: { value: 3 },
+          count: 0,
+        },
+      },
+      emitters: {
+        direction: "top",
+        position: { x: 50, y: 100 },
+        size: { width: 100, height: 0 },
+        rate: { quantity: 5, delay: 0.1 },
+      },
+    });
+  }
 
-    // 3. Inicializa Criador de Personagem
-    if (document.getElementById("controlsList")) {
-      initCharCreator();
-      setupFinishButton();
-    }
+  // 3. Inicializa Criador de Personagem
+  if (document.getElementById("controlsList")) {
+    initCharCreator();
+    setupFinishButton();
+  }
 
-    // 4. Inicializa Puzzle da Pedra
-    initRockPuzzle();
-  });
+  // 4. Inicializa Puzzle da Pedra
+  initRockPuzzle();
 });
-
-function waitForGameData(onReady) {
-  const maxTries = 60; // 3s @ 50ms
-  let tries = 0;
-
-  const check = () => {
-    if (window.gameData) {
-      onReady();
-      return;
-    }
-
-    tries += 1;
-    if (tries >= maxTries) {
-      console.warn("⚠️ GameData não carregou a tempo; seguindo mesmo assim.");
-      onReady();
-      return;
-    }
-
-    setTimeout(check, 50);
-  };
-
-  check();
-}
 
 // ======================================================
 // 2. INTERAÇÃO (Botões e Menus)
@@ -170,63 +151,39 @@ function closeGame() {
 
 function initRockPuzzle() {
   const rock = document.getElementById("rock");
+
+  // Removi a referência da cobra aqui. Agora o puzzle é independente.
   if (!rock) return;
 
-  const visualState = window.gameData?.visualState;
-  const dragState = {
-    dragging: false,
-    pointerId: null,
-    startX: 0,
-    originLeft: 0,
-    maxDistance: 0,
-    solved: false,
-  };
-
-  const computeBounds = () => {
-    // Usa a mesma distância original (~8vw), limitando a 40% da largura atual
-    const travelByWidth = rock.clientWidth * 0.4;
-    const travelByViewport = window.innerWidth * 0.08;
-    dragState.maxDistance = Math.min(travelByWidth, travelByViewport);
-    dragState.originLeft = dragState.solved
-      ? rock.offsetLeft - dragState.maxDistance
-      : rock.offsetLeft;
-
-    if (dragState.solved) {
-      rock.style.left = `${dragState.originLeft + dragState.maxDistance}px`;
-    }
-  };
-
-  const applySolvedVisual = () => {
-    dragState.solved = true;
-    dragState.dragging = false;
+  // Se já está resolvido no global, nem inicia a lógica de arrastar
+  if (
+    window.gameData.visualState &&
+    window.gameData.visualState.pedraResolvida
+  ) {
     rock.classList.add("rock-locked");
-    rock.style.pointerEvents = "none";
-    rock.style.transition = "left 0.15s ease";
-    rock.style.left = `${dragState.originLeft + dragState.maxDistance}px`;
-    rock.style.transform = "";
-  };
-
-  function finalizePuzzle() {
-    if (dragState.solved) return;
-    applySolvedVisual();
-    setTimeout(() => {
-      if (window.gameData?.visualState) {
-        window.gameData.visualState.pedraResolvida = true;
-      }
-    }, 150);
-  }
-
-  computeBounds();
-  rock.style.touchAction = "none";
-
-  if (visualState && visualState.pedraResolvida) {
-    applySolvedVisual();
+    rock.style.left = rock.offsetLeft + rock.clientWidth * 0 + "px";
     return;
   }
 
-  rock.style.left = `${dragState.originLeft}px`;
+  // Garante que touch funciona
+  rock.style.touchAction = "none";
 
-  const getClientX = (e) => {
+  let isDragging = false;
+  let startMouseX = 0;
+  let startRockLeft = 0;
+  let solved = false;
+  let originLeft = rock.offsetLeft;
+  let maxDistance = 0;
+
+  window.addEventListener("resize", () => {
+    if (!solved) {
+      rock.style.left = "";
+      originLeft = rock.offsetLeft;
+    }
+  });
+
+  const getX = (e) => {
+    // Pointer/mouse events têm clientX sempre; fallback para touch lists
     if (typeof e.clientX === "number") return e.clientX;
     if (e.touches && e.touches.length > 0) return e.touches[0].clientX;
     if (e.changedTouches && e.changedTouches.length > 0)
@@ -234,89 +191,98 @@ function initRockPuzzle() {
     return 0;
   };
 
-  const startDrag = (e) => {
-    if (dragState.solved) return;
-    if (e.pointerType === "mouse" && e.button !== 0) return;
+  function startDrag(e) {
+    if (solved) return;
+    if (window.getComputedStyle(rock).pointerEvents === "none") return;
 
-    dragState.dragging = true;
-    dragState.pointerId = e.pointerId ?? "fallback";
-    dragState.startX = getClientX(e);
-    rock.style.transition = "none";
+    e.preventDefault(); // Sempre previne default pra não scrollar
+    e.stopPropagation();
+
+    maxDistance = rock.clientWidth * 0.4;
+    isDragging = true;
     rock.classList.add("dragging");
+    rock.style.transition = "none";
+    startMouseX = getX(e);
+    startRockLeft = rock.offsetLeft;
+  }
 
-    rock.setPointerCapture?.(e.pointerId);
+  function onDrag(e) {
+    if (!isDragging || solved) return;
     e.preventDefault();
-  };
+    e.stopPropagation();
 
-  const moveDrag = (e) => {
-    if (!dragState.dragging) return;
-    if (
-      dragState.pointerId &&
-      e.pointerId &&
-      e.pointerId !== dragState.pointerId
-    )
-      return;
+    const mouseDiff = getX(e) - startMouseX;
+    let newPos = startRockLeft + mouseDiff;
 
-    const delta = getClientX(e) - dragState.startX;
-    const minLeft = dragState.originLeft;
-    const maxLeft = dragState.originLeft + dragState.maxDistance;
-    let nextLeft = dragState.originLeft + delta;
+    if (newPos < originLeft) newPos = originLeft;
+    if (newPos > originLeft + maxDistance) newPos = originLeft + maxDistance;
 
-    if (nextLeft < minLeft) nextLeft = minLeft;
-    if (nextLeft > maxLeft) nextLeft = maxLeft;
+    rock.style.left = `${newPos}px`;
+    if (newPos >= originLeft + maxDistance * 0.9) triggerWin();
+  }
 
-    rock.style.left = `${nextLeft}px`;
-
-    if (nextLeft >= maxLeft - 1) finalizePuzzle();
-    e.preventDefault();
-  };
-
-  const endDrag = (e) => {
-    if (!dragState.dragging) return;
-    if (
-      dragState.pointerId &&
-      e.pointerId &&
-      e.pointerId !== dragState.pointerId
-    )
-      return;
-
-    dragState.dragging = false;
-    dragState.pointerId = null;
+  function stopDrag(e) {
+    if (!isDragging) return;
+    isDragging = false;
     rock.classList.remove("dragging");
-    rock.releasePointerCapture?.(e.pointerId);
-
-    if (!dragState.solved) {
-      rock.style.transition = "left 0.25s ease";
-      rock.style.left = `${dragState.originLeft}px`;
+    if (!solved) {
+      rock.style.transition = "left 0.3s ease";
+      rock.style.left = originLeft + "px";
     }
-  };
+  }
 
-  const addListeners = () => {
-    if (window.PointerEvent) {
-      rock.addEventListener("pointerdown", startDrag, { passive: false });
-      window.addEventListener("pointermove", moveDrag, { passive: false });
-      window.addEventListener("pointerup", endDrag, { passive: false });
-      window.addEventListener("pointercancel", endDrag, { passive: false });
-    } else {
-      rock.addEventListener("mousedown", startDrag, { passive: false });
-      window.addEventListener("mousemove", moveDrag, { passive: false });
-      window.addEventListener("mouseup", endDrag, { passive: false });
-      rock.addEventListener("touchstart", startDrag, { passive: false });
-      window.addEventListener("touchmove", moveDrag, { passive: false });
-      window.addEventListener("touchend", endDrag, { passive: false });
-      window.addEventListener("touchcancel", endDrag, { passive: false });
-    }
-  };
+  function triggerWin() {
+    if (solved) return;
+    solved = true;
+    isDragging = false;
+    rock.classList.remove("dragging");
+    rock.style.pointerEvents = "none";
+    rock.style.transition = "none";
+    rock.style.left = originLeft + maxDistance + "px";
 
-  window.addEventListener("resize", () => {
-    computeBounds();
-    if (!dragState.solved) {
-      rock.style.transition = "";
-      rock.style.left = `${dragState.originLeft}px`;
-    }
-  });
+    // ATUALIZA O GLOBAL (O save.js vai capturar e salvar)
+    setTimeout(() => {
+      if (window.gameData) {
+        window.gameData.visualState.pedraResolvida = true;
+      }
+    }, 500);
+  }
 
-  addListeners();
+  // Em mobile o touchmove no window pode ser ignorado em alguns navegadores.
+  // Usamos Pointer Events quando disponíveis para capturar o dedo mesmo fora da pedra.
+  if (window.PointerEvent) {
+    rock.addEventListener("pointerdown", (e) => {
+      if (solved) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      rock.setPointerCapture(e.pointerId);
+      startDrag(e);
+    });
+
+    rock.addEventListener("pointermove", (e) => {
+      if (!rock.hasPointerCapture?.(e.pointerId)) return;
+      onDrag(e);
+    });
+
+    rock.addEventListener("pointerup", (e) => {
+      if (rock.hasPointerCapture?.(e.pointerId))
+        rock.releasePointerCapture(e.pointerId);
+      stopDrag(e);
+    });
+
+    rock.addEventListener("pointercancel", (e) => {
+      if (rock.hasPointerCapture?.(e.pointerId))
+        rock.releasePointerCapture(e.pointerId);
+      stopDrag(e);
+    });
+  } else {
+    rock.addEventListener("mousedown", startDrag);
+    rock.addEventListener("touchstart", startDrag, { passive: false });
+    window.addEventListener("mousemove", onDrag, { passive: false });
+    window.addEventListener("touchmove", onDrag, { passive: false });
+    window.addEventListener("mouseup", stopDrag);
+    window.addEventListener("touchend", stopDrag);
+    window.addEventListener("touchcancel", stopDrag);
+  }
 }
 
 // ======================================================

@@ -200,15 +200,7 @@ body {
   height: 30%; /* MUDANÇA: deixa a altura se ajustar sozinha */
   top: 63%;
   left: 13%;
-
-  /* Configuração do Puzzle */
   z-index: 100; /* Garante que está na frente de tudo */
-  cursor: grab;
-
-  /* Touch mobile */
-  touch-action: none; /* Bloqueia scroll/zoom ao arrastar */
-  -webkit-touch-callout: none; /* iOS: desabilita menu de contexto */
-  -webkit-user-select: none;
 }
 
 #rock.dragging {
