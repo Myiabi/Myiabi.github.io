@@ -342,15 +342,15 @@ body {
 }
 
 @media (max-width: 768px) {
-  /* Aumenta apenas dropzones que usam a imagem Corner-table no mobile */
+  /* Aumenta a área de drop sem estourar a tela; mantém a imagem menor */
   .dropzone:has(img[src*="Corner-table"]) {
-    width: 28%;
-    height: 65%;
+    width: 26%;
+    height: 60%;
   }
 
   .dropzone:has(img[src*="Corner-table"]) img {
-    width: 110%;
-    height: 110%;
+    width: 78%;
+    height: 78%;
   }
 }
 

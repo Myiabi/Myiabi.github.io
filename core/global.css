@@ -47,7 +47,7 @@ body {
   position: relative;
 
   /* evita bug de viewport mobile */
-  touch-action: manipulation;
+  touch-action: none;
 
   /* Previne scroll bounce no iOS */
   overscroll-behavior: none;
