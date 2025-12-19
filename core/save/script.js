@@ -343,22 +343,18 @@ function aplicarMudancaVisual(prop, value) {
       break;
 
     // --- Puzzle da Pedra e Cobra ---
-    case "pedraResolvida": {
-      if (value === true && rock) {
-        const originLeft = rock.offsetLeft;
-        const travel = Math.min(
-          rock.clientWidth * 0.4,
-          window.innerWidth * 0.08
-        );
-        rock.classList.add("rock-locked");
-        rock.style.pointerEvents = "none";
-        rock.style.transition = "left 0.15s ease";
-        rock.style.transform = "";
-        rock.style.left = `${originLeft + travel}px`;
+    case "pedraResolvida":
+      if (value === true) {
+        if (rock) {
+          rock.classList.add("rock-locked");
+          rock.style.pointerEvents = "none";
+          if (rock.style.left === "") {
+            rock.style.transform = `translateX(8vw)`;
+          }
+        }
       }
       if (cobra1) cobra1.style.pointerEvents = value ? "auto" : "none";
       break;
-    }
 
     // --- Wendigo (Guardião) ---
     case "wendigoAparece":
