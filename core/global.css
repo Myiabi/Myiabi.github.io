@@ -45,16 +45,16 @@ body {
   left: 0;
   right: 0;
   bottom: 0; /* Força o pé da página a ficar acima da barra de endereços */
-  
+
   width: 100%;
   height: 100%; /* Fallback seguro */
-  
+
   /* Reset padrão */
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: #000;
-  
+
   /* Centralização do Jogo */
   display: flex;
   justify-content: center;
@@ -62,18 +62,23 @@ body {
 
   /* Trava de gestos */
   touch-action: none;
+  /* Áreas seguras para mobile (notch, barra de navegação) */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 #scene {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out; /* Efeito Fade-in elegante */
-    visibility: hidden; /* Garante que não seja clicável enquanto carrega */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out; /* Efeito Fade-in elegante */
+  visibility: hidden; /* Garante que não seja clicável enquanto carrega */
 }
 
 /* Classe que o JS vai adicionar quando estiver tudo pronto */
 #scene.scene-visible {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* ===================== */
