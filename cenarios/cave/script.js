@@ -170,39 +170,63 @@ function closeGame() {
 
 function initRockPuzzle() {
   const rock = document.getElementById("rock");
-
-  // Removi a referência da cobra aqui. Agora o puzzle é independente.
   if (!rock) return;
 
-  // Se já está resolvido no global, nem inicia a lógica de arrastar
-  if (
-    window.gameData.visualState &&
-    window.gameData.visualState.pedraResolvida
-  ) {
+  const visualState = window.gameData?.visualState;
+  const dragState = {
+    dragging: false,
+    pointerId: null,
+    startX: 0,
+    originLeft: 0,
+    maxDistance: 0,
+    solved: false,
+  };
+
+  const computeBounds = () => {
+    // Usa a mesma distância original (~8vw), limitando a 40% da largura atual
+    const travelByWidth = rock.clientWidth * 0.4;
+    const travelByViewport = window.innerWidth * 0.08;
+    dragState.maxDistance = Math.min(travelByWidth, travelByViewport);
+    dragState.originLeft = dragState.solved
+      ? rock.offsetLeft - dragState.maxDistance
+      : rock.offsetLeft;
+
+    if (dragState.solved) {
+      rock.style.left = `${dragState.originLeft + dragState.maxDistance}px`;
+    }
+  };
+
+  const applySolvedVisual = () => {
+    dragState.solved = true;
+    dragState.dragging = false;
     rock.classList.add("rock-locked");
-    rock.style.left = rock.offsetLeft + rock.clientWidth * 0 + "px";
+    rock.style.pointerEvents = "none";
+    rock.style.transition = "left 0.15s ease";
+    rock.style.left = `${dragState.originLeft + dragState.maxDistance}px`;
+    rock.style.transform = "";
+  };
+
+  function finalizePuzzle() {
+    if (dragState.solved) return;
+    applySolvedVisual();
+    setTimeout(() => {
+      if (window.gameData?.visualState) {
+        window.gameData.visualState.pedraResolvida = true;
+      }
+    }, 150);
+  }
+
+  computeBounds();
+  rock.style.touchAction = "none";
+
+  if (visualState && visualState.pedraResolvida) {
+    applySolvedVisual();
     return;
   }
 
-  // Garante que touch funciona
-  rock.style.touchAction = "none";
+  rock.style.left = `${dragState.originLeft}px`;
 
-  let isDragging = false;
-  let startMouseX = 0;
-  let startRockLeft = 0;
-  let solved = false;
-  let originLeft = rock.offsetLeft;
-  let maxDistance = 0;
-
-  window.addEventListener("resize", () => {
-    if (!solved) {
-      rock.style.left = "";
-      originLeft = rock.offsetLeft;
-    }
-  });
-
-  const getX = (e) => {
-    // Pointer/mouse events têm clientX sempre; fallback para touch lists
+  const getClientX = (e) => {
     if (typeof e.clientX === "number") return e.clientX;
     if (e.touches && e.touches.length > 0) return e.touches[0].clientX;
     if (e.changedTouches && e.changedTouches.length > 0)
@@ -210,98 +234,89 @@ function initRockPuzzle() {
     return 0;
   };
 
-  function startDrag(e) {
-    if (solved) return;
-    if (window.getComputedStyle(rock).pointerEvents === "none") return;
+  const startDrag = (e) => {
+    if (dragState.solved) return;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
 
-    e.preventDefault(); // Sempre previne default pra não scrollar
-    e.stopPropagation();
-
-    maxDistance = rock.clientWidth * 0.4;
-    isDragging = true;
+    dragState.dragging = true;
+    dragState.pointerId = e.pointerId ?? "fallback";
+    dragState.startX = getClientX(e);
+    rock.style.transition = "none";
     rock.classList.add("dragging");
-    rock.style.transition = "none";
-    startMouseX = getX(e);
-    startRockLeft = rock.offsetLeft;
-  }
 
-  function onDrag(e) {
-    if (!isDragging || solved) return;
+    rock.setPointerCapture?.(e.pointerId);
     e.preventDefault();
-    e.stopPropagation();
+  };
 
-    const mouseDiff = getX(e) - startMouseX;
-    let newPos = startRockLeft + mouseDiff;
+  const moveDrag = (e) => {
+    if (!dragState.dragging) return;
+    if (
+      dragState.pointerId &&
+      e.pointerId &&
+      e.pointerId !== dragState.pointerId
+    )
+      return;
 
-    if (newPos < originLeft) newPos = originLeft;
-    if (newPos > originLeft + maxDistance) newPos = originLeft + maxDistance;
+    const delta = getClientX(e) - dragState.startX;
+    const minLeft = dragState.originLeft;
+    const maxLeft = dragState.originLeft + dragState.maxDistance;
+    let nextLeft = dragState.originLeft + delta;
 
-    rock.style.left = `${newPos}px`;
-    if (newPos >= originLeft + maxDistance * 0.9) triggerWin();
-  }
+    if (nextLeft < minLeft) nextLeft = minLeft;
+    if (nextLeft > maxLeft) nextLeft = maxLeft;
 
-  function stopDrag(e) {
-    if (!isDragging) return;
-    isDragging = false;
+    rock.style.left = `${nextLeft}px`;
+
+    if (nextLeft >= maxLeft - 1) finalizePuzzle();
+    e.preventDefault();
+  };
+
+  const endDrag = (e) => {
+    if (!dragState.dragging) return;
+    if (
+      dragState.pointerId &&
+      e.pointerId &&
+      e.pointerId !== dragState.pointerId
+    )
+      return;
+
+    dragState.dragging = false;
+    dragState.pointerId = null;
     rock.classList.remove("dragging");
-    if (!solved) {
-      rock.style.transition = "left 0.3s ease";
-      rock.style.left = originLeft + "px";
+    rock.releasePointerCapture?.(e.pointerId);
+
+    if (!dragState.solved) {
+      rock.style.transition = "left 0.25s ease";
+      rock.style.left = `${dragState.originLeft}px`;
     }
-  }
+  };
 
-  function triggerWin() {
-    if (solved) return;
-    solved = true;
-    isDragging = false;
-    rock.classList.remove("dragging");
-    rock.style.pointerEvents = "none";
-    rock.style.transition = "none";
-    rock.style.left = originLeft + maxDistance + "px";
+  const addListeners = () => {
+    if (window.PointerEvent) {
+      rock.addEventListener("pointerdown", startDrag, { passive: false });
+      window.addEventListener("pointermove", moveDrag, { passive: false });
+      window.addEventListener("pointerup", endDrag, { passive: false });
+      window.addEventListener("pointercancel", endDrag, { passive: false });
+    } else {
+      rock.addEventListener("mousedown", startDrag, { passive: false });
+      window.addEventListener("mousemove", moveDrag, { passive: false });
+      window.addEventListener("mouseup", endDrag, { passive: false });
+      rock.addEventListener("touchstart", startDrag, { passive: false });
+      window.addEventListener("touchmove", moveDrag, { passive: false });
+      window.addEventListener("touchend", endDrag, { passive: false });
+      window.addEventListener("touchcancel", endDrag, { passive: false });
+    }
+  };
 
-    // ATUALIZA O GLOBAL (O save.js vai capturar e salvar)
-    setTimeout(() => {
-      if (window.gameData) {
-        window.gameData.visualState.pedraResolvida = true;
-      }
-    }, 500);
-  }
+  window.addEventListener("resize", () => {
+    computeBounds();
+    if (!dragState.solved) {
+      rock.style.transition = "";
+      rock.style.left = `${dragState.originLeft}px`;
+    }
+  });
 
-  // Em mobile o touchmove no window pode ser ignorado em alguns navegadores.
-  // Usamos Pointer Events quando disponíveis para capturar o dedo mesmo fora da pedra.
-  if (window.PointerEvent) {
-    rock.addEventListener("pointerdown", (e) => {
-      if (solved) return;
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      rock.setPointerCapture(e.pointerId);
-      startDrag(e);
-    });
-
-    rock.addEventListener("pointermove", (e) => {
-      if (!rock.hasPointerCapture?.(e.pointerId)) return;
-      onDrag(e);
-    });
-
-    rock.addEventListener("pointerup", (e) => {
-      if (rock.hasPointerCapture?.(e.pointerId))
-        rock.releasePointerCapture(e.pointerId);
-      stopDrag(e);
-    });
-
-    rock.addEventListener("pointercancel", (e) => {
-      if (rock.hasPointerCapture?.(e.pointerId))
-        rock.releasePointerCapture(e.pointerId);
-      stopDrag(e);
-    });
-  } else {
-    rock.addEventListener("mousedown", startDrag);
-    rock.addEventListener("touchstart", startDrag, { passive: false });
-    window.addEventListener("mousemove", onDrag, { passive: false });
-    window.addEventListener("touchmove", onDrag, { passive: false });
-    window.addEventListener("mouseup", stopDrag);
-    window.addEventListener("touchend", stopDrag);
-    window.addEventListener("touchcancel", stopDrag);
-  }
+  addListeners();
 }
 
 // ======================================================
