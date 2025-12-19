@@ -1,6 +1,19 @@
-/* ===================== */
-/* FONTS                 */
-/* ===================== */
+/* FONTS */
+
+/*
+  Fontes "Wild Words" (coloque aqui os arquivos em assets/fonts/)
+  Recomendado: gerar WOFF2 e WOFF a partir do TTF para melhor performance.
+  Exemplos para converter (no Windows com Node/npm ou em WSL):
+
+  # usando npx (requer Node):
+  npx ttf2woff2 assets/fonts/Wild-Words-Roman.ttf > assets/fonts/Wild-Words-Roman.woff2
+  npx ttf2woff assets/fonts/Wild-Words-Roman.ttf > assets/fonts/Wild-Words-Roman.woff
+
+  # ou usando a ferramenta woff2 (Google):
+  # woff2_compress assets/fonts/Wild-Words-Roman.ttf   -> gera .woff2 ao lado
+
+  Depois de gerar .woff2/.woff, o navegador irá preferir woff2, depois woff, caindo para ttf.
+*/
 
 @font-face {
   font-family: "Wild Words";
@@ -10,10 +23,7 @@
   src: url("../assets/fonts/Wild-Words-Roman.ttf") format("truetype");
 }
 
-/* ===================== */
-/* RESET GLOBAL          */
-/* ===================== */
-
+/* Reset e helpers base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -25,22 +35,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===================== */
-/* HTML / BODY (FIXADO)  */
-/* ===================== */
+/* core/global.css */
 
 html,
 body {
+  /* TRAVA DE SEGURANÇA */
+  position: fixed; /* O segredo da Caverna */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; /* Força o pé da página a ficar acima da barra de endereços */
+  
   width: 100%;
-  min-height: 100dvh; /* 🔥 viewport dinâmico real (corrige corte mobile) */
-
+  height: 100%; /* Fallback seguro */
+  
+  /* Reset padrão */
   margin: 0;
   padding: 0;
-
   overflow: hidden;
   background-color: #000;
-
-  /* Centralização do jogo */
+  
+  /* Centralização do Jogo */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,46 +64,31 @@ body {
   touch-action: none;
 }
 
-/* ===================== */
-/* SAFE AREA (iOS / ANDROID) */
-/* ===================== */
-
-:root {
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-top: env(safe-area-inset-top, 0px);
-}
-
-body {
-  padding-bottom: var(--safe-bottom);
-  padding-top: var(--safe-top);
-}
-
-/* ===================== */
-/* SCENE FADE-IN         */
-/* ===================== */
-
 #scene {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Efeito Fade-in elegante */
+    visibility: hidden; /* Garante que não seja clicável enquanto carrega */
 }
 
+/* Classe que o JS vai adicionar quando estiver tudo pronto */
 #scene.scene-visible {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 /* ===================== */
-/* VARIÁVEIS GLOBAIS     */
+/* VARIÁVEIS E TIPOGRAFIA */
 /* ===================== */
-
 :root {
+  /* breakpoints (úteis para JS também) */
   --bp-xl: 1600px;
   --bp-lg: 1440px;
   --bp-md: 1024px;
   --bp-sm: 768px;
   --bp-xs: 480px;
 
+  /* tamanho base fluido */
+  /* menor valor, valor fluido e maior valor */
   --fs-base: clamp(12px, 1.2vw + 0.6rem, 18px);
 
   --container-max: 1200px;
@@ -100,9 +100,8 @@ body {
 }
 
 /* ===================== */
-/* CONTAINERS            */
+/* CONTAINERS E LAYOUT   */
 /* ===================== */
-
 .container {
   width: min(95%, var(--container-max));
   max-width: var(--container-max);
@@ -117,10 +116,26 @@ video {
   display: block;
 }
 
-/* ===================== */
-/* NAV                  */
-/* ===================== */
+/* button,
+a {
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  font-size: 1rem; /* 1rem segue --fs-base *
+  border: none;
+  border-radius: var(--btn-radius);
+  transition: opacity 0.18s ease, transform 0.12s ease;
+}
 
+button:hover,
+a:hover {
+  opacity: 0.95;
+} */
+
+/* ===================== */
+/* MENU E NAV            */
+/* ===================== */
 nav {
   display: flex;
   flex-wrap: wrap;
@@ -135,57 +150,118 @@ nav a {
 }
 
 /* ===================== */
-/* MEDIA QUERIES         */
+/* MEDIA QUERIES GLOBAIS */
 /* ===================== */
 
+/* Extra-large desktops (widescreen) */
 @media (min-width: var(--bp-xl)) {
   :root {
     --container-max: 1400px;
   }
 }
 
+/* Large desktops / laptops */
+@media (min-width: var(--bp-lg)) and (max-width: calc(var(--bp-xl) - 1px)) {
+  :root {
+    --container-max: 1300px;
+  }
+}
+
+/* Medium devices (tablets, small laptops) */
 @media (max-width: 1024px) {
   :root {
     --fs-base: clamp(13px, 1.6vw + 0.4rem, 16px);
   }
+  nav a {
+    font-size: 0.95rem;
+  }
+  button,
+  a {
+    padding: 0.55rem 1rem;
+  }
 }
 
+/* Small tablets and large phones */
 @media (max-width: 768px) {
   :root {
     --fs-base: clamp(12px, 2.1vw + 0.25rem, 15px);
   }
-
   .container {
     padding: clamp(0.4rem, 2.2vw, 1rem);
   }
-
   nav {
     flex-direction: column;
+    align-items: stretch;
     gap: 0.4rem;
+  }
+  nav a {
+    font-size: 0.95rem;
+    margin: 0.25rem 0.4rem;
+  }
+  button,
+  a {
+    padding: 0.5rem 0.9rem;
   }
 }
 
+/* Large phones */
 @media (max-width: 480px) {
   :root {
     --fs-base: clamp(11px, 3.2vw, 14px);
   }
+  .container {
+    width: 96%;
+    padding: 0.6rem;
+  }
+  nav a {
+    font-size: 0.9rem;
+  }
+  button,
+  a {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.9rem;
+  }
 }
 
+/* Very small devices (old phones, very small Kindle) */
 @media (max-width: 360px) {
   :root {
     --fs-base: clamp(10px, 4.2vw, 13px);
   }
+  .container {
+    width: 98%;
+    padding: 0.4rem;
+  }
+  nav a {
+    font-size: 0.85rem;
+  }
+  button,
+  a {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+  }
 }
 
+/* Orientation-specific tweaks */
 @media (orientation: landscape) and (max-width: 768px) {
+  /* em landscape no mobile talvez caiba um pouco mais */
   :root {
     --fs-base: clamp(11px, 2.2vw, 15px);
   }
 }
 
-/* ===================== */
-/* BOTÃO VOLTAR          */
-/* ===================== */
+/* small visual helpers */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 .btnback {
   position: absolute;
@@ -194,6 +270,7 @@ nav a {
   font-size: min(5vw, 32px);
   font-weight: bold;
   cursor: pointer;
+  user-select: none;
   z-index: 1000;
 
   color: #fff;
@@ -216,20 +293,22 @@ nav a {
 }
 
 /* ===================== */
-/* GPU FIX               */
+/* FIX: GPU RENDER       */
 /* ===================== */
-
+/* Força a placa de vídeo a segurar a imagem na memória */
+/* Resolve o bug de piscar itens invisíveis ao trocar de aba */
 .hidden-item img {
   transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   backface-visibility: hidden;
-  will-change: opacity;
+  will-change: opacity; /* Opcional: avisa o navegador que vai mudar */
 }
 
 /* ===================== */
-/* PORTRAIT BLOCK        */
+/* MODO PORTRAIT PROIBIDO */
 /* ===================== */
-
 @media screen and (orientation: portrait) {
+  /* Bloqueia TODO o conteúdo */
   body > *:not(#portrait-block) {
     display: none !important;
     visibility: hidden !important;
@@ -245,7 +324,8 @@ nav a {
     position: fixed;
     inset: 0;
     width: 100vw;
-    height: 100dvh;
+    height: 100vh;
+    height: 100dvh; /* dynamic viewport height - melhor em mobile */
     background: #000;
     z-index: 999998;
   }
@@ -253,24 +333,25 @@ nav a {
   body::after {
     content: "🔄 Rotate your device to play!";
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100vw;
+    height: 100vh;
     height: 100dvh;
     background: #000;
     color: #fff;
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
     z-index: 999999;
     font-size: clamp(1rem, 5vw, 2rem);
     font-family: sans-serif;
     text-align: center;
     padding: 2rem;
-
     pointer-events: all;
     touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
 }
