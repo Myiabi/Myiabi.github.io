@@ -6,7 +6,6 @@ const scripts = [
   "/core/caixa_dialogo/falas.js",
   "/core/yesorno/script.js",
   "/core/menu_interativo/script.js",
-  "/core/loading/script.js",
   "/core/popup/script.js",
   "/core/sound/script.js",
   "/core/caixa_dialogo/script.js",
@@ -193,3 +192,4 @@ const BLOCK_MAP = {
     finishLoader();
   }
 })();
+
