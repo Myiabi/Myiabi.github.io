@@ -1,10 +1,19 @@
 * {
- touch-action: none;
-  user-select: none;         /* bloqueia seleção de texto */
-  -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
+    touch-action: none;
+    user-select: none;         /* bloqueia seleção de texto */
+    -webkit-user-drag: none;   /* impede arrastar imagens no Chrome/Safari */
     overflow: hidden; /* remove barras de rolagem */
 }
 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px; overflow: hidden;
+
+}
 #fire-background {
   position: fixed;   /* Fica fixo na tela */
   top: 0;
@@ -46,21 +55,6 @@
 
 /* MYO */
 
-/* --- CSS Base --- */
-* { 
-    box-sizing: border-box; margin: 0; padding: 0; 
-    user-select: none; -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f0f0;
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 20px; overflow: hidden;
-}
 
 #bg {
   position: absolute;
