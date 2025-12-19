@@ -476,6 +476,78 @@ function criarBotaoMusica() {
 }
 
 // --------------------
+// PAUSAR ÁUDIO AO SAIR DA ABA / DESLIGAR TELA (MOBILE + DESKTOP)
+// --------------------
+let trilhaEstavaTocando = false;
+let loopsEstavamTocando = {};
+
+function pausarTudoAoSairDaAba() {
+  // Guarda estado da trilha
+  if (Sons.trilhaAtual && !Sons.trilhaAtual.paused) {
+    trilhaEstavaTocando = true;
+    Sons.trilhaAtual.pause();
+  }
+
+  // Guarda estado dos loops
+  loopsEstavamTocando = {};
+  for (let key in Sons.loopsAtivos) {
+    const audio = Sons.loopsAtivos[key];
+    if (audio && !audio.paused) {
+      loopsEstavamTocando[key] = true;
+      audio.pause();
+    }
+  }
+
+  console.log("🔇 Aba perdeu foco - áudio pausado");
+}
+
+function retomarAoVoltarNaAba() {
+  // Se estava mutado, não retoma
+  if (musicaMutada) return;
+
+  // Retoma trilha se estava tocando
+  if (trilhaEstavaTocando && Sons.trilhaAtual) {
+    Sons.trilhaAtual.play().catch(() => {});
+    trilhaEstavaTocando = false;
+  }
+
+  // Retoma loops que estavam tocando
+  for (let key in loopsEstavamTocando) {
+    const audio = Sons.loopsAtivos[key];
+    if (audio) {
+      audio.play().catch(() => {});
+    }
+  }
+  loopsEstavamTocando = {};
+
+  console.log("🔊 Aba recuperou foco - áudio retomado");
+}
+
+// Evento principal - funciona na maioria dos browsers
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    pausarTudoAoSairDaAba();
+  } else {
+    retomarAoVoltarNaAba();
+  }
+});
+
+// Fallback para alguns dispositivos mobile
+window.addEventListener("blur", pausarTudoAoSairDaAba);
+window.addEventListener("focus", () => {
+  // Pequeno delay para evitar conflito com visibilitychange
+  setTimeout(retomarAoVoltarNaAba, 100);
+});
+
+// Fallback para iOS Safari (PWA e standalone)
+window.addEventListener("pagehide", pausarTudoAoSairDaAba);
+window.addEventListener("pageshow", (e) => {
+  if (e.persisted) {
+    setTimeout(retomarAoVoltarNaAba, 100);
+  }
+});
+
+// --------------------
 // INICIALIZAÇÃO
 // --------------------
 window.addEventListener("load", () => {

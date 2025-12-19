@@ -69,75 +69,37 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// ========== PAUSAR MÍDIA AO SAIR DA ABA (Mobile + Desktop) ==========
+// ========== PAUSAR MÍDIA AO SAIR DA ABA (Elementos no DOM) ==========
+// NOTA: Para os objetos Audio do sistema de som (trilhas/loops),
+// o controle é feito diretamente no core/sound/script.js
+// Este código aqui só pausa elementos <audio> e <video> que estejam no DOM
 (function () {
-  let midiasTocando = [];
-  let estaVisivel = true;
+  let midiasDOMTocando = [];
 
-  function getAllMedia() {
-    // Pega todos os áudios e vídeos, incluindo os criados dinamicamente
-    return document.querySelectorAll("audio, video");
-  }
-
-  function pausarTudo() {
-    if (!estaVisivel) return; // Já pausou
-    estaVisivel = false;
-
-    const todasMidias = getAllMedia();
-    midiasTocando = [];
+  function pausarMidiasDOM() {
+    const todasMidias = document.querySelectorAll("audio, video");
+    midiasDOMTocando = [];
 
     todasMidias.forEach((midia) => {
       if (!midia.paused) {
-        midiasTocando.push(midia);
+        midiasDOMTocando.push(midia);
         midia.pause();
       }
     });
   }
 
-  function retomarTudo() {
-    if (estaVisivel) return; // Já está tocando
-    estaVisivel = true;
-
-    midiasTocando.forEach((midia) => {
-      const playPromise = midia.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {});
-      }
+  function retomarMidiasDOM() {
+    midiasDOMTocando.forEach((midia) => {
+      midia.play().catch(() => {});
     });
-    midiasTocando = [];
+    midiasDOMTocando = [];
   }
 
-  // Método principal: visibilitychange
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden || document.visibilityState === "hidden") {
-      pausarTudo();
+    if (document.hidden) {
+      pausarMidiasDOM();
     } else {
-      retomarTudo();
+      retomarMidiasDOM();
     }
   });
-
-  // Fallback para mobile
-  window.addEventListener("blur", pausarTudo);
-  window.addEventListener("focus", retomarTudo);
-
-  // Fallback para iOS Safari
-  window.addEventListener("pagehide", pausarTudo);
-  window.addEventListener("pageshow", (e) => {
-    retomarTudo();
-  });
-
-  // FALLBACK AGRESSIVO: Checa a cada 500ms se a página está visível
-  // Isso pega casos onde os eventos não disparam (minimizar app no mobile)
-  setInterval(() => {
-    const deveEstarPausado =
-      document.hidden ||
-      document.visibilityState === "hidden" ||
-      !document.hasFocus();
-
-    if (deveEstarPausado && estaVisivel) {
-      pausarTudo();
-    } else if (!deveEstarPausado && !estaVisivel) {
-      retomarTudo();
-    }
-  }, 500);
 })();
