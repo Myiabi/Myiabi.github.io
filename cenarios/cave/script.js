@@ -142,39 +142,32 @@ function closeGame() {
 }
 
 // ======================================================
-// 3. PUZZLE DA PEDRA
-// ======================================================
-
-// ======================================================
-// 3. PUZZLE DA PEDRA (Corrigido)
+// 3. PUZZLE DA PEDRA (Mouse + Touch sem Pointer Events)
 // ======================================================
 
 function initRockPuzzle() {
   const rock = document.getElementById("rock");
-
-  // Removi a referência da cobra aqui. Agora o puzzle é independente.
   if (!rock) return;
 
-  // Se já está resolvido no global, nem inicia a lógica de arrastar
+  // Se já está resolvido, trava a pedra e sai
   if (
     window.gameData.visualState &&
     window.gameData.visualState.pedraResolvida
   ) {
     rock.classList.add("rock-locked");
-    rock.style.left = rock.offsetLeft + rock.clientWidth * 0 + "px";
+    rock.style.left = rock.offsetLeft + "px";
     return;
   }
 
-  // Garante que touch funciona
-  rock.style.touchAction = "none";
-
+  // Variáveis de estado
   let isDragging = false;
-  let startMouseX = 0;
-  let startRockLeft = 0;
+  let startX = 0;
+  let startLeft = 0;
   let solved = false;
   let originLeft = rock.offsetLeft;
   let maxDistance = 0;
 
+  // Recalcula posição original ao redimensionar
   window.addEventListener("resize", () => {
     if (!solved) {
       rock.style.left = "";
@@ -182,65 +175,76 @@ function initRockPuzzle() {
     }
   });
 
-  const getX = (e) => {
-    // Pointer/mouse events têm clientX sempre; fallback para touch lists
-    if (typeof e.clientX === "number") return e.clientX;
-    if (e.touches && e.touches.length > 0) return e.touches[0].clientX;
-    if (e.changedTouches && e.changedTouches.length > 0)
-      return e.changedTouches[0].clientX;
-    return 0;
-  };
+  // Extrai coordenada X do evento (mouse ou touch)
+  function getX(e) {
+    if (e.touches && e.touches.length > 0) {
+      return e.touches[0].clientX;
+    }
+    return e.clientX;
+  }
 
-  function startDrag(e) {
+  // Inicia arrasto
+  function onStart(e) {
     if (solved) return;
     if (window.getComputedStyle(rock).pointerEvents === "none") return;
 
-    e.preventDefault(); // Sempre previne default pra não scrollar
-    e.stopPropagation();
+    // Previne scroll e seleção
+    e.preventDefault();
 
     maxDistance = rock.clientWidth * 0.4;
     isDragging = true;
+    startX = getX(e);
+    startLeft = rock.offsetLeft;
+
     rock.classList.add("dragging");
     rock.style.transition = "none";
-    startMouseX = getX(e);
-    startRockLeft = rock.offsetLeft;
   }
 
-  function onDrag(e) {
+  // Move a pedra
+  function onMove(e) {
     if (!isDragging || solved) return;
     e.preventDefault();
-    e.stopPropagation();
 
-    const mouseDiff = getX(e) - startMouseX;
-    let newPos = startRockLeft + mouseDiff;
+    const diff = getX(e) - startX;
+    let newLeft = startLeft + diff;
 
-    if (newPos < originLeft) newPos = originLeft;
-    if (newPos > originLeft + maxDistance) newPos = originLeft + maxDistance;
+    // Limita movimento
+    if (newLeft < originLeft) newLeft = originLeft;
+    if (newLeft > originLeft + maxDistance) newLeft = originLeft + maxDistance;
 
-    rock.style.left = `${newPos}px`;
-    if (newPos >= originLeft + maxDistance * 0.9) triggerWin();
+    rock.style.left = newLeft + "px";
+
+    // Verifica vitória (90% do caminho)
+    if (newLeft >= originLeft + maxDistance * 0.9) {
+      onWin();
+    }
   }
 
-  function stopDrag(e) {
+  // Solta a pedra
+  function onEnd(e) {
     if (!isDragging) return;
     isDragging = false;
     rock.classList.remove("dragging");
+
+    // Se não venceu, volta pra posição original
     if (!solved) {
       rock.style.transition = "left 0.3s ease";
       rock.style.left = originLeft + "px";
     }
   }
 
-  function triggerWin() {
+  // Vitória
+  function onWin() {
     if (solved) return;
     solved = true;
     isDragging = false;
+
     rock.classList.remove("dragging");
     rock.style.pointerEvents = "none";
     rock.style.transition = "none";
     rock.style.left = originLeft + maxDistance + "px";
 
-    // ATUALIZA O GLOBAL (O save.js vai capturar e salvar)
+    // Salva no global
     setTimeout(() => {
       if (window.gameData) {
         window.gameData.visualState.pedraResolvida = true;
@@ -248,41 +252,16 @@ function initRockPuzzle() {
     }, 500);
   }
 
-  // Em mobile o touchmove no window pode ser ignorado em alguns navegadores.
-  // Usamos Pointer Events quando disponíveis para capturar o dedo mesmo fora da pedra.
-  if (window.PointerEvent) {
-    rock.addEventListener("pointerdown", (e) => {
-      if (solved) return;
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      rock.setPointerCapture(e.pointerId);
-      startDrag(e);
-    });
+  // === MOUSE ===
+  rock.addEventListener("mousedown", onStart);
+  document.addEventListener("mousemove", onMove);
+  document.addEventListener("mouseup", onEnd);
 
-    rock.addEventListener("pointermove", (e) => {
-      if (!rock.hasPointerCapture?.(e.pointerId)) return;
-      onDrag(e);
-    });
-
-    rock.addEventListener("pointerup", (e) => {
-      if (rock.hasPointerCapture?.(e.pointerId))
-        rock.releasePointerCapture(e.pointerId);
-      stopDrag(e);
-    });
-
-    rock.addEventListener("pointercancel", (e) => {
-      if (rock.hasPointerCapture?.(e.pointerId))
-        rock.releasePointerCapture(e.pointerId);
-      stopDrag(e);
-    });
-  } else {
-    rock.addEventListener("mousedown", startDrag);
-    rock.addEventListener("touchstart", startDrag, { passive: false });
-    window.addEventListener("mousemove", onDrag, { passive: false });
-    window.addEventListener("touchmove", onDrag, { passive: false });
-    window.addEventListener("mouseup", stopDrag);
-    window.addEventListener("touchend", stopDrag);
-    window.addEventListener("touchcancel", stopDrag);
-  }
+  // === TOUCH ===
+  rock.addEventListener("touchstart", onStart, { passive: false });
+  document.addEventListener("touchmove", onMove, { passive: false });
+  document.addEventListener("touchend", onEnd);
+  document.addEventListener("touchcancel", onEnd);
 }
 
 // ======================================================
