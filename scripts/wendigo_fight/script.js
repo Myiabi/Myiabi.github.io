@@ -21,16 +21,6 @@ if (typeof tsParticles !== "undefined") {
   });
 }
 
-// Detecta se é mobile (apenas por User Agent para não interferir no touch)
-const isMobile =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  ) ||
-  (navigator.maxTouchPoints > 0 && window.innerWidth < 1024);
-
-// Mobile = 55% da velocidade do PC
-const MOBILE_SPEED_MULTIPLIER = 0.55;
-
 // ======== CONFIG ========
 // AGORA EM PORCENTAGEM (0 a 100 relativa a tela do jogo)
 const CONFIG = {
@@ -40,8 +30,8 @@ const CONFIG = {
     widthPct: 40, // 40% da largura da tela
     heightPct: 35, // 35% da altura da tela
     hp: 2000,
-    speed: isMobile ? 0.55 * MOBILE_SPEED_MULTIPLIER : 0.55,
-    teleportInterval: isMobile ? [2000, 4000] : [1500, 3000], // Mobile teleporta menos
+    speed: 0.40,
+    teleportInterval: [1500, 3000],
     castTime: 2500,
     hitsToCancel: 3,
     damageHearts: 1,
@@ -51,9 +41,9 @@ const CONFIG = {
     img: "/assets/img/NPC_Minion.png",
     widthPct: 18, // 18% da largura da tela
     heightPct: 18, // 18% da altura da tela
-    hp: 250,
-    speed: isMobile ? 0.44 * MOBILE_SPEED_MULTIPLIER : 0.44,
-    teleportInterval: isMobile ? [3000, 4500] : [2500, 3800], // Mobile teleporta menos
+    hp: 200,
+    speed: 0.30,
+    teleportInterval: [2500, 3800],
     castTime: 2400,
     hitsToCancel: 1,
     damageHearts: 1,
