@@ -36,7 +36,7 @@ const CONFIG = {
     img: "/assets/img/NPC_Warrior-attack.png",
     widthPct: 40, // 40% da largura da tela
     heightPct: 35, // 35% da altura da tela
-    hp: 200,
+    hp: 2000,
     speed: isMobile ? 0.4 : 0.55, // Mobile mais lento
     teleportInterval: isMobile ? [2000, 4000] : [1500, 3000],
     castTime: 2500,
@@ -48,7 +48,7 @@ const CONFIG = {
     img: "/assets/img/NPC_Minion.png",
     widthPct: 18, // 18% da largura da tela
     heightPct: 18, // 18% da altura da tela
-    hp: 200,
+    hp: 180,
     speed: isMobile ? 0.3 : 0.44, // Mobile mais lento
     teleportInterval: isMobile ? [3000, 4500] : [2500, 3800],
     castTime: 2400,
@@ -759,7 +759,6 @@ function onBossDefeated() {
 
   gameData.visualState.solON = true;
   gameData.visualState.minigame4 = true;
-  gameData.visualState.pedraLiberada = true;
   mudarCenario(personagens.cat, "segunda");
   mudarCenario(personagens.nana, "power");
 

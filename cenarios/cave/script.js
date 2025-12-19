@@ -165,6 +165,9 @@ function initRockPuzzle() {
     return;
   }
 
+  // Garante que touch funciona
+  rock.style.touchAction = "none";
+
   let isDragging = false;
   let startMouseX = 0;
   let startRockLeft = 0;
@@ -179,14 +182,24 @@ function initRockPuzzle() {
     }
   });
 
-  const getX = (e) =>
-    e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+  const getX = (e) => {
+    if (e.type.includes("mouse")) {
+      return e.clientX;
+    } else if (e.touches && e.touches.length > 0) {
+      return e.touches[0].clientX;
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+      return e.changedTouches[0].clientX;
+    }
+    return 0;
+  };
 
   function startDrag(e) {
     if (solved) return;
     if (window.getComputedStyle(rock).pointerEvents === "none") return;
 
-    if (e.cancelable && e.type !== "mousedown") e.preventDefault();
+    e.preventDefault(); // Sempre previne default pra não scrollar
+    e.stopPropagation();
+
     maxDistance = rock.clientWidth * 0.4;
     isDragging = true;
     rock.classList.add("dragging");
@@ -197,7 +210,9 @@ function initRockPuzzle() {
 
   function onDrag(e) {
     if (!isDragging || solved) return;
-    if (e.cancelable) e.preventDefault();
+    e.preventDefault();
+    e.stopPropagation();
+
     const mouseDiff = getX(e) - startMouseX;
     let newPos = startRockLeft + mouseDiff;
 
@@ -208,7 +223,8 @@ function initRockPuzzle() {
     if (newPos >= originLeft + maxDistance * 0.9) triggerWin();
   }
 
-  function stopDrag() {
+  function stopDrag(e) {
+    if (!isDragging) return;
     isDragging = false;
     rock.classList.remove("dragging");
     if (!solved) {
@@ -236,10 +252,11 @@ function initRockPuzzle() {
 
   rock.addEventListener("mousedown", startDrag);
   rock.addEventListener("touchstart", startDrag, { passive: false });
-  window.addEventListener("mousemove", onDrag);
+  window.addEventListener("mousemove", onDrag, { passive: false });
   window.addEventListener("touchmove", onDrag, { passive: false });
   window.addEventListener("mouseup", stopDrag);
   window.addEventListener("touchend", stopDrag);
+  window.addEventListener("touchcancel", stopDrag);
 }
 
 // ======================================================
