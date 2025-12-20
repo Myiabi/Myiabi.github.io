@@ -1,4 +1,4 @@
-const CACHE_NAME = "cold-memories-v5";
+const CACHE_NAME = "cold-memories-v6";
 
 // Lista de arquivos para cache (adicione mais conforme necessário)
 const urlsToCache = [
@@ -563,30 +563,25 @@ const urlsToCache = [
 ];
 
 // =====================================================
-// SISTEMA DE CACHE COM RETRY E VALIDAÇÃO COMPLETA
+// SISTEMA DE CACHE ULTRA-RÁPIDO
 // =====================================================
 
-const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 segundo entre tentativas
-const MAX_PARALLEL_DOWNLOADS = 8; // Downloads simultâneos
+const MAX_RETRIES = 1; // Só 1 retry para não travar
+const RETRY_DELAY = 200; // 200ms entre tentativas
+const MAX_PARALLEL_DOWNLOADS = 50; // Downloads simultâneos - MUITO mais rápido
 
-// Função para baixar um arquivo com retry
+// Função para baixar um arquivo com retry mínimo
 async function fetchWithRetry(url, retries = MAX_RETRIES) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, { cache: "no-cache" });
       if (response && response.status === 200) {
         return response;
       }
       throw new Error(`Status ${response.status}`);
     } catch (error) {
-      console.warn(
-        `⚠️ Attempt ${attempt}/${retries} failed for ${url}: ${error.message}`
-      );
       if (attempt < retries) {
-        await new Promise((resolve) =>
-          setTimeout(resolve, RETRY_DELAY * attempt)
-        );
+        await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
       } else {
         throw error;
       }
@@ -594,35 +589,31 @@ async function fetchWithRetry(url, retries = MAX_RETRIES) {
   }
 }
 
-// Função para cachear arquivos em paralelo com batching
+// Função para cachear arquivos em paralelo MASSIVO
 async function cacheAllAssets(cache) {
   const failedUrls = [];
   let cached = 0;
   const total = urlsToCache.length;
 
-  // Processa em lotes de MAX_PARALLEL_DOWNLOADS
+  // Processa em lotes grandes de MAX_PARALLEL_DOWNLOADS
   for (let i = 0; i < urlsToCache.length; i += MAX_PARALLEL_DOWNLOADS) {
     const batch = urlsToCache.slice(i, i + MAX_PARALLEL_DOWNLOADS);
 
-    const results = await Promise.allSettled(
+    await Promise.allSettled(
       batch.map(async (url) => {
         try {
           const response = await fetchWithRetry(url);
           await cache.put(url, response);
           cached++;
-
-          // Log de progresso a cada arquivo
-          if (cached % 10 === 0 || cached === total) {
-            console.log(`📥 Progress: ${cached}/${total} files cached`);
-          }
-
-          return { success: true };
         } catch (error) {
-          console.error(`❌ FINAL FAILURE: ${url}`);
           failedUrls.push(url);
-          return { success: false };
         }
       })
+    );
+
+    // Log a cada lote
+    console.log(
+      `📥 Progress: ${Math.min(i + MAX_PARALLEL_DOWNLOADS, total)}/${total}`
     );
   }
 
