@@ -1,4 +1,7 @@
-const CACHE_NAME = "cold-memories-v6";
+const CACHE_NAME = "cold-memories-v7";
+
+// KEY para indicar que o cache foi completamente baixado
+const CACHE_COMPLETE_KEY = "cold-memories-cache-complete-v7";
 
 // Lista de arquivos para cache (adicione mais conforme necessário)
 const urlsToCache = [
@@ -635,180 +638,101 @@ async function verifyCache() {
   return missingUrls;
 }
 
-// Instalação do Service Worker
+// Instalação do Service Worker - SEM forçar downloads
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then(async (cache) => {
-        console.log(
-          "🎮 Cold Memories - Iniciando download completo do jogo..."
-        );
-        console.log(`📦 Total de arquivos: ${urlsToCache.length}`);
-
-        const result = await cacheAllAssets(cache);
-
-        if (result.failedUrls.length === 0) {
-          console.log("✅ SUCESSO! Todos os arquivos foram cacheados!");
-          // Notifica a página que o cache está completo
-          self.clients.matchAll().then((clients) => {
-            clients.forEach((client) => {
-              client.postMessage({
-                type: "CACHE_COMPLETE",
-                cached: result.cached,
-                total: result.total,
-              });
-            });
-          });
-        } else {
-          console.error(
-            `❌ ATENÇÃO: ${result.failedUrls.length} arquivos falharam:`
-          );
-          result.failedUrls.forEach((url) => console.error(`  - ${url}`));
-
-          // Notifica a página sobre as falhas
-          self.clients.matchAll().then((clients) => {
-            clients.forEach((client) => {
-              client.postMessage({
-                type: "CACHE_FAILED",
-                failedUrls: result.failedUrls,
-                cached: result.cached,
-                total: result.total,
-              });
-            });
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("❌ Erro crítico ao fazer cache:", error);
-        // Notifica sobre erro crítico
-        self.clients.matchAll().then((clients) => {
-          clients.forEach((client) => {
-            client.postMessage({
-              type: "CACHE_ERROR",
-              error: error.message,
-            });
-          });
-        });
-      })
-  );
+  console.log("🎮 Cold Memories - Service Worker installed (PWA ready)");
   // Força a ativação imediata
   self.skipWaiting();
 });
 
-// Listener para mensagens da página (retry manual, verificação, etc.)
-self.addEventListener("message", async (event) => {
-  if (event.data.type === "RETRY_FAILED") {
-    // Tenta baixar novamente os arquivos que falharam
-    const cache = await caches.open(CACHE_NAME);
-    const failedUrls = event.data.urls || [];
-    const newFailed = [];
-
-    for (const url of failedUrls) {
-      try {
-        const response = await fetchWithRetry(url);
-        await cache.put(url, response);
-        console.log(`✅ Recuperado: ${url}`);
-      } catch (error) {
-        newFailed.push(url);
-      }
-    }
-
-    event.source.postMessage({
-      type: newFailed.length === 0 ? "RETRY_SUCCESS" : "RETRY_PARTIAL",
-      failedUrls: newFailed,
-      recovered: failedUrls.length - newFailed.length,
-    });
-  }
-
-  if (event.data.type === "VERIFY_CACHE") {
-    const missingUrls = await verifyCache();
-    event.source.postMessage({
-      type: "VERIFY_RESULT",
-      complete: missingUrls.length === 0,
-      missingUrls: missingUrls,
-      totalExpected: urlsToCache.length,
-    });
-  }
-});
-
-// Ativação do Service Worker
+// Ativação do Service Worker - Inicia background cache
 self.addEventListener("activate", (event) => {
+  console.log("✅ Activating Service Worker...");
+
   event.waitUntil(
-    Promise.all([
-      // Limpar cache antigo
-      caches.keys().then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName !== CACHE_NAME) {
-              console.log("Removendo cache antigo:", cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      }),
-
-      // NOVO: Verificar integridade do cache na ativação
-      (async () => {
-        const missingUrls = await verifyCache();
-        if (missingUrls.length > 0) {
-          console.warn(
-            `⚠️ CACHE INCOMPLETO NA ATIVAÇÃO: ${missingUrls.length} arquivos faltam`
-          );
-          console.warn("URLs faltando:", missingUrls.slice(0, 10)); // Mostra primeiras 10
-
-          // Notifica clientes sobre a situação
-          const clients = await self.clients.matchAll();
-          clients.forEach((client) => {
-            client.postMessage({
-              type: "CACHE_INCOMPLETE_ON_ACTIVATE",
-              missingCount: missingUrls.length,
-              totalExpected: urlsToCache.length,
-            });
-          });
-
-          // Inicia tentativa automática de recuperação em background
-          // (não bloqueia a ativação)
-          setTimeout(async () => {
-            console.log(
-              "🔄 Iniciando recuperação automática de cache incompleto..."
-            );
-            const cache = await caches.open(CACHE_NAME);
-            let recovered = 0;
-
-            for (const url of missingUrls) {
-              try {
-                const response = await fetchWithRetry(url, 3);
-                await cache.put(url, response);
-                recovered++;
-              } catch (error) {
-                console.warn(`Não conseguiu recuperar ${url}`);
-              }
-            }
-
-            console.log(
-              `✅ Recuperação: ${recovered}/${missingUrls.length} arquivos`
-            );
-
-            // Notifica resultado
-            const clients = await self.clients.matchAll();
-            clients.forEach((client) => {
-              client.postMessage({
-                type: "AUTO_RECOVERY_COMPLETE",
-                recovered: recovered,
-                failed: missingUrls.length - recovered,
-              });
-            });
-          }, 5000); // Espera 5 segundos antes de começar
-        } else {
-          console.log("✅ Cache íntegro na ativação!");
-        }
-      })(),
-    ])
+    caches.keys().then((cacheNames) => {
+      // Remove caches antigos
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log("🗑️ Removing old cache:", cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
   );
 
   // Toma controle de todas as páginas imediatamente
   self.clients.claim();
+
+  // INICIA DOWNLOAD EM BACKGROUND (não bloqueia nada)
+  self.skipWaiting();
+  backgroundCacheAllAssets();
+});
+
+// Função para fazer cache em background (non-blocking)
+async function backgroundCacheAllAssets() {
+  try {
+    // Verifica se já está completo
+    const isComplete = await isBackgroundCacheComplete();
+    if (isComplete) {
+      console.log("✅ Cache already complete from previous session");
+      return;
+    }
+
+    console.log("📥 Starting background cache download...");
+    const cache = await caches.open(CACHE_NAME);
+    const result = await cacheAllAssets(cache);
+
+    if (result.failedUrls.length === 0) {
+      console.log("✅ Background cache complete! All files downloaded");
+      // Marca como completo
+      const tempCache = await caches.open("temp-meta");
+      await tempCache.put(
+        new Request(CACHE_COMPLETE_KEY),
+        new Response("complete", { status: 200 })
+      );
+
+      // Notifica clientes
+      const clients = await self.clients.matchAll();
+      clients.forEach((client) => {
+        client.postMessage({
+          type: "CACHE_COMPLETE",
+          cached: result.cached,
+          total: result.total,
+        });
+      });
+    } else {
+      console.warn(
+        `⚠️ Background cache: ${result.failedUrls.length} files failed to download`
+      );
+    }
+  } catch (error) {
+    console.error("❌ Background cache error:", error);
+  }
+}
+
+// Verifica se o cache foi completado antes
+async function isBackgroundCacheComplete() {
+  try {
+    const tempCache = await caches.open("temp-meta");
+    const response = await tempCache.match(CACHE_COMPLETE_KEY);
+    return !!response;
+  } catch {
+    return false;
+  }
+}
+
+// Listener para mensagens da página
+self.addEventListener("message", async (event) => {
+  if (event.data.type === "CHECK_CACHE_STATUS") {
+    const isComplete = await isBackgroundCacheComplete();
+    event.source.postMessage({
+      type: "CACHE_STATUS",
+      complete: isComplete,
+    });
+  }
 });
 
 // Estratégia: Network First com fallback para cache

@@ -550,10 +550,54 @@
 
     <script src="/loader.js"></script>
 
-    <!-- Registro do Service Worker para PWA com feedback visual -->
+    <!-- Registro do Service Worker - Background Cache -->
     <script>
-      // Sistema de feedback de download do PWA
-      const PWADownloader = {
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then((registration) => {
+              console.log("✅ Service Worker registered:", registration.scope);
+              console.log("📥 Background download starting...");
+              
+              // Check cache status periodically
+              setTimeout(() => {
+                if (navigator.serviceWorker.controller) {
+                  navigator.serviceWorker.controller.postMessage({
+                    type: "CHECK_CACHE_STATUS",
+                  });
+                }
+              }, 5000);
+            })
+            .catch((error) => {
+              console.log("Service Worker registration failed:", error);
+            });
+
+          // Listen for cache completion messages
+          navigator.serviceWorker.addEventListener("message", (event) => {
+            if (event.data.type === "CACHE_COMPLETE") {
+              console.log("✅ All game files downloaded successfully!");
+            } else if (event.data.type === "CACHE_STATUS") {
+              if (event.data.complete) {
+                console.log("✅ Game fully cached - ready to play offline!");
+              } else {
+                console.log("📥 Still downloading in background...");
+              }
+            }
+          });
+        });
+      }
+
+      // INFO: Como atualizar a versão no celular?
+      // Quando há nova versão, o Service Worker incrementa automaticamente
+      // Para forçar atualização no celular:
+      // 1. Chrome/Firefox Mobile: Menu > Configurações > Apps > "Cold Memories" > Storage > Clear Cache
+      // 2. iOS Safari: Remover app, clicar em "Adicionar à tela inicial" novamente
+      // 3. Android Chrome: Remover atalho, clicar em "Instalar app" novamente
+    </script>
+  </body>
+</html>
+      const PWADownloader_DISABLED = {
         failedUrls: [],
         downloadApproved: false,
 
