@@ -64,14 +64,14 @@ body {
 /* ================= HUD (BARRA DE ITENS) ================= */
 .hud-bar {
   display: flex;
-  gap: 8px;
-  padding: 10px;
+  width: 100%;
+  height: 10%;
   background: #f4f4f4;
   border-radius: 50px;
   justify-content: center;
   align-items: center;
+  gap: 10px;
   flex-wrap: wrap;
-  min-height: 60px;
 }
 
 .hud-item {
@@ -180,7 +180,7 @@ body {
 /* ================= CLONE VOADOR (ANIMAÇÃO) ================= */
 .flying-item {
   position: fixed;
-  z-index: 9999;
+  z-index: 20000;
   pointer-events: none;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
@@ -197,6 +197,7 @@ body {
   height: 80%;
   object-fit: contain;
   filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
+  z-index: 9999;
 }
 
 /* ================= LOADER (CIRCULO) ================= */
@@ -290,9 +291,21 @@ body {
     border-radius: 0;
     padding: 5px;
   }
+
+  .hud-bar {
+    width: 100%;
+    height: 10%;
+  }
+
   .hud-item {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
+    gap: 5px;
+  }
+
+  .hud-item img {
+    width: 60%;
+    height: 60%;
   }
 }
 

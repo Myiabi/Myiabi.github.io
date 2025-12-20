@@ -584,8 +584,8 @@ canvas {
    ========================================= */
 #boss-eyes-container {
   position: absolute;
-  top: 30%;
-  left: 50%;
+  top: 25%;
+  left: 49%;
   transform: translate(-50%, -50%);
   width: 12vw;
   height: 6vw;
