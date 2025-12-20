@@ -1,149 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">    <title>City</title>
-    <link rel="icon" type="image/png" href="assets/img/Ice.png">
-    <link rel="stylesheet" href="city.css">
-    <link rel="stylesheet" href="core/global.css">
-    <link rel="stylesheet" href="/core/menu_interativo/style.css">
-    <link rel="stylesheet" href="/scripts//jardim/style.css">
-    <link rel="stylesheet" href="/scripts/pescaria/style.css">
-    <link rel="stylesheet" href="/core/yesorno/style.css">
-    <link rel="stylesheet" href="/core/save/style.css">
-    
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>City</title>
+    <link rel="icon" type="image/png" href="assets/img/Ice.png" />
+    <link rel="stylesheet" href="city.css" />
+    <link rel="stylesheet" href="core/global.css" />
+    <link rel="stylesheet" href="/core/menu_interativo/style.css" />
+    <link rel="stylesheet" href="/scripts//jardim/style.css" />
+    <link rel="stylesheet" href="/scripts/pescaria/style.css" />
+    <link rel="stylesheet" href="/core/yesorno/style.css" />
+    <link rel="stylesheet" href="/core/save/style.css" />
+  </head>
 
-<body>
+  <body>
+    <div id="scene">
+      <button id="rodButton" class="rod-btn"></button>
+      <div id="fishing-root"></div>
 
-<div id="scene">
-
-    
-    <button id="rodButton" class="rod-btn"></button>
-    <div id="fishing-root"></div>
-    
-    <div class="back" id="bar" data-destino="/cenarios/bar/index.html"></div>
-    <div class="back" id="templo" data-destino="/cenarios/templo/index.html"></div>
-    <div class="back" id="market" data-destino="/cenarios/market/index.html"></div>
-    <div class="back" id="cave" data-destino="/cenarios/cave/index.html"></div>
-    <div class="back" id="forest" data-destino="/cenarios/forest/index.html"></div>
-    <div class="back" id="lake" data-destino="/cenarios/cave/index.html"></div>
-    <!--         <div class="back" id="woods" data-destino="/cenarios/"></div>
+      <div class="back" id="bar" data-destino="/cenarios/bar/index.html"></div>
+      <div
+        class="back"
+        id="templo"
+        data-destino="/cenarios/templo/index.html"
+      ></div>
+      <div
+        class="back"
+        id="market"
+        data-destino="/cenarios/market/index.html"
+      ></div>
+      <div
+        class="back"
+        id="cave"
+        data-destino="/cenarios/cave/index.html"
+      ></div>
+      <div
+        class="back"
+        id="forest"
+        data-destino="/cenarios/forest/index.html"
+      ></div>
+      <div
+        class="back"
+        id="lake"
+        data-destino="/cenarios/cave/index.html"
+      ></div>
+      <!--         <div class="back" id="woods" data-destino="/cenarios/"></div>
     -->
-    
-    <img id="bg" src="/assets/img/BG_Base.png" alt="BG" draggable="false">
-    
-    
-    <img class="npc" id="marin" src="/assets/img/NPC_Marin.png" draggable="false">
-    <img class="snake" id="kofongo" src="/assets/img/NPC_Snake-Kofongo.png" draggable="false">
-    <img class="snake" id="aldebaran" src="/assets/img/NPC_Snake-Aldebaran.png" draggable="false">
-    <img class="snake" id="capella" src="/assets/img/NPC_Snake-Capella.png" draggable="false">
-    <img class="snake" id="pollux" src="/assets/img/NPC_Snake-Pollux.png" draggable="false">
-    <img class="snake" id="rigelon" src="/assets/img/NPC_Snake-Rigel.png" draggable="false">
-    <img class="snake" id="sirius" src="/assets/img/NPC_Snake-Sirius.png" draggable="false">
-    
-    
-    <!--         <img class="npc" id="felicia" src="/assets/img/NPC_Felicia.png" draggable="false">
-    -->    
-    <img class="npc" id="mint" src="/assets/img/NPC_Mint.png" draggable="false">
-    <img class="npc" id="lily" src="/assets/img/NPC_Lily.png" draggable="false">
-    <img class="npc" id="day25" src="/assets/img/NPC_Day25.png" draggable="false">
-    <img class="npc" id="ballerina" src="/assets/img/NPC_Ballerina.png" draggable="false">
-    <img class="npc" id="pine" src="/assets/img/NPC_Forest.png" draggable="false">
-    <img id="cat" src="/assets/img/NPC_Cat.png" draggable="false">
-    
-    <div class="container mapa" id="ghost">
-      <div class="layer bottom">
-        <div class="text cry"></div>
-      </div>
-      <div class="layer top">
-        <div class="text"> 
-            <img id="mintghost" src="/assets/img/NPC_Mint.png">
- </div>
-      </div>
-    </div>
-    
-        
-        <img class="poste" id="poste1" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste2" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste3" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste4" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste5" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste6" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste7" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste8" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste9" src="/assets/img/Pole-turned-off.png" draggable="false">
-        <img class="poste" id="poste10"src="/assets/img/Pole-turned-off.png" draggable="false">
 
-        
-        <div class="ice">
-            
-        <img id="fakehole" src="/assets/img/Hole2.png" draggable="false">
- 
+      <img id="bg" src="/assets/img/BG_Base.png" alt="BG" draggable="false" />
+
+      <img
+        class="npc"
+        id="marin"
+        src="/assets/img/NPC_Marin.png"
+        draggable="false"
+      />
+      <img
+        class="snake"
+        id="kofongo"
+        src="/assets/img/NPC_Snake-Kofongo.png"
+        draggable="false"
+      />
+      <img
+        class="snake"
+        id="aldebaran"
+        src="/assets/img/NPC_Snake-Aldebaran.png"
+        draggable="false"
+      />
+      <img
+        class="snake"
+        id="capella"
+        src="/assets/img/NPC_Snake-Capella.png"
+        draggable="false"
+      />
+      <img
+        class="snake"
+        id="pollux"
+        src="/assets/img/NPC_Snake-Pollux.png"
+        draggable="false"
+      />
+      <img
+        class="snake"
+        id="rigelon"
+        src="/assets/img/NPC_Snake-Rigel.png"
+        draggable="false"
+      />
+      <img
+        class="snake"
+        id="sirius"
+        src="/assets/img/NPC_Snake-Sirius.png"
+        draggable="false"
+      />
+
+      <!--         <img class="npc" id="felicia" src="/assets/img/NPC_Felicia.png" draggable="false">
+    -->
+      <img
+        class="npc"
+        id="mint"
+        src="/assets/img/NPC_Mint.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="lily"
+        src="/assets/img/NPC_Lily.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="day25"
+        src="/assets/img/NPC_Day25.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="ballerina"
+        src="/assets/img/NPC_Ballerina.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="pine"
+        src="/assets/img/NPC_Forest.png"
+        draggable="false"
+      />
+      <img id="cat" src="/assets/img/NPC_Cat.png" draggable="false" />
+
+      <div class="container mapa" id="ghost">
+        <div class="layer bottom">
+          <div class="text cry"></div>
         </div>
+        <div class="layer top">
+          <div class="text">
+            <img id="mintghost" src="/assets/img/NPC_Mint.png" />
+          </div>
+        </div>
+      </div>
 
-        <a href="/cenarios/lake/index.html">
-        <img id="hole" src="/assets/img/Hole.png" draggable="false">
-        </a>
+      <img
+        class="poste"
+        id="poste1"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste2"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste3"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste4"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste5"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste6"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste7"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste8"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste9"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
+      <img
+        class="poste"
+        id="poste10"
+        src="/assets/img/Pole-turned-off.png"
+        draggable="false"
+      />
 
-        <img id="rode"src="/assets/img/Fishing-pole.png" draggable="false">
+      <div class="ice">
+        <img id="fakehole" src="/assets/img/Hole2.png" draggable="false" />
+      </div>
 
+      <a href="/cenarios/lake/index.html">
+        <img id="hole" src="/assets/img/Hole.png" draggable="false" />
+      </a>
 
-    <div id="gameModal" class="modal">
+      <img id="rode" src="/assets/img/Fishing-pole.png" draggable="false" />
+
+      <div id="gameModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeGame()">&times;</span>
-            
-            <div class="hud-bar" id="hudItems">
-                <div class="hud-item" data-target="item-1"><img src="/assets/img/Lily-garden-item1.png"></div>
-                <div class="hud-item" data-target="item-2"><img src="/assets/img/Lily-garden-item2.png"></div>
-                <div class="hud-item" data-target="item-3"><img src="/assets/img/Lily-garden-item3.png"></div>
-                <div class="hud-item" data-target="item-4"><img src="/assets/img/Lily-garden-item4.png"></div>
-                <div class="hud-item" data-target="item-5"><img src="/assets/img/Lily-garden-item5.png"></div>
-                <div class="hud-item" data-target="item-6"><img src="/assets/img/Lily-garden-item6.png"></div>
-                <div class="hud-item" data-target="item-7"><img src="/assets/img/Lily-garden-item7.png"></div>
-                <div class="hud-item" data-target="item-8"><img src="/assets/img/Lily-garden-item8.png"></div>
-                <div class="hud-item" data-target="item-9"><img src="/assets/img/Lily-garden-item9.png"></div>
-                <div class="hud-item" data-target="item-10"><img src="/assets/img/Lily-garden-item10.png"></div>
-                <div class="hud-item" data-target="item-11"><img src="/assets/img/Lily-garden-item11.png"></div>
-                <div class="hud-item" data-target="item-12"><img src="/assets/img/Lily-garden-item12.png"></div>
+          <span class="close-btn" onclick="closeGame()">&times;</span>
+
+          <div class="hud-bar" id="hudItems">
+            <div class="hud-item" data-target="item-1">
+              <img src="/assets/img/Lily-garden-item1.png" />
+            </div>
+            <div class="hud-item" data-target="item-2">
+              <img src="/assets/img/Lily-garden-item2.png" />
+            </div>
+            <div class="hud-item" data-target="item-3">
+              <img src="/assets/img/Lily-garden-item3.png" />
+            </div>
+            <div class="hud-item" data-target="item-4">
+              <img src="/assets/img/Lily-garden-item4.png" />
+            </div>
+            <div class="hud-item" data-target="item-5">
+              <img src="/assets/img/Lily-garden-item5.png" />
+            </div>
+            <div class="hud-item" data-target="item-6">
+              <img src="/assets/img/Lily-garden-item6.png" />
+            </div>
+            <div class="hud-item" data-target="item-7">
+              <img src="/assets/img/Lily-garden-item7.png" />
+            </div>
+            <div class="hud-item" data-target="item-8">
+              <img src="/assets/img/Lily-garden-item8.png" />
+            </div>
+            <div class="hud-item" data-target="item-9">
+              <img src="/assets/img/Lily-garden-item9.png" />
+            </div>
+            <div class="hud-item" data-target="item-10">
+              <img src="/assets/img/Lily-garden-item10.png" />
+            </div>
+            <div class="hud-item" data-target="item-11">
+              <img src="/assets/img/Lily-garden-item11.png" />
+            </div>
+            <div class="hud-item" data-target="item-12">
+              <img src="/assets/img/Lily-garden-item12.png" />
+            </div>
+          </div>
+
+          <div class="game-container" id="gameContainer">
+            <img
+              src="/assets/img/Lily-garden.png"
+              class="game-bg"
+              alt="Jardim"
+            />
+
+            <div class="hidden-item" id="item-1">
+              <img src="/assets/img/Lily-garden-item1.png" />
+            </div>
+            <div class="hidden-item" id="item-2">
+              <img src="/assets/img/Lily-garden-item2.png" />
+            </div>
+            <div class="hidden-item" id="item-3">
+              <img src="/assets/img/Lily-garden-item3.png" />
+            </div>
+            <div class="hidden-item" id="item-4">
+              <img src="/assets/img/Lily-garden-item4.png" />
+            </div>
+            <div class="hidden-item" id="item-5">
+              <img src="/assets/img/Lily-garden-item5.png" />
+            </div>
+            <div class="hidden-item" id="item-6">
+              <img src="/assets/img/Lily-garden-item6.png" />
+            </div>
+            <div class="hidden-item" id="item-7">
+              <img src="/assets/img/Lily-garden-item7.png" />
+            </div>
+            <div class="hidden-item" id="item-8">
+              <img src="/assets/img/Lily-garden-item8.png" />
+            </div>
+            <div class="hidden-item" id="item-9">
+              <img src="/assets/img/Lily-garden-item9.png" />
+            </div>
+            <div class="hidden-item" id="item-10">
+              <img src="/assets/img/Lily-garden-item10.png" />
+            </div>
+            <div class="hidden-item" id="item-11">
+              <img src="/assets/img/Lily-garden-item11.png" />
+            </div>
+            <div class="hidden-item" id="item-12">
+              <img src="/assets/img/Lily-garden-item12.png" />
             </div>
 
-            <div class="game-container" id="gameContainer">
-                
-                <img src="/assets/img/Lily-garden.png" class="game-bg" alt="Jardim">
-
-                <div class="hidden-item" id="item-1"><img src="/assets/img/Lily-garden-item1.png"></div>
-                <div class="hidden-item" id="item-2"><img src="/assets/img/Lily-garden-item2.png"></div>
-                <div class="hidden-item" id="item-3"><img src="/assets/img/Lily-garden-item3.png"></div>
-                <div class="hidden-item" id="item-4"><img src="/assets/img/Lily-garden-item4.png"></div>
-                <div class="hidden-item" id="item-5"><img src="/assets/img/Lily-garden-item5.png"></div>
-                <div class="hidden-item" id="item-6"><img src="/assets/img/Lily-garden-item6.png"></div>
-                <div class="hidden-item" id="item-7"><img src="/assets/img/Lily-garden-item7.png"></div>
-                <div class="hidden-item" id="item-8"><img src="/assets/img/Lily-garden-item8.png"></div>
-                <div class="hidden-item" id="item-9"><img src="/assets/img/Lily-garden-item9.png"></div>
-                <div class="hidden-item" id="item-10"><img src="/assets/img/Lily-garden-item10.png"></div>
-                <div class="hidden-item" id="item-11"><img src="/assets/img/Lily-garden-item11.png"></div>
-                <div class="hidden-item" id="item-12"><img src="/assets/img/Lily-garden-item12.png"></div>
-
-                <div id="cursorLoader" class="loader">
-                    <svg viewBox="0 0 36 36">
-                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                        <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    </svg>
-                </div>
-                <div id="errorMarker" class="error-x"></div>
+            <div id="cursorLoader" class="loader">
+              <svg viewBox="0 0 36 36">
+                <path
+                  class="circle-bg"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  class="circle"
+                  stroke-dasharray="0, 100"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
             </div>
+            <div id="errorMarker" class="error-x"></div>
+          </div>
         </div>
+      </div>
     </div>
-        
+  </body>
 
-
-    </div>
-
-</body>
-
-<script src="/city.js"></script>
-<script src="/loader.js"></script>
-<script src="/scripts/pescaria/script.js"></script>
-
+  <script src="/city.js"></script>
+  <script src="/loader.js"></script>
+  <script src="/scripts/pescaria/script.js"></script>
 </html>

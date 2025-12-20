@@ -1,59 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Document</title>
-    <link rel="stylesheet" href="/core/global.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/scripts/wendigo_fight/style.css">
-</head>
+    <link rel="stylesheet" href="/core/global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/scripts/wendigo_fight/style.css" />
+  </head>
 
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"></script>
-<script>
-  tsParticles.load("fire-background", {
-    preset: "fire"
-    
-  });
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"></script>
+  <script>
+    tsParticles.load("fire-background", {
+      preset: "fire",
+    });
+  </script>
 
-<body oncontextmenu="return false", data-no="menu">
+  <body oncontextmenu="return false" , data-no="menu">
+    <div id="fire-background"></div>
 
-<div id="fire-background"></div>
-
-<div id="game">
-    <!-- Boss bar (top, estilo Dark Souls) -->
-    <div id="boss-bar-wrap">
-      <div id="boss-name">CHEFE</div>
-      <div id="boss-bar">
-        <div id="boss-bar-fill"></div>
+    <div id="game">
+      <!-- Boss bar (top, estilo Dark Souls) -->
+      <div id="boss-bar-wrap">
+        <div id="boss-name">CHEFE</div>
+        <div id="boss-bar">
+          <div id="boss-bar-fill"></div>
+        </div>
       </div>
+
+      <div id="arena">
+        <svg id="trails" width="100%" height="100%"></svg>
+        <div id="enemies"></div>
+
+        <!-- overlay container (messages) -->
+        <div id="overlay-container"></div>
+
+        <!-- particle container for circle hits -->
+        <div id="particles"></div>
+      </div>
+
+      <!-- Player HUD bottom -->
+      <div id="player-hud">
+        <div id="hearts"></div>
+      </div>
+
+      <button id="restart">Reiniciar</button>
     </div>
-
-    <div id="arena">
-      <svg id="trails" width="100%" height="100%"></svg>
-      <div id="enemies"></div>
-
-      <!-- overlay container (messages) -->
-      <div id="overlay-container"></div>
-
-      <!-- particle container for circle hits -->
-      <div id="particles"></div>
-    </div>
-
-    <!-- Player HUD bottom -->
-    <div id="player-hud">
-      <div id="hearts"></div>
-    </div>
-
-          <button id="restart">Reiniciar</button>
-
-  </div>
-<script src="/loader.js"></script>
-<script src="/scripts/wendigo_fight/script.js"></script>
-<script src="script.js"></script>
-
-</body>
-
+    <script src="/loader.js"></script>
+    <script src="/scripts/wendigo_fight/script.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

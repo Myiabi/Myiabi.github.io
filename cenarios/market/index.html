@@ -1,54 +1,74 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Market</title>
-        <link rel="stylesheet" href="/core/global.css">
-        <link rel="stylesheet" href="/core/yesorno/script.css">
-        <link rel="stylesheet" href="/core/menu_interativo/style.css">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>Market</title>
+    <link rel="stylesheet" href="/core/global.css" />
+    <link rel="stylesheet" href="/core/yesorno/script.css" />
+    <link rel="stylesheet" href="/core/menu_interativo/style.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div id="scene">
-        <div class="btnback" id="btn-back" data-destino="/city.html">↩</div>    
+      <div class="btnback" id="btn-back" data-destino="/city.html">↩</div>
 
-
-        <!-- Área do mapa -->
-        <div class="container mapa" id="senha">
+      <!-- Área do mapa -->
+      <div class="container mapa" id="senha">
         <div class="layer bottom">
-            <div class="text">
-
-            </div>
+          <div class="text"></div>
         </div>
         <div class="layer top">
-            <div class="text">
-        <img class="npc"  id="senhapc"  src="/assets/img/Locker-password.png" draggable="false"> 
-            </div>
+          <div class="text">
+            <img
+              class="npc"
+              id="senhapc"
+              src="/assets/img/Locker-password.png"
+              draggable="false"
+            />
+          </div>
         </div>
-        </div>
+      </div>
 
-        
+      <img id="bg" src="/assets/img/BG_Market.png" alt="BG" draggable="false" />
+      <img
+        class="npc"
+        id="wayway"
+        src="/assets/img/NPC_wayway.png"
+        draggable="false"
+      />
+      <img
+        class="npc"
+        id="myopic"
+        src="/assets/img/NPC_Myopic1.png"
+        draggable="false"
+      />
+      <img
+        id="myopic_half"
+        src="/assets/img/NPC_Myopic2-half.png"
+        draggable="false"
+      />
+      <img
+        id="cobra4"
+        src="/assets/img/NPC_Snake-Kofongo.png"
+        draggable="false"
+      />
+      <img id="box" src="/assets/img/box.png" draggable="false" />
+      <img
+        id="patreon"
+        src="/assets/img/Button-Patreon.png"
+        draggable="false"
+      />
+      <img id="kofi" src="/assets/img/Button-ko-fi.png" draggable="false" />
 
-        <img id="bg" src="/assets/img/BG_Market.png" alt="BG" draggable="false">
-        <img class="npc" id="wayway" src="/assets/img/NPC_wayway.png" draggable="false">
-        <img class="npc" id="myopic" src="/assets/img/NPC_Myopic1.png" draggable="false"> 
-        <img id="myopic_half" src="/assets/img/NPC_Myopic2-half.png" draggable="false"> 
-        <img  id="cobra4" src="/assets/img/NPC_Snake-Kofongo.png" draggable="false">
-        <img  id="box" src="/assets/img/box.png" draggable="false"> 
-        <img  id="patreon" src="/assets/img/Button-Patreon.png" draggable="false"> 
-        <img  id="kofi" src="/assets/img/Button-ko-fi.png" draggable="false"> 
-
-
-        <button onclick="abrirLockGame()">  <img id="locker" src="/assets/img/Locker-Chest.png" draggable="false"> 
-    </button>
-
-
-
-
+      <button onclick="abrirLockGame()">
+        <img id="locker" src="/assets/img/Locker-Chest.png" draggable="false" />
+      </button>
     </div>
     <script src="/core/yesorno/script.js"></script>
     <script src="/loader.js"></script>
-    </body>
-    </html>
+  </body>
+</html>

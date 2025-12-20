@@ -1,130 +1,162 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Minigame Drag & Drop</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>Minigame Drag & Drop</title>
 
-  <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
 
-  <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
+    <!-- BOTÕES -->
+    <button class="open-btn" data-modal="game1">Abrir Mesa 1</button>
+    <button class="open-btn" data-modal="game2">Abrir Mesa 2</button>
+    <button class="open-btn" data-modal="game3">Abrir Mesa 3</button>
+    <button class="open-btn" data-modal="game4">Abrir Mesa 4</button>
 
-  <!-- BOTÕES -->
-  <button class="open-btn" data-modal="game1">Abrir Mesa 1</button>
-  <button class="open-btn" data-modal="game2">Abrir Mesa 2</button>
-  <button class="open-btn" data-modal="game3">Abrir Mesa 3</button>
-  <button class="open-btn" data-modal="game4">Abrir Mesa 4</button>
+    <!-- ===================== MODAL 1 ===================== -->
+    <div id="game1" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h1>Mesa 1</h1>
 
+        <div class="items-area">
+          <div class="draggable itemA" data-game="1" data-required="true">
+            <img src="/assets/img/Food-cake.png" />
+          </div>
+          <div class="draggable itemA" data-game="1">
+            <img src="/assets/img/Food-coke.png" />
+          </div>
+          <div class="draggable itemB" data-game="1" data-required="true">
+            <img src="/assets/img/Food-hamburger.png" />
+          </div>
+          <div class="draggable itemB" data-game="1" data-required="true">
+            <img src="/assets/img/Food-fries.png" />
+          </div>
+        </div>
 
-  <!-- ===================== MODAL 1 ===================== -->
-  <div id="game1" class="modal-overlay hidden">
+        <div class="container">
+          <div class="dropzone interact" data-type="A" data-game="1">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+          <div class="dropzone interact" data-type="B" data-game="1">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+        </div>
 
-    <div class="modal-box">
-      <h1>Mesa 1</h1>
-
-      <div class="items-area">
-        <div class="draggable itemA" data-game="1" data-required="true">   <img src="/assets/img/Food-cake.png"> </div>
-        <div class="draggable itemA" data-game="1" > <img src="/assets/img/Food-coke.png"> </div>
-        <div class="draggable itemB" data-game="1" data-required="true"> <img src="/assets/img/Food-hamburger.png"> </div>
-        <div class="draggable itemB" data-game="1" data-required="true"> <img src="/assets/img/Food-fries.png">  </div>
+        <button class="close-btn" data-close="game1">Fechar</button>
       </div>
-
-      <div class="container">
-        <div class="dropzone interact" data-type="A" data-game="1"> <img src="/assets/img/Corner-table.png">  </div>
-        <div class="dropzone interact" data-type="B" data-game="1"> <img src="/assets/img/Corner-table.png">  </div>
-      </div>
-
-      <button class="close-btn" data-close="game1">Fechar</button>
     </div>
 
-  </div>
+    <!-- ===================== MODAL 2 ===================== -->
+    <div id="game2" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h1>Mesa 2</h1>
 
+        <div class="items-area">
+          <!-- required -->
+          <div class="draggable itemA" data-game="2" data-required="true">
+            A
+          </div>
+          <div class="draggable itemB" data-game="2" data-required="true">
+            B
+          </div>
 
-  <!-- ===================== MODAL 2 ===================== -->
-  <div id="game2" class="modal-overlay hidden">
+          <!-- bait (não precisa colocar required) -->
+          <div class="draggable itemC" data-game="2"></div>
+          <div class="draggable itemC" data-game="2"></div>
+        </div>
 
-    <div class="modal-box">
-      <h1>Mesa 2</h1>
+        <div class="container">
+          <div class="dropzone interact" data-type="A" data-game="2">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+          <div class="dropzone interact" data-type="B" data-game="2">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+          <div class="dropzone interact" data-type="C" data-game="2">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+        </div>
 
-      <div class="items-area">
-
-        <!-- required -->
-        <div class="draggable itemA" data-game="2" data-required="true">A</div>
-        <div class="draggable itemB" data-game="2" data-required="true">B</div>
-
-        <!-- bait (não precisa colocar required) -->
-        <div class="draggable itemC" data-game="2"></div>
-        <div class="draggable itemC" data-game="2"></div>
-
+        <button class="close-btn" data-close="game2">Fechar</button>
       </div>
-
-      <div class="container">
-        <div class="dropzone interact" data-type="A" data-game="2"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="B" data-game="2"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="C" data-game="2"><img src="/assets/img/Corner-table.png"></div>
-      </div>
-
-      <button class="close-btn" data-close="game2">Fechar</button>
     </div>
 
-  </div>
+    <!-- ===================== MODAL 3 ===================== -->
+    <div id="game3" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h1>Mesa 3</h1>
 
+        <div class="items-area">
+          <!-- required -->
+          <div class="draggable itemA" data-game="3" data-required="true">
+            A
+          </div>
 
-  <!-- ===================== MODAL 3 ===================== -->
-  <div id="game3" class="modal-overlay hidden">
-    <div class="modal-box">
-      <h1>Mesa 3</h1>
+          <!-- bait -->
+          <div class="draggable itemD" data-game="3">D</div>
+          <div class="draggable itemD" data-game="3">D</div>
+        </div>
 
-      <div class="items-area">
+        <div class="container">
+          <div class="dropzone interact" data-type="A" data-game="3">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+          <div class="dropzone interact" data-type="D" data-game="3">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+        </div>
 
-        <!-- required -->
-        <div class="draggable itemA" data-game="3" data-required="true">A</div>
-
-        <!-- bait -->
-        <div class="draggable itemD" data-game="3">D</div>
-        <div class="draggable itemD" data-game="3">D</div>
-
+        <button class="close-btn" data-close="game3">Fechar</button>
       </div>
-
-      <div class="container">
-        <div class="dropzone interact" data-type="A" data-game="3"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="D" data-game="3"><img src="/assets/img/Corner-table.png"></div>
-      </div>
-
-      <button class="close-btn" data-close="game3">Fechar</button>
     </div>
-  </div>
 
+    <!-- ===================== MODAL 4 ===================== -->
+    <div id="game4" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h1>Mesa 4</h1>
 
-  <!-- ===================== MODAL 4 ===================== -->
-  <div id="game4" class="modal-overlay hidden">
-    <div class="modal-box">
-      <h1>Mesa 4</h1>
+        <div class="items-area">
+          <!-- tudo required aqui, mas pode tirar se quiser bait -->
+          <div class="draggable itemA" data-game="4" data-required="true">
+            <img src="/assets/img/Food-friedchicken.png" />
+          </div>
+          <div class="draggable itemB" data-game="4" data-required="true">
+            B
+          </div>
+          <div class="draggable itemC" data-game="4" data-required="true">
+            C
+          </div>
+          <div class="draggable itemD" data-game="4" data-required="true">
+            D
+          </div>
+        </div>
 
-      <div class="items-area">
+        <div class="container">
+          <div class="dropzone interact" data-type="A" data-game="4">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+          <div class="dropzone interact" data-type="B" data-game="4">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+          <div class="dropzone interact" data-type="C" data-game="4">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+          <div class="dropzone interact" data-type="D" data-game="4">
+            <img src="/assets/img/Corner-table.png" />
+          </div>
+        </div>
 
-        <!-- tudo required aqui, mas pode tirar se quiser bait -->
-        <div class="draggable itemA" data-game="4" data-required="true"><img src="/assets/img/Food-friedchicken.png"></div>
-        <div class="draggable itemB" data-game="4" data-required="true">B</div>
-        <div class="draggable itemC" data-game="4" data-required="true">C</div>
-        <div class="draggable itemD" data-game="4" data-required="true">D</div>
-
+        <button class="close-btn" data-close="game4">Fechar</button>
       </div>
-
-      <div class="container">
-        <div class="dropzone interact" data-type="A" data-game="4"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="B" data-game="4"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="C" data-game="4"><img src="/assets/img/Corner-table.png"></div>
-        <div class="dropzone interact" data-type="D" data-game="4"><img src="/assets/img/Corner-table.png"></div>
-      </div>
-
-      <button class="close-btn" data-close="game4">Fechar</button>
     </div>
-  </div>
 
-
-  <script src="/loader.js"></script>
-</body>
+    <script src="/loader.js"></script>
+  </body>
 </html>
