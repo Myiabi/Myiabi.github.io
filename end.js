@@ -216,7 +216,7 @@ function setupEndTooltips() {
     true
   );
   createFloatingTooltip("catend", "Meow", 0, -10, tooltipStyle, true);
-  createFloatingTooltip("myo-npc", "Give me a name.", 0, 30, tooltipStyle, true);
+  createFloatingTooltip("myo-npc", "Give me a name.", 6, 10, tooltipStyle, true);
 }
 
 // Espera o loader terminar de carregar os scripts antes de tocar a trilha
