@@ -568,6 +568,7 @@ const urlsToCache = [
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 segundo entre tentativas
+const MAX_PARALLEL_DOWNLOADS = 8; // Downloads simultâneos
 
 // Função para baixar um arquivo com retry
 async function fetchWithRetry(url, retries = MAX_RETRIES) {
@@ -580,7 +581,7 @@ async function fetchWithRetry(url, retries = MAX_RETRIES) {
       throw new Error(`Status ${response.status}`);
     } catch (error) {
       console.warn(
-        `⚠️ Tentativa ${attempt}/${retries} falhou para ${url}: ${error.message}`
+        `⚠️ Attempt ${attempt}/${retries} failed for ${url}: ${error.message}`
       );
       if (attempt < retries) {
         await new Promise((resolve) =>
@@ -593,26 +594,36 @@ async function fetchWithRetry(url, retries = MAX_RETRIES) {
   }
 }
 
-// Função para cachear todos os arquivos com validação
+// Função para cachear arquivos em paralelo com batching
 async function cacheAllAssets(cache) {
   const failedUrls = [];
   let cached = 0;
   const total = urlsToCache.length;
 
-  for (const url of urlsToCache) {
-    try {
-      const response = await fetchWithRetry(url);
-      await cache.put(url, response);
-      cached++;
+  // Processa em lotes de MAX_PARALLEL_DOWNLOADS
+  for (let i = 0; i < urlsToCache.length; i += MAX_PARALLEL_DOWNLOADS) {
+    const batch = urlsToCache.slice(i, i + MAX_PARALLEL_DOWNLOADS);
 
-      // Log de progresso a cada 50 arquivos
-      if (cached % 50 === 0) {
-        console.log(`📥 Progresso: ${cached}/${total} arquivos cacheados`);
-      }
-    } catch (error) {
-      console.error(`❌ FALHA DEFINITIVA: ${url}`);
-      failedUrls.push(url);
-    }
+    const results = await Promise.allSettled(
+      batch.map(async (url) => {
+        try {
+          const response = await fetchWithRetry(url);
+          await cache.put(url, response);
+          cached++;
+
+          // Log de progresso a cada arquivo
+          if (cached % 10 === 0 || cached === total) {
+            console.log(`📥 Progress: ${cached}/${total} files cached`);
+          }
+
+          return { success: true };
+        } catch (error) {
+          console.error(`❌ FINAL FAILURE: ${url}`);
+          failedUrls.push(url);
+          return { success: false };
+        }
+      })
+    );
   }
 
   return { cached, total, failedUrls };

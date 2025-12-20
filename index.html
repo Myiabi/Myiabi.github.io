@@ -555,6 +555,106 @@
       // Sistema de feedback de download do PWA
       const PWADownloader = {
         failedUrls: [],
+        downloadApproved: false,
+
+        // Cria modal de confirmação
+        createConfirmDialog() {
+          if (document.getElementById("pwa-confirm-dialog")) return;
+
+          const dialog = document.createElement("div");
+          dialog.id = "pwa-confirm-dialog";
+          dialog.innerHTML = `
+            <style>
+              #pwa-confirm-dialog {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 99998;
+                font-family: Arial, sans-serif;
+              }
+              #pwa-confirm-content {
+                background: rgba(0, 0, 0, 0.95);
+                border: 2px solid #4a90d9;
+                border-radius: 12px;
+                padding: 20px;
+                max-width: 400px;
+                color: white;
+              }
+              #pwa-confirm-title {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 10px;
+              }
+              #pwa-confirm-message {
+                font-size: 14px;
+                color: #ccc;
+                margin-bottom: 20px;
+                line-height: 1.5;
+              }
+              #pwa-confirm-buttons {
+                display: flex;
+                gap: 10px;
+              }
+              #pwa-accept-btn {
+                flex: 1;
+                background: #4a90d9;
+                border: none;
+                color: white;
+                padding: 10px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: bold;
+              }
+              #pwa-accept-btn:hover {
+                background: #3a7bc8;
+              }
+              #pwa-decline-btn {
+                flex: 1;
+                background: #666;
+                border: none;
+                color: white;
+                padding: 10px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+              }
+              #pwa-decline-btn:hover {
+                background: #555;
+              }
+            </style>
+            <div id="pwa-confirm-content">
+              <div id="pwa-confirm-title">📱 Download Game Files?</div>
+              <div id="pwa-confirm-message">
+                This will download ~135MB of game files to play offline without an internet connection. Downloads happen in parallel for speed.
+              </div>
+              <div id="pwa-confirm-buttons">
+                <button id="pwa-accept-btn">✓ Download</button>
+                <button id="pwa-decline-btn">✕ Cancel</button>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(dialog);
+
+          document.getElementById("pwa-accept-btn").onclick = () => {
+            dialog.remove();
+            this.downloadApproved = true;
+            this.createStatusOverlay();
+            navigator.serviceWorker.controller?.postMessage({
+              type: "START_CACHE",
+            });
+          };
+
+          document.getElementById("pwa-decline-btn").onclick = () => {
+            dialog.remove();
+          };
+        },
 
         // Cria o overlay de status
         createStatusOverlay() {
@@ -633,12 +733,12 @@
             </style>
             <div id="pwa-status-title">
               <div id="pwa-spinner"></div>
-              <span id="pwa-title-text">Preparando jogo offline...</span>
+              <span id="pwa-title-text">Setting up offline game...</span>
             </div>
-            <div id="pwa-status-message">Baixando arquivos para jogar sem internet</div>
+            <div id="pwa-status-message">Downloading files to play without internet</div>
             <div id="pwa-buttons" style="display: none;">
-              <button id="pwa-retry-btn">🔄 Tentar Novamente</button>
-              <button id="pwa-close-btn">✕ Fechar</button>
+              <button id="pwa-retry-btn">🔄 Retry</button>
+              <button id="pwa-close-btn">✕ Close</button>
             </div>
           `;
           document.body.appendChild(overlay);
@@ -687,8 +787,8 @@
           if (this.failedUrls.length === 0) return;
 
           this.updateStatus(
-            "Recuperando arquivos...",
-            `Tentando baixar ${this.failedUrls.length} arquivo(s)`,
+            "Recovering files...",
+            `Trying to download ${this.failedUrls.length} file(s)`,
             "loading"
           );
 
@@ -712,17 +812,17 @@
             .register("/service-worker.js")
             .then((registration) => {
               console.log(
-                "Service Worker registrado com sucesso:",
+                "Service Worker registered successfully:",
                 registration.scope
               );
 
-              // Mostra overlay se estiver instalando
+              // Shows confirmation dialog if installing
               if (registration.installing) {
-                PWADownloader.createStatusOverlay();
+                PWADownloader.createConfirmDialog();
               }
             })
             .catch((error) => {
-              console.log("Falha ao registrar Service Worker:", error);
+              console.log("Failed to register Service Worker:", error);
             });
 
           // Escuta mensagens do Service Worker
@@ -733,8 +833,8 @@
               case "CACHE_COMPLETE":
                 PWADownloader.createStatusOverlay();
                 PWADownloader.updateStatus(
-                  "Download completo!",
-                  `${data.cached}/${data.total} arquivos prontos para jogar offline`,
+                  "Download complete!",
+                  `${data.cached}/${data.total} files ready to play offline`,
                   "success"
                 );
                 break;
@@ -743,8 +843,8 @@
                 PWADownloader.failedUrls = data.failedUrls;
                 PWADownloader.createStatusOverlay();
                 PWADownloader.updateStatus(
-                  "Alguns arquivos falharam",
-                  `${data.cached}/${data.total} baixados. ${data.failedUrls.length} falharam. Clique para tentar novamente.`,
+                  "Some files failed",
+                  `${data.cached}/${data.total} downloaded. ${data.failedUrls.length} failed. Click to retry.`,
                   "error"
                 );
                 break;
@@ -752,8 +852,8 @@
               case "CACHE_ERROR":
                 PWADownloader.createStatusOverlay();
                 PWADownloader.updateStatus(
-                  "Erro no download",
-                  `Erro: ${data.error}. Verifique sua conexão e tente novamente.`,
+                  "Download error",
+                  `Error: ${data.error}. Check your connection and try again.`,
                   "error"
                 );
                 break;
@@ -761,8 +861,8 @@
               case "RETRY_SUCCESS":
                 PWADownloader.failedUrls = [];
                 PWADownloader.updateStatus(
-                  "Recuperação completa!",
-                  "Todos os arquivos foram baixados com sucesso!",
+                  "Recovery complete!",
+                  "All files have been downloaded successfully!",
                   "success"
                 );
                 break;
@@ -770,18 +870,18 @@
               case "RETRY_PARTIAL":
                 PWADownloader.failedUrls = data.failedUrls;
                 PWADownloader.updateStatus(
-                  "Recuperação parcial",
-                  `${data.recovered} recuperados, ${data.failedUrls.length} ainda falhando.`,
+                  "Partial recovery",
+                  `${data.recovered} recovered, ${data.failedUrls.length} still failing.`,
                   "error"
                 );
                 break;
 
               case "VERIFY_RESULT":
                 if (data.complete) {
-                  console.log("✅ Cache íntegro! Todos os arquivos presentes.");
+                  console.log("✅ Cache intact! All files present.");
                 } else {
                   console.warn(
-                    `⚠️ Cache incompleto! Faltam ${data.missingUrls.length} arquivos.`
+                    `⚠️ Cache incomplete! Missing ${data.missingUrls.length} files.`
                   );
                   PWADownloader.failedUrls = data.missingUrls;
                 }
@@ -789,14 +889,14 @@
 
               case "CACHE_INCOMPLETE_ON_ACTIVATE":
                 console.warn(
-                  `⚠️ Cache detectado incompleto (${data.missingCount}/${data.totalExpected}). Tentando recuperar...`
+                  `⚠️ Incomplete cache detected (${data.missingCount}/${data.totalExpected}). Attempting to recover...`
                 );
                 PWADownloader.createStatusOverlay();
                 PWADownloader.updateStatus(
-                  "Verificando cache...",
+                  "Checking cache...",
                   `${data.totalExpected - data.missingCount}/${
                     data.totalExpected
-                  } arquivos prontos. Buscando os faltantes...`,
+                  } files ready. Looking for missing ones...`,
                   "loading"
                 );
                 break;
@@ -804,16 +904,16 @@
               case "AUTO_RECOVERY_COMPLETE":
                 if (data.failed === 0) {
                   PWADownloader.updateStatus(
-                    "✅ Tudo recuperado!",
-                    `${data.recovered} arquivos foram baixados com sucesso!`,
+                    "✅ Everything recovered!",
+                    `${data.recovered} files have been downloaded successfully!`,
                     "success"
                   );
                 } else {
                   PWADownloader.failedUrls = []; // Limpa lista
                   PWADownloader.createStatusOverlay();
                   PWADownloader.updateStatus(
-                    "Recuperação parcial",
-                    `${data.recovered} recuperados, ${data.failed} ainda falhando. Clique para tentar novamente.`,
+                    "Partial recovery",
+                    `${data.recovered} recovered, ${data.failed} still failing. Click to retry.`,
                     "error"
                   );
                 }
