@@ -4,7 +4,7 @@
   "description": "Um jogo de aventura interativo",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "landscape",
   "background_color": "#000000",
   "theme_color": "#000000",
   "icons": [
