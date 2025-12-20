@@ -210,29 +210,3 @@ nav a {
   backface-visibility: hidden;
   will-change: opacity;
 }
-
-/* ===================== */
-/* PORTRAIT BLOQUEADO    */
-/* ===================== */
-
-@media (orientation: portrait) {
-  body > *:not(#portrait-block) {
-    display: none !important;
-  }
-
-  body::after {
-    content: "🔄 Rotate your device to play!";
-    position: fixed;
-    inset: 0;
-    background: #000;
-    color: #fff;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: clamp(1rem, 5vw, 2rem);
-    text-align: center;
-    z-index: 999999;
-  }
-}
