@@ -26,6 +26,31 @@ body {
   min-height: 100dvh;
 }
 
+/* ========== LOADING INDEPENDENTE ========== */
+#cave-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  background: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  font-family: sans-serif;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+#cave-loading.fade-out {
+  opacity: 0;
+}
+
 /* #scene completo (independente do global.css) */
 #scene {
   width: 100vw;
@@ -39,6 +64,12 @@ body {
   justify-content: center;
   gap: 20px;
   background-color: transparent; /* Transparente para mostrar as partículas de fogo */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#scene.scene-visible {
   opacity: 1;
   visibility: visible;
 }

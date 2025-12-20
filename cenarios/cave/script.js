@@ -2,6 +2,37 @@
 // SCRIPT DA CAVERNA (Visual e Lógica de Interação)
 // ======================================================
 
+// ========== LOADING INDEPENDENTE (Substitui o loader.js) ==========
+(function () {
+  const minTime = 500;
+  const start = Date.now();
+  let finished = false;
+
+  function finishLoader() {
+    if (finished) return;
+    finished = true;
+
+    const loading = document.getElementById("cave-loading");
+    const scene = document.getElementById("scene");
+
+    const elapsed = Date.now() - start;
+    const wait = Math.max(0, minTime - elapsed);
+
+    setTimeout(() => {
+      if (loading) loading.classList.add("fade-out");
+      if (scene) scene.classList.add("scene-visible");
+
+      setTimeout(() => {
+        if (loading) loading.remove();
+      }, 500);
+    }, wait);
+  }
+
+  window.addEventListener("load", finishLoader);
+  setTimeout(finishLoader, 5000); // Failsafe
+  if (document.readyState === "complete") finishLoader();
+})();
+
 const CHAR_BASE_PATH = "/assets/img/MYO/";
 
 // ========== DISTRIBUIÇÃO DO PASSE WENDIGO (SUN) AO ENTRAR NA CAVERNA ==========

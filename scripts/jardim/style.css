@@ -38,8 +38,8 @@ body {
 /* ================= BOTÃO FECHAR ================= */
 .close-btn {
   position: absolute;
-  top: clamp(8px, 2vw, 14px);
-  left: clamp(8px, 2vw, 14px);
+  bottom: 0;
+  right: 0;
   background: #ff4444;
   color: white;
   width: clamp(30px, 7vw, 40px);
@@ -295,11 +295,34 @@ body {
   .hud-bar {
     width: 100%;
     height: 10%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    padding: 0 10px;
+    -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+    scrollbar-width: thin; /* Firefox */
+  }
+
+  /* Estiliza scrollbar no mobile (Webkit/Chrome/Safari) */
+  .hud-bar::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .hud-bar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .hud-bar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
   }
 
   .hud-item {
     width: 35px;
     height: 35px;
+    min-width: 35px; /* Impede que os itens encolham */
     gap: 5px;
   }
 
