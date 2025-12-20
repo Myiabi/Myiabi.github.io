@@ -790,8 +790,8 @@ document.addEventListener("pointerup", onPointerUp, { passive: false });
 async function cenaTutorial() {
   if (typeof dialogo !== "undefined") {
     await dialogo.abrirAsync({
-      nome: "Narrador",
-      texto: "Tudo congelou....",
+      nome: "Narrator",
+      texto: "Everything froze over....",
     });
 
     await esperar(2500);

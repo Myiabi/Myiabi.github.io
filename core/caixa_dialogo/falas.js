@@ -465,27 +465,27 @@ window.personagens = {
         {
           texto:
             "Long ago, these lands were normal. When he arrived here, he used all of his power. It was a power of great proportions. First, he used the Moon's eye to raise his power across the entire territory.",
-          expressao: "normal",
+          expressao: "pensativo",
         },
         {
           texto:
             "Second, he stole all the heat from the earth, from the stones, the rivers, and the plants. Living beings had no choice but to flee.",
-          expressao: "normal",
+          expressao: "pensativo",
         },
         {
           texto:
             "From each wing, two guardians emerged from him, each representing his powers. Then, they wandered through every corner stealing the heat from things... When they finally froze everything... He fell asleep.",
-          expressao: "normal",
+          expressao: "pensativo",
         },
         {
           texto:
             "But the two guardians did not accompany him in this sleep... They were alone for a long time. Until the first pilgrims arrived, and with the 5 priestess sisters who could use their powers, together they established the city of Aislin.",
-          expressao: "normal",
+          expressao: "pensativo",
         },
         {
           texto:
             "They learned to love this place. However, with the warmth of the city and the living beings who are living happily here... They felt that the Emperor is waking up. At first they were happy, a reunion after so long... But soon they realized.",
-          expressao: "normal",
+          expressao: "pensativo",
           aofechar: function () {
             dialogo.agendar(personagens.nana, "boss1", 300);
           },
@@ -494,7 +494,7 @@ window.personagens = {
       boss3: [
         {
           texto: "Are you ready???",
-          expressao: "normal",
+          expressao: "pensativo",
           aofechar: function () {
             ConfirmModal.ask("Challenge Ice Emperor?", () => {
               window.location.href = "/cenarios/blizzard/index.html";
