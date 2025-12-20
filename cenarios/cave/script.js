@@ -455,7 +455,7 @@ function downloadCharacter() {
         const imageURL = canvas.toDataURL("image/png");
         const a = document.createElement("a");
         a.href = imageURL;
-        a.download = "Personagem_Magma.png";
+        a.download = "Myo.png";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
