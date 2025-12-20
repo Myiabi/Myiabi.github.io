@@ -71,7 +71,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Sempre em linha, nunca quebra */
 }
 
 .hud-item {
@@ -327,8 +327,8 @@ body {
   }
 
   .hud-item img {
-    width: 60%;
-    height: 60%;
+    width: 50%;
+    height: 50%;
   }
 }
 
