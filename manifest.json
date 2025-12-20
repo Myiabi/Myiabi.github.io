@@ -2,7 +2,7 @@
   "name": "Cold Memories",
   "short_name": "Cold Memories",
   "description": "Um jogo de aventura interativo",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#000000",
