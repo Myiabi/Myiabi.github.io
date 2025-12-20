@@ -1,5 +1,5 @@
 // ==========================================
-// 🦀 LÓGICA DO PUZZLE DO LAGO (BOLHAS)
+// 🦀 LÓGICA DO PUZZLE DO LAGO (BOLHAS) - FIXED
 // ==========================================
 
 // --- 1. CONFIGURAÇÕES & HELPERS ---
@@ -69,13 +69,12 @@ function playSound(type) {
   }
 }
 
-// --- 3. INICIALIZAÇÃO DO GRID ---
+// --- 3. INICIALIZAÇÃO DO GRID (OTIMIZADA) ---
 function initGrid() {
   // Se o jogo já está salvo como "Completo", não desenha nada.
   if (getGameState("puzzleBubbles_complete")) return;
 
   // Se tem as 3 partes mas NÃO tem o final (Ex: F5 no meio da animação)
-  // Finaliza imediatamente para não bugar.
   if (
     getGameState("puzzleBubbles_hour") &&
     getGameState("puzzleBubbles_jelly") &&
@@ -103,6 +102,9 @@ function initGrid() {
 
   container.innerHTML = "";
   gridState = new Array(ROWS * COLS).fill(1);
+  
+  // Usar Fragment evita reflows excessivos no DOM (mais leve pro mobile)
+  const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < ROWS * COLS; i++) {
     const cell = document.createElement("div");
@@ -113,20 +115,17 @@ function initGrid() {
     img.src = BUBBLE_SRC;
     img.className = "bubble-img";
     img.draggable = false;
-
-    img.onerror = function () {
-      this.style.display = "none";
-      cell.style.backgroundColor = "rgba(255,255,255,0.2)";
-      cell.style.borderRadius = "50%";
-    };
+    // REMOVIDO: img.onerror que escondia a célula. Isso causava o bug.
 
     cell.appendChild(img);
 
     cell.addEventListener("mousedown", startDrag);
     cell.addEventListener("mouseenter", handleDragEnter);
 
-    container.appendChild(cell);
+    fragment.appendChild(cell);
   }
+
+  container.appendChild(fragment);
 
   window.addEventListener("mouseup", endDrag);
   container.addEventListener("touchstart", handleTouchStart, {
@@ -266,7 +265,7 @@ function triggerFullReset() {
   }, 600);
 }
 
-// --- 6. ANIMAÇÃO FINAL AJUSTADA (SEM SHIFTS, FADE BOLHAS, QUEDA CRAB) ---
+// --- 6. ANIMAÇÃO FINAL AJUSTADA ---
 function triggerWin() {
   console.log("WIN! Iniciando sequência final...");
 
@@ -280,20 +279,24 @@ function triggerWin() {
   );
 
   // 🎬 MARCA TODOS OS ELEMENTOS COMO "ANIMANDO"
-  // Isso impede que o aplicarMudancaVisual aplique display:none bruscamente
   const allElements = [gridElement, crab, ...bubbleElements].filter(Boolean);
   allElements.forEach((el) => el.classList.add("animating-out"));
 
   // 🔒 SALVA IMEDIATAMENTE - O estado é salvo, mas os elementos não somem
-  // porque têm a classe 'animating-out'
   setGameState("puzzleBubbles_complete", true);
-  mudarCenario(personagens.cory, "segunda");
-    mudarCenario(personagens.spanish, "segunda");
-    mudarCenario(personagens.paddlefish, "segunda");
-    mudarCenario(personagens.wholphin, "segunda");
-    mudarCenario(personagens.maid, "final");
-    gameData.visualState.crabWin = true;
-    console.log("Cenários dos NPCs atualizados.");
+  
+  // ATUALIZA NPCs e VARIAVEIS GLOBAIS
+  if(typeof mudarCenario === 'function') {
+      mudarCenario(personagens.cory, "segunda");
+      mudarCenario(personagens.spanish, "segunda");
+      mudarCenario(personagens.paddlefish, "segunda");
+      mudarCenario(personagens.wholphin, "segunda");
+      mudarCenario(personagens.maid, "final");
+  }
+  if(window.gameData && window.gameData.visualState) {
+      window.gameData.visualState.crabWin = true;
+  }
+  console.log("Cenários dos NPCs atualizados.");
   console.log("Jogo salvo como Completo (Lake) - IMEDIATO.");
 
   // 1. Grid: fade out suave
@@ -335,17 +338,33 @@ function triggerWin() {
       el.classList.remove("animating-out");
       el.style.display = "none";
     });
-
-    
   }, animationTime);
+}
+
+// --- BOOTSTRAP DO SCRIPT ---
+// Função segura para pré-carregar a imagem antes de montar o grid
+function preloadAndStart() {
+    const tempImg = new Image();
+    tempImg.src = BUBBLE_SRC;
+
+    tempImg.onload = () => {
+        // Imagem carregada com sucesso, pode montar o grid
+        initGrid();
+    };
+
+    tempImg.onerror = () => {
+        console.warn("Falha no preload da bolha. Tentando iniciar mesmo assim.");
+        // Fallback: Tenta iniciar mesmo se falhar (melhor ter grid sem imagem do que nada)
+        initGrid();
+    };
 }
 
 // Inicializa quando o DOM estiver pronto
 document.addEventListener("DOMContentLoaded", () => {
-  initGrid();
+  preloadAndStart();
 });
 
-// Espera o loader terminar de carregar os scripts antes de tocar a trilha
+// Helper de áudio (mantido original)
 function esperarETocar() {
   if (typeof tocarTrilha === "function") {
     tocarTrilha("lake");
