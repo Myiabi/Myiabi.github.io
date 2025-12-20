@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
     />
     <title>Cold Memories</title>
 
@@ -372,7 +377,7 @@
 
       <!-- VERSÃO DO JOGO -->
       <div id="game-version">
-        <div class="version-number">Version 1.0.9</div>
+        <div class="version-number">Version N</div>
       </div>
     </div>
 
@@ -545,8 +550,162 @@
 
     <script src="/loader.js"></script>
 
-    <!-- Registro do Service Worker para PWA -->
+    <!-- Registro do Service Worker para PWA com feedback visual -->
     <script>
+      // Sistema de feedback de download do PWA
+      const PWADownloader = {
+        failedUrls: [],
+
+        // Cria o overlay de status
+        createStatusOverlay() {
+          if (document.getElementById("pwa-status-overlay")) return;
+
+          const overlay = document.createElement("div");
+          overlay.id = "pwa-status-overlay";
+          overlay.innerHTML = `
+            <style>
+              #pwa-status-overlay {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.9);
+                border: 2px solid #4a90d9;
+                border-radius: 12px;
+                padding: 15px 20px;
+                color: white;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                z-index: 99999;
+                max-width: 320px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+              }
+              #pwa-status-overlay.error {
+                border-color: #ff4444;
+              }
+              #pwa-status-overlay.success {
+                border-color: #44ff44;
+              }
+              #pwa-status-title {
+                font-weight: bold;
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              }
+              #pwa-status-message {
+                color: #ccc;
+                margin-bottom: 10px;
+              }
+              #pwa-retry-btn {
+                background: #4a90d9;
+                border: none;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                margin-right: 8px;
+              }
+              #pwa-retry-btn:hover {
+                background: #3a7bc8;
+              }
+              #pwa-close-btn {
+                background: #666;
+                border: none;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+              }
+              #pwa-spinner {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                border: 2px solid #fff;
+                border-top-color: transparent;
+                border-radius: 50%;
+                animation: pwa-spin 1s linear infinite;
+              }
+              @keyframes pwa-spin {
+                to { transform: rotate(360deg); }
+              }
+            </style>
+            <div id="pwa-status-title">
+              <div id="pwa-spinner"></div>
+              <span id="pwa-title-text">Preparando jogo offline...</span>
+            </div>
+            <div id="pwa-status-message">Baixando arquivos para jogar sem internet</div>
+            <div id="pwa-buttons" style="display: none;">
+              <button id="pwa-retry-btn">🔄 Tentar Novamente</button>
+              <button id="pwa-close-btn">✕ Fechar</button>
+            </div>
+          `;
+          document.body.appendChild(overlay);
+
+          document.getElementById("pwa-close-btn").onclick = () =>
+            overlay.remove();
+          document.getElementById("pwa-retry-btn").onclick = () =>
+            this.retryDownload();
+        },
+
+        // Atualiza status
+        updateStatus(title, message, type = "loading") {
+          const overlay = document.getElementById("pwa-status-overlay");
+          if (!overlay) return;
+
+          const spinner = document.getElementById("pwa-spinner");
+          const titleText = document.getElementById("pwa-title-text");
+          const messageEl = document.getElementById("pwa-status-message");
+          const buttons = document.getElementById("pwa-buttons");
+
+          overlay.className = "";
+
+          if (type === "success") {
+            overlay.classList.add("success");
+            spinner.style.display = "none";
+            titleText.textContent = "✅ " + title;
+            buttons.style.display = "none";
+            // Auto-fecha após 5 segundos
+            setTimeout(() => overlay.remove(), 5000);
+          } else if (type === "error") {
+            overlay.classList.add("error");
+            spinner.style.display = "none";
+            titleText.textContent = "❌ " + title;
+            buttons.style.display = "block";
+          } else {
+            spinner.style.display = "inline-block";
+            titleText.textContent = title;
+            buttons.style.display = "none";
+          }
+
+          messageEl.textContent = message;
+        },
+
+        // Retry download
+        retryDownload() {
+          if (this.failedUrls.length === 0) return;
+
+          this.updateStatus(
+            "Recuperando arquivos...",
+            `Tentando baixar ${this.failedUrls.length} arquivo(s)`,
+            "loading"
+          );
+
+          navigator.serviceWorker.controller?.postMessage({
+            type: "RETRY_FAILED",
+            urls: this.failedUrls,
+          });
+        },
+
+        // Verifica integridade do cache
+        verifyCache() {
+          navigator.serviceWorker.controller?.postMessage({
+            type: "VERIFY_CACHE",
+          });
+        },
+      };
+
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
@@ -556,10 +715,111 @@
                 "Service Worker registrado com sucesso:",
                 registration.scope
               );
+
+              // Mostra overlay se estiver instalando
+              if (registration.installing) {
+                PWADownloader.createStatusOverlay();
+              }
             })
             .catch((error) => {
               console.log("Falha ao registrar Service Worker:", error);
             });
+
+          // Escuta mensagens do Service Worker
+          navigator.serviceWorker.addEventListener("message", (event) => {
+            const data = event.data;
+
+            switch (data.type) {
+              case "CACHE_COMPLETE":
+                PWADownloader.createStatusOverlay();
+                PWADownloader.updateStatus(
+                  "Download completo!",
+                  `${data.cached}/${data.total} arquivos prontos para jogar offline`,
+                  "success"
+                );
+                break;
+
+              case "CACHE_FAILED":
+                PWADownloader.failedUrls = data.failedUrls;
+                PWADownloader.createStatusOverlay();
+                PWADownloader.updateStatus(
+                  "Alguns arquivos falharam",
+                  `${data.cached}/${data.total} baixados. ${data.failedUrls.length} falharam. Clique para tentar novamente.`,
+                  "error"
+                );
+                break;
+
+              case "CACHE_ERROR":
+                PWADownloader.createStatusOverlay();
+                PWADownloader.updateStatus(
+                  "Erro no download",
+                  `Erro: ${data.error}. Verifique sua conexão e tente novamente.`,
+                  "error"
+                );
+                break;
+
+              case "RETRY_SUCCESS":
+                PWADownloader.failedUrls = [];
+                PWADownloader.updateStatus(
+                  "Recuperação completa!",
+                  "Todos os arquivos foram baixados com sucesso!",
+                  "success"
+                );
+                break;
+
+              case "RETRY_PARTIAL":
+                PWADownloader.failedUrls = data.failedUrls;
+                PWADownloader.updateStatus(
+                  "Recuperação parcial",
+                  `${data.recovered} recuperados, ${data.failedUrls.length} ainda falhando.`,
+                  "error"
+                );
+                break;
+
+              case "VERIFY_RESULT":
+                if (data.complete) {
+                  console.log("✅ Cache íntegro! Todos os arquivos presentes.");
+                } else {
+                  console.warn(
+                    `⚠️ Cache incompleto! Faltam ${data.missingUrls.length} arquivos.`
+                  );
+                  PWADownloader.failedUrls = data.missingUrls;
+                }
+                break;
+
+              case "CACHE_INCOMPLETE_ON_ACTIVATE":
+                console.warn(
+                  `⚠️ Cache detectado incompleto (${data.missingCount}/${data.totalExpected}). Tentando recuperar...`
+                );
+                PWADownloader.createStatusOverlay();
+                PWADownloader.updateStatus(
+                  "Verificando cache...",
+                  `${data.totalExpected - data.missingCount}/${
+                    data.totalExpected
+                  } arquivos prontos. Buscando os faltantes...`,
+                  "loading"
+                );
+                break;
+
+              case "AUTO_RECOVERY_COMPLETE":
+                if (data.failed === 0) {
+                  PWADownloader.updateStatus(
+                    "✅ Tudo recuperado!",
+                    `${data.recovered} arquivos foram baixados com sucesso!`,
+                    "success"
+                  );
+                } else {
+                  PWADownloader.failedUrls = []; // Limpa lista
+                  PWADownloader.createStatusOverlay();
+                  PWADownloader.updateStatus(
+                    "Recuperação parcial",
+                    `${data.recovered} recuperados, ${data.failed} ainda falhando. Clique para tentar novamente.`,
+                    "error"
+                  );
+                }
+                break;
+            }
+          });
         });
       }
     </script>
